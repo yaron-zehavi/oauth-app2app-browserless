@@ -230,9 +230,7 @@ If an app handling the authorization request URL is not found, Client App native
 * If the response is a redirect instruction (HTTP Code 3xx + Location header), a Secondary Broker was reached and Client App repeats the logic previously described:
 
   * Check if an app owns the obtained url, and if so natively invoke it.
-  
   * Otherwise natively call the obtained url and analyze the response.
-  
 * Handles error response (HTTP 4xx / 5xx) for example by displaying the error.
 
 As the Client App traverses through Brokers, it maintains a list of all the domains it traverses, which shall serve as the Allowlist when later traversing the response.
@@ -260,17 +258,12 @@ The User-Interacting Authorization Server processes the authorization request us
 * The client_app_deep_link provided in the strcutured scope, overrides the request's original redirect_uri:
 
   * User-Interacting Authorization Server's native app validates that an app owning client_app_deep_link is on the device
-  
   * If so it natively invokes it, handing it the redirect url with its response parameter
-  
   * If such an app does not exist it is an error and the flow terminates
-
 * To establish trust towards client_app_deep_link, User-Interacting Authorization Server shall use OpenID Federation:
 
   * It strips url path from client_app_deep_link (retaining the domain).
-  
   * It adds /.well-known/openid-federation and performs trust chain resolution.
-  
   * It inspects Client's metadata for redirect_uri's and validates client_app_deep_link is included.
 
 ### Client App traverses Brokers in reverse order
@@ -282,7 +275,6 @@ Client App validates this url, and any url later obtained as a 3xx redirect inst
 Client App invokes the url it received using HTTP GET:
 
 * If the response is a redirect instruction (HTTP Code 3xx + Location header), Client App repeats the logic and proceeds to call obtained urls until reaching its own redirect_uri (client_app_deep_link).
-
 * Otherwise (HTTP Code 2xx / 4xx / 5xx) is a failure.
 
 ### Client App obtains response
@@ -330,7 +322,6 @@ It can be expected that some Authorization Servers will use Cookies to bind secu
 To support these security measures and prevent breaking the flow, Client App should act like a browser with regards to Cookies, namely:
 
 * Store cookies it obtains on HTTP responses.
-
 * Send cookies on subsequent HTTP requests to servers that returned cookies.
 
 # IANA Considerations
