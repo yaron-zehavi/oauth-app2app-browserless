@@ -62,7 +62,7 @@ normative:
       - ins: M.B. Jones
       - ins: A.A. Solberg
       - ins: J. Bradley
-      - ins: G. De Marco    
+      - ins: G. De Marco
       - ins: V. Dzhuvinov
 informative:
   App2App.Blog:
