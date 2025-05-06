@@ -163,6 +163,7 @@ This is the case when the User-Authenticating Authorization Server offers no nat
 This is similar to the flow described in {{RFC8252}}, and referred to in {{App2App}} as **App2Web**.
 
 ### App2Web with Brokers - Flow Diagram
+<pre>
 ~~~ ascii-art
 ┌────────────────────────────────────────────────────────────────────────────────────┐        
 │                                                                                    │
@@ -185,6 +186,7 @@ This is similar to the flow described in {{RFC8252}}, and referred to in {{App2A
 └────────────────────────────────────────────────────────────────────────────────────┘
                                             Mobile Device
 ~~~
+<pre>
 Figure: App2Web with brokers
 
 # Security Considerations
