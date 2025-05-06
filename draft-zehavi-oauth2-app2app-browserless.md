@@ -105,7 +105,7 @@ This document presents a protocol enabling native App2App browser-less navigatio
 # Terminology
 This document is relevant for both {{RFC6749}} and {{OpenID}} as the protocols used, referring to both's **authorization code flow**.
 
-For consistency and readability, it shall use {{OAuth}} terminology - **Client** and **Authorization Server**, equally interchangeable with {{OpenID}} **Relying Party** and **OpenID Provider** when {{OpenID}} is used.
+For consistency and readability, it shall use {{RFC6749}} terminology - **Client** and **Authorization Server**, equally interchangeable with {{OpenID}} **Relying Party** and **OpenID Provider** when {{OpenID}} is used.
 
 # Challenge of App2App with Brokers
 
