@@ -77,7 +77,7 @@ Table of Contents
      1.2.  Terminology
    2.  Conventions and Definitions
    3.  Challenge of App2App with Brokers
-     3.1.  TODO Arch Diagram
+     3.1.  Flow Diagram
      3.2.  OAuth 2.0 / OpenID Connect Broker
      3.3.  App2App with brokers requires a web browser
      3.4.  Impact of using a web browser
@@ -115,7 +115,7 @@ Table of Contents
 1.1.  Difference from [OpenID.Native-SSO]
 
    [OpenID.Native-SSO] also offers a native SSO flow across applications
-   without requiring the browser.  However it is dealing with the
+   without requiring the browser.  However, it is dealing with the
    specific sub-case when both apps are published by the same issuer and
    leverage this fact to share information.
 
@@ -139,7 +139,30 @@ Table of Contents
 
 3.  Challenge of App2App with Brokers
 
-3.1.  TODO Arch Diagram
+3.1.  Flow Diagram
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                              │
+│  ┌──────────────┐                                                                            │
+│  │              │                                                                            │
+│  │              │                                Mobile Browser                              │
+│  │  Client App  │         ┌─────────────────────────────────────────────────────────┐        │
+│  │              │         │                  ┌────────┐                             │        │
+│  └──────────┬───┘         │ ┌─────────┐      │┌────────┐        ┌─────────────────┐ │        │
+│             └─────────────┼─► Primary ┼──────►│┌────────┐       │     User-       │ │        │
+│             Authorization │ │ Broker  │ Auth.└││──────┘├┼───────► Authenticating  │ │        │
+│               Request     │ └─────────┘ Req.  └│───────┘│ Auth. │  Authorization  │ │        │
+│                           │                    └────────┘ Req.  │     Server      │ │        │
+│  ┌──────────────┐         │                    Secondary        └───────┬─────────┘ │        │
+│  │              │         │                    Brokers                  │           │        │
+│  │     User-    │         └─────────────────────────────────────────────┼───────────┘        │
+│  │Authenticating│                                                       │                    │
+│  │      App     ◄───────────────────────────────────────────────────────┘                    │
+│  └──────────────┘               Deep Link                                                    │
+└──────────────────────────────────────────────────────────────────────────────────────────────┘
+                                            Mobile Device
+
+   Figure: App2App with brokers and browser
 
 3.2.  OAuth 2.0 / OpenID Connect Broker
 

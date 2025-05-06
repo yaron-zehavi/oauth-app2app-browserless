@@ -1178,7 +1178,7 @@ The native experience is retained also when the Client uses any number of broker
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-challenge-of-app2app-with-b" class="internal xref">Challenge of App2App with Brokers</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-todo-arch-diagram" class="internal xref">TODO Arch Diagram</a></p>
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-flow-diagram" class="internal xref">Flow Diagram</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-oauth-20-openid-connect-bro" class="internal xref">OAuth 2.0 / OpenID Connect Broker</a></p>
@@ -1235,7 +1235,7 @@ The native experience is retained also when the Client uses any number of broker
         <h3 id="name-difference-from">
 <a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-difference-from" class="section-name selfRef">Difference from <span class="cite xref">[OpenID.Native-SSO]</span></a>
         </h3>
-<p id="section-1.1-1"><span>[<a href="#OpenID.Native-SSO" class="cite xref">OpenID.Native-SSO</a>]</span> also offers a native SSO flow across applications without requiring the browser. However it is dealing with the specific sub-case when both apps are published by the same issuer and leverage this fact to share information.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-1"><span>[<a href="#OpenID.Native-SSO" class="cite xref">OpenID.Native-SSO</a>]</span> also offers a native SSO flow across applications without requiring the browser. However, it is dealing with the specific sub-case when both apps are published by the same issuer and leverage this fact to share information.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="terminology">
@@ -1265,11 +1265,36 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-challenge-of-app2app-with-b">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-challenge-of-app2app-with-b" class="section-name selfRef">Challenge of App2App with Brokers</a>
       </h2>
-<div id="todo-arch-diagram">
+<div id="flow-diagram">
 <section id="section-3.1">
-        <h3 id="name-todo-arch-diagram">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-todo-arch-diagram" class="section-name selfRef">TODO Arch Diagram</a>
-      </h3>
+        <h3 id="name-flow-diagram">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-flow-diagram" class="section-name selfRef">Flow Diagram</a>
+        </h3>
+<div class="alignLeft art-ascii-art art-text artwork" id="section-3.1-1">
+<pre>
+┌──────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                              │
+│  ┌──────────────┐                                                                            │
+│  │              │                                                                            │
+│  │              │                                Mobile Browser                              │
+│  │  Client App  │         ┌─────────────────────────────────────────────────────────┐        │
+│  │              │         │                  ┌────────┐                             │        │
+│  └──────────┬───┘         │ ┌─────────┐      │┌────────┐        ┌─────────────────┐ │        │
+│             └─────────────┼─► Primary ┼──────►│┌────────┐       │     User-       │ │        │
+│             Authorization │ │ Broker  │ Auth.└││──────┘├┼───────► Authenticating  │ │        │
+│               Request     │ └─────────┘ Req.  └│───────┘│ Auth. │  Authorization  │ │        │
+│                           │                    └────────┘ Req.  │     Server      │ │        │
+│  ┌──────────────┐         │                    Secondary        └───────┬─────────┘ │        │
+│  │              │         │                    Brokers                  │           │        │
+│  │     User-    │         └─────────────────────────────────────────────┼───────────┘        │
+│  │Authenticating│                                                       │                    │
+│  │      App     ◄───────────────────────────────────────────────────────┘                    │
+│  └──────────────┘               Deep Link                                                    │
+└──────────────────────────────────────────────────────────────────────────────────────────────┘
+                                            Mobile Device
+</pre><a href="#section-3.1-1" class="pilcrow">¶</a>
+</div>
+<p id="section-3.1-2">Figure: App2App with brokers and browser<a href="#section-3.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="oauth-20-openid-connect-broker">
