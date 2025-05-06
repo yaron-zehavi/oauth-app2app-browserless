@@ -111,7 +111,7 @@ For consistency and readability, it shall use OAuth 2.0 terminology - **Client**
 
 # Challenge of App2App with Brokers
 
-## Flow Diagram
+## App2App with Brokers - Flow Diagram
 ~~~ ascii-art
 ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
 │                                                                                              │
@@ -161,6 +161,31 @@ Whenever the user's device has no app owning the User-Authenticating Authorizati
 This is the case when the User-Authenticating Authorization Server offers no native app, or when such an app exists but is not installed on the end-user's device.
 
 This is similar to the flow described in {{RFC8252}}, and referred to in {{App2App}} as **App2Web**.
+
+### App2Web with Brokers - Flow Diagram
+~~~ ascii-art
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                        │
+│  ┌──────────────┐                                                                      │
+│  │              │                                                                      │
+│  │              │                               Mobile Browser                         │
+│  │  Client App  │         ┌────────────────────────────────────────────────────────┐   │
+│  │              │         │                  ┌───────┐                             │   │
+│  └──────────┬───┘         │ ┌─────────┐      │┌───────┐        ┌─────────────────┐ │   │
+│             └─────────────┼─► Primary ┼──────►│┌───────┐       │     User-       │ │   │
+│             Authorization │ │ Broker  │ Auth.└││─────┘├┼───────► Authenticating  │ │   │
+│               Request     │ └─────────┘ Req.  └│──────┘│ Auth. │  Authorization  │ │   │
+│                           │                    └───────┘ Req.  │     Server      │ │   │
+│  ┌──────────────┐         │                   Secondary        └───────┬─────────┘ │   │
+│  │              │         │                   Brokers                  │           │   │
+│  │     User-    │         └────────────────────────────────────────────┼───────────┘   │
+│  │Authenticating│                                                      │               │
+│  │      App     ◄──────────────────────────────────────────────────────┘               │
+│  └──────────────┘               Deep Link                                              │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+                                          Mobile Device
+~~~
+Figure: App2Web with brokers
 
 # Security Considerations
 
