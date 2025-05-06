@@ -6,7 +6,7 @@
 |  |              |     |                                                        |   |
 |  +--------------+     | +---------+       +--------+       +-----------------+ |   |
 |             |         | |         |       |        |       |                 | |   |
-|             +-----------> Primary |------>|        |------>|     User-       | |   |
+|             +---------->| Primary |------>|        |------>|     User-       | |   |
 |         Authorization | | Broker  | Auth. |        | Auth. | Authenticating  | |   |
 |           Request     | +---------+ Req.  +--------+ Req.  |  Authorization  | |   |
 |                       |                   Secondary        |     Server      | |   |
