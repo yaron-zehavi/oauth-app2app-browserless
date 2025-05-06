@@ -50,16 +50,27 @@ normative:
     author:
       - ins: N. Sakimura
       - ins: J. Bradley
-      - ins: M. Jones
+      - ins: M.B. Jones
       - ins: B. de Medeiros
       - ins: C. Mortimore
+  OpenID.Federation:
+    title: OpenID Federation 1.0
+    target: https://openid.net/specs/openid-federation-1_0.html
+    date: March 5, 2025
+    author:
+      - ins: R. Hedberg
+      - ins: M.B. Jones
+      - ins: A.Å. Solberg
+      - ins: J. Bradley
+	  - ins: G. De Marco
+	  - ins: V. Dzhuvinov
 informative:
   App2App.Blog:
     title: "Guest Blog: Implementing App-to-App Authorisation in OAuth2/OpenID Connect"
     target: https://openid.net/guest-blog-implementing-app-to-app-authorisation-in-oauth2-openid-connect/
     author:
       - ins: J. Heenan
-    date: October 2019
+    date: October 21, 2019
   OpenID.Native-SSO:
     title: OpenID Connect Native SSO for Mobile Apps
     target: https://openid.net/specs/openid-connect-native-sso-1_0.html
@@ -70,7 +81,7 @@ informative:
 --- abstract
 
 This document defines a protocol enabling native apps from different app publishers, using the App2App pattern to act as OAuth Client And Authorization Server, native browserless user navigation.
-The native experience is enabled also when using any number of brokers to federate across trust networks, while retaining highest levels of security.
+The native experience is retained also when the Client uses any number of brokers to federate across trust networks, while retaining highest levels of security.
 
 --- middle
 
