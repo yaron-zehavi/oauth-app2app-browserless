@@ -1178,7 +1178,7 @@ The native experience is retained also when the Client uses any number of broker
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-challenge-of-app2app-with-b" class="internal xref">Challenge of App2App with Brokers</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-flow-diagram" class="internal xref">Flow Diagram</a></p>
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-app2app-with-brokers-flow-d" class="internal xref">App2App with Brokers - Flow Diagram</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-oauth-20-openid-connect-bro" class="internal xref">OAuth 2.0 / OpenID Connect Broker</a></p>
@@ -1191,6 +1191,11 @@ The native experience is retained also when the Client uses any number of broker
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5">
                 <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-app2web" class="internal xref">App2Web</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5.2.1">
+                    <p id="section-toc.1-1.3.2.5.2.1.1"><a href="#section-3.5.1" class="auto internal xref">3.5.1</a>.  <a href="#name-app2web-with-brokers-flow-d" class="internal xref">App2Web with Brokers - Flow Diagram</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -1265,10 +1270,10 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-challenge-of-app2app-with-b">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-challenge-of-app2app-with-b" class="section-name selfRef">Challenge of App2App with Brokers</a>
       </h2>
-<div id="flow-diagram">
+<div id="app2app-with-brokers-flow-diagram">
 <section id="section-3.1">
-        <h3 id="name-flow-diagram">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-flow-diagram" class="section-name selfRef">Flow Diagram</a>
+        <h3 id="name-app2app-with-brokers-flow-d">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-app2app-with-brokers-flow-d" class="section-name selfRef">App2App with Brokers - Flow Diagram</a>
         </h3>
 <div class="alignLeft art-ascii-art art-text artwork" id="section-3.1-1">
 <pre>
@@ -1335,6 +1340,38 @@ Finally, the browser may be left after the flow ends with "orphan" browser tabs 
 <p id="section-3.5-1">Whenever the user's device has no app owning the User-Authenticating Authorization Server's urls as deep links, the flow requires the help of a browser.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
 <p id="section-3.5-2">This is the case when the User-Authenticating Authorization Server offers no native app, or when such an app exists but is not installed on the end-user's device.<a href="#section-3.5-2" class="pilcrow">¶</a></p>
 <p id="section-3.5-3">This is similar to the flow described in <span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span>, and referred to in <span>[<a href="#App2App" class="cite xref">App2App</a>]</span> as <strong>App2Web</strong>.<a href="#section-3.5-3" class="pilcrow">¶</a></p>
+<div id="app2web-with-brokers-flow-diagram">
+<section id="section-3.5.1">
+          <h4 id="name-app2web-with-brokers-flow-d">
+<a href="#section-3.5.1" class="section-number selfRef">3.5.1. </a><a href="#name-app2web-with-brokers-flow-d" class="section-name selfRef">App2Web with Brokers - Flow Diagram</a>
+          </h4>
+<div class="alignLeft art-ascii-art art-text artwork" id="section-3.5.1-1">
+<pre>
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                        │
+│  ┌──────────────┐                                                                      │
+│  │              │                                                                      │
+│  │              │                               Mobile Browser                         │
+│  │  Client App  │         ┌────────────────────────────────────────────────────────┐   │
+│  │              │         │                  ┌───────┐                             │   │
+│  └──────────┬───┘         │ ┌─────────┐      │┌───────┐        ┌─────────────────┐ │   │
+│             └─────────────┼─► Primary ┼──────►│┌───────┐       │     User-       │ │   │
+│             Authorization │ │ Broker  │ Auth.└││─────┘├┼───────► Authenticating  │ │   │
+│               Request     │ └─────────┘ Req.  └│──────┘│ Auth. │  Authorization  │ │   │
+│                           │                    └───────┘ Req.  │     Server      │ │   │
+│  ┌──────────────┐         │                   Secondary        └───────┬─────────┘ │   │
+│  │              │         │                   Brokers                  │           │   │
+│  │     User-    │         └────────────────────────────────────────────┼───────────┘   │
+│  │Authenticating│                                                      │               │
+│  │      App     ◄──────────────────────────────────────────────────────┘               │
+│  └──────────────┘               Deep Link                                              │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+                                          Mobile Device
+</pre><a href="#section-3.5.1-1" class="pilcrow">¶</a>
+</div>
+<p id="section-3.5.1-2">Figure: App2Web with brokers<a href="#section-3.5.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 </section>
