@@ -1062,7 +1062,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <div id="internal-metadata" class="document-information">
 <dl id="identifiers">
 <dt class="label-workgroup">Workgroup:</dt>
-<dd class="workgroup">Web Authorization Protocol</dd>
+<dd class="workgroup">Network Working Group</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
 <dd class="internet-draft">draft-zehavi-oauth2-app2app-browserless-latest</dd>
 <dt class="label-published">Published:</dt>
@@ -1102,15 +1102,10 @@ The native experience is retained also when the Client uses any number of broker
       </h2>
 <p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 <p id="section-note.1-2">
-        The latest revision of this draft can be found at <span><a href="https://drafts.oauth.net/oauth-app2app-browserless/draft-ietf-oauth-app2app-browserless.html">https://drafts.oauth.net/oauth-app2app-browserless/draft-ietf-oauth-app2app-browserless.html</a></span>.
+        The latest revision of this draft can be found at <span><a href="https://yaron-zehavi.github.io/oauth-app2app-browserless/draft-zehavi-oauth2-app2app-browserless.html">https://yaron-zehavi.github.io/oauth-app2app-browserless/draft-zehavi-oauth2-app2app-browserless.html</a></span>.
         Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-zehavi-oauth2-app2app-browserless/">https://datatracker.ietf.org/doc/draft-zehavi-oauth2-app2app-browserless/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
-<p id="section-note.1-3">
-        Discussion of this document takes place on the
-        Web Authorization Protocol Working Group mailing list (<span><a href="mailto:oauth@ietf.org">mailto:oauth@ietf.org</a></span>),
-        which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/oauth/">https://mailarchive.ietf.org/arch/browse/oauth/</a></span>.
-        Subscribe at <span><a href="https://www.ietf.org/mailman/listinfo/oauth/">https://www.ietf.org/mailman/listinfo/oauth/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
-<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
-        <span><a href="https://github.com/oauth-wg/oauth-app2app-browserless">https://github.com/oauth-wg/oauth-app2app-browserless</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/yaron-zehavi/oauth-app2app-browserless">https://github.com/yaron-zehavi/oauth-app2app-browserless</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1181,7 +1176,7 @@ The native experience is retained also when the Client uses any number of broker
                 <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-app2app-with-brokers-flow-d" class="internal xref">App2App with Brokers - Flow Diagram</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-oauth-20-openid-connect-bro" class="internal xref">OAuth 2.0 / OpenID Connect Broker</a></p>
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-oauth-broker" class="internal xref">OAuth Broker</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
                 <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-app2app-with-brokers-requir" class="internal xref">App2App with brokers requires a web browser</a></p>
@@ -1322,8 +1317,8 @@ the following terms:<a href="#section-1.2-1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
-<p id="section-1.2-3">This document is relevant for both <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> and <span>[<a href="#OpenID" class="cite xref">OpenID</a>]</span> as the protocols used, referring to both's <strong>authorization code flow</strong>.<a href="#section-1.2-3" class="pilcrow">¶</a></p>
-<p id="section-1.2-4">For consistency and readability, it shall use OAuth 2.0 terminology - <strong>Client</strong> and <strong>Authorization Server</strong>, equally interchangeable with OpenID Connect <strong>Relying Party</strong> and <strong>OpenID Provider</strong> when OpenID Connect is used.<a href="#section-1.2-4" class="pilcrow">¶</a></p>
+<p id="section-1.2-3">This document is relevant for both OAuth and <span>[<a href="#OpenID" class="cite xref">OpenID</a>]</span> as the protocols used, referring to both's <strong>authorization code flow</strong>.<a href="#section-1.2-3" class="pilcrow">¶</a></p>
+<p id="section-1.2-4">For consistency and readability, it shall use OAuth terminology - <strong>Client</strong> and <strong>Authorization Server</strong>, equally interchangeable with OpenID Connect <strong>Relying Party</strong> and <strong>OpenID Provider</strong> when OpenID Connect is used.<a href="#section-1.2-4" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-1.2-5">
           <dt id="section-1.2-5.1">"PKCE":</dt>
           <dd style="margin-left: 1.5em" id="section-1.2-5.2">
@@ -1490,15 +1485,15 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 </div>
 </section>
 </div>
-<div id="oauth-20-openid-connect-broker">
+<div id="oauth-broker">
 <section id="section-3.2">
-        <h3 id="name-oauth-20-openid-connect-bro">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-oauth-20-openid-connect-bro" class="section-name selfRef">OAuth 2.0 / OpenID Connect Broker</a>
+        <h3 id="name-oauth-broker">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-oauth-broker" class="section-name selfRef">OAuth Broker</a>
         </h3>
-<p id="section-3.2-1">A broker is a component acting as Authorization Server for its clients, as well as an OAuth 2.0 Client towards downstream Authorization Servers.
-Brokers are used when there is no direct relation between an OAuth Client and the Authorization Server where the end-user authenticates and authorizes.
-This is relevant in federation use cases, such as in Academia and in the business world connecting across subsidiaries or B2B relationships across corporations.
-Some of the trust requirements may be solved in the future with <span>[<a href="#OpenID.Federation" class="cite xref">OpenID.Federation</a>]</span>, but federation through Brokers is an established pattern currently in broad use.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-1">A component acting as an Authorization Server for its clients, as well as an OAuth Client towards downstream Authorization Servers.
+Brokers are used to facilitate a trust relationship when there is no direct relation between an OAuth Client and the Authorization Server where the end-user authenticates and authorizes.
+Broekrs are used in federation use cases, such as in Academia and in the business world connecting across subsidiaries or B2B relationships across corporations.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">Facilitation of trust across OAuth Clients and Authorization servers not directly connected may be solved in the future with <span>[<a href="#OpenID.Federation" class="cite xref">OpenID.Federation</a>]</span>, Brokers have been long used as an established pattern to bridge trust networks.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="app2app-with-brokers-requires-a-web-browser">
@@ -1506,7 +1501,7 @@ Some of the trust requirements may be solved in the future with <span>[<a href="
         <h3 id="name-app2app-with-brokers-requir">
 <a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-app2app-with-brokers-requir" class="section-name selfRef">App2App with brokers requires a web browser</a>
         </h3>
-<p id="section-3.3-1">Since OAuth 2.0 brokers reside on https domains, which no native app claims as Deep Links, OAuth requests to Brokers and responses to Broker's redirect_uri will be handled by a web browser.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-1">Since OAuth Brokers reside on https domains, which no native app claims as Deep Links, OAuth requests to Brokers and responses to Broker's redirect_uri will be handled by a web browser.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="impact-of-using-a-web-browser">
@@ -1516,7 +1511,7 @@ Some of the trust requirements may be solved in the future with <span>[<a href="
         </h3>
 <p id="section-3.4-1">Using a web browser downgrades the user experience in several ways. The browser may be noticed by end-user as it is loading urls and redirecting to native apps.
 The browser may prompt end-user for consent before opening deep links, introducing additional friction.
-App developers have limited control as to which browser will be opened on the return redirect to the Broker, so any cookies used to bind session identifiers (nonce, state or pkce verifier) to the user agent may be lost, causing the flow to break.
+App developers have limited control as to which browser will be opened on the return redirect to the Broker, so any cookies used to bind session identifiers (nonce, state or PKCE verifier) to the user agent may be lost, causing the flow to break.
 Finally, the browser may be left after the flow ends with "orphan" browser tabs used for redirection. While these do not impact the process directly, they can be seen as clutter which degrades the overall UX's cleanliness.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1535,31 +1530,135 @@ Finally, the browser may be left after the flow ends with "orphan" browser tabs 
         <h3 id="name-app2web-with-brokers-flow-d">
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-app2web-with-brokers-flow-d" class="section-name selfRef">App2Web with Brokers - Flow Diagram</a>
         </h3>
-<div class="alignLeft art-ascii-art art-text artwork" id="section-4.1-1">
-<pre>
-┌───────────────────────────────────────────────────────────────────────────┐
-│                                                                           │
-│ ┌───────────┐                                                             │
-│ │           │                                                             │
-│ │   Client  │                        Mobile Browser                       │
-│ │    App    │ ┌─────────────────────────────────────────────────────────┐ │
-│ │           │ │                  ┌────────┐                             │ │
-│ └───────┬───┘ │ ┌─────────┐      │┌────────┐        ┌─────────────────┐ │ │
-│         └─────┼─► Primary ┼──────►│┌────────┐       │     User-       │ │ │
-│  Authorization│ │ Broker  │Auth. └││──────┘├┼───────► Authenticating  │ │ │
-│  Request      │ └─────────┘Req.   └│───────┘│ Auth. │  Authorization  │ │ │
-│               │                    └────────┘ Req.  │     Server      │ │ │
-│               │                    Secondary        └┬──────────────┬─┘ │ │
-│               │                    Brokers           │     User-    │   │ │
-│               │                                      │Authenticating│   │ │
-│               │                                      │    Web UI    │   │ │
-│               │                                      └──────────────┘   │ │
-│               └─────────────────────────────────────────────────────────┘ │
-└───────────────────────────────────────────────────────────────────────────┘
-                                    Mobile Device
-</pre><a href="#section-4.1-1" class="pilcrow">¶</a>
+<span id="name-app2web-with-brokers"></span><div id="app2web-w-brokers">
+<figure id="figure-2">
+          <div id="section-4.1-1.1">
+            <div class="alignLeft art-svg artwork" id="section-4.1-1.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="352" width="624" viewBox="0 0 624 352" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <g class="text">
+                  <text x="312" y="36">┌───────────────────────────────────────────────────────────────────────────┐</text>
+                  <text x="8" y="52">│</text>
+                  <text x="616" y="52">│</text>
+                  <text x="8" y="68">│</text>
+                  <text x="72" y="68">┌───────────┐</text>
+                  <text x="616" y="68">│</text>
+                  <text x="8" y="84">│</text>
+                  <text x="24" y="84">│</text>
+                  <text x="120" y="84">│</text>
+                  <text x="616" y="84">│</text>
+                  <text x="8" y="100">│</text>
+                  <text x="24" y="100">│</text>
+                  <text x="76" y="100">Client</text>
+                  <text x="120" y="100">│</text>
+                  <text x="340" y="100">Mobile</text>
+                  <text x="400" y="100">Browser</text>
+                  <text x="616" y="100">│</text>
+                  <text x="8" y="116">│</text>
+                  <text x="24" y="116">│</text>
+                  <text x="72" y="116">App</text>
+                  <text x="120" y="116">│</text>
+                  <text x="368" y="116">┌─────────────────────────────────────────────────────────┐</text>
+                  <text x="616" y="116">│</text>
+                  <text x="8" y="132">│</text>
+                  <text x="24" y="132">│</text>
+                  <text x="120" y="132">│</text>
+                  <text x="136" y="132">│</text>
+                  <text x="324" y="132">┌────────┐</text>
+                  <text x="600" y="132">│</text>
+                  <text x="616" y="132">│</text>
+                  <text x="8" y="148">│</text>
+                  <text x="72" y="148">└───────┬───┘</text>
+                  <text x="136" y="148">│</text>
+                  <text x="192" y="148">┌─────────┐</text>
+                  <text x="328" y="148">│┌────────┐</text>
+                  <text x="512" y="148">┌─────────────────┐</text>
+                  <text x="600" y="148">│</text>
+                  <text x="616" y="148">│</text>
+                  <text x="8" y="164">│</text>
+                  <text x="120" y="164">└─────┼─►</text>
+                  <text x="192" y="164">Primary</text>
+                  <text x="304" y="164">┼──────►│┌────────┐</text>
+                  <text x="440" y="164">│</text>
+                  <text x="504" y="164">User-</text>
+                  <text x="584" y="164">│</text>
+                  <text x="600" y="164">│</text>
+                  <text x="616" y="164">│</text>
+                  <text x="8" y="180">│</text>
+                  <text x="84" y="180">Authorization│</text>
+                  <text x="152" y="180">│</text>
+                  <text x="188" y="180">Broker</text>
+                  <text x="252" y="180">│Auth.</text>
+                  <text x="364" y="180">└││──────┘├┼───────►</text>
+                  <text x="508" y="180">Authenticating</text>
+                  <text x="584" y="180">│</text>
+                  <text x="600" y="180">│</text>
+                  <text x="616" y="180">│</text>
+                  <text x="8" y="196">│</text>
+                  <text x="56" y="196">Request</text>
+                  <text x="136" y="196">│</text>
+                  <text x="208" y="196">└─────────┘Req.</text>
+                  <text x="336" y="196">└│───────┘│</text>
+                  <text x="408" y="196">Auth.</text>
+                  <text x="440" y="196">│</text>
+                  <text x="512" y="196">Authorization</text>
+                  <text x="584" y="196">│</text>
+                  <text x="600" y="196">│</text>
+                  <text x="616" y="196">│</text>
+                  <text x="8" y="212">│</text>
+                  <text x="136" y="212">│</text>
+                  <text x="340" y="212">└────────┘</text>
+                  <text x="404" y="212">Req.</text>
+                  <text x="440" y="212">│</text>
+                  <text x="508" y="212">Server</text>
+                  <text x="584" y="212">│</text>
+                  <text x="600" y="212">│</text>
+                  <text x="616" y="212">│</text>
+                  <text x="8" y="228">│</text>
+                  <text x="136" y="228">│</text>
+                  <text x="336" y="228">Secondary</text>
+                  <text x="512" y="228">└┬──────────────┬─┘</text>
+                  <text x="600" y="228">│</text>
+                  <text x="616" y="228">│</text>
+                  <text x="8" y="244">│</text>
+                  <text x="136" y="244">│</text>
+                  <text x="328" y="244">Brokers</text>
+                  <text x="448" y="244">│</text>
+                  <text x="512" y="244">User-</text>
+                  <text x="568" y="244">│</text>
+                  <text x="600" y="244">│</text>
+                  <text x="616" y="244">│</text>
+                  <text x="8" y="260">│</text>
+                  <text x="136" y="260">│</text>
+                  <text x="508" y="260">│Authenticating│</text>
+                  <text x="600" y="260">│</text>
+                  <text x="616" y="260">│</text>
+                  <text x="8" y="276">│</text>
+                  <text x="136" y="276">│</text>
+                  <text x="448" y="276">│</text>
+                  <text x="496" y="276">Web</text>
+                  <text x="524" y="276">UI</text>
+                  <text x="568" y="276">│</text>
+                  <text x="600" y="276">│</text>
+                  <text x="616" y="276">│</text>
+                  <text x="8" y="292">│</text>
+                  <text x="136" y="292">│</text>
+                  <text x="508" y="292">└──────────────┘</text>
+                  <text x="600" y="292">│</text>
+                  <text x="616" y="292">│</text>
+                  <text x="8" y="308">│</text>
+                  <text x="368" y="308">└─────────────────────────────────────────────────────────┘</text>
+                  <text x="616" y="308">│</text>
+                  <text x="312" y="324">└───────────────────────────────────────────────────────────────────────────┘</text>
+                  <text x="316" y="340">Mobile</text>
+                  <text x="372" y="340">Device</text>
+                </g>
+              </svg><a href="#section-4.1-1.1.1" class="pilcrow">¶</a>
 </div>
-<p id="section-4.1-2">Figure: App2Web with brokers<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+</div>
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<a href="#name-app2web-with-brokers" class="selfRef">App2Web with brokers</a>
+          </figcaption></figure>
+</div>
 </section>
 </div>
 </section>
@@ -1586,7 +1685,7 @@ Finally, the browser may be left after the flow ends with "orphan" browser tabs 
           <h4 id="name-client-app">
 <a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-client-app" class="section-name selfRef">Client App</a>
           </h4>
-<p id="section-5.2.1-1">Native app acting as <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> client of Primary Broker.
+<p id="section-5.2.1-1">Native app acting as OAuth client of Primary Broker.
 Client's redirect_uri is claimed as a deep link of Client App.<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1595,13 +1694,13 @@ Client's redirect_uri is claimed as a deep link of Client App.<a href="#section-
           <h4 id="name-client-apps-primary-broker">
 <a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-client-apps-primary-broker" class="section-name selfRef">Client App's Primary Broker</a>
           </h4>
-<p id="section-5.2.2-1">A <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> Broker:<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-1">An OAuth Broker:<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.2.2-2.1">
               <p id="section-5.2.2-2.1.1">Serving as Authorization Server for Client App<a href="#section-5.2.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.2.2-2.2">
-              <p id="section-5.2.2-2.2.1">An OAuth 2.0 client of one or more downstream authorization servers<a href="#section-5.2.2-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-5.2.2-2.2.1">An OAuth client of one or more downstream authorization servers<a href="#section-5.2.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-5.2.2-3">The Primary Broker performs additional handling for browser-less App2App use-case, covered in <a href="#protocol-flow" class="auto internal xref">Section 5.3</a>.<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
@@ -1618,7 +1717,7 @@ Client's redirect_uri is claimed as a deep link of Client App.<a href="#section-
             <h5 id="name-secondary-broker">
 <a href="#section-5.2.3.1" class="section-number selfRef">5.2.3.1. </a><a href="#name-secondary-broker" class="section-name selfRef">Secondary Broker</a>
             </h5>
-<p id="section-5.2.3.1-1">Additional brokers may be engaged in redirecting the flow, serving upstream brokers as OAuth 2.0 clients.
+<p id="section-5.2.3.1-1">Additional brokers may be engaged in redirecting the flow, serving upstream brokers as OAuth clients.
 They do not perform user authentication and authorization.<a href="#section-5.2.3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1691,14 +1790,19 @@ If an app handling the authorization request URL is not found, Client App native
 <section id="section-5.3.3.1">
             <h5 id="name-secondary-brokers">
 <a href="#section-5.3.3.1" class="section-number selfRef">5.3.3.1. </a><a href="#name-secondary-brokers" class="section-name selfRef">Secondary Brokers</a>
-          </h5>
+            </h5>
+<p id="section-5.3.3.1-1">Secondary Brokers engaged in the journey need to retain structured scope app2app:<em>client_app_deep_link</em> in downstream authorization requests they create.<a href="#section-5.3.3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="note-downgrade-to-app2web">
 <section id="section-5.3.3.2">
             <h5 id="name-note-downgrade-to-app2web">
 <a href="#section-5.3.3.2" class="section-number selfRef">5.3.3.2. </a><a href="#name-note-downgrade-to-app2web" class="section-name selfRef">Note - Downgrade to App2Web</a>
-          </h5>
+            </h5>
+<p id="section-5.3.3.2-1">If Client App reaches a User-Interacting Authorization Server with no app handling its urls, it may not be possible to relaunch the last authorization request URL on the browser as it might have included a single use request_uri which by now has been used and is therefore invalid.<a href="#section-5.3.3.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.3.3.2-2">In such a case the Client App needs to start over, generating a new authorization request without App2App indication.<a href="#section-5.3.3.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.3.3.2-3">This request is then launched on the browser.
+The remaining flow follows <span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span> and is therefore not further elaborated in this document.<a href="#section-5.3.3.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1707,21 +1811,67 @@ If an app handling the authorization request URL is not found, Client App native
 <section id="section-5.3.4">
           <h4 id="name-processing-by-user-interact">
 <a href="#section-5.3.4" class="section-number selfRef">5.3.4. </a><a href="#name-processing-by-user-interact" class="section-name selfRef">Processing by User-Interacting Authorization Server</a>
-        </h4>
+          </h4>
+<p id="section-5.3.4-1">The User-Interacting Authorization Server processes the authorization request using its native app:<a href="#section-5.3.4-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3.4-2.1">
+              <p id="section-5.3.4-2.1.1">Native app displays the UI for user authentication and authorization.<a href="#section-5.3.4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.3.4-2.2">
+              <p id="section-5.3.4-2.2.1">The client_app_deep_link provided in the strcutured scope, overrides the request's original redirect_uri:<a href="#section-5.3.4-2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3.4-2.2.2.1">
+                  <p id="section-5.3.4-2.2.2.1.1">User-Interacting Authorization Server's native app validates that an app owning client_app_deep_link is on the device<a href="#section-5.3.4-2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-5.3.4-2.2.2.2">
+                  <p id="section-5.3.4-2.2.2.2.1">If so it natively invokes it, handing it the redirect url with its response parameter<a href="#section-5.3.4-2.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-5.3.4-2.2.2.3">
+                  <p id="section-5.3.4-2.2.2.3.1">If such an app does not exist it is an error and the flow terminates<a href="#section-5.3.4-2.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              </ul>
+</li>
+            <li class="normal" id="section-5.3.4-2.3">
+              <p id="section-5.3.4-2.3.1">To establish trust towards client_app_deep_link, User-Interacting Authorization Server shall use OpenID Federation:<a href="#section-5.3.4-2.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3.4-2.3.2.1">
+                  <p id="section-5.3.4-2.3.2.1.1">It strips url path from client_app_deep_link (retaining the domain)<a href="#section-5.3.4-2.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-5.3.4-2.3.2.2">
+                  <p id="section-5.3.4-2.3.2.2.1">It adds /.well-known/openid-federation and performs trust chain resolution<a href="#section-5.3.4-2.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-5.3.4-2.3.2.3">
+                  <p id="section-5.3.4-2.3.2.3.1">It inspects Client's metadata for redirect_uri's and validates client_app_deep_link is included<a href="#section-5.3.4-2.3.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              </ul>
+</li>
+          </ul>
 </section>
 </div>
 <div id="client-app-traverses-brokers-in-reverse-order">
 <section id="section-5.3.5">
           <h4 id="name-client-app-traverses-brokers">
 <a href="#section-5.3.5" class="section-number selfRef">5.3.5. </a><a href="#name-client-app-traverses-brokers" class="section-name selfRef">Client App traverses Brokers in reverse order</a>
-        </h4>
+          </h4>
+<p id="section-5.3.5-1">Client App is invoked by User-Interacting Authorization Server App with a url as parameter which is the request's redirect_uri.
+Client App validates this url, and any url later obtained as a 3xx redirect instruction from the brokers it traverses, against the Allowlist it previously generated and fails if any url is not included in the Allowlist.
+Client App invokes the url it received using HTTP GET:<a href="#section-5.3.5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3.5-2.1">
+              <p id="section-5.3.5-2.1.1">If the response is a redirect instruction (HTTP Code 3xx + Location header), Client App repeats the logic and proceeds to call obtained urls until reaching its own redirect_uri (client_app_deep_link).<a href="#section-5.3.5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.3.5-2.2">
+              <p id="section-5.3.5-2.2.1">Otherwise (HTTP Code 2xx / 4xx / 5xx) is a failure.<a href="#section-5.3.5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </section>
 </div>
 <div id="client-app-obtains-response">
 <section id="section-5.3.6">
           <h4 id="name-client-app-obtains-response">
 <a href="#section-5.3.6" class="section-number selfRef">5.3.6. </a><a href="#name-client-app-obtains-response" class="section-name selfRef">Client App obtains response</a>
-        </h4>
+          </h4>
+<p id="section-5.3.6-1">Once Client App's own redirect_uri is obtained in a redirect 3xx directive, Client App proceeds according to OAuth to exchange code for tokens or handle error responses.<a href="#section-5.3.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1737,42 +1887,65 @@ If an app handling the authorization request URL is not found, Client App native
 <section id="section-6.1">
         <h3 id="name-oauth-request-forgery-and-m">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-oauth-request-forgery-and-m" class="section-name selfRef">OAuth request forgery and manipulation</a>
-      </h3>
+        </h3>
+<p id="section-6.1-1">It is recommended Client App shall be a confidential OAuth client.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="secure-native-application-communication">
 <section id="section-6.2">
         <h3 id="name-secure-native-application-c">
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-secure-native-application-c" class="section-name selfRef">Secure Native application communication</a>
-      </h3>
+        </h3>
+<p id="section-6.2-1">If Client App uses a Backend it is recommended to communicate with it securely:
+* Use TLS recommended version and ciphers.
+* Use DNSSEC.
+* Perform certificate pinning.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="deep-link-hijacking">
 <section id="section-6.3">
         <h3 id="name-deep-link-hijacking">
 <a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-deep-link-hijacking" class="section-name selfRef">Deep link hijacking</a>
-      </h3>
+        </h3>
+<p id="section-6.3-1">It is recommended that all apps in this specification shall protect their deep links using Android universal links / iOS App Links including the most specific package identifiers to prevent deep link hijacking by malicious apps.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="open-redirection">
 <section id="section-6.4">
         <h3 id="name-open-redirection">
 <a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-open-redirection" class="section-name selfRef">Open redirection</a>
-      </h3>
+        </h3>
+<p id="section-6.4-1">Client App constructs an Allowlist of domains it traverses through while processing the request, for enforcing urls it shall later traverse through during response processing.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+<p id="section-6.4-2">This serves to mitigate open redirection attacks as urls outside of this Allowlist will be rejected.<a href="#section-6.4-2" class="pilcrow">¶</a></p>
+<p id="section-6.4-3">In addition Client App should ignore any invocation for response processing which is not in the context of a request it initiated.<a href="#section-6.4-3" class="pilcrow">¶</a></p>
+<p id="section-6.4-4">One way to achieve this is by treating the Allowlist as a single-use object and destruct it after each protocol flow ends.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
+<p id="section-6.4-5">Client App should allow only one OAuth request processing at a time.<a href="#section-6.4-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authorization-code-theft-and-injection">
 <section id="section-6.5">
         <h3 id="name-authorization-code-theft-an">
 <a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-authorization-code-theft-an" class="section-name selfRef">Authorization code theft and injection</a>
-      </h3>
+        </h3>
+<p id="section-6.5-1">It is recommended that PKCE is used and that the code_verifier is tied to the Client App instance.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="handling-of-cookies">
 <section id="section-6.6">
         <h3 id="name-handling-of-cookies">
 <a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-handling-of-cookies" class="section-name selfRef">Handling of Cookies</a>
-      </h3>
+        </h3>
+<p id="section-6.6-1">Client App acts in this specification as a user agent compatible with a browser in respect to handling redirects.<a href="#section-6.6-1" class="pilcrow">¶</a></p>
+<p id="section-6.6-2">It can be expected that some Authorization Servers will use Cookies to bind security elements (state, nonce, PKCE) to the user agent.<a href="#section-6.6-2" class="pilcrow">¶</a></p>
+<p id="section-6.6-3">To support these security measures and prevent breaking the flow, Client App should act like a browser with regards to Cookies, namely:<a href="#section-6.6-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.6-4.1">
+            <p id="section-6.6-4.1.1">Store cookies it obtains on HTTP responses.<a href="#section-6.6-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.6-4.2">
+            <p id="section-6.6-4.2.1">Send cookies on subsequent HTTP requests to servers that returned cookies.<a href="#section-6.6-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 </section>
