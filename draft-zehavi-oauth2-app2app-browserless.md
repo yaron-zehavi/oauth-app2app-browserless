@@ -123,29 +123,10 @@ For consistency and readability, it shall use OAuth 2.0 terminology - **Client**
 # Challenge of App2App with Brokers
 
 ## App2App with Brokers - Flow Diagram
-~~~ ascii-art
-┌────────────────────────────────────────────────────────────────────────────────────┐
-│                                                                                    │
-│  ┌──────────────┐                                                                  │
-│  │              │                                                                  │
-│  │              │                           Mobile Browser                         │
-│  │  Client App  │     ┌────────────────────────────────────────────────────────┐   │
-│  │              │     │                  ┌───────┐                             │   │
-│  └──────────┬───┘     │ ┌─────────┐      │┌───────┐        ┌─────────────────┐ │   │
-│             └─────────┼─► Primary ┼──────►│┌───────┐       │     User-       │ │   │
-│         Authorization │ │ Broker  │ Auth.└││─────┘├┼───────► Authenticating  │ │   │
-│           Request     │ └─────────┘ Req.  └│──────┘│ Auth. │  Authorization  │ │   │
-│                       │                    └───────┘ Req.  │     Server      │ │   │
-│  ┌──────────────┐     │                   Secondary        └───────┬─────────┘ │   │
-│  │              │     │                   Brokers                  │           │   │
-│  │     User-    │     └────────────────────────────────────────────┼───────────┘   │
-│  │Authenticating│                                                  │               │
-│  │      App     ◄──────────────────────────────────────────────────┘               │
-│  └──────────────┘           Deep Link                                              │
-└────────────────────────────────────────────────────────────────────────────────────┘
-                                          Mobile Device
+~~~ aasvg
+{::include art/app2app-w-brokers-and-browser.ascii-art}
 ~~~
-Figure: App2App with brokers and browser
+{: #app2app-w-brokers-and-browser title="App2App with brokers and browser" }
 
 ## OAuth 2.0 / OpenID Connect Broker
 
