@@ -161,7 +161,7 @@ This is similar to the flow described in {{RFC8252}}, and referred to in {{App2A
 
 ## App2Web with Brokers - Flow Diagram
 ~~~ aasvg
-{::include art/app2web-w-brokers.ascii-art}
+{::include art/app2web-w-brokers2.ascii-art}
 ~~~
 {: #app2web-w-brokers title="App2Web with brokers" }
 
