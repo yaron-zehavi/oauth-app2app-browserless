@@ -62,8 +62,8 @@ normative:
       - ins: M.B. Jones
       - ins: A.A. Solberg
       - ins: J. Bradley
-	  - ins: G. De Marco
-	  - ins: V. Dzhuvinov
+      - ins: G. De Marco    
+      - ins: V. Dzhuvinov
 informative:
   App2App.Blog:
     title: "Guest Blog: Implementing App-to-App Authorisation in OAuth2/OpenID Connect"
@@ -77,7 +77,7 @@ informative:
     author:
       - ins: G. Fletcher
     date: November 2022
-	
+
 --- abstract
 
 This document defines a protocol enabling native apps from different app publishers, using the App2App pattern to act as OAuth Client And Authorization Server, native browserless user navigation.
