@@ -137,7 +137,7 @@ Table of Contents
               <https://openid.net/specs/openid-connect-core-1_0.html>.
 
    [OpenID.Federation]
-              Hedberg, R., Jones, M. B., Solberg, A. A., Bradley, J., De
+              Hedberg, R., Jones, M. B., Solberg, A. Å., Bradley, J., De
               Marco, G., and V. Dzhuvinov, "OpenID Federation 1.0",
               March 2025,
               <https://openid.net/specs/openid-federation-1_0.html>.
