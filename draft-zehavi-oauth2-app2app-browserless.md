@@ -12,7 +12,7 @@ v: 3
 area: "Security"
 workgroup: "Web Authorization Protocol"
 keyword:
- - native apps
+ - native-apps
  - oauth
  - app2app
  - browserless
@@ -23,6 +23,7 @@ venue:
   arch: "https://mailarchive.ietf.org/arch/browse/oauth/"
   github: "oauth-wg/oauth-app2app-browserless"
   latest: "https://drafts.oauth.net/oauth-app2app-browserless/draft-ietf-oauth-app2app-browserless.html"
+
 author:
  -
     fullname: Yaron Zehavi
