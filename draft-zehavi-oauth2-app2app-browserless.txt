@@ -81,13 +81,33 @@ Table of Contents
      3.2.  OAuth 2.0 / OpenID Connect Broker
      3.3.  App2App with brokers requires a web browser
      3.4.  Impact of using a web browser
-     3.5.  App2Web
-       3.5.1.  App2Web with Brokers - Flow Diagram
-   4.  Security Considerations
-   5.  IANA Considerations
-   6.  References
-     6.1.  Normative References
-     6.2.  Informative References
+   4.  App2Web
+     4.1.  App2Web with Brokers - Flow Diagram
+   5.  Browser-less App2App with Broker
+     5.1.  Flow Diagram
+     5.2.  Components
+       5.2.1.  Client App
+       5.2.2.  Client App's Primary Broker
+       5.2.3.  Downstream Authorization Server
+     5.3.  Protocol flow
+       5.3.1.  Client App calls Primary Broker
+       5.3.2.  Primary Broker returns authorization request to
+               Downstream Authorization Server
+       5.3.3.  Client App traverses Brokers with request
+       5.3.4.  Processing by User-Interacting Authorization Server
+       5.3.5.  Client App traverses Brokers in reverse order
+       5.3.6.  Client App obtains response
+   6.  Security Considerations
+     6.1.  OAuth request forgery and manipulation
+     6.2.  Secure Native application communication
+     6.3.  Deep link hijacking
+     6.4.  Open redirection
+     6.5.  Authorization code theft and injection
+     6.6.  Handling of Cookies
+   7.  IANA Considerations
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -142,25 +162,25 @@ Table of Contents
 
 3.1.  App2App with Brokers - Flow Diagram
 
-+------------------------------------------------------------------------------------+
-|                                                                                    |
-|  +--------------+                                                                  |
-|  |              |                                                                  |
-|  |              |                           Mobile Browser                         |
-|  |  Client App  |     +--------------------------------------------------------+   |
-|  |              |     |                  +-------+                             |   |
-|  +----------┬---+     | +---------+      |+-------+        +-----------------+ |   |
-|             +---------┼>| Primary |----->|||+------+       |     User-       | |   |
-|         Authorization | | Broker  | Auth.+||-----+||------>|Authenticating   | |   |
-|           Request     | +---------+ Req.  +|------+| Auth. |  Authorization  | |   |
-|                       |                    +-------+ Req.  |     Server      | |   |
-|  +--------------+     |                   Secondary        +-------┬---------+ |   |
-|  |              |     |                   Brokers                  |           |   |
-|  |     User-    |     +--------------------------------------------┼-----------+   |
-|  |Authenticating|                                                  |               |
-|  |      App     |<-------------------------------------------------+               |
-|  +--------------+           Deep Link                                              |
-+------------------------------------------------------------------------------------+
+┌────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                    │
+│  ┌──────────────┐                                                                  │
+│  │              │                                                                  │
+│  │              │                           Mobile Browser                         │
+│  │  Client App  │     ┌────────────────────────────────────────────────────────┐   │
+│  │              │     │                  ┌───────┐                             │   │
+│  └──────────┬───┘     │ ┌─────────┐      │┌───────┐        ┌─────────────────┐ │   │
+│             └─────────┼─► Primary ┼──────►│┌───────┐       │     User-       │ │   │
+│         Authorization │ │ Broker  │ Auth.└││─────┘├┼───────► Authenticating  │ │   │
+│           Request     │ └─────────┘ Req.  └│──────┘│ Auth. │  Authorization  │ │   │
+│                       │                    └───────┘ Req.  │     Server      │ │   │
+│  ┌──────────────┐     │                   Secondary        └───────┬─────────┘ │   │
+│  │              │     │                   Brokers                  │           │   │
+│  │     User-    │     └────────────────────────────────────────────┼───────────┘   │
+│  │Authenticating│                                                  │               │
+│  │      App     ◄──────────────────────────────────────────────────┘               │
+│  └──────────────┘           Deep Link                                              │
+└────────────────────────────────────────────────────────────────────────────────────┘
                                           Mobile Device
 
    Figure: App2App with brokers and browser
@@ -198,7 +218,7 @@ Table of Contents
    redirection.  While these do not impact the process directly, they
    can be seen as clutter which degrades the overall UX's cleanliness.
 
-3.5.  App2Web
+4.  App2Web
 
    Whenever the user's device has no app owning the User-Authenticating
    Authorization Server's urls as deep links, the flow requires the help
@@ -211,42 +231,142 @@ Table of Contents
    This is similar to the flow described in [RFC8252], and referred to
    in [App2App] as *App2Web*.
 
-3.5.1.  App2Web with Brokers - Flow Diagram
+4.1.  App2Web with Brokers - Flow Diagram
 
-+------------------------------------------------------------------------------------+
-|                                                                                    |
-|  +--------------+                                                                  |
-|  |              |                                                                  |
-|  |              |                            Mobile Browser                        |
-|  |  Client App  |     +---------------------------------------------------------+  |
-|  |              |     |                  +--------+                             |  |
-|  +----------┬---+     | +---------+      |+--------+        +-----------------+ |  |
-|             +---------┼-> Primary ┼------>|+--------+       |     User-       | |  |
-|         Authorization | | Broker  | Auth.+||------+├┼-------> Authenticating  | |  |
-|           Request     | +---------+ Req.  +|-------+| Auth. |  Authorization  | |  |
-|                       |                    +--------+ Req.  |     Server      | |  |
-|  +--------------+     |                    Secondary        +-------┬---------+ |  |
-|  |              |     |                    Brokers                  |           |  |
-|  |     User-    |     +---------------------------------------------┼-----------+  |
-|  |Authenticating|                                                   |              |
-|  |      App     ◄---------------------------------------------------+              |
-|  +--------------+           Deep Link                                              |
-+------------------------------------------------------------------------------------+
-                                            Mobile Device
+┌───────────────────────────────────────────────────────────────────────────┐
+│                                                                           │
+│ ┌───────────┐                                                             │
+│ │           │                                                             │
+│ │   Client  │                        Mobile Browser                       │
+│ │    App    │ ┌─────────────────────────────────────────────────────────┐ │
+│ │           │ │                  ┌────────┐                             │ │
+│ └───────┬───┘ │ ┌─────────┐      │┌────────┐        ┌─────────────────┐ │ │
+│         └─────┼─► Primary ┼──────►│┌────────┐       │     User-       │ │ │
+│  Authorization│ │ Broker  │Auth. └││──────┘├┼───────► Authenticating  │ │ │
+│  Request      │ └─────────┘Req.   └│───────┘│ Auth. │  Authorization  │ │ │
+│               │                    └────────┘ Req.  │     Server      │ │ │
+│               │                    Secondary        └┬──────────────┬─┘ │ │
+│               │                    Brokers           │     User-    │   │ │
+│               │                                      │Authenticating│   │ │
+│               │                                      │    Web UI    │   │ │
+│               │                                      └──────────────┘   │ │
+│               └─────────────────────────────────────────────────────────┘ │
+└───────────────────────────────────────────────────────────────────────────┘
+                                    Mobile Device
 
    Figure: App2Web with brokers
 
-4.  Security Considerations
+5.  Browser-less App2App with Broker
 
-   TODO Security
+5.1.  Flow Diagram
 
-5.  IANA Considerations
+5.2.  Components
+
+5.2.1.  Client App
+
+   Native app acting as [RFC6749] client of Primary Broker.  Client's
+   redirect_uri is claimed as a deep link of Client App.
+
+5.2.2.  Client App's Primary Broker
+
+   A [RFC6749] Broker: - Serving as Authorization Server for Client App
+   - An OAuth 2.0 client of one or more downstream authorization servers
+
+   The Primary Broker performs additional handling for browser-less
+   App2App use-case, covered in Section 5.3.
+
+5.2.3.  Downstream Authorization Server
+
+   An Authorization Server which may be a:
+
+5.2.3.1.  Secondary Broker
+
+   Additional brokers may be engaged in redirecting the flow, serving
+   upstream brokers as OAuth 2.0 clients.  They do not perform user
+   authentication and authorization.
+
+5.2.3.2.  User-Interacting Authorization Server
+
+   The Authorization Server which interacts with end-user to perform
+   authentication and authorization.  May or may not offer App2App via a
+   native app claiming it's urls as deep links.  Such app may or may not
+   be installed on end-user's device.
+
+5.3.  Protocol flow
+
+5.3.1.  Client App calls Primary Broker
+
+   Client App calls Primary Broker's authorization_endpoint to initiate
+   an authorization code flow, indicating App2App flow by use of a
+   dedicated scope such as app2app.  Client App's redirect_uri is
+   claimed as a deep link and will be referred to as
+   client_app_deep_link.
+
+5.3.2.  Primary Broker returns authorization request to Downstream
+        Authorization Server
+
+   Primary Broker validates Client's request and prepares an
+   authorization request to Downstream Authorization Server's
+   authorization_endpoint.  Primary Broker provides client_app_deep_link
+   to Downstream Authorization Server in the dedicated structured scope:
+   app2app:_client_app_deep_link_. Primary Broker responds with HTTP 302
+   and the authorization request url towards Downstream Authorization
+   Server in the Location header.
+
+5.3.3.  Client App traverses Brokers with request
+
+   Client App uses OS mechanisms to detect if the authorization request
+   URL it received is handled by an app installed on the device.  If so,
+   Client App natively invokes the app to process the authorization
+   request, achieving from the user's perspective native navigation
+   across applications.  If an app handling the authorization request
+   URL is not found, Client App natively calls the authorization request
+   URL using HTTP GET and processes the response: - If the response is
+   successful (HTTP Code 2xx), it is probably the User-Interacting
+   Authorization Server.  This means the Client App "over-stepped" and
+   needs to downgrade to App2Web. - If the response is a redirect
+   instruction (HTTP Code 3xx + Location header), a Secondary Broker was
+   reached and Client App repeats the logic previously described: -
+   Check if an app owns the obtained url, and if so natively invoke it.
+   - Otherwise natively call the obtained url and analyze the response.
+   - Handles error response (HTTP 4xx / 5xx) for example by displaying
+   the error.
+
+   As the Client App traverses through Brokers, it maintains a list of
+   all the domains it traverses, which shall serve as the Allowlist when
+   later traversing the response.
+
+5.3.3.1.  Secondary Brokers
+
+5.3.3.2.  Note - Downgrade to App2Web
+
+5.3.4.  Processing by User-Interacting Authorization Server
+
+5.3.5.  Client App traverses Brokers in reverse order
+
+5.3.6.  Client App obtains response
+
+6.  Security Considerations
+
+6.1.  OAuth request forgery and manipulation
+
+6.2.  Secure Native application communication
+
+6.3.  Deep link hijacking
+
+6.4.  Open redirection
+
+6.5.  Authorization code theft and injection
+
+6.6.  Handling of Cookies
+
+7.  IANA Considerations
 
    This document has no IANA actions.
 
-6.  References
+8.  References
 
-6.1.  Normative References
+8.1.  Normative References
 
    [OpenID]   Sakimura, N., Bradley, J., Jones, M. B., de Medeiros, B.,
               and C. Mortimore, "OpenID Connect Core 1.0", November
@@ -286,7 +406,7 @@ Table of Contents
               RFC 9126, DOI 10.17487/RFC9126, September 2021,
               <https://www.rfc-editor.org/rfc/rfc9126>.
 
-6.2.  Informative References
+8.2.  Informative References
 
    [App2App]  Heenan, J., "Guest Blog: Implementing App-to-App
               Authorisation in OAuth2/OpenID Connect", October 2019,
