@@ -201,8 +201,8 @@ Client's redirect_uri is claimed as a deep link of Client App.
 ### Client App's Primary Broker
 
 A {{RFC6749}} Broker:
-- Serving as Authorization Server for Client App
-- An OAuth 2.0 client of one or more downstream authorization servers
+* Serving as Authorization Server for Client App
+* An OAuth 2.0 client of one or more downstream authorization servers
 
 The Primary Broker performs additional handling for browser-less App2App use-case, covered in {{protocol-flow}}.
 
@@ -238,11 +238,11 @@ Primary Broker responds with HTTP 302 and the authorization request url towards 
 Client App uses OS mechanisms to detect if the authorization request URL it received is handled by an app installed on the device.
 If so, Client App natively invokes the app to process the authorization request, achieving from the user's perspective native navigation across applications.
 If an app handling the authorization request URL is not found, Client App natively calls the authorization request URL using HTTP GET and processes the response:
-- If the response is successful (HTTP Code 2xx), it is probably the User-Interacting Authorization Server. This means the Client App "over-stepped" and needs to downgrade to App2Web.
-- If the response is a redirect instruction (HTTP Code 3xx + Location header), a Secondary Broker was reached and Client App repeats the logic previously described:
-  - Check if an app owns the obtained url, and if so natively invoke it.
-  - Otherwise natively call the obtained url and analyze the response.
-- Handles error response (HTTP 4xx / 5xx) for example by displaying the error.
+* If the response is successful (HTTP Code 2xx), it is probably the User-Interacting Authorization Server. This means the Client App "over-stepped" and needs to downgrade to App2Web.
+* If the response is a redirect instruction (HTTP Code 3xx + Location header), a Secondary Broker was reached and Client App repeats the logic previously described:
+  * Check if an app owns the obtained url, and if so natively invoke it.
+  * Otherwise natively call the obtained url and analyze the response.
+* Handles error response (HTTP 4xx / 5xx) for example by displaying the error.
 
 As the Client App traverses through Brokers, it maintains a list of all the domains it traverses, which shall serve as the Allowlist when later traversing the response.
 
