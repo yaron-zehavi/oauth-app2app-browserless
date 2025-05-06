@@ -2,36 +2,42 @@
 
 
 
-Web Authorization Protocol (oauth)                             Y. Zehavi
-Internet-Draft                             Raiffeisen Bank International
-Intended status: Informational                                5 May 2025
-Expires: 6 November 2025
+Web Authorization Protocol                                     Y. Zehavi
+Internet-Draft                                                  H. Kroll
+Intended status: Standards Track                               G. Hyseni
+Expires: 7 November 2025                   Raiffeisen Bank International
+                                                              6 May 2025
 
 
-                  OAuth 2.0 App2App Browser-less Flow
+                   OAuth 2.0 App2App Browserless Flow
              draft-zehavi-oauth2-app2app-browserless-latest
 
 Abstract
 
-   TODO Abstract
+   This document defines a protocol enabling native apps from different
+   app publishers, using the App2App pattern to act as OAuth Client And
+   Authorization Server, native browserless user navigation.  The native
+   experience is enabled also when using any number of brokers to
+   federate across trust networks, while retaining highest levels of
+   security.
 
 About This Document
 
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at
-   https://example.com/LATEST.  Status information for this document may
+   https://drafts.oauth.net/oauth-app2app-browserless/draft-ietf-oauth-
+   app2app-browserless.html.  Status information for this document may
    be found at https://datatracker.ietf.org/doc/draft-zehavi-oauth2-
    app2app-browserless/.
 
-   Discussion of this document takes place on the WG Working Group
-   mailing list (mailto:oauth@ietf.org), which is archived at
-   https://mailarchive.ietf.org/arch/browse/oauth/.  Subscribe at
-   https://www.ietf.org/mailman/listinfo/oauth/.
+   Discussion of this document takes place on the Web Authorization
+   Protocol Working Group mailing list (mailto:oauth@ietf.org), which is
+   archived at https://mailarchive.ietf.org/arch/browse/oauth/.
+   Subscribe at https://www.ietf.org/mailman/listinfo/oauth/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/https://github.com/yaron-zehavi/oauth-app2app-
-   browserless.
+   https://github.com/oauth-wg/oauth-app2app-browserless.
 
 Status of This Memo
 
@@ -48,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 November 2025.
+   This Internet-Draft will expire on 7 November 2025.
 
 Copyright Notice
 
@@ -67,16 +73,43 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
+     1.1.  Note
    2.  Conventions and Definitions
    3.  Security Considerations
    4.  IANA Considerations
-   5.  Normative References
+   5.  References
+     5.1.  Normative References
+     5.2.  Informative References
    Acknowledgments
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
-   TODO Introduction
+   This document, OAuth 2.0 App2App Browserless Flow (Native App2App),
+   deals with applications from different issuers that act as OAuth 2.0
+   Client and Authorization Server, following the [App2App.Blog]
+   pattern, to achieve native authentication and authorization.
+
+   This specification aims at tackling the challenge when the Client App
+   is not a direct client of the Authorization Server, but rather
+   reaches it by redirecting through one or more brokering Authorization
+   Servers.
+
+   Since such brokers fulfill their redirection and federation function
+   without a user interface, no app on the users mobile device handles
+   this traversal as deep links and therefore App2App flows through
+   brokers necessitate using a web browser, which introduces several
+   negative impacts.
+
+   This document presents a protocol enabling native App2App browser-
+   less navigation, without compromising on any security property.
+
+1.1.  Note
+
+   [OpenID.Native-SSO] also offers a native SSO flow across applications
+   without requiring the browser.  However it is dealing with the
+   specific sub-case when both apps are published by the same issuer and
+   leverage this fact to share information.
 
 2.  Conventions and Definitions
 
@@ -94,23 +127,70 @@ Table of Contents
 
    This document has no IANA actions.
 
-5.  Normative References
+5.  References
+
+5.1.  Normative References
+
+   [OpenID]   Sakimura, N., Bradley, J., Jones, M., de Medeiros, B., and
+              C. Mortimore, "OpenID Connect Core 1.0", November 2014,
+              <https://openid.net/specs/openid-connect-core-1_0.html>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
+   [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
+              RFC 6749, DOI 10.17487/RFC6749, October 2012,
+              <https://www.rfc-editor.org/rfc/rfc6749>.
+
+   [RFC7636]  Sakimura, N., Ed., Bradley, J., and N. Agarwal, "Proof Key
+              for Code Exchange by OAuth Public Clients", RFC 7636,
+              DOI 10.17487/RFC7636, September 2015,
+              <https://www.rfc-editor.org/rfc/rfc7636>.
+
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC8252]  Denniss, W. and J. Bradley, "OAuth 2.0 for Native Apps",
+              BCP 212, RFC 8252, DOI 10.17487/RFC8252, October 2017,
+              <https://www.rfc-editor.org/rfc/rfc8252>.
+
+   [RFC9126]  Lodderstedt, T., Campbell, B., Sakimura, N., Tonge, D.,
+              and F. Skokan, "OAuth 2.0 Pushed Authorization Requests",
+              RFC 9126, DOI 10.17487/RFC9126, September 2021,
+              <https://www.rfc-editor.org/rfc/rfc9126>.
+
+5.2.  Informative References
+
+   [App2App.Blog]
+              Heenan, J., "Guest Blog: Implementing App-to-App
+              Authorisation in OAuth2/OpenID Connect", October 2019,
+              <https://openid.net/guest-blog-implementing-app-to-app-
+              authorisation-in-oauth2-openid-connect/>.
+
+   [OpenID.Native-SSO]
+              Fletcher, G., "OpenID Connect Native SSO for Mobile Apps",
+              November 2022, <https://openid.net/specs/openid-connect-
+              native-sso-1_0.html>.
 
 Acknowledgments
 
    TODO acknowledge.
 
-Author's Address
+Authors' Addresses
 
    Yaron Zehavi
    Raiffeisen Bank International
    Email: yaron.zehavi@rbinternational.com
+
+
+   Henrik Kroll
+   Raiffeisen Bank International
+   Email: henrik.kroll@rbinternational.com
+
+
+   Grese Hyseni
+   Raiffeisen Bank International
+   Email: grese.hyseni@rbinternational.com
