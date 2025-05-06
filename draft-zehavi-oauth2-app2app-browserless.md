@@ -19,35 +19,33 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
+title: "OAuth 2.0 App2App Browser-less Flow"
 category: info
 
-docname: draft-todo-yourname-protocol-latest
-submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
-number:
-date:
+docname: draft-zehavi-oauth2-app2app-browserless-latest
+submissiontype: IETF
+number: 
+date: 2025-05-05
 consensus: true
-v: 3
-area: AREA
-workgroup: WG Working Group
+v: 1
+area: OAuth
+workgroup: Web Authorization Protocol (oauth)
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - app2app
+ - browserless
 venue:
   group: WG
   type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
+  mail: oauth@ietf.org
+  arch: https://mailarchive.ietf.org/arch/browse/oauth/
+  github: https://github.com/yaron-zehavi/oauth-app2app-browserless
   latest: https://example.com/LATEST
 
 author:
  -
-    fullname: Your Name Here
-    organization: Your Organization Here
-    email: your.email@example.com
+    fullname: Yaron Zehavi
+    organization: Raiffeisen Bank International
+    email: yaron.zehavi@rbinternational.com
 
 normative:
 
