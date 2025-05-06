@@ -170,7 +170,7 @@ Table of Contents
 |  |              |     |                                                        |   |
 |  +--------------+     | +---------+       +--------+       +-----------------+ |   |
 |             |         | |         |       |        |       |                 | |   |
-|             +-----------> Primary |------>|        |------>|     User-       | |   |
+|             +---------->| Primary |------>|        |------>|     User-       | |   |
 |         Authorization | | Broker  | Auth. |        | Auth. | Authenticating  | |   |
 |           Request     | +---------+ Req.  +--------+ Req.  |  Authorization  | |   |
 |                       |                   Secondary        |     Server      | |   |
@@ -252,8 +252,8 @@ Table of Contents
 | |           | |                                                           | |
 | +-----------+ | +---------+       +---------+       +------------------+  | |
 |         |     | |         |       |         |       |                  |  | |
-|         +-------> Primary |------->         |       |     User-        |  | |
-|  Authorization| | Broker  | Auth. |         |-------> Authenticating   |  | |
+|         +------>| Primary |------>|         |       |     User-        |  | |
+|  Authorization| | Broker  | Auth. |         |------>| Authenticating   |  | |
 |  Request      | +---------+ Req.  +---------+ Auth. |  Authorization   |  | |
 |               |                   Secondary   Req.  |     Server       |  | |
 |               |                    Brokers          +-|--------------|-+  | |
