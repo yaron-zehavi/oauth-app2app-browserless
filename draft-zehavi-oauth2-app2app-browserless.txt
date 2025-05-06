@@ -142,6 +142,12 @@ Table of Contents
 
 1.2.  Terminology
 
+   In addition to the terms defined in referenced specifications, this
+   document uses the following terms:
+
+   "OAuth":  In this document, "OAuth" refers to OAuth 2.0, [RFC6749]
+      and [RFC6750].
+
    This document is relevant for both [RFC6749] and [OpenID] as the
    protocols used, referring to both's *authorization code flow*.
 
@@ -149,6 +155,9 @@ Table of Contents
    *Client* and *Authorization Server*, equally interchangeable with
    OpenID Connect *Relying Party* and *OpenID Provider* when OpenID
    Connect is used.
+
+   "PKCE":  Proof Key for Code Exchange (PKCE) [RFC7636], a mechanism to
+      prevent various attacks on OAuth authorization codes.
 
 2.  Conventions and Definitions
 
@@ -387,6 +396,11 @@ Table of Contents
    [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
               RFC 6749, DOI 10.17487/RFC6749, October 2012,
               <https://www.rfc-editor.org/rfc/rfc6749>.
+
+   [RFC6750]  Jones, M. and D. Hardt, "The OAuth 2.0 Authorization
+              Framework: Bearer Token Usage", RFC 6750,
+              DOI 10.17487/RFC6750, October 2012,
+              <https://www.rfc-editor.org/rfc/rfc6750>.
 
    [RFC7636]  Sakimura, N., Ed., Bradley, J., and N. Agarwal, "Proof Key
               for Code Exchange by OAuth Public Clients", RFC 7636,

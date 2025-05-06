@@ -1313,8 +1313,25 @@ The native experience is retained also when the Client uses any number of broker
         <h3 id="name-terminology">
 <a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
         </h3>
-<p id="section-1.2-1">This document is relevant for both <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> and <span>[<a href="#OpenID" class="cite xref">OpenID</a>]</span> as the protocols used, referring to both's <strong>authorization code flow</strong>.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
-<p id="section-1.2-2">For consistency and readability, it shall use OAuth 2.0 terminology - <strong>Client</strong> and <strong>Authorization Server</strong>, equally interchangeable with OpenID Connect <strong>Relying Party</strong> and <strong>OpenID Provider</strong> when OpenID Connect is used.<a href="#section-1.2-2" class="pilcrow">¶</a></p>
+<p id="section-1.2-1">In addition to the terms defined in referenced specifications, this document uses
+the following terms:<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-1.2-2">
+          <dt id="section-1.2-2.1">"OAuth":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-2.2">
+            <p id="section-1.2-2.2.1">In this document, "OAuth" refers to OAuth 2.0, <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> and <span>[<a href="#RFC6750" class="cite xref">RFC6750</a>]</span>.<a href="#section-1.2-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-1.2-3">This document is relevant for both <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> and <span>[<a href="#OpenID" class="cite xref">OpenID</a>]</span> as the protocols used, referring to both's <strong>authorization code flow</strong>.<a href="#section-1.2-3" class="pilcrow">¶</a></p>
+<p id="section-1.2-4">For consistency and readability, it shall use OAuth 2.0 terminology - <strong>Client</strong> and <strong>Authorization Server</strong>, equally interchangeable with OpenID Connect <strong>Relying Party</strong> and <strong>OpenID Provider</strong> when OpenID Connect is used.<a href="#section-1.2-4" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-1.2-5">
+          <dt id="section-1.2-5.1">"PKCE":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-5.2">
+            <p id="section-1.2-5.2.1">Proof Key for Code Exchange (PKCE) <span>[<a href="#RFC7636" class="cite xref">RFC7636</a>]</span>, a mechanism
+to prevent various attacks on OAuth authorization codes.<a href="#section-1.2-5.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
 </section>
 </div>
 </section>
@@ -1668,6 +1685,10 @@ If an app handling the authorization request URL is not found, Client App native
 <dt id="RFC6749">[RFC6749]</dt>
         <dd>
 <span class="refAuthor">Hardt, D., Ed.</span>, <span class="refTitle">"The OAuth 2.0 Authorization Framework"</span>, <span class="seriesInfo">RFC 6749</span>, <span class="seriesInfo">DOI 10.17487/RFC6749</span>, <time datetime="2012-10" class="refDate">October 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6749">https://www.rfc-editor.org/rfc/rfc6749</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6750">[RFC6750]</dt>
+        <dd>
+<span class="refAuthor">Jones, M.</span> and <span class="refAuthor">D. Hardt</span>, <span class="refTitle">"The OAuth 2.0 Authorization Framework: Bearer Token Usage"</span>, <span class="seriesInfo">RFC 6750</span>, <span class="seriesInfo">DOI 10.17487/RFC6750</span>, <time datetime="2012-10" class="refDate">October 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6750">https://www.rfc-editor.org/rfc/rfc6750</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7636">[RFC7636]</dt>
         <dd>
