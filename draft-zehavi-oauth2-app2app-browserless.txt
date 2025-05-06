@@ -75,11 +75,18 @@ Table of Contents
    1.  Introduction
      1.1.  Note
    2.  Conventions and Definitions
-   3.  Security Considerations
-   4.  IANA Considerations
-   5.  References
-     5.1.  Normative References
-     5.2.  Informative References
+   3.  Terminology
+   4.  Challenge of App2App with Brokers
+     4.1.  TODO Arch Diagram
+     4.2.  OAuth 2.0 / OpenID Connect Broker
+     4.3.  App2App with brokers requires a web browser
+     4.4.  Impact of using a web browser
+     4.5.  App2Web
+   5.  Security Considerations
+   6.  IANA Considerations
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -87,22 +94,23 @@ Table of Contents
 
    This document, OAuth 2.0 App2App Browserless Flow (Native App2App),
    deals with applications from different issuers that act as OAuth 2.0
-   Client and Authorization Server, following the [App2App.Blog]
-   pattern, to achieve native authentication and authorization.
+   Client and Authorization Server, following the [App2App] pattern, to
+   achieve native authentication and authorization.
 
-   This specification aims at tackling the challenge when the Client App
-   is not a direct client of the Authorization Server, but rather
-   reaches it by redirecting through one or more brokering Authorization
-   Servers.
+   This specification tackles the challenge when a Client App reaches
+   the Authorization Server's app by redirecting through one or more
+   brokering Authorization Servers, as it is not a direct client of the
+   User-Authenticating Authorization Server.
 
-   Since such brokers fulfill their redirection and federation function
-   without a user interface, no app on the users mobile device handles
-   this traversal as deep links and therefore App2App flows through
-   brokers necessitate using a web browser, which introduces several
-   negative impacts.
+   Since such brokers perform redirection and federation using solely
+   HTTP 3xx redirect instructions, no app on the users mobile device
+   handles their urls as deep links and therefore App2App flows through
+   brokers require using a web browser, which degrades the user
+   experience.
 
    This document presents a protocol enabling native App2App browser-
-   less navigation, without compromising on any security property.
+   less navigation, through any number of brokers, without compromising
+   on any security property.
 
 1.1.  Note
 
@@ -119,17 +127,76 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Security Considerations
+3.  Terminology
+
+   This document is relevant for both [RFC6749] and [OpenID] as the
+   protocols used, referring to both's *authorization code flow*.
+
+   For consistency and readability, it shall use [RFC6749] terminology -
+   *Client* and *Authorization Server*, equally interchangeable with
+   [OpenID] *Relying Party* and *OpenID Provider* when [OpenID] is used.
+
+4.  Challenge of App2App with Brokers
+
+4.1.  TODO Arch Diagram
+
+4.2.  OAuth 2.0 / OpenID Connect Broker
+
+   A broker is a component acting as Authorization Server for its
+   clients, as well as an OAuth 2.0 Client towards downstream
+   Authorization Servers.  Brokers are used when there is no direct
+   relation between an OAuth Client and the Authorization Server where
+   the end-user authenticates and authorizes.  This is relevant in
+   federation use cases, such as in Academia and in the business world
+   connecting across subsidiaries or B2B relationships across
+   corporations.  Some of the trust requirements may be solved in the
+   future with [OpenID.Federation], but federation through Brokers is an
+   established pattern currently in broad use.
+
+4.3.  App2App with brokers requires a web browser
+
+   Since OAuth 2.0 brokers reside on https domains, which no native app
+   claims as Deep Links, OAuth requests to Brokers and responses to
+   Broker's redirect_uri will be handled by a web browser.
+
+4.4.  Impact of using a web browser
+
+   Using a web browser downgrades the user experience in several ways.
+   The browser may be noticed by end-user as it is loading urls and
+   redirecting to native apps.  The browser may prompt end-user for
+   consent before opening deep links, introducing additional friction.
+   App developers have limited control as to which browser will be
+   opened on the return redirect to the Broker, so any cookies used to
+   bind session identifiers (nonce, state or pkce verifier) to the user
+   agent may be lost, causing the flow to break.  Finally, the browser
+   may be left after the flow ends with "orphan" browser tabs used for
+   redirection.  While these do not impact the process directly, they
+   can be seen as clutter which degrades the overall UX's cleanliness.
+
+4.5.  App2Web
+
+   Whenever the user's device has no app owning the User-Authenticating
+   Authorization Server's urls as deep links, the flow requires the help
+   of a browser.
+
+   This is the case when the User-Authenticating Authorization Server
+   offers no native app, or when such an app exists but is not installed
+   on the end-user's device.
+
+   This is similar to the flow described in [RFC8252], and referred to
+   in [App2App] as App2Web.
+
+5.  Security Considerations
 
    TODO Security
 
-4.  IANA Considerations
+6.  IANA Considerations
 
    This document has no IANA actions.
 
-5.  References
+7.  References
 
-5.1.  Normative References
+7.1.  Normative References
 
    [OpenID]   Sakimura, N., Bradley, J., Jones, M. B., de Medeiros, B.,
               and C. Mortimore, "OpenID Connect Core 1.0", November
@@ -137,9 +204,9 @@ Table of Contents
               <https://openid.net/specs/openid-connect-core-1_0.html>.
 
    [OpenID.Federation]
-              Hedberg, R., Jones, M. B., Solberg, A. Å., Bradley, J., De
-              Marco, G., and V. Dzhuvinov, "OpenID Federation 1.0",
-              March 2025,
+              Hedberg, Ed, R., Jones, M. B., Solberg, A. A., Bradley,
+              J., De Marco, G., and V. Dzhuvinov, "OpenID Federation
+              1.0", March 2025,
               <https://openid.net/specs/openid-federation-1_0.html>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
@@ -169,10 +236,9 @@ Table of Contents
               RFC 9126, DOI 10.17487/RFC9126, September 2021,
               <https://www.rfc-editor.org/rfc/rfc9126>.
 
-5.2.  Informative References
+7.2.  Informative References
 
-   [App2App.Blog]
-              Heenan, J., "Guest Blog: Implementing App-to-App
+   [App2App]  Heenan, J., "Guest Blog: Implementing App-to-App
               Authorisation in OAuth2/OpenID Connect", October 2019,
               <https://openid.net/guest-blog-implementing-app-to-app-
               authorisation-in-oauth2-openid-connect/>.
