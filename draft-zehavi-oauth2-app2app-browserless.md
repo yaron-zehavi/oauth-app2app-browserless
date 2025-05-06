@@ -16,6 +16,12 @@ keyword:
  - oauth
  - app2app
  - browserless
+
+pi:
+  toc: yes
+  sortrefs: yes
+  symrefs: yes
+
 venue:
   group: "Web Authorization Protocol"
   type: "Working Group"
