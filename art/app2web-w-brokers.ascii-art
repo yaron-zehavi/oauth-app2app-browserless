@@ -11,7 +11,7 @@
 |  Authorization| | Broker  | Auth. | Brokers  | Auth. |   Authenticating    |  | |
 |  Request      | +---------+ Req.  +----------+ Req.  |   Authorization     |  | |
 |               |                                      |        Server       |  | |
-|               |                                      +---------------------+  | |
+|               |                                      +--+----------------+-+  | |
 |               |                                         |     User-      |    | |
 |               |                                         | Authenticating |    | |
 |               |                                         |     Web UI     |    | |
