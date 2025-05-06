@@ -97,7 +97,7 @@ This document presents a protocol enabling native App2App browser-less navigatio
 
 ## Difference from {{OpenID.Native-SSO}}
 
-{{OpenID.Native-SSO}} also offers a native SSO flow across applications without requiring the browser. However it is dealing with the specific sub-case when both apps are published by the same issuer and leverage this fact to share information.
+{{OpenID.Native-SSO}} also offers a native SSO flow across applications without requiring the browser. However, it is dealing with the specific sub-case when both apps are published by the same issuer and leverage this fact to share information.
 
 ## Terminology
 
@@ -111,7 +111,30 @@ For consistency and readability, it shall use OAuth 2.0 terminology - **Client**
 
 # Challenge of App2App with Brokers
 
-## TODO Arch Diagram
+## Flow Diagram
+~~~ ascii-art
+┌──────────────────────────────────────────────────────────────────────────────────────────────┐               
+│                                                                                              │               
+│  ┌──────────────┐                                                                            │               
+│  │              │                                                                            │               
+│  │              │                                Mobile Browser                              │               
+│  │  Client App  │         ┌─────────────────────────────────────────────────────────┐        │               
+│  │              │         │                  ┌────────┐                             │        │               
+│  └──────────┬───┘         │ ┌─────────┐      │┌────────┐        ┌─────────────────┐ │        │               
+│             └─────────────┼─► Primary ┼──────►│┌────────┐       │     User-       │ │        │               
+│             Authorization │ │ Broker  │ Auth.└││──────┘├┼───────► Authenticating  │ │        │               
+│               Request     │ └─────────┘ Req.  └│───────┘│ Auth. │  Authorization  │ │        │               
+│                           │                    └────────┘ Req.  │     Server      │ │        │               
+│  ┌──────────────┐         │                    Secondary        └───────┬─────────┘ │        │               
+│  │              │         │                    Brokers                  │           │        │               
+│  │     User-    │         └─────────────────────────────────────────────┼───────────┘        │               
+│  │Authenticating│                                                       │                    │               
+│  │      App     ◄───────────────────────────────────────────────────────┘                    │               
+│  └──────────────┘               Deep Link                                                    │               
+└──────────────────────────────────────────────────────────────────────────────────────────────┘   
+                                            Mobile Device
+~~~
+Figure: App2App with brokers and browser
 
 ## OAuth 2.0 / OpenID Connect Broker
 
