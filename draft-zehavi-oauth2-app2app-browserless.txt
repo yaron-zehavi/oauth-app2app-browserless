@@ -317,7 +317,7 @@ Table of Contents
    dedicated scope such as app2app.
 
    Client App's redirect_uri is claimed as a deep link and will be
-   referred to as client_app_deep_link.
+   referred to as _client_app_deep_link_.
 
 5.3.2.  Primary Broker returns authorization request to Downstream
         Authorization Server
@@ -326,9 +326,9 @@ Table of Contents
    authorization request to Downstream Authorization Server's
    authorization_endpoint.
 
-   Primary Broker provides client_app_deep_link to Downstream
+   Primary Broker provides _client_app_deep_link_ to Downstream
    Authorization Server in the dedicated structured scope:
-   app2app:_client_app_deep_link_.
+   app2app:*client_app_deep_link*.
 
    Primary Broker responds with HTTP 302 and the authorization request
    url towards Downstream Authorization Server in the Location header.
@@ -370,7 +370,7 @@ Table of Contents
 5.3.3.1.  Secondary Brokers
 
    Secondary Brokers engaged in the journey need to retain structured
-   scope app2app:_client_app_deep_link_ in downstream authorization
+   scope app2app:*client_app_deep_link* in downstream authorization
    requests they create.
 
 5.3.3.2.  Note - Downgrade to App2Web
@@ -397,11 +397,11 @@ Table of Contents
    *  Native app displays the UI for user authentication and
       authorization.
 
-   *  The client_app_deep_link provided in the strcutured scope,
+   *  The _client_app_deep_link_ provided in the strcutured scope,
       overrides the request's original redirect_uri:
 
       -  User-Interacting Authorization Server's native app validates
-         that an app owning client_app_deep_link is on the device
+         that an app owning _client_app_deep_link_ is on the device
 
       -  If so it natively invokes it, handing it the redirect url with
          its response parameter
@@ -412,14 +412,14 @@ Table of Contents
    *  To establish trust towards client_app_deep_link, User-Interacting
       Authorization Server shall use OpenID Federation:
 
-      -  It strips url path from client_app_deep_link (retaining the
+      -  Strips url path from _client_app_deep_link_ (retaining the
          domain).
 
-      -  It adds /.well-known/openid-federation and performs trust chain
+      -  Adds /.well-known/openid-federation and performs trust chain
          resolution.
 
-      -  It inspects Client's metadata for redirect_uri's and validates
-         client_app_deep_link is included.
+      -  Inspects Client's metadata for redirect_uri's and validates
+         _client_app_deep_link_ is included.
 
 5.3.5.  Client App traverses Brokers in reverse order
 
@@ -436,7 +436,7 @@ Table of Contents
    *  If the response is a redirect instruction (HTTP Code 3xx +
       Location header), Client App repeats the logic and proceeds to
       call obtained urls until reaching its own redirect_uri
-      (client_app_deep_link).
+      (_client_app_deep_link_).
 
    *  Otherwise (HTTP Code 2xx / 4xx / 5xx) is a failure.
 

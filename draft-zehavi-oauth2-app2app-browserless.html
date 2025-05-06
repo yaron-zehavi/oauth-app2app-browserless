@@ -1744,7 +1744,7 @@ Client's redirect_uri is claimed as a deep link of Client App.<a href="#section-
 <a href="#section-5.3.1" class="section-number selfRef">5.3.1. </a><a href="#name-client-app-calls-primary-br" class="section-name selfRef">Client App calls Primary Broker</a>
           </h4>
 <p id="section-5.3.1-1">Client App calls Primary Broker's authorization_endpoint to initiate an authorization code flow, indicating App2App flow by use of a dedicated scope such as app2app.<a href="#section-5.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.3.1-2">Client App's redirect_uri is claimed as a deep link and will be referred to as client_app_deep_link.<a href="#section-5.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.3.1-2">Client App's redirect_uri is claimed as a deep link and will be referred to as <em>client_app_deep_link</em>.<a href="#section-5.3.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="primary-broker-returns-authorization-request-to-downstream-authorization-server">
@@ -1753,7 +1753,7 @@ Client's redirect_uri is claimed as a deep link of Client App.<a href="#section-
 <a href="#section-5.3.2" class="section-number selfRef">5.3.2. </a><a href="#name-primary-broker-returns-auth" class="section-name selfRef">Primary Broker returns authorization request to Downstream Authorization Server</a>
           </h4>
 <p id="section-5.3.2-1">Primary Broker validates Client's request and prepares an authorization request to Downstream Authorization Server's authorization_endpoint.<a href="#section-5.3.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.3.2-2">Primary Broker provides client_app_deep_link to Downstream Authorization Server in the dedicated structured scope: app2app:<em>client_app_deep_link</em>.<a href="#section-5.3.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.3.2-2">Primary Broker provides <em>client_app_deep_link</em> to Downstream Authorization Server in the dedicated structured scope: app2app:<strong>client_app_deep_link</strong>.<a href="#section-5.3.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.3.2-3">Primary Broker responds with HTTP 302 and the authorization request url towards Downstream Authorization Server in the Location header.<a href="#section-5.3.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1790,7 +1790,7 @@ Client's redirect_uri is claimed as a deep link of Client App.<a href="#section-
             <h5 id="name-secondary-brokers">
 <a href="#section-5.3.3.1" class="section-number selfRef">5.3.3.1. </a><a href="#name-secondary-brokers" class="section-name selfRef">Secondary Brokers</a>
             </h5>
-<p id="section-5.3.3.1-1">Secondary Brokers engaged in the journey need to retain structured scope app2app:<em>client_app_deep_link</em> in downstream authorization requests they create.<a href="#section-5.3.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.3.3.1-1">Secondary Brokers engaged in the journey need to retain structured scope app2app:<strong>client_app_deep_link</strong> in downstream authorization requests they create.<a href="#section-5.3.3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="note-downgrade-to-app2web">
@@ -1817,10 +1817,10 @@ Client's redirect_uri is claimed as a deep link of Client App.<a href="#section-
               <p id="section-5.3.4-2.1.1">Native app displays the UI for user authentication and authorization.<a href="#section-5.3.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.3.4-2.2">
-              <p id="section-5.3.4-2.2.1">The client_app_deep_link provided in the strcutured scope, overrides the request's original redirect_uri:<a href="#section-5.3.4-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-5.3.4-2.2.1">The <em>client_app_deep_link</em> provided in the strcutured scope, overrides the request's original redirect_uri:<a href="#section-5.3.4-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3.4-2.2.2.1">
-                  <p id="section-5.3.4-2.2.2.1.1">User-Interacting Authorization Server's native app validates that an app owning client_app_deep_link is on the device<a href="#section-5.3.4-2.2.2.1.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.3.4-2.2.2.1.1">User-Interacting Authorization Server's native app validates that an app owning <em>client_app_deep_link</em> is on the device<a href="#section-5.3.4-2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-5.3.4-2.2.2.2">
                   <p id="section-5.3.4-2.2.2.2.1">If so it natively invokes it, handing it the redirect url with its response parameter<a href="#section-5.3.4-2.2.2.2.1" class="pilcrow">¶</a></p>
@@ -1834,13 +1834,13 @@ Client's redirect_uri is claimed as a deep link of Client App.<a href="#section-
               <p id="section-5.3.4-2.3.1">To establish trust towards client_app_deep_link, User-Interacting Authorization Server shall use OpenID Federation:<a href="#section-5.3.4-2.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3.4-2.3.2.1">
-                  <p id="section-5.3.4-2.3.2.1.1">It strips url path from client_app_deep_link (retaining the domain).<a href="#section-5.3.4-2.3.2.1.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.3.4-2.3.2.1.1">Strips url path from <em>client_app_deep_link</em> (retaining the domain).<a href="#section-5.3.4-2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-5.3.4-2.3.2.2">
-                  <p id="section-5.3.4-2.3.2.2.1">It adds /.well-known/openid-federation and performs trust chain resolution.<a href="#section-5.3.4-2.3.2.2.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.3.4-2.3.2.2.1">Adds /.well-known/openid-federation and performs trust chain resolution.<a href="#section-5.3.4-2.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-5.3.4-2.3.2.3">
-                  <p id="section-5.3.4-2.3.2.3.1">It inspects Client's metadata for redirect_uri's and validates client_app_deep_link is included.<a href="#section-5.3.4-2.3.2.3.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.3.4-2.3.2.3.1">Inspects Client's metadata for redirect_uri's and validates <em>client_app_deep_link</em> is included.<a href="#section-5.3.4-2.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>
@@ -1857,7 +1857,7 @@ Client's redirect_uri is claimed as a deep link of Client App.<a href="#section-
 <p id="section-5.3.5-3">Client App invokes the url it received using HTTP GET:<a href="#section-5.3.5-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3.5-4.1">
-              <p id="section-5.3.5-4.1.1">If the response is a redirect instruction (HTTP Code 3xx + Location header), Client App repeats the logic and proceeds to call obtained urls until reaching its own redirect_uri (client_app_deep_link).<a href="#section-5.3.5-4.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.3.5-4.1.1">If the response is a redirect instruction (HTTP Code 3xx + Location header), Client App repeats the logic and proceeds to call obtained urls until reaching its own redirect_uri (<em>client_app_deep_link</em>).<a href="#section-5.3.5-4.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.3.5-4.2">
               <p id="section-5.3.5-4.2.1">Otherwise (HTTP Code 2xx / 4xx / 5xx) is a failure.<a href="#section-5.3.5-4.2.1" class="pilcrow">¶</a></p>
