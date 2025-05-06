@@ -1489,10 +1489,16 @@ Client's redirect_uri is claimed as a deep link of Client App.<a href="#section-
           <h4 id="name-client-apps-primary-broker">
 <a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-client-apps-primary-broker" class="section-name selfRef">Client App's Primary Broker</a>
           </h4>
-<p id="section-5.2.2-1">A <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> Broker:
-* Serving as Authorization Server for Client App
-* An OAuth 2.0 client of one or more downstream authorization servers<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.2.2-2">The Primary Broker performs additional handling for browser-less App2App use-case, covered in <a href="#protocol-flow" class="auto internal xref">Section 5.3</a>.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-1">A <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> Broker:<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.2.2-2.1">
+              <p id="section-5.2.2-2.1.1">Serving as Authorization Server for Client App<a href="#section-5.2.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.2.2-2.2">
+              <p id="section-5.2.2-2.2.1">An OAuth 2.0 client of one or more downstream authorization servers<a href="#section-5.2.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-5.2.2-3">The Primary Broker performs additional handling for browser-less App2App use-case, covered in <a href="#protocol-flow" class="auto internal xref">Section 5.3</a>.<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="downstream-authorization-server">
@@ -1554,13 +1560,27 @@ Primary Broker responds with HTTP 302 and the authorization request url towards 
           </h4>
 <p id="section-5.3.3-1">Client App uses OS mechanisms to detect if the authorization request URL it received is handled by an app installed on the device.
 If so, Client App natively invokes the app to process the authorization request, achieving from the user's perspective native navigation across applications.
-If an app handling the authorization request URL is not found, Client App natively calls the authorization request URL using HTTP GET and processes the response:
-* If the response is successful (HTTP Code 2xx), it is probably the User-Interacting Authorization Server. This means the Client App "over-stepped" and needs to downgrade to App2Web.
-* If the response is a redirect instruction (HTTP Code 3xx + Location header), a Secondary Broker was reached and Client App repeats the logic previously described:
-  * Check if an app owns the obtained url, and if so natively invoke it.
-  * Otherwise natively call the obtained url and analyze the response.
-* Handles error response (HTTP 4xx / 5xx) for example by displaying the error.<a href="#section-5.3.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3.3-2">As the Client App traverses through Brokers, it maintains a list of all the domains it traverses, which shall serve as the Allowlist when later traversing the response.<a href="#section-5.3.3-2" class="pilcrow">¶</a></p>
+If an app handling the authorization request URL is not found, Client App natively calls the authorization request URL using HTTP GET and processes the response:<a href="#section-5.3.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3.3-2.1">
+              <p id="section-5.3.3-2.1.1">If the response is successful (HTTP Code 2xx), it is probably the User-Interacting Authorization Server. This means the Client App "over-stepped" and needs to downgrade to App2Web.<a href="#section-5.3.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.3.3-2.2">
+              <p id="section-5.3.3-2.2.1">If the response is a redirect instruction (HTTP Code 3xx + Location header), a Secondary Broker was reached and Client App repeats the logic previously described:<a href="#section-5.3.3-2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3.3-2.2.2.1">
+                  <p id="section-5.3.3-2.2.2.1.1">Check if an app owns the obtained url, and if so natively invoke it.<a href="#section-5.3.3-2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-5.3.3-2.2.2.2">
+                  <p id="section-5.3.3-2.2.2.2.1">Otherwise natively call the obtained url and analyze the response.<a href="#section-5.3.3-2.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              </ul>
+</li>
+            <li class="normal" id="section-5.3.3-2.3">
+              <p id="section-5.3.3-2.3.1">Handles error response (HTTP 4xx / 5xx) for example by displaying the error.<a href="#section-5.3.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-5.3.3-3">As the Client App traverses through Brokers, it maintains a list of all the domains it traverses, which shall serve as the Allowlist when later traversing the response.<a href="#section-5.3.3-3" class="pilcrow">¶</a></p>
 <div id="secondary-brokers">
 <section id="section-5.3.3.1">
             <h5 id="name-secondary-brokers">
