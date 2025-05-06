@@ -46,6 +46,7 @@ author:
 
 normative:
   RFC6749:
+  RFC6750:
   RFC7636:
   RFC8252:
   RFC9126:
@@ -107,9 +108,19 @@ This document presents a protocol enabling native App2App browser-less navigatio
 
 ## Terminology
 
+In addition to the terms defined in referenced specifications, this document uses
+the following terms:
+
+"OAuth":
+: In this document, "OAuth" refers to OAuth 2.0, {{RFC6749}} and {{RFC6750}}.
+
 This document is relevant for both {{RFC6749}} and {{OpenID}} as the protocols used, referring to both's **authorization code flow**.
 
 For consistency and readability, it shall use OAuth 2.0 terminology - **Client** and **Authorization Server**, equally interchangeable with OpenID Connect **Relying Party** and **OpenID Provider** when OpenID Connect is used.
+
+"PKCE":
+: Proof Key for Code Exchange (PKCE) {{RFC7636}}, a mechanism
+  to prevent various attacks on OAuth authorization codes.
 
 # Conventions and Definitions
 
@@ -189,7 +200,7 @@ This is similar to the flow described in {{RFC8252}}, and referred to in {{App2A
 │               │                                      └──────────────┘   │ │
 │               └─────────────────────────────────────────────────────────┘ │
 └───────────────────────────────────────────────────────────────────────────┘
-                                    Mobile Device                            
+                                    Mobile Device
 ~~~
 Figure: App2Web with brokers
 
