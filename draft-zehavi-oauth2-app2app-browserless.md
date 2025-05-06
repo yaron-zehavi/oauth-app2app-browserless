@@ -5,8 +5,8 @@ category: std
 
 docname: draft-zehavi-oauth2-app2app-browserless-latest
 submissiontype: IETF
-number: 
-date: 
+number:
+date:
 consensus: true
 v: 3
 area: "Security"
