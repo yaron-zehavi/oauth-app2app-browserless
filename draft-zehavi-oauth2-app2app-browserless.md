@@ -60,7 +60,7 @@ normative:
     author:
       - ins: R. Hedberg
       - ins: M.B. Jones
-      - ins: A.Å. Solberg
+      - ins: A.A. Solberg
       - ins: J. Bradley
 	  - ins: G. De Marco
 	  - ins: V. Dzhuvinov
