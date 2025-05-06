@@ -73,20 +73,20 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-     1.1.  Note
+     1.1.  Difference from OpenID.Native-SSO
+     1.2.  Terminology
    2.  Conventions and Definitions
-   3.  Terminology
-   4.  Challenge of App2App with Brokers
-     4.1.  TODO Arch Diagram
-     4.2.  OAuth 2.0 / OpenID Connect Broker
-     4.3.  App2App with brokers requires a web browser
-     4.4.  Impact of using a web browser
-     4.5.  App2Web
-   5.  Security Considerations
-   6.  IANA Considerations
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+   3.  Challenge of App2App with Brokers
+     3.1.  TODO Arch Diagram
+     3.2.  OAuth 2.0 / OpenID Connect Broker
+     3.3.  App2App with brokers requires a web browser
+     3.4.  Impact of using a web browser
+     3.5.  App2Web
+   4.  Security Considerations
+   5.  IANA Considerations
+   6.  References
+     6.1.  Normative References
+     6.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -112,12 +112,22 @@ Table of Contents
    less navigation, through any number of brokers, without compromising
    on any security property.
 
-1.1.  Note
+1.1.  Difference from [OpenID.Native-SSO]
 
    [OpenID.Native-SSO] also offers a native SSO flow across applications
    without requiring the browser.  However it is dealing with the
    specific sub-case when both apps are published by the same issuer and
    leverage this fact to share information.
+
+1.2.  Terminology
+
+   This document is relevant for both [RFC6749] and [OpenID] as the
+   protocols used, referring to both's *authorization code flow*.
+
+   For consistency and readability, it shall use OAuth 2.0 terminology -
+   *Client* and *Authorization Server*, equally interchangeable with
+   OpenID Connect *Relying Party* and *OpenID Provider* when OpenID
+   Connect is used.
 
 2.  Conventions and Definitions
 
@@ -127,20 +137,11 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Terminology
+3.  Challenge of App2App with Brokers
 
-   This document is relevant for both [RFC6749] and [OpenID] as the
-   protocols used, referring to both's *authorization code flow*.
+3.1.  TODO Arch Diagram
 
-   For consistency and readability, it shall use [RFC6749] terminology -
-   *Client* and *Authorization Server*, equally interchangeable with
-   [OpenID] *Relying Party* and *OpenID Provider* when [OpenID] is used.
-
-4.  Challenge of App2App with Brokers
-
-4.1.  TODO Arch Diagram
-
-4.2.  OAuth 2.0 / OpenID Connect Broker
+3.2.  OAuth 2.0 / OpenID Connect Broker
 
    A broker is a component acting as Authorization Server for its
    clients, as well as an OAuth 2.0 Client towards downstream
@@ -153,13 +154,13 @@ Table of Contents
    future with [OpenID.Federation], but federation through Brokers is an
    established pattern currently in broad use.
 
-4.3.  App2App with brokers requires a web browser
+3.3.  App2App with brokers requires a web browser
 
    Since OAuth 2.0 brokers reside on https domains, which no native app
    claims as Deep Links, OAuth requests to Brokers and responses to
    Broker's redirect_uri will be handled by a web browser.
 
-4.4.  Impact of using a web browser
+3.4.  Impact of using a web browser
 
    Using a web browser downgrades the user experience in several ways.
    The browser may be noticed by end-user as it is loading urls and
@@ -173,7 +174,7 @@ Table of Contents
    redirection.  While these do not impact the process directly, they
    can be seen as clutter which degrades the overall UX's cleanliness.
 
-4.5.  App2Web
+3.5.  App2Web
 
    Whenever the user's device has no app owning the User-Authenticating
    Authorization Server's urls as deep links, the flow requires the help
@@ -184,19 +185,19 @@ Table of Contents
    on the end-user's device.
 
    This is similar to the flow described in [RFC8252], and referred to
-   in [App2App] as App2Web.
+   in [App2App] as *App2Web*.
 
-5.  Security Considerations
+4.  Security Considerations
 
    TODO Security
 
-6.  IANA Considerations
+5.  IANA Considerations
 
    This document has no IANA actions.
 
-7.  References
+6.  References
 
-7.1.  Normative References
+6.1.  Normative References
 
    [OpenID]   Sakimura, N., Bradley, J., Jones, M. B., de Medeiros, B.,
               and C. Mortimore, "OpenID Connect Core 1.0", November
@@ -236,7 +237,7 @@ Table of Contents
               RFC 9126, DOI 10.17487/RFC9126, September 2021,
               <https://www.rfc-editor.org/rfc/rfc9126>.
 
-7.2.  Informative References
+6.2.  Informative References
 
    [App2App]  Heenan, J., "Guest Blog: Implementing App-to-App
               Authorisation in OAuth2/OpenID Connect", October 2019,
