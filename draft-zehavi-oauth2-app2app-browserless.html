@@ -1277,26 +1277,26 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         </h3>
 <div class="alignLeft art-ascii-art art-text artwork" id="section-3.1-1">
 <pre>
-┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                                                                              │
-│  ┌──────────────┐                                                                            │
-│  │              │                                                                            │
-│  │              │                                Mobile Browser                              │
-│  │  Client App  │         ┌─────────────────────────────────────────────────────────┐        │
-│  │              │         │                  ┌────────┐                             │        │
-│  └──────────┬───┘         │ ┌─────────┐      │┌────────┐        ┌─────────────────┐ │        │
-│             └─────────────┼─► Primary ┼──────►│┌────────┐       │     User-       │ │        │
-│             Authorization │ │ Broker  │ Auth.└││──────┘├┼───────► Authenticating  │ │        │
-│               Request     │ └─────────┘ Req.  └│───────┘│ Auth. │  Authorization  │ │        │
-│                           │                    └────────┘ Req.  │     Server      │ │        │
-│  ┌──────────────┐         │                    Secondary        └───────┬─────────┘ │        │
-│  │              │         │                    Brokers                  │           │        │
-│  │     User-    │         └─────────────────────────────────────────────┼───────────┘        │
-│  │Authenticating│                                                       │                    │
-│  │      App     ◄───────────────────────────────────────────────────────┘                    │
-│  └──────────────┘               Deep Link                                                    │
-└──────────────────────────────────────────────────────────────────────────────────────────────┘
-                                            Mobile Device
+┌────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                    │
+│  ┌──────────────┐                                                                  │
+│  │              │                                                                  │
+│  │              │                           Mobile Browser                         │
+│  │  Client App  │     ┌────────────────────────────────────────────────────────┐   │
+│  │              │     │                  ┌───────┐                             │   │
+│  └──────────┬───┘     │ ┌─────────┐      │┌───────┐        ┌─────────────────┐ │   │
+│             └─────────┼─► Primary ┼──────►│┌───────┐       │     User-       │ │   │
+│         Authorization │ │ Broker  │ Auth.└││─────┘├┼───────► Authenticating  │ │   │
+│           Request     │ └─────────┘ Req.  └│──────┘│ Auth. │  Authorization  │ │   │
+│                       │                    └───────┘ Req.  │     Server      │ │   │
+│  ┌──────────────┐     │                   Secondary        └───────┬─────────┘ │   │
+│  │              │     │                   Brokers                  │           │   │
+│  │     User-    │     └────────────────────────────────────────────┼───────────┘   │
+│  │Authenticating│                                                  │               │
+│  │      App     ◄──────────────────────────────────────────────────┘               │
+│  └──────────────┘           Deep Link                                              │
+└────────────────────────────────────────────────────────────────────────────────────┘
+                                          Mobile Device
 </pre><a href="#section-3.1-1" class="pilcrow">¶</a>
 </div>
 <p id="section-3.1-2">Figure: App2App with brokers and browser<a href="#section-3.1-2" class="pilcrow">¶</a></p>
@@ -1347,26 +1347,26 @@ Finally, the browser may be left after the flow ends with "orphan" browser tabs 
           </h4>
 <div class="alignLeft art-ascii-art art-text artwork" id="section-3.5.1-1">
 <pre>
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                                                                                        │
-│  ┌──────────────┐                                                                      │
-│  │              │                                                                      │
-│  │              │                               Mobile Browser                         │
-│  │  Client App  │         ┌────────────────────────────────────────────────────────┐   │
-│  │              │         │                  ┌───────┐                             │   │
-│  └──────────┬───┘         │ ┌─────────┐      │┌───────┐        ┌─────────────────┐ │   │
-│             └─────────────┼─► Primary ┼──────►│┌───────┐       │     User-       │ │   │
-│             Authorization │ │ Broker  │ Auth.└││─────┘├┼───────► Authenticating  │ │   │
-│               Request     │ └─────────┘ Req.  └│──────┘│ Auth. │  Authorization  │ │   │
-│                           │                    └───────┘ Req.  │     Server      │ │   │
-│  ┌──────────────┐         │                   Secondary        └───────┬─────────┘ │   │
-│  │              │         │                   Brokers                  │           │   │
-│  │     User-    │         └────────────────────────────────────────────┼───────────┘   │
-│  │Authenticating│                                                      │               │
-│  │      App     ◄──────────────────────────────────────────────────────┘               │
-│  └──────────────┘               Deep Link                                              │
-└────────────────────────────────────────────────────────────────────────────────────────┘
-                                          Mobile Device
+┌────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                    │
+│  ┌──────────────┐                                                                  │
+│  │              │                                                                  │
+│  │              │                            Mobile Browser                        │
+│  │  Client App  │     ┌─────────────────────────────────────────────────────────┐  │
+│  │              │     │                  ┌────────┐                             │  │
+│  └──────────┬───┘     │ ┌─────────┐      │┌────────┐        ┌─────────────────┐ │  │
+│             └─────────┼─► Primary ┼──────►│┌────────┐       │     User-       │ │  │
+│         Authorization │ │ Broker  │ Auth.└││──────┘├┼───────► Authenticating  │ │  │
+│           Request     │ └─────────┘ Req.  └│───────┘│ Auth. │  Authorization  │ │  │
+│                       │                    └────────┘ Req.  │     Server      │ │  │
+│  ┌──────────────┐     │                    Secondary        └───────┬─────────┘ │  │
+│  │              │     │                    Brokers                  │           │  │
+│  │     User-    │     └─────────────────────────────────────────────┼───────────┘  │
+│  │Authenticating│                                                   │              │
+│  │      App     ◄───────────────────────────────────────────────────┘              │
+│  └──────────────┘           Deep Link                                              │
+└────────────────────────────────────────────────────────────────────────────────────┘
+                                            Mobile Device
 </pre><a href="#section-3.5.1-1" class="pilcrow">¶</a>
 </div>
 <p id="section-3.5.1-2">Figure: App2Web with brokers<a href="#section-3.5.1-2" class="pilcrow">¶</a></p>
@@ -1462,7 +1462,7 @@ Finally, the browser may be left after the flow ends with "orphan" browser tabs 
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-A-1">TODO acknowledge.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">The authors would like to thank the attendees of the OAuth Security Workshop 2025 session in which this was discussed, as well as the following individuals who contributed ideas, feedback, and wording that shaped and formed the final specification:<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
