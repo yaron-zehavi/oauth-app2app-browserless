@@ -23,7 +23,6 @@ venue:
   arch: "https://mailarchive.ietf.org/arch/browse/oauth/"
   github: "oauth-wg/oauth-app2app-browserless"
   latest: "https://drafts.oauth.net/oauth-app2app-browserless/draft-ietf-oauth-app2app-browserless.html"
-
 author:
  -
     fullname: Yaron Zehavi
@@ -95,17 +94,19 @@ Since such brokers perform redirection and federation using solely HTTP 3xx redi
 
 This document presents a protocol enabling native App2App browser-less navigation, through any number of brokers, without compromising on any security property.
 
-## Note
+## Difference from {{OpenID.Native-SSO}}
+
 {{OpenID.Native-SSO}} also offers a native SSO flow across applications without requiring the browser. However it is dealing with the specific sub-case when both apps are published by the same issuer and leverage this fact to share information.
+
+## Terminology
+
+This document is relevant for both {{RFC6749}} and {{OpenID}} as the protocols used, referring to both's **authorization code flow**.
+
+For consistency and readability, it shall use OAuth 2.0 terminology - **Client** and **Authorization Server**, equally interchangeable with OpenID Connect **Relying Party** and **OpenID Provider** when OpenID Connect is used.
 
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
-
-# Terminology
-This document is relevant for both {{RFC6749}} and {{OpenID}} as the protocols used, referring to both's **authorization code flow**.
-
-For consistency and readability, it shall use {{RFC6749}} terminology - **Client** and **Authorization Server**, equally interchangeable with {{OpenID}} **Relying Party** and **OpenID Provider** when {{OpenID}} is used.
 
 # Challenge of App2App with Brokers
 
@@ -135,7 +136,7 @@ Whenever the user's device has no app owning the User-Authenticating Authorizati
 
 This is the case when the User-Authenticating Authorization Server offers no native app, or when such an app exists but is not installed on the end-user's device.
 
-This is similar to the flow described in {{RFC8252}}, and referred to in {{App2App}} as App2Web.
+This is similar to the flow described in {{RFC8252}}, and referred to in {{App2App}} as **App2Web**.
 
 # Security Considerations
 
