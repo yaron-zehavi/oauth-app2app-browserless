@@ -121,18 +121,18 @@ Brokers are used to facilitate a trust relationship when there is no direct rela
 Brokers are an established pattern for establishing trust in federation use cases, such as in Academia and in the business world across corporations.
 Brokers may be replaced in the future with dynamic trust establishment leveraging {{OpenID.Federation}}.
 
-"Client App" {#client-app}:
+"Client App":
 : Native app implementing {{RFC8252}} as OAuth client of Primary Broker, and whose redirect_uri is claimed as a deep link.
 
 "Primary Broker":
-: An OAuth Broker serving as Authorization Server of {{client-app}}.
+: An OAuth Broker serving as Authorization Server of Client App.
 Which is also an OAuth client of a Downstream Authorization Server.
 Primary Broker performs additional handling for App2App use-case, covered in {{protocol-flow}}.
 
 "Downstream Authorization Server":
-: An Authorization Server which may be a {{secondary-broker}} or a 
+: An Authorization Server which may be a Secondary Broker or a User-Interacting Authorization Server.
 
-"Secondary Broker" {#secondary-broker}:
+"Secondary Broker":
 :A Broker redirecting the flow, which does not perform user authentication and authorization.
 
 "User-Interacting Authorization Server":
