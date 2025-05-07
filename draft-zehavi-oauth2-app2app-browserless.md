@@ -89,7 +89,7 @@ informative:
     target: https://developer.android.com/reference/android/content/Intent
 --- abstract
 
-This document defines a protocol enabling native apps from different app publishers, using the App2App pattern to act as OAuth Client And Authorization Server, native browserless user navigation.
+This document describes a protocol enabling native apps from different app publishers, using the App2App pattern to act as OAuth Client And Authorization Server, native browser-less user navigation.
 
 The native experience is retained also when the Client uses any number of brokers to federate across trust networks, while retaining highest levels of security.
 
@@ -97,11 +97,11 @@ The native experience is retained also when the Client uses any number of broker
 
 # Introduction
 
-This document, OAuth 2.0 App2App Browserless Flow (Native App2App), addresses the {{App2App}} pattern and considers two applications acting as OAuth Client and Authorization Server respectively, for native authentication and authorization.
+This document, OAuth 2.0 App2App Browserless Flow (Native App2App), discusses the {{App2App}} pattern where two applications act as OAuth Client and Authorization Server respectively, to natively authenticate and authorize an end-user.
 
-It addresses the challenges introduced by having to use the web browser for OAuth flows when the Client App is not an OAuth client of the Authorization Server whose app is used to interact with end-user, but rather the connection is routed through one or more brokering Authorization Servers.
+It addresses the challenges introduced when a web browser is involved in OAuth flows through one or more Brokering Authorization Servers, which are needed because Client App is not an OAuth client of the User-Interacting Authorization Server.
 
-Since no app owns such OAuth Brokers' urls as deep links, App2App flows through brokers require using a web browser, which degrades the user experience.
+Since no app owns OAuth Brokers' urls, App2App flows involving brokers require using a web browser, which degrades the user experience.
 
 This document presents a protocol enabling native App2App **browser-less** navigation, through any number of brokers, without compromising on any security property.
 
