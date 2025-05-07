@@ -108,8 +108,7 @@ the following terms:
 
 "OAuth":
 : In this document, "OAuth" refers to OAuth 2.0, {{RFC6749}} and {{RFC6750}} as well as {{OpenID}} referring to their **authorization code flow**.
-
-For consistency and readability, it shall use OAuth terminology - **Client** and **Authorization Server**, equally interchangeable with OpenID Connect **Relying Party** and **OpenID Provider** when OpenID Connect is used.
+For consistency and readability, this document uses OAuth terminology - **Client** and **Authorization Server**, equally interchangeable with OpenID Connect **Relying Party** and **OpenID Provider** when OpenID Connect is used.
 
 "PKCE":
 : Proof Key for Code Exchange (PKCE) {{RFC7636}}, a mechanism
@@ -133,7 +132,7 @@ Primary Broker performs additional handling for App2App use-case, covered in {{p
 : An Authorization Server which may be a *Secondary Broker* or a *User-Interacting Authorization Server*.
 
 "Secondary Broker":
-:A Broker redirecting the flow, which does not perform user authentication and authorization.
+: A Broker redirecting the flow, which does not perform user authentication and authorization.
 
 "User-Interacting Authorization Server":
 : The Authorization Server which interacts with end-user to perform authentication and authorization. May or may not offer App2App via a native app claiming it's urls as deep links.
@@ -145,13 +144,12 @@ Such app may or may not be installed on end-user's device.
 
 # Challenge of App2App with Brokers
 
-## App2App with Brokers - Flow Diagram
+## App2App with brokers requires a web browser
+
 ~~~ aasvg
 {::include art/app2app-w-brokers-and-browser.ascii-art}
 ~~~
 {: #app2app-w-brokers-and-browser title="App2App with brokers and browser" }
-
-## App2App with brokers requires a web browser
 
 Since OAuth Brokers reside on web domains which no native app claims as Deep Links, OAuth requests to Brokers and responses to Broker's redirect_uri will be handled by a web browser.
 
@@ -166,12 +164,10 @@ App developers have limited control as to which browser will be opened on the re
 Finally, the browser may be left after the flow ends with "orphan" browser tabs used for redirection. While these do not impact the process directly, they can be seen as clutter which degrades the overall UX's cleanliness.
 
 # App2Web
-
 ~~~ aasvg
 {::include art/app2web-w-brokers.ascii-art}
 ~~~
 {: #app2web-w-brokers title="App2Web with brokers" }
-
 
 Whenever the user's device does not have an app owning the User-Authenticating Authorization Server's urls as deep links, the flow requires the help of a browser.
 
