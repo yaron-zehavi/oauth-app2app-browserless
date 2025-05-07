@@ -190,10 +190,10 @@ This is similar to the flow described in {{RFC8252}}, and referred to in {{App2A
 - (5) User-Authenticating App authenticates user and authorizes the request. It identifies app2app mode and uses client_app_deep_link to override the request's redirect_uri.
 - (6) User-Authenticating App natively invokes Client App using client_app_deep_link, handing it redirect_uri response.
 - (7) Client App loops through Brokers, starting from the redirect_uri it received from User-Authenticating App. It natively calls them using HTTP traversing through their redirect directives, until Primary Broker redirects to Client App's own deep link.
-- (8) Client App exchanges code for tokens
+- (8) Client App exchanges code for tokens.
 
 ### Client App calls Primary Broker
-      redirect_uri                    
+
 Client App calls Primary Broker's authorization_endpoint to initiate an authorization code flow, indicating App2App flow by use of a dedicated scope such as app2app.
 
 Client App's redirect_uri is claimed as a deep link and will be referred to as *client_app_deep_link*.
