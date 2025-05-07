@@ -5,8 +5,8 @@
 Network Working Group                                          Y. Zehavi
 Internet-Draft                                                  H. Kroll
 Intended status: Standards Track                               G. Hyseni
-Expires: 7 November 2025                   Raiffeisen Bank International
-                                                              6 May 2025
+Expires: 8 November 2025                   Raiffeisen Bank International
+                                                              7 May 2025
 
 
                    OAuth 2.0 App2App Browserless Flow
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 November 2025.
+   This Internet-Draft will expire on 8 November 2025.
 
 Copyright Notice
 
@@ -270,6 +270,41 @@ Table of Contents
 5.  Browser-less App2App with Broker
 
 5.1.  Flow Diagram
+
+   +------------------------------------------------------------+
+   |               12. Exchange code for tokens   +----------+  |
+   |             +------------------------------->|          |  |
+   |             |                                |          |  |
+   | +---------------+   1. Native GET Auth. Req. |          |  |
+   | |               |    (scope=app2app)         |          |  |
+   | |               |--------------------------->| Primary  |  |
+   | |   Client App  |<---------------------------| Broker   |  |
+   | |               |   2. Downstream Auth. Req. +----------+  |
+   | +---------------+     (scope=app2app:client_app_deep_link) |
+   |  ^ |    ^ | ^ |                                            |
+   |  | |    | | | |                                            |
+   |  | |    | | | |3. Loop thru Brokers until deep link        |
+   |  | |    | | | |reached: Native GET Auth. Req.+----------+  |
+   |  | |    | | | +----------------------------->|Secondary |  |
+   |  | |    | | +--------------------------------| Brokers  |  |
+   |  | |    | |          4. Redirect Directive   |          |  |
+   |  | |    | |                                  |          |  |
+   |  | |    | |10. Loop thru Brokers until own   |          |  |
+   |  | |    | |deep link reached: Native GET redirect_uri   |  |
+   |  | |    | +--------------------------------->|          |  |
+   |  | |    +------------------------------------|          |  |
+   |9.| | 5. Invoke      11. Redirect Directive   +----------+  |
+   |  | v    Deep Link                                          |
+   | +----------------+ 6. Authenticate & Authorize User        |
+   | |      User-     | 7. Identify app2app mode                |
+   | | Authenticating | 8. Establish trust in                   |
+   | |       App      |    client_app_deep_link                 |
+   | +----------------+ 9. Invoke client_app_deep_link with     |
+   |                       redirect_uri                         |
+   +------------------------------------------------------------+
+                            Mobile Device
+
+                 Figure 3: App2App Browserless with brokers
 
 5.2.  Components
 
