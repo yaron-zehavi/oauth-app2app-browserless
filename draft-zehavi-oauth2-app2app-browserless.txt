@@ -73,9 +73,8 @@ Table of Contents
      1.2.  Terminology
    2.  Conventions and Definitions
    3.  Challenge of App2App with Brokers
-     3.1.  App2App with Brokers - Flow Diagram
-     3.2.  App2App with brokers requires a web browser
-     3.3.  Impact of using a web browser
+     3.1.  App2App with brokers requires a web browser
+     3.2.  Impact of using a web browser
    4.  App2Web
    5.  Browser-less App2App with Broker
      5.1.  Flow Diagram
@@ -128,12 +127,10 @@ Table of Contents
 
    "OAuth":  In this document, "OAuth" refers to OAuth 2.0, [RFC6749]
       and [RFC6750] as well as [OpenID] referring to their
-      *authorization code flow*.
-
-   For consistency and readability, it shall use OAuth terminology -
-   *Client* and *Authorization Server*, equally interchangeable with
-   OpenID Connect *Relying Party* and *OpenID Provider* when OpenID
-   Connect is used.
+      *authorization code flow*. For consistency and readability, this
+      document uses OAuth terminology - *Client* and *Authorization
+      Server*, equally interchangeable with OpenID Connect *Relying
+      Party* and *OpenID Provider* when OpenID Connect is used.
 
    "PKCE":  Proof Key for Code Exchange (PKCE) [RFC7636], a mechanism to
       prevent various attacks on OAuth authorization codes.
@@ -161,8 +158,8 @@ Table of Contents
       be a _Secondary Broker_ or a _User-Interacting Authorization
       Server_.
 
-   "Secondary Broker": :A Broker redirecting the flow, which does not
-   perform user authentication and authorization.
+   "Secondary Broker":  A Broker redirecting the flow, which does not
+      perform user authentication and authorization.
 
    "User-Interacting Authorization Server":  The Authorization Server
       which interacts with end-user to perform authentication and
@@ -180,7 +177,7 @@ Table of Contents
 
 3.  Challenge of App2App with Brokers
 
-3.1.  App2App with Brokers - Flow Diagram
+3.1.  App2App with brokers requires a web browser
 
 +------------------------------------------------------------------------------------+
 |                                                                                    |
@@ -205,13 +202,11 @@ Table of Contents
 
               Figure 1: App2App with brokers and browser
 
-3.2.  App2App with brokers requires a web browser
-
    Since OAuth Brokers reside on web domains which no native app claims
    as Deep Links, OAuth requests to Brokers and responses to Broker's
    redirect_uri will be handled by a web browser.
 
-3.3.  Impact of using a web browser
+3.2.  Impact of using a web browser
 
    Using a web browser downgrades the user experience in several ways.
    The browser may be noticed by end-user as it is loading urls and
