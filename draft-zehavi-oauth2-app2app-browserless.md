@@ -78,7 +78,15 @@ informative:
     author:
       - ins: G. Fletcher
     date: November 2022
-
+  iOS.SDK-method.openUrl:
+    title: iOS SDK open(_:options:completionHandler:)
+    target: https://developer.apple.com/documentation/uikit/uiapplication/open(_:options:completionhandler:)
+  iOS.SDK-option.universalLinksOnly:
+    title: iOS SDK property universalLinksOnly
+    target: https://developer.apple.com/documentation/uikit/uiapplication/openexternalurloptionskey/universallinksonly
+  android.SDK-method.intent:
+    title: Android Intent SDK
+    target: https://developer.android.com/reference/android/content/Intent
 --- abstract
 
 This document defines a protocol enabling native apps from different app publishers, using the App2App pattern to act as OAuth Client And Authorization Server, native browserless user navigation.
@@ -266,7 +274,17 @@ Once Client App's own redirect_uri is obtained in a redirect 3xx directive, Clie
 
 # Detecting Presence of Native Apps
 
-TODO
+Native Apps on iOS and Android can use OS SDK's to detect if an app owns a deep link.
+In general the method is the same - call an API to open the deep link and handle an exception if no matching app is found.
+
+## Android
+
+App calls {{android.SDK-method.intent}} SDK with FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws ActivityNotFoundException if no matching app is found.
+
+## iOS
+
+App calls {{iOS.SDK-method.openUrl}} SDK with {{iOS.SDK-option.universalLinksOnly}} which ensures URLs must be universal links and have an app configured to open them.
+Otherwise the SDK returns false in completion.success
 
 # Security Considerations
 
