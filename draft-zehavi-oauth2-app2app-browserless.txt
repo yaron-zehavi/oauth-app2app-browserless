@@ -80,13 +80,10 @@ Table of Contents
    5.  Browser-less App2App with Broker
      5.1.  Flow Diagram
      5.2.  Protocol flow
-       5.2.1.  Client App calls Primary Broker
-       5.2.2.  Primary Broker returns authorization request to
-               Downstream Authorization Server
-       5.2.3.  Client App traverses Brokers with request
-       5.2.4.  Processing by User-Interacting Authorization Server
-       5.2.5.  Client App traverses Brokers in reverse order
-       5.2.6.  Client App obtains response
+       5.2.1.  Client App traverses Brokers with request
+       5.2.2.  Processing by User-Interacting Authorization Server
+       5.2.3.  Client App traverses Brokers in reverse order
+       5.2.4.  Client App obtains response
    6.  Security Considerations
      6.1.  OAuth request forgery and manipulation
      6.2.  Secure Native application communication
@@ -314,30 +311,23 @@ Table of Contents
 
 5.2.  Protocol flow
 
-5.2.1.  Client App calls Primary Broker
+   1.  Client App calls Primary Broker  Client App calls Primary
+          Broker's authorization_endpoint to initiate an authorization
+          code flow, indicating App2App flow by use of a dedicated scope
+          such as app2app.  Client App's redirect_uri is claimed as a
+          deep link and will be referred to as _client_app_deep_link_.
 
-   Client App calls Primary Broker's authorization_endpoint to initiate
-   an authorization code flow, indicating App2App flow by use of a
-   dedicated scope such as app2app.
+   2.  Primary Broker returns authorization request to Downstream
+       Authorization Server  Primary Broker validates Client's request
+          and prepares an authorization request to Downstream
+          Authorization Server's authorization_endpoint.  Primary Broker
+          provides _client_app_deep_link_ to Downstream Authorization
+          Server in the dedicated structured scope:
+          app2app:*client_app_deep_link*. Primary Broker responds with
+          HTTP 302 and the authorization request url towards Downstream
+          Authorization Server in the Location header.
 
-   Client App's redirect_uri is claimed as a deep link and will be
-   referred to as _client_app_deep_link_.
-
-5.2.2.  Primary Broker returns authorization request to Downstream
-        Authorization Server
-
-   Primary Broker validates Client's request and prepares an
-   authorization request to Downstream Authorization Server's
-   authorization_endpoint.
-
-   Primary Broker provides _client_app_deep_link_ to Downstream
-   Authorization Server in the dedicated structured scope:
-   app2app:*client_app_deep_link*.
-
-   Primary Broker responds with HTTP 302 and the authorization request
-   url towards Downstream Authorization Server in the Location header.
-
-5.2.3.  Client App traverses Brokers with request
+5.2.1.  Client App traverses Brokers with request
 
    Client App uses OS mechanisms to detect if the authorization request
    URL it received is handled by an app installed on the device.
@@ -371,13 +361,13 @@ Table of Contents
    all the domains it traverses, which shall serve as the Allowlist when
    later traversing the response.
 
-5.2.3.1.  Secondary Brokers
+5.2.1.1.  Secondary Brokers
 
    Secondary Brokers engaged in the journey need to retain structured
    scope app2app:*client_app_deep_link* in downstream authorization
    requests they create.
 
-5.2.3.2.  Note - Downgrade to App2Web
+5.2.1.2.  Note - Downgrade to App2Web
 
    If Client App reaches a User-Interacting Authorization Server with no
    app handling its urls, it may not be possible to relaunch the last
@@ -393,7 +383,7 @@ Table of Contents
    The remaining flow follows [RFC8252] and is therefore not further
    elaborated in this document.
 
-5.2.4.  Processing by User-Interacting Authorization Server
+5.2.2.  Processing by User-Interacting Authorization Server
 
    The User-Interacting Authorization Server processes the authorization
    request using its native app:
@@ -425,7 +415,7 @@ Table of Contents
       -  Inspects Client's metadata for redirect_uri's and validates
          _client_app_deep_link_ is included.
 
-5.2.5.  Client App traverses Brokers in reverse order
+5.2.3.  Client App traverses Brokers in reverse order
 
    Client App is invoked by User-Interacting Authorization Server App
    with a url as parameter which is the request's redirect_uri.
@@ -444,7 +434,7 @@ Table of Contents
 
    *  Otherwise (HTTP Code 2xx / 4xx / 5xx) is a failure.
 
-5.2.6.  Client App obtains response
+5.2.4.  Client App obtains response
 
    Once Client App's own redirect_uri is obtained in a redirect 3xx
    directive, Client App proceeds according to OAuth to exchange code
