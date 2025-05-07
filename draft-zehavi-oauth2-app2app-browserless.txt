@@ -77,7 +77,6 @@ Table of Contents
      3.2.  App2App with brokers requires a web browser
      3.3.  Impact of using a web browser
    4.  App2Web
-     4.1.  App2Web with Brokers - Flow Diagram
    5.  Browser-less App2App with Broker
      5.1.  Flow Diagram
      5.2.  Protocol flow
@@ -165,7 +164,8 @@ Table of Contents
       for App2App use-case, covered in Section 5.2.
 
    "Downstream Authorization Server":  An Authorization Server which may
-      be a Secondary Broker or a User-Interacting Authorization Server.
+      be a _Secondary Broker_ or a _User-Interacting Authorization
+      Server_.
 
    "Secondary Broker": :A Broker redirecting the flow, which does not
    perform user authentication and authorization.
@@ -238,19 +238,6 @@ Table of Contents
 
 4.  App2Web
 
-   Whenever the user's device has no app owning the User-Authenticating
-   Authorization Server's urls as deep links, the flow requires the help
-   of a browser.
-
-   This is the case when the User-Authenticating Authorization Server
-   offers no native app, or when such an app exists but is not installed
-   on the end-user's device.
-
-   This is similar to the flow described in [RFC8252], and referred to
-   in [App2App] as *App2Web*.
-
-4.1.  App2Web with Brokers - Flow Diagram
-
 +--------------------------------------------------------------------------------+
 |                                                                                |
 | +-----------+                                                                  |
@@ -274,6 +261,17 @@ Table of Contents
                                      Mobile Device
 
                     Figure 2: App2Web with brokers
+
+   Whenever the user's device does not have an app owning the User-
+   Authenticating Authorization Server's urls as deep links, the flow
+   requires the help of a browser.
+
+   This is the case when the User-Authenticating Authorization Server
+   offers no native app, or when such an app exists but is not installed
+   on the end-user's device.
+
+   This is similar to the flow described in [RFC8252], and referred to
+   in [App2App] as *App2Web*.
 
 5.  Browser-less App2App with Broker
 
@@ -498,14 +496,11 @@ Table of Contents
 
 6.6.  Handling of Cookies
 
-   Client App acts in this specification as a user agent compatible with
-   a browser in respect to handling redirects.
+   It can be assumed that Authorization Servers will use Cookies to bind
+   security elements (state, nonce, PKCE) to the user agent, and will
+   break if these cookies are later missing.
 
-   It can be expected that some Authorization Servers will use Cookies
-   to bind security elements (state, nonce, PKCE) to the user agent.
-
-   To support these security measures and prevent breaking the flow,
-   Client App should act like a browser with regards to Cookies, namely:
+   Therefore, Client App needs to handle Cookies as a web browser would:
 
    *  Store cookies it obtains on HTTP responses.
 
