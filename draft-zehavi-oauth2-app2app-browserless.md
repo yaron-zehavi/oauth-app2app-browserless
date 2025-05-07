@@ -168,6 +168,10 @@ This is similar to the flow described in {{RFC8252}}, and referred to in {{App2A
 # Browser-less App2App with Broker
 
 ## Flow Diagram
+~~~ aasvg
+{::include art/app2app-browserless-w-brokers.ascii-art}
+~~~
+{: #app2app-browserless-w-brokers title="App2App Browserless with brokers" }
 
 ## Components
 
