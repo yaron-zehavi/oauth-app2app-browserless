@@ -117,9 +117,27 @@ For consistency and readability, it shall use OAuth terminology - **Client** and
 
 "OAuth Broker":
 : A component acting as an Authorization Server for its clients, as well as an OAuth Client towards Downstream Authorization Servers.
-Brokers are used to facilitate a trust relationship when there is no direct relation between an OAuth Client and the Authorization Server where the end-user authenticates and authorizes.
-Brokers are used in federation use cases, such as in Academia and in the business world connecting across subsidiaries or B2B relationships across corporations.
-Facilitation of trust across OAuth Clients and Authorization servers not directly connected may be solved in the future with {{OpenID.Federation}}, Brokers have been long used as an established pattern to bridge trust networks.
+Brokers are used to facilitate a trust relationship when there is no direct relation between an OAuth Client and the final Authorization Server where end-user authenticates and authorizes.
+Brokers are an established pattern for establishing trust in federation use cases, such as in Academia and in the business world across corporations.
+Brokers may be replaced in the future with dynamic trust establishment leveraging {{OpenID.Federation}}.
+
+"Client App":
+: Native app implementing {{RFC8252}} as OAuth client of Primary Broker, and whose redirect_uri is claimed as a deep link.
+
+"Primary Broker":
+: An OAuth Broker serving as Authorization Server of {{Client App}}.
+Which is also an OAuth client of a Downstream Authorization Server.
+Primary Broker performs additional handling for App2App use-case, covered in {{protocol-flow}}.
+
+"Downstream Authorization Server":
+: An Authorization Server which may be a {{Secondary Broker}} or a 
+
+"Secondary Broker":
+:A Broker redirecting the flow, which does not perform user authentication and authorization.
+
+"User-Interacting Authorization Server":
+: The Authorization Server which interacts with end-user to perform authentication and authorization. May or may not offer App2App via a native app claiming it's urls as deep links.
+Such app may or may not be installed on end-user's device.
 
 # Conventions and Definitions
 
@@ -168,38 +186,6 @@ This is similar to the flow described in {{RFC8252}}, and referred to in {{App2A
 {::include art/app2app-browserless-w-brokers.ascii-art}
 ~~~
 {: #app2app-browserless-w-brokers title="Browser-less App2App with Broker" }
-
-## Components
-
-### Client App
-
-Native app acting as OAuth client of Primary Broker.
-Client's redirect_uri is claimed as a deep link of Client App.
-
-### Client App's Primary Broker
-
-An OAuth Broker:
-
-* Serving as Authorization Server for Client App
-* An OAuth client of one or more downstream authorization servers
-
-The Primary Broker performs additional handling for browser-less App2App use-case, covered in {{protocol-flow}}.
-
-### Downstream Authorization Server
-
-An Authorization Server which may be a:
-
-#### Secondary Broker
-
-Additional brokers may be engaged in redirecting the flow, serving upstream brokers as OAuth clients.
-
-They do not perform user authentication and authorization.
-
-#### User-Interacting Authorization Server
-
-The Authorization Server which interacts with end-user to perform authentication and authorization.
-
-May or may not offer App2App via a native app claiming it's urls as deep links. Such app may or may not be installed on end-user's device.
 
 ## Protocol flow {#protocol-flow}
 
