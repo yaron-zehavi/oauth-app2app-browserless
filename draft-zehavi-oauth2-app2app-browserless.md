@@ -172,6 +172,7 @@ Finally, the browser may be left after the flow ends with "orphan" browser tabs 
 ~~~
 {: #app2web-w-brokers title="App2Web with brokers" }
 
+
 Whenever the user's device does not have an app owning the User-Authenticating Authorization Server's urls as deep links, the flow requires the help of a browser.
 
 This is the case when the User-Authenticating Authorization Server offers no native app, or when such an app exists but is not installed on the end-user's device.
@@ -188,18 +189,13 @@ This is similar to the flow described in {{RFC8252}}, and referred to in {{App2A
 
 ## Protocol flow {#protocol-flow}
 
-### Client App calls Primary Broker
-
-Client App calls Primary Broker's authorization_endpoint to initiate an authorization code flow, indicating App2App flow by use of a dedicated scope such as app2app.
-
+1. Client App calls Primary Broker
+: Client App calls Primary Broker's authorization_endpoint to initiate an authorization code flow, indicating App2App flow by use of a dedicated scope such as app2app.
 Client App's redirect_uri is claimed as a deep link and will be referred to as *client_app_deep_link*.
 
-### Primary Broker returns authorization request to Downstream Authorization Server
-
-Primary Broker validates Client's request and prepares an authorization request to Downstream Authorization Server's authorization_endpoint.
-
+2. Primary Broker returns authorization request to Downstream Authorization Server
+: Primary Broker validates Client's request and prepares an authorization request to Downstream Authorization Server's authorization_endpoint.
 Primary Broker provides *client_app_deep_link* to Downstream Authorization Server in the dedicated structured scope: app2app:**client_app_deep_link**.
-
 Primary Broker responds with HTTP 302 and the authorization request url towards Downstream Authorization Server in the Location header.
 
 ### Client App traverses Brokers with request
