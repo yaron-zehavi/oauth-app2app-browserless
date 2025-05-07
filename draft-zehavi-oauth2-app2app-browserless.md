@@ -189,21 +189,21 @@ This is similar to the flow described in {{RFC8252}}, and referred to in {{App2A
 
 ## Protocol flow {#protocol-flow}
 
-1. Client App calls Primary Broker
-: Client App calls Primary Broker's authorization_endpoint to initiate an authorization code flow, indicating App2App flow by use of a dedicated scope such as app2app.
-Client App's redirect_uri is claimed as a deep link and will be referred to as *client_app_deep_link*.
+1. Client App calls Primary Broker:
 
-2. Primary Broker returns authorization request to Downstream Authorization Server
-: Primary Broker validates Client's request and prepares an authorization request to Downstream Authorization Server's authorization_endpoint.
-Primary Broker provides *client_app_deep_link* to Downstream Authorization Server in the dedicated structured scope: app2app:**client_app_deep_link**.
-Primary Broker responds with HTTP 302 and the authorization request url towards Downstream Authorization Server in the Location header.
+* Client App calls Primary Broker's authorization_endpoint to initiate an authorization code flow, indicating App2App flow by use of a dedicated scope such as app2app.
+* Client App's redirect_uri is claimed as a deep link and will be referred to as *client_app_deep_link*.
 
-### Client App traverses Brokers with request
+2. Primary Broker returns authorization request to Downstream Authorization Server:
+
+* Primary Broker validates Client's request and prepares an authorization request to Downstream Authorization Server's authorization_endpoint.
+* Primary Broker provides *client_app_deep_link* to Downstream Authorization Server in the dedicated structured scope: app2app:**client_app_deep_link**.
+* Primary Broker responds with HTTP 302 and the authorization request url towards Downstream Authorization Server in the Location header.
+
+3. Client App traverses Brokers with request:
 
 Client App uses OS mechanisms to detect if the authorization request URL it received is handled by an app installed on the device.
-
 If so, Client App natively invokes the app to process the authorization request, achieving from the user's perspective native navigation across applications.
-
 If an app handling the authorization request URL is not found, Client App natively calls the authorization request URL using HTTP GET and processes the response:
 
 * If the response is successful (HTTP Code 2xx), it is probably the User-Interacting Authorization Server. This means the Client App "over-stepped" and needs to downgrade to App2Web.
@@ -216,21 +216,18 @@ If an app handling the authorization request URL is not found, Client App native
 
 As the Client App traverses through Brokers, it maintains a list of all the domains it traverses, which shall serve as the Allowlist when later traversing the response.
 
-#### Secondary Brokers
+3.1 Note - Secondary Brokers
 
 Secondary Brokers engaged in the journey need to retain structured scope app2app:**client_app_deep_link** in downstream authorization requests they create.
 
-#### Note - Downgrade to App2Web
+3.2 Note - Downgrade to App2Web
 
 If Client App reaches a User-Interacting Authorization Server with no app handling its urls, it may not be possible to relaunch the last authorization request URL on the browser as it might have included a single use request_uri which by now has been used and is therefore invalid.
 
-In such a case the Client App needs to start over, generating a new authorization request without App2App indication.
-
-This request is then launched on the browser.
-
+In such a case the Client App needs to start over, generating a new authorization request without App2App indication, which is then launched on the browser.
 The remaining flow follows {{RFC8252}} and is therefore not further elaborated in this document.
 
-### Processing by User-Interacting Authorization Server
+4. Processing by User-Interacting Authorization Server:
 
 The User-Interacting Authorization Server processes the authorization request using its native app:
 
@@ -247,7 +244,7 @@ The User-Interacting Authorization Server processes the authorization request us
   * Adds /.well-known/openid-federation and performs trust chain resolution.
   * Inspects Client's metadata for redirect_uri's and validates *client_app_deep_link* is included.
 
-### Client App traverses Brokers in reverse order
+5. Client App traverses Brokers in reverse order:
 
 Client App is invoked by User-Interacting Authorization Server App with a url as parameter which is the request's redirect_uri.
 
@@ -258,7 +255,7 @@ Client App invokes the url it received using HTTP GET:
 * If the response is a redirect instruction (HTTP Code 3xx + Location header), Client App repeats the logic and proceeds to call obtained urls until reaching its own redirect_uri (*client_app_deep_link*).
 * Otherwise (HTTP Code 2xx / 4xx / 5xx) is a failure.
 
-### Client App obtains response
+6. Client App obtains response
 
 Once Client App's own redirect_uri is obtained in a redirect 3xx directive, Client App proceeds according to OAuth to exchange code for tokens or handle error responses.
 
