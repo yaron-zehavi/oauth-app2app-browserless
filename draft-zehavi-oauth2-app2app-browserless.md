@@ -115,6 +115,12 @@ For consistency and readability, it shall use OAuth terminology - **Client** and
 : Proof Key for Code Exchange (PKCE) {{RFC7636}}, a mechanism
   to prevent various attacks on OAuth authorization codes.
 
+"OAuth Broker":
+: A component acting as an Authorization Server for its clients, as well as an OAuth Client towards Downstream Authorization Servers.
+Brokers are used to facilitate a trust relationship when there is no direct relation between an OAuth Client and the Authorization Server where the end-user authenticates and authorizes.
+Brokers are used in federation use cases, such as in Academia and in the business world connecting across subsidiaries or B2B relationships across corporations.
+Facilitation of trust across OAuth Clients and Authorization servers not directly connected may be solved in the future with {{OpenID.Federation}}, Brokers have been long used as an established pattern to bridge trust networks.
+
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
@@ -126,16 +132,6 @@ For consistency and readability, it shall use OAuth terminology - **Client** and
 {::include art/app2app-w-brokers-and-browser.ascii-art}
 ~~~
 {: #app2app-w-brokers-and-browser title="App2App with brokers and browser" }
-
-## OAuth Broker
-
-A component acting as an Authorization Server for its clients, as well as an OAuth Client towards downstream Authorization Servers.
-
-Brokers are used to facilitate a trust relationship when there is no direct relation between an OAuth Client and the Authorization Server where the end-user authenticates and authorizes.
-
-Brokers are used in federation use cases, such as in Academia and in the business world connecting across subsidiaries or B2B relationships across corporations.
-
-Facilitation of trust across OAuth Clients and Authorization servers not directly connected may be solved in the future with {{OpenID.Federation}}, Brokers have been long used as an established pattern to bridge trust networks.
 
 ## App2App with brokers requires a web browser
 
@@ -171,7 +167,7 @@ This is similar to the flow described in {{RFC8252}}, and referred to in {{App2A
 ~~~ aasvg
 {::include art/app2app-browserless-w-brokers.ascii-art}
 ~~~
-{: #app2app-browserless-w-brokers title="App2App Browserless with brokers" }
+{: #app2app-browserless-w-brokers title="Browser-less App2App with Broker" }
 
 ## Components
 
