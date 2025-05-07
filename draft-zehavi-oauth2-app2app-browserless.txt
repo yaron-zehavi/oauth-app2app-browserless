@@ -87,6 +87,8 @@ Table of Contents
        5.2.5.  Client App traverses Brokers in reverse order
        5.2.6.  Client App obtains response
    6.  Detecting Presence of Native Apps
+     6.1.  Android
+     6.2.  iOS
    7.  Security Considerations
      7.1.  OAuth request forgery and manipulation
      7.2.  Secure Native application communication
@@ -466,7 +468,23 @@ Table of Contents
 
 6.  Detecting Presence of Native Apps
 
-   TODO
+   Native Apps on iOS and Android can use OS SDK's to detect if an app
+   owns a deep link.  In general the method is the same - call an API to
+   open the deep link and handle an exception if no matching app is
+   found.
+
+6.1.  Android
+
+   App calls [android.SDK-method.intent] SDK with
+   FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws
+   ActivityNotFoundException if no matching app is found.
+
+6.2.  iOS
+
+   App calls [iOS.SDK-method.openUrl] SDK with
+   [iOS.SDK-option.universalLinksOnly] which ensures URLs must be
+   universal links and have an app configured to open them.  Otherwise
+   the SDK returns false in completion.success
 
 7.  Security Considerations
 
@@ -578,10 +596,26 @@ Table of Contents
 
 9.2.  Informative References
 
+   [android.SDK-method.intent]
+              "Android Intent SDK", n.d.,
+              <https://developer.android.com/reference/android/content/
+              Intent>.
+
    [App2App]  Heenan, J., "Guest Blog: Implementing App-to-App
               Authorisation in OAuth2/OpenID Connect", October 2019,
               <https://openid.net/guest-blog-implementing-app-to-app-
               authorisation-in-oauth2-openid-connect/>.
+
+   [iOS.SDK-method.openUrl]
+              "iOS SDK open(_:options:completionHandler:)", n.d.,
+              <https://developer.apple.com/documentation/uikit/
+              uiapplication/open(_:options:completionhandler:)>.
+
+   [iOS.SDK-option.universalLinksOnly]
+              "iOS SDK property universalLinksOnly", n.d.,
+              <https://developer.apple.com/documentation/uikit/
+              uiapplication/openexternalurloptionskey/
+              universallinksonly>.
 
    [OpenID.Native-SSO]
               Fletcher, G., "OpenID Connect Native SSO for Mobile Apps",

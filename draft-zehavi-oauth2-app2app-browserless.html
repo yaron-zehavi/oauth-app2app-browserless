@@ -1216,6 +1216,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-detecting-presence-of-nativ" class="internal xref">Detecting Presence of Native Apps</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-android" class="internal xref">Android</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-ios" class="internal xref">iOS</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
@@ -1807,7 +1815,25 @@ The remaining flow follows <span>[<a href="#RFC8252" class="cite xref">RFC8252</
       <h2 id="name-detecting-presence-of-nativ">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-detecting-presence-of-nativ" class="section-name selfRef">Detecting Presence of Native Apps</a>
       </h2>
-<p id="section-6-1">TODO<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-1">Native Apps on iOS and Android can use OS SDK's to detect if an app owns a deep link.
+In general the method is the same - call an API to open the deep link and handle an exception if no matching app is found.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<div id="android">
+<section id="section-6.1">
+        <h3 id="name-android">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-android" class="section-name selfRef">Android</a>
+        </h3>
+<p id="section-6.1-1">App calls <span>[<a href="#android.SDK-method.intent" class="cite xref">android.SDK-method.intent</a>]</span> SDK with FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws ActivityNotFoundException if no matching app is found.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ios">
+<section id="section-6.2">
+        <h3 id="name-ios">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-ios" class="section-name selfRef">iOS</a>
+        </h3>
+<p id="section-6.2-1">App calls <span>[<a href="#iOS.SDK-method.openUrl" class="cite xref">iOS.SDK-method.openUrl</a>]</span> SDK with <span>[<a href="#iOS.SDK-option.universalLinksOnly" class="cite xref">iOS.SDK-option.universalLinksOnly</a>]</span> which ensures URLs must be universal links and have an app configured to open them.
+Otherwise the SDK returns false in completion.success<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="security-considerations">
@@ -1953,9 +1979,21 @@ One way to achieve this is by treating the Allowlist as a single-use object and 
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="android.SDK-method.intent">[android.SDK-method.intent]</dt>
+        <dd>
+<span class="refTitle">"Android Intent SDK"</span>, <span>n.d.</span>, <span>&lt;<a href="https://developer.android.com/reference/android/content/Intent">https://developer.android.com/reference/android/content/Intent</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="App2App">[App2App]</dt>
         <dd>
 <span class="refAuthor">Heenan, J.</span>, <span class="refTitle">"Guest Blog: Implementing App-to-App Authorisation in OAuth2/OpenID Connect"</span>, <time datetime="2019-10" class="refDate">October 2019</time>, <span>&lt;<a href="https://openid.net/guest-blog-implementing-app-to-app-authorisation-in-oauth2-openid-connect/">https://openid.net/guest-blog-implementing-app-to-app-authorisation-in-oauth2-openid-connect/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="iOS.SDK-method.openUrl">[iOS.SDK-method.openUrl]</dt>
+        <dd>
+<span class="refTitle">"iOS SDK open(_:options:completionHandler:)"</span>, <span>n.d.</span>, <span>&lt;<a href="https://developer.apple.com/documentation/uikit/uiapplication/open(_:options:completionhandler:)">https://developer.apple.com/documentation/uikit/uiapplication/open(_:options:completionhandler:)</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="iOS.SDK-option.universalLinksOnly">[iOS.SDK-option.universalLinksOnly]</dt>
+        <dd>
+<span class="refTitle">"iOS SDK property universalLinksOnly"</span>, <span>n.d.</span>, <span>&lt;<a href="https://developer.apple.com/documentation/uikit/uiapplication/openexternalurloptionskey/universallinksonly">https://developer.apple.com/documentation/uikit/uiapplication/openexternalurloptionskey/universallinksonly</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="OpenID.Native-SSO">[OpenID.Native-SSO]</dt>
       <dd>
