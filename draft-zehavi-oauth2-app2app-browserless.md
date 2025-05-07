@@ -97,13 +97,13 @@ The native experience is retained also when the Client uses any number of broker
 
 # Introduction
 
-This document, OAuth 2.0 App2App Browserless Flow (Native App2App), discusses applications from different issuers that act as OAuth 2.0 Client and Authorization Server, following the {{App2App}} pattern, to achieve native authentication and authorization.
+This document, OAuth 2.0 App2App Browserless Flow (Native App2App), addresses the {{App2App}} pattern and considers two applications acting as OAuth Client and Authorization Server respectively, for native authentication and authorization.
 
-This specification addresses the challenge arising when a Client App reaches the User-Authenticating Authorization Server's app through one or more brokering Authorization Servers.
+It addresses the challenges introduced by having to use the web browser for OAuth flows when the Client App is not an OAuth client of the Authorization Server whose app is used to interact with end-user, but rather the connection is routed through one or more brokering Authorization Servers.
 
-Since OAuth Brokers's urls are not owned by any apps as deep links, App2App flows through brokers require using a web browser, which degrades the user experience.
+Since no app owns such OAuth Brokers' urls as deep links, App2App flows through brokers require using a web browser, which degrades the user experience.
 
-This document presents a protocol enabling native App2App browser-less navigation, through any number of brokers, without compromising on any security property.
+This document presents a protocol enabling native App2App **browser-less** navigation, through any number of brokers, without compromising on any security property.
 
 ## Difference from {{OpenID.Native-SSO}}
 
@@ -272,10 +272,10 @@ Client App invokes the url it received using HTTP GET:
 
 Once Client App's own redirect_uri is obtained in a redirect 3xx directive, Client App proceeds according to OAuth to exchange code for tokens or handle error responses.
 
-# Detecting Presence of Native Apps
+# Detecting Presence of Native Apps Owning Urls
 
-Native Apps on iOS and Android can use OS SDK's to detect if an app owns a deep link.
-In general the method is the same - call an API to open the deep link and handle an exception if no matching app is found.
+Native Apps on iOS and Android can use OS SDK's to detect if an app owns a url.
+The general method is the same - App calls an SDK to open the url as deep link and handles an exception thrown if no matching app is found.
 
 ## Android
 
