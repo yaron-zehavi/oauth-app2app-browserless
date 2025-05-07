@@ -78,12 +78,14 @@ Table of Contents
    4.  App2Web
    5.  Browser-less App2App with Broker
      5.1.  Flow Diagram
-     5.2.  Protocol flow
+     5.2.  Protocol Flow
        5.2.1.  Client App calls Primary Broker
        5.2.2.  Primary Broker returns authorization request to
                Downstream Authorization Server
        5.2.3.  Client App traverses Brokers with request
-       5.2.4.  Client App obtains response
+       5.2.4.  Processing by User-Interacting Authorization Server:
+       5.2.5.  Client App traverses Brokers in reverse order
+       5.2.6.  Client App obtains response
    6.  Detecting Presence of Native Apps
    7.  Security Considerations
      7.1.  OAuth request forgery and manipulation
@@ -271,42 +273,68 @@ Table of Contents
 
 5.1.  Flow Diagram
 
-   +-------------------------------------------------------------+
-   |               12. Exchange code for tokens   +-----------+  |
-   |             +------------------------------->|           |  |
-   |             |                                |           |  |
-   | +---------------+   1. Native GET Auth. Req. |  Primary  |  |
-   | |               |    (scope=app2app)         |  Broker   |  |
-   | |               |--------------------------->|           |  |
-   | |   Client App  |<---------------------------|           |  |
-   | |               |   2. Downstream Auth. Req. +-----------+  |
-   | +---------------+     (scope=app2app:client_app_deep_link)  |
-   |  ^ |    ^ | ^ |                                             |
-   |  | |    | | | |                                             |
-   |  | |    | | | |3. Loop thru Brokers until deep link reached:|
-   |  | |    | | | |   Native GET Auth. Req.      +-----------+  |
-   |  | |    | | | +----------------------------->|           |  |
-   |  | |    | | +--------------------------------|           |  |
-   |  | |    | |          4. Redirect Directive   | Secondary |  |
-   |  | |    | |                                  | Brokers   |  |
-   |  | |    | |10. Loop thru Brokers until own   |           |  |
-   |  | |    | |deep link reached: Native GET redirect_uri    |  |
-   |  | |    | +--------------------------------->|           |  |
-   |  | |    +------------------------------------|           |  |
-   |9.| | 5. Invoke      11. Redirect Directive   +-----------+  |
-   |  | v    Deep Link                                           |
-   | +----------------+ 6. Authenticate & Authorize User         |
-   | |      User-     | 7. Identify app2app mode                 |
-   | | Authenticating | 8. Establish trust in                    |
-   | |       App      |    client_app_deep_link                  |
-   | +----------------+ 9. Invoke client_app_deep_link with      |
-   |                       redirect_uri                          |
-   +-------------------------------------------------------------+
+   +--------------------------------------------------------------+
+   |                                               +-----------+  |
+   |              +--------(8)-------------------->|           |  |
+   |              |                                |           |  |
+   |  +---------------+                            |  Primary  |  |
+   |  |               |----(1)-------------------->|  Broker   |  |
+   |  |               |<---(2)---------------------|           |  |
+   |  |   Client App  |                            |           |  |
+   |  |               |                            +-----------+  |
+   |  +---------------+                                           |
+   |   ^ |      ^   ^                                             |
+   |   | |      |   |      (3)                     +-----------+  |
+   |   | |      |   +----------------------------->|           |  |
+   |   | |      |                                  | Secondary |  |
+   |   | |      |                                  | Brokers   |  |
+   |   | |      |          (7)                     |           |  |
+   |   | |      +--------------------------------->|           |  |
+   |   | |                                         |           |  |
+   |(6)| |(4)                                      +-----------+  |
+   |   | v                                                        |
+   |  +----------------+                                          |
+   |  |      User-     |                                          |
+   |  | Authenticating | (5)                                      |
+   |  |       App      |                                          |
+   |  +----------------+                                          |
+   +--------------------------------------------------------------+
                              Mobile Device
 
                  Figure 3: Browser-less App2App with Broker
 
-5.2.  Protocol flow
+   *  (1) Client App uses HTTP to call Primary Broker's authorization
+      endpoint with an authorization request including _app2app_ scope.
+
+   *  (2) Primary Broker prepares authorization request for Downstream
+      Authorization Server including scope
+      app2app:_client_app_deep_link_
+
+   *  (3) Client App loops through Brokers, natively calling their
+      authorization endpoint over HTTP using previously obtained
+      authorization request urls, and processing their HTTP 3xx redirect
+      directives, until a deep link owned by an app on the device is
+      reached.
+
+   *  (4) Client App natively invokes User-Authenticating App via its
+      deep link.
+
+   *  (5) User-Authenticating App authenticates user and authorizes the
+      request.  It identifies app2app mode and uses client_app_deep_link
+      to override the request's redirect_uri.
+
+   *  (6) User-Authenticating App natively invokes Client App using
+      client_app_deep_link, handing it redirect_uri response.
+
+   *  (7) Client App loops through Brokers, starting from the
+      redirect_uri it received from User-Authenticating App. It natively
+      calls them using HTTP traversing through their redirect
+      directives, until Primary Broker redirects to Client App's own
+      deep link.
+
+   *  (8) Client App exchanges code for tokens.
+
+5.2.  Protocol Flow
 
 5.2.1.  Client App calls Primary Broker
 
@@ -363,13 +391,13 @@ Table of Contents
    all the domains it traverses, which shall serve as the Allowlist when
    later traversing the response.
 
-5.2.3.1.  Note: Secondary Brokers
+5.2.3.1.  Secondary Brokers
 
    Secondary Brokers engaged in the journey need to retain structured
    scope app2app:*client_app_deep_link* in downstream authorization
    requests they create.
 
-5.2.3.2.  Note: Downgrade to App2Web
+5.2.3.2.  Downgrade to App2Web
 
    If Client App reaches a User-Interacting Authorization Server with no
    app handling its urls, it may not be possible to relaunch the last
@@ -382,7 +410,7 @@ Table of Contents
    launched on the browser.  The remaining flow follows [RFC8252] and is
    therefore not further elaborated in this document.
 
-5.2.3.3.  Processing by User-Interacting Authorization Server:
+5.2.4.  Processing by User-Interacting Authorization Server:
 
    The User-Interacting Authorization Server processes the authorization
    request using its native app:
@@ -414,7 +442,7 @@ Table of Contents
       -  Inspects Client's metadata for redirect_uri's and validates
          _client_app_deep_link_ is included.
 
-5.2.3.4.  Client App traverses Brokers in reverse order
+5.2.5.  Client App traverses Brokers in reverse order
 
    Client App is invoked by User-Interacting Authorization Server App
    with a url as parameter which is the request's redirect_uri.
@@ -433,7 +461,7 @@ Table of Contents
 
    *  Otherwise (HTTP Code 2xx / 4xx / 5xx) is a failure.
 
-5.2.4.  Client App obtains response
+5.2.6.  Client App obtains response
 
    Once Client App's own redirect_uri is obtained in a redirect 3xx
    directive, Client App proceeds according to OAuth to exchange code
