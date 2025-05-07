@@ -130,7 +130,7 @@ Which is also an OAuth client of a Downstream Authorization Server.
 Primary Broker performs additional handling for App2App use-case, covered in {{protocol-flow}}.
 
 "Downstream Authorization Server":
-: An Authorization Server which may be a Secondary Broker or a User-Interacting Authorization Server.
+: An Authorization Server which may be a *Secondary Broker* or a *User-Interacting Authorization Server*.
 
 "Secondary Broker":
 :A Broker redirecting the flow, which does not perform user authentication and authorization.
@@ -167,17 +167,16 @@ Finally, the browser may be left after the flow ends with "orphan" browser tabs 
 
 # App2Web
 
-Whenever the user's device has no app owning the User-Authenticating Authorization Server's urls as deep links, the flow requires the help of a browser.
-
-This is the case when the User-Authenticating Authorization Server offers no native app, or when such an app exists but is not installed on the end-user's device.
-
-This is similar to the flow described in {{RFC8252}}, and referred to in {{App2App}} as **App2Web**.
-
-## App2Web with Brokers - Flow Diagram
 ~~~ aasvg
 {::include art/app2web-w-brokers.ascii-art}
 ~~~
 {: #app2web-w-brokers title="App2Web with brokers" }
+
+Whenever the user's device does not have an app owning the User-Authenticating Authorization Server's urls as deep links, the flow requires the help of a browser.
+
+This is the case when the User-Authenticating Authorization Server offers no native app, or when such an app exists but is not installed on the end-user's device.
+
+This is similar to the flow described in {{RFC8252}}, and referred to in {{App2App}} as **App2Web**.
 
 # Browser-less App2App with Broker
 
@@ -301,11 +300,9 @@ It is recommended that PKCE is used and that the code_verifier is tied to the Cl
 
 ## Handling of Cookies
 
-Client App acts in this specification as a user agent compatible with a browser in respect to handling redirects.
+It can be assumed that Authorization Servers will use Cookies to bind security elements (state, nonce, PKCE) to the user agent, and will break if these cookies are later missing.
 
-It can be expected that some Authorization Servers will use Cookies to bind security elements (state, nonce, PKCE) to the user agent.
-
-To support these security measures and prevent breaking the flow, Client App should act like a browser with regards to Cookies, namely:
+Therefore, Client App needs to handle Cookies as a web browser would:
 
 * Store cookies it obtains on HTTP responses.
 * Send cookies on subsequent HTTP requests to servers that returned cookies.
