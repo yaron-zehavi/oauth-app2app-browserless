@@ -1176,13 +1176,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-app2app-with-brokers-flow-d" class="internal xref">App2App with Brokers - Flow Diagram</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-oauth-broker" class="internal xref">OAuth Broker</a></p>
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-app2app-with-brokers-requir" class="internal xref">App2App with brokers requires a web browser</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-app2app-with-brokers-requir" class="internal xref">App2App with brokers requires a web browser</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-impact-of-using-a-web-brows" class="internal xref">Impact of using a web browser</a></p>
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-impact-of-using-a-web-brows" class="internal xref">Impact of using a web browser</a></p>
 </li>
             </ul>
 </li>
@@ -1324,6 +1321,14 @@ the following terms:<a href="#section-1.2-1" class="pilcrow">¶</a></p>
             <p id="section-1.2-4.2.1">Proof Key for Code Exchange (PKCE) <span>[<a href="#RFC7636" class="cite xref">RFC7636</a>]</span>, a mechanism
 to prevent various attacks on OAuth authorization codes.<a href="#section-1.2-4.2.1" class="pilcrow">¶</a></p>
 </dd>
+          <dd class="break"></dd>
+<dt id="section-1.2-4.3">"OAuth Broker":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-4.4">
+            <p id="section-1.2-4.4.1">A component acting as an Authorization Server for its clients, as well as an OAuth Client towards Downstream Authorization Servers.
+Brokers are used to facilitate a trust relationship when there is no direct relation between an OAuth Client and the Authorization Server where the end-user authenticates and authorizes.
+Brokers are used in federation use cases, such as in Academia and in the business world connecting across subsidiaries or B2B relationships across corporations.
+Facilitation of trust across OAuth Clients and Authorization servers not directly connected may be solved in the future with <span>[<a href="#OpenID.Federation" class="cite xref">OpenID.Federation</a>]</span>, Brokers have been long used as an established pattern to bridge trust networks.<a href="#section-1.2-4.4.1" class="pilcrow">¶</a></p>
+</dd>
         <dd class="break"></dd>
 </dl>
 </section>
@@ -1432,34 +1437,23 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 </div>
 </section>
 </div>
-<div id="oauth-broker">
-<section id="section-3.2">
-        <h3 id="name-oauth-broker">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-oauth-broker" class="section-name selfRef">OAuth Broker</a>
-        </h3>
-<p id="section-3.2-1">A component acting as an Authorization Server for its clients, as well as an OAuth Client towards downstream Authorization Servers.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.2-2">Brokers are used to facilitate a trust relationship when there is no direct relation between an OAuth Client and the Authorization Server where the end-user authenticates and authorizes.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
-<p id="section-3.2-3">Brokers are used in federation use cases, such as in Academia and in the business world connecting across subsidiaries or B2B relationships across corporations.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
-<p id="section-3.2-4">Facilitation of trust across OAuth Clients and Authorization servers not directly connected may be solved in the future with <span>[<a href="#OpenID.Federation" class="cite xref">OpenID.Federation</a>]</span>, Brokers have been long used as an established pattern to bridge trust networks.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
-</section>
-</div>
 <div id="app2app-with-brokers-requires-a-web-browser">
-<section id="section-3.3">
+<section id="section-3.2">
         <h3 id="name-app2app-with-brokers-requir">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-app2app-with-brokers-requir" class="section-name selfRef">App2App with brokers requires a web browser</a>
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-app2app-with-brokers-requir" class="section-name selfRef">App2App with brokers requires a web browser</a>
         </h3>
-<p id="section-3.3-1">Since OAuth Brokers reside on web domains which no native app claims as Deep Links, OAuth requests to Brokers and responses to Broker's redirect_uri will be handled by a web browser.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-1">Since OAuth Brokers reside on web domains which no native app claims as Deep Links, OAuth requests to Brokers and responses to Broker's redirect_uri will be handled by a web browser.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="impact-of-using-a-web-browser">
-<section id="section-3.4">
+<section id="section-3.3">
         <h3 id="name-impact-of-using-a-web-brows">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-impact-of-using-a-web-brows" class="section-name selfRef">Impact of using a web browser</a>
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-impact-of-using-a-web-brows" class="section-name selfRef">Impact of using a web browser</a>
         </h3>
-<p id="section-3.4-1">Using a web browser downgrades the user experience in several ways. The browser may be noticed by end-user as it is loading urls and redirecting to native apps.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
-<p id="section-3.4-2">The browser may prompt end-user for consent before opening deep links, introducing additional friction.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
-<p id="section-3.4-3">App developers have limited control as to which browser will be opened on the return redirect to the Broker, so any cookies used to bind session identifiers (nonce, state or PKCE verifier) to the user agent may be lost, causing the flow to break.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
-<p id="section-3.4-4">Finally, the browser may be left after the flow ends with "orphan" browser tabs used for redirection. While these do not impact the process directly, they can be seen as clutter which degrades the overall UX's cleanliness.<a href="#section-3.4-4" class="pilcrow">¶</a></p>
+<p id="section-3.3-1">Using a web browser downgrades the user experience in several ways. The browser may be noticed by end-user as it is loading urls and redirecting to native apps.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">The browser may prompt end-user for consent before opening deep links, introducing additional friction.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">App developers have limited control as to which browser will be opened on the return redirect to the Broker, so any cookies used to bind session identifiers (nonce, state or PKCE verifier) to the user agent may be lost, causing the flow to break.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.3-4">Finally, the browser may be left after the flow ends with "orphan" browser tabs used for redirection. While these do not impact the process directly, they can be seen as clutter which degrades the overall UX's cleanliness.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1564,7 +1558,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <h3 id="name-flow-diagram">
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-flow-diagram" class="section-name selfRef">Flow Diagram</a>
         </h3>
-<span id="name-app2app-browserless-with-br"></span><div id="app2app-browserless-w-brokers">
+<span id="name-browser-less-app2app-with-br"></span><div id="app2app-browserless-w-brokers">
 <figure id="figure-3">
           <div id="section-5.1-1.1">
             <div class="alignLeft art-svg artwork" id="section-5.1-1.1.1">
@@ -1700,7 +1694,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 </div>
 </div>
 <figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
-<a href="#name-app2app-browserless-with-br" class="selfRef">App2App Browserless with brokers</a>
+<a href="#name-browser-less-app2app-with-br" class="selfRef">Browser-less App2App with Broker</a>
           </figcaption></figure>
 </div>
 </section>
