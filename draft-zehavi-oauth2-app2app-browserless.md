@@ -190,21 +190,15 @@ This is similar to the flow described in {{RFC8252}}, and referred to in {{App2A
 ## Protocol flow {#protocol-flow}
 
 1. Client App calls Primary Broker:
-
 Client App calls Primary Broker's authorization_endpoint to initiate an authorization code flow, indicating App2App flow by use of a dedicated scope such as app2app.
-
 Client App's redirect_uri is claimed as a deep link and will be referred to as *client_app_deep_link*.
 
 2. Primary Broker returns authorization request to Downstream Authorization Server:
-
 Primary Broker validates Client's request and prepares an authorization request to Downstream Authorization Server's authorization_endpoint.
-
 Primary Broker provides *client_app_deep_link* to Downstream Authorization Server in the dedicated structured scope: app2app:**client_app_deep_link**.
-
 Primary Broker responds with HTTP 302 and the authorization request url towards Downstream Authorization Server in the Location header.
 
 3. Client App traverses Brokers with request:
-
 Client App uses OS mechanisms to detect if the authorization request URL it received is handled by an app installed on the device.
 If so, Client App natively invokes the app to process the authorization request, achieving from the user's perspective native navigation across applications.
 If an app handling the authorization request URL is not found, Client App natively calls the authorization request URL using HTTP GET and processes the response:
