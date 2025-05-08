@@ -3,7 +3,7 @@ title: "OAuth 2.0 App2App Browserless Flow"
 abbrev: "Native OAuth App2App"
 category: std
 
-docname: draft-zehavi-oauth-app2app-browserless
+docname: draft-zehavi-oauth-app2app-browserless-latest
 submissiontype: IETF
 number:
 date:
