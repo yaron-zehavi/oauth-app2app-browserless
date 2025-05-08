@@ -482,7 +482,7 @@ Table of Contents
 
 6.2.  iOS
 
-   App calls [iOS.method.openUrl] method with
+   App calls iOS [iOS.method.openUrl] method with options
    [iOS.option.universalLinksOnly] which ensures URLs must be universal
    links and have an app configured to open them.  Otherwise the method
    returns false in completion.success
