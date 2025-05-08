@@ -91,7 +91,7 @@ informative:
 
 This document describes a protocol enabling native apps from different app publishers, using the App2App pattern to act as OAuth Client And Authorization Server, native browser-less user navigation.
 
-The native experience is retained also when the Client uses any number of brokers to federate across trust networks, while retaining highest levels of security.
+The native experience is also retained when the Client uses any number of brokers to federate across trust networks, while retaining highest levels of security.
 
 --- middle
 
