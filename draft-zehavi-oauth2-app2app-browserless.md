@@ -78,14 +78,14 @@ informative:
     author:
       - ins: G. Fletcher
     date: November 2022
-  iOS.SDK-method.openUrl:
-    title: iOS SDK open(_:options:completionHandler:)
+  iOS.method.openUrl:
+    title: iOS open(_:options:completionHandler:) Method
     target: https://developer.apple.com/documentation/uikit/uiapplication/open(_:options:completionhandler:)
-  iOS.SDK-option.universalLinksOnly:
-    title: iOS SDK property universalLinksOnly
+  iOS.option.universalLinksOnly:
+    title: iOS method property universalLinksOnly
     target: https://developer.apple.com/documentation/uikit/uiapplication/openexternalurloptionskey/universallinksonly
-  android.SDK-method.intent:
-    title: Android Intent SDK
+  android.method.intent:
+    title: Android Intent Method
     target: https://developer.android.com/reference/android/content/Intent
 --- abstract
 
@@ -279,12 +279,12 @@ The general method is the same - App calls an SDK to open the url as deep link a
 
 ## Android
 
-App calls {{android.SDK-method.intent}} SDK with FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws ActivityNotFoundException if no matching app is found.
+App calls Android {{android.method.intent}} method with FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws ActivityNotFoundException if no matching app is found.
 
 ## iOS
 
-App calls {{iOS.SDK-method.openUrl}} SDK with {{iOS.SDK-option.universalLinksOnly}} which ensures URLs must be universal links and have an app configured to open them.
-Otherwise the SDK returns false in completion.success
+App calls {{iOS.method.openUrl}} method with {{iOS.option.universalLinksOnly}} which ensures URLs must be universal links and have an app configured to open them.
+Otherwise the method returns false in completion.success
 
 # Security Considerations
 
