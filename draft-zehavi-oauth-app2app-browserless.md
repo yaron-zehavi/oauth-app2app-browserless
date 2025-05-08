@@ -182,13 +182,13 @@ This is the case when the User-Authenticating Authorization Server offers no nat
 
 This is similar to the flow described in {{RFC8252}}, and referred to in {{App2App}} as **App2Web**.
 
-# Browser-less App2App with Broker
+# Browser-less App2App with Brokers
 
 ## Flow Diagram
 ~~~ aasvg
 {::include art/app2app-browserless-w-brokers.ascii-art}
 ~~~
-{: #app2app-browserless-w-brokers title="Browser-less App2App with Broker" }
+{: #app2app-browserless-w-brokers title="Browser-less App2App with Brokers" }
 
 - (1) Client App uses HTTP to call Primary Broker's authorization endpoint with an authorization request including *app2app* scope.
 - (2) Primary Broker prepares authorization request for Downstream Authorization Server including scope app2app:*client_app_deep_link*
