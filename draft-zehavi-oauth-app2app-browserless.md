@@ -115,8 +115,7 @@ In addition to the terms defined in referenced specifications, this document use
 the following terms:
 
 "OAuth":
-: In this document, "OAuth" refers to OAuth 2.0, {{RFC6749}} and {{RFC6750}} as well as {{OpenID}} referring to their **authorization code flow**.
-For consistency and readability, this document uses OAuth terminology - **Client** and **Authorization Server**, equally interchangeable with OpenID Connect **Relying Party** and **OpenID Provider** when OpenID Connect is used.
+: In this document, "OAuth" refers to OAuth 2.0, {{RFC6749}} and {{RFC6750}} as well as {{OpenID}}, both in their **authorization code flow**.
 
 "PKCE":
 : Proof Key for Code Exchange (PKCE) {{RFC7636}}, a mechanism
