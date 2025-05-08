@@ -32,11 +32,9 @@ author:
  -
     fullname: Henrik Kroll
     organization: Raiffeisen Bank International
-    email: henrik.kroll@rbinternational.com
  -
     fullname: Grese Hyseni
     organization: Raiffeisen Bank International
-    email: grese.hyseni@rbinternational.com
 
 normative:
   RFC6749:
