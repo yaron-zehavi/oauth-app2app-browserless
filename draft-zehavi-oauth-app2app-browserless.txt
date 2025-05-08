@@ -157,9 +157,9 @@ Table of Contents
       Primary Broker, and whose redirect_uri is claimed as a deep link.
 
    "Primary Broker":  An OAuth Broker serving as Authorization Server of
-      Client App. Which is also an OAuth client of a Downstream
-      Authorization Server.  Primary Broker performs additional handling
-      for App2App use-case, covered in Section 5.2.
+      Client App. And also an OAuth client of a Downstream Authorization
+      Server.  Primary Broker performs additional handling for App2App
+      use-case, covered in Section 5.2.
 
    "Downstream Authorization Server":  An Authorization Server which may
       be a _Secondary Broker_ or a _User-Interacting Authorization
