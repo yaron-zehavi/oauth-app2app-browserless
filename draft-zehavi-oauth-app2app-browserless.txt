@@ -76,7 +76,7 @@ Table of Contents
      3.1.  App2App with brokers requires a web browser
      3.2.  Impact of using a web browser
    4.  App2Web
-   5.  Browser-less App2App with Broker
+   5.  Browser-less App2App with Brokers
      5.1.  Flow Diagram
      5.2.  Protocol Flow
        5.2.1.  Client App calls Primary Broker
@@ -269,7 +269,7 @@ Table of Contents
    This is similar to the flow described in [RFC8252], and referred to
    in [App2App] as *App2Web*.
 
-5.  Browser-less App2App with Broker
+5.  Browser-less App2App with Brokers
 
 5.1.  Flow Diagram
 
@@ -298,7 +298,7 @@ Table of Contents
    +----------------------------------------------+
                      Mobile Device
 
-                 Figure 3: Browser-less App2App with Broker
+                Figure 3: Browser-less App2App with Brokers
 
    *  (1) Client App uses HTTP to call Primary Broker's authorization
       endpoint with an authorization request including _app2app_ scope.
