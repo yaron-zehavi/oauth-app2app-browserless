@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Zehavi, et al.</td>
-<td class="center">Expires 8 November 2025</td>
+<td class="center">Expires 9 November 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-zehavi-oauth2-app2app-browserless-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-05-07" class="published">7 May 2025</time>
+<time datetime="2025-05-08" class="published">8 May 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-11-08">8 November 2025</time></dd>
+<dd class="expires"><time datetime="2025-11-09">9 November 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1126,7 +1126,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 9 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1822,7 +1822,7 @@ The general method is the same - App calls an SDK to open the url as deep link a
         <h3 id="name-android">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-android" class="section-name selfRef">Android</a>
         </h3>
-<p id="section-6.1-1">App calls <span>[<a href="#android.SDK-method.intent" class="cite xref">android.SDK-method.intent</a>]</span> SDK with FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws ActivityNotFoundException if no matching app is found.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-1">App calls Android <span>[<a href="#android.method.intent" class="cite xref">android.method.intent</a>]</span> method with FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws ActivityNotFoundException if no matching app is found.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="ios">
@@ -1830,8 +1830,8 @@ The general method is the same - App calls an SDK to open the url as deep link a
         <h3 id="name-ios">
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-ios" class="section-name selfRef">iOS</a>
         </h3>
-<p id="section-6.2-1">App calls <span>[<a href="#iOS.SDK-method.openUrl" class="cite xref">iOS.SDK-method.openUrl</a>]</span> SDK with <span>[<a href="#iOS.SDK-option.universalLinksOnly" class="cite xref">iOS.SDK-option.universalLinksOnly</a>]</span> which ensures URLs must be universal links and have an app configured to open them.
-Otherwise the SDK returns false in completion.success<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-1">App calls <span>[<a href="#iOS.method.openUrl" class="cite xref">iOS.method.openUrl</a>]</span> method with <span>[<a href="#iOS.option.universalLinksOnly" class="cite xref">iOS.option.universalLinksOnly</a>]</span> which ensures URLs must be universal links and have an app configured to open them.
+Otherwise the method returns false in completion.success<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1979,21 +1979,21 @@ One way to achieve this is by treating the Allowlist as a single-use object and 
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="android.SDK-method.intent">[android.SDK-method.intent]</dt>
+<dt id="android.method.intent">[android.method.intent]</dt>
         <dd>
-<span class="refTitle">"Android Intent SDK"</span>, <span>n.d.</span>, <span>&lt;<a href="https://developer.android.com/reference/android/content/Intent">https://developer.android.com/reference/android/content/Intent</a>&gt;</span>. </dd>
+<span class="refTitle">"Android Intent Method"</span>, <span>n.d.</span>, <span>&lt;<a href="https://developer.android.com/reference/android/content/Intent">https://developer.android.com/reference/android/content/Intent</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="App2App">[App2App]</dt>
         <dd>
 <span class="refAuthor">Heenan, J.</span>, <span class="refTitle">"Guest Blog: Implementing App-to-App Authorisation in OAuth2/OpenID Connect"</span>, <time datetime="2019-10" class="refDate">October 2019</time>, <span>&lt;<a href="https://openid.net/guest-blog-implementing-app-to-app-authorisation-in-oauth2-openid-connect/">https://openid.net/guest-blog-implementing-app-to-app-authorisation-in-oauth2-openid-connect/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="iOS.SDK-method.openUrl">[iOS.SDK-method.openUrl]</dt>
+<dt id="iOS.method.openUrl">[iOS.method.openUrl]</dt>
         <dd>
-<span class="refTitle">"iOS SDK open(_:options:completionHandler:)"</span>, <span>n.d.</span>, <span>&lt;<a href="https://developer.apple.com/documentation/uikit/uiapplication/open(_:options:completionhandler:)">https://developer.apple.com/documentation/uikit/uiapplication/open(_:options:completionhandler:)</a>&gt;</span>. </dd>
+<span class="refTitle">"iOS open(_:options:completionHandler:) Method"</span>, <span>n.d.</span>, <span>&lt;<a href="https://developer.apple.com/documentation/uikit/uiapplication/open(_:options:completionhandler:)">https://developer.apple.com/documentation/uikit/uiapplication/open(_:options:completionhandler:)</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="iOS.SDK-option.universalLinksOnly">[iOS.SDK-option.universalLinksOnly]</dt>
+<dt id="iOS.option.universalLinksOnly">[iOS.option.universalLinksOnly]</dt>
         <dd>
-<span class="refTitle">"iOS SDK property universalLinksOnly"</span>, <span>n.d.</span>, <span>&lt;<a href="https://developer.apple.com/documentation/uikit/uiapplication/openexternalurloptionskey/universallinksonly">https://developer.apple.com/documentation/uikit/uiapplication/openexternalurloptionskey/universallinksonly</a>&gt;</span>. </dd>
+<span class="refTitle">"iOS method property universalLinksOnly"</span>, <span>n.d.</span>, <span>&lt;<a href="https://developer.apple.com/documentation/uikit/uiapplication/openexternalurloptionskey/universallinksonly">https://developer.apple.com/documentation/uikit/uiapplication/openexternalurloptionskey/universallinksonly</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="OpenID.Native-SSO">[OpenID.Native-SSO]</dt>
       <dd>
