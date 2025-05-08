@@ -132,7 +132,7 @@ Brokers may be replaced in the future with dynamic trust establishment leveragin
 
 "Primary Broker":
 : An OAuth Broker serving as Authorization Server of Client App.
-Which is also an OAuth client of a Downstream Authorization Server.
+And also an OAuth client of a Downstream Authorization Server.
 Primary Broker performs additional handling for App2App use-case, covered in {{protocol-flow}}.
 
 "Downstream Authorization Server":
