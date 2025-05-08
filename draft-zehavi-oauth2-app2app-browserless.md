@@ -28,7 +28,7 @@ author:
  -
     fullname: Yaron Zehavi
     organization: Raiffeisen Bank International
-    email: yaron.zehavi@rbinternational.com
+    email: yaron.zehavi@gmail.com
  -
     fullname: Henrik Kroll
     organization: Raiffeisen Bank International
