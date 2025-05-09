@@ -208,6 +208,7 @@ Client App's redirect_uri SHALL be claimed by the app and will be referred to as
 
 ### Initial Broker returns authorization request to Downstream Authorization Server
 
+
 * Initial Broker SHALL validate Client's request and prepare an authorization request to Downstream Authorization Server's authorization_endpoint.
 * Initial Broker SHALL provide *client_app_deep_link* to Downstream Authorization Server as a suffix to the dedicated scope *app2app*. The combined scope is: *app2app*:**client_app_deep_link**.
 * Initial Broker SHALL respond with HTTP 3xx and the authorization request url towards Downstream Authorization Server in the Location header.
