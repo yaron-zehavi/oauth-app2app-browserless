@@ -2,11 +2,11 @@
 
 
 
-Network Working Group                                          Y. Zehavi
+Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                                                  H. Kroll
 Intended status: Standards Track                               G. Hyseni
-Expires: 9 November 2025                   Raiffeisen Bank International
-                                                              8 May 2025
+Expires: 10 November 2025                  Raiffeisen Bank International
+                                                              9 May 2025
 
 
                    OAuth 2.0 App2App Browserless Flow
@@ -32,6 +32,11 @@ About This Document
    be found at https://datatracker.ietf.org/doc/draft-zehavi-oauth-
    app2app-browserless/.
 
+   Discussion of this document takes place on the Web Authorization
+   Protocol Working Group mailing list (mailto:oauth@ietf.org), which is
+   archived at https://mailarchive.ietf.org/arch/browse/oauth/.
+   Subscribe at https://www.ietf.org/mailman/listinfo/oauth/.
+
    Source for this draft and an issue tracker can be found at
    https://github.com/yaron-zehavi/oauth-app2app-browserless.
 
@@ -50,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 November 2025.
+   This Internet-Draft will expire on 10 November 2025.
 
 Copyright Notice
 
@@ -76,7 +81,7 @@ Table of Contents
      3.1.  App2App with brokers requires a web browser
      3.2.  Impact of using a web browser
    4.  App2Web
-   5.  Browser-less App2App with Broker
+   5.  Browser-less App2App with Brokers
      5.1.  Flow Diagram
      5.2.  Protocol Flow
        5.2.1.  Client App calls Primary Broker
@@ -269,7 +274,7 @@ Table of Contents
    This is similar to the flow described in [RFC8252], and referred to
    in [App2App] as *App2Web*.
 
-5.  Browser-less App2App with Broker
+5.  Browser-less App2App with Brokers
 
 5.1.  Flow Diagram
 
@@ -298,7 +303,7 @@ Table of Contents
    +----------------------------------------------+
                      Mobile Device
 
-                 Figure 3: Browser-less App2App with Broker
+                Figure 3: Browser-less App2App with Brokers
 
    *  (1) Client App uses HTTP to call Primary Broker's authorization
       endpoint with an authorization request including _app2app_ scope.
