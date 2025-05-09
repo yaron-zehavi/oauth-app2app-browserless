@@ -89,25 +89,26 @@ informative:
     target: https://developer.android.com/reference/android/content/Intent
 --- abstract
 
-This document describes a protocol enabling native apps from different app publishers, using the App2App pattern to act as OAuth Client And Authorization Server, native browser-less user navigation.
+This document describes a protocol enabling native apps from any app publisher, using the {{App2App}} pattern, to achieve native user navigation without requiring a web browser.
 
-The native experience is also retained when the Client uses any number of brokers to federate across trust networks, while retaining highest levels of security.
+The native navigation is retained also when the Client uses any number of OAuth brokers to federate across trust domains, while offering highest levels of security.
 
 --- middle
 
 # Introduction
 
-This document, OAuth 2.0 App2App Browserless Flow (Native App2App), discusses the {{App2App}} pattern where two applications act as OAuth Client and Authorization Server respectively, to natively authenticate and authorize an end-user.
+This document, OAuth 2.0 App2App Browserless Flow (Native App2App), presents a protocol enabling native {{App2App}} **browser-less** navigation across apps.
 
-It addresses the challenges introduced when a web browser is involved in OAuth flows through one or more Brokering Authorization Servers, which are needed because Client App is not an OAuth client of the User-Interacting Authorization Server.
+It addresses the challenges presented when using a web browser to navigate through **one or more** Brokering Authorization Servers:
 
-Since no app owns OAuth Brokers' urls, App2App flows involving brokers require using a web browser, which degrades the user experience.
+* Such OAuth Brokers are needed when Client App is not an OAuth client of the User-Interacting Authorization Server.
+* Since no app owns OAuth Brokers' urls, App2App flows involving brokers require using a web browser, which degrades the user experience.
 
-This document presents a protocol enabling native App2App **browser-less** navigation, through any number of brokers, without compromising on any security property.
+This document specifies a new scope.
 
 ## Difference from {{OpenID.Native-SSO}}
 
-{{OpenID.Native-SSO}} also offers a native SSO flow across applications without requiring the browser. However, it is dealing with the specific sub-case when both apps are published by the same issuer and leverage this fact to share information.
+{{OpenID.Native-SSO}} also offers a native SSO flow across apps. However, it is limited to apps published by the same issuer which can therefore securely share information.
 
 ## Terminology
 
@@ -122,28 +123,25 @@ the following terms:
   to prevent various attacks on OAuth authorization codes.
 
 "OAuth Broker":
-: A component acting as an Authorization Server for its clients, as well as an OAuth Client towards Downstream Authorization Servers.
+: A component acting as an Authorization Server for its clients, as well as an OAuth Client towards *Downstream Authorization Servers*.
 Brokers are used to facilitate a trust relationship when there is no direct relation between an OAuth Client and the final Authorization Server where end-user authenticates and authorizes.
-Brokers are an established pattern for establishing trust in federation use cases, such as in Academia and in the business world across corporations.
+This pattern is currently employed to establish trust in federation use cases, such as in Academia and in the business world across corporations.
 Brokers may be replaced in the future with dynamic trust establishment leveraging {{OpenID.Federation}}.
 
 "Client App":
-: Native app implementing {{RFC8252}} as OAuth client of Primary Broker, and whose redirect_uri is claimed as a deep link.
+: A Native app implementing "OAuth 2.0 for Native Apps" {{RFC8252}} as an OAuth client of *Initial Broker*. Client's redirect_uri is claimed by the app.
 
-"Primary Broker":
-: An OAuth Broker serving as Authorization Server of Client App.
-And also an OAuth client of a Downstream Authorization Server.
-Primary Broker performs additional handling for App2App use-case, covered in {{protocol-flow}}.
+"Initial Broker":
+: An OAuth Broker serving as the Authorization Server of Client App. Is an OAuth client of a *Downstream Authorization Server*.
 
 "Downstream Authorization Server":
-: An Authorization Server which may be a *Secondary Broker* or a *User-Interacting Authorization Server*.
-
-"Secondary Broker":
-: A Broker redirecting the flow, which does not perform user authentication and authorization.
+: An Authorization Server which may be an *OAuth Broker* or a *User-Interacting Authorization Server*.
 
 "User-Interacting Authorization Server":
-: The Authorization Server which interacts with end-user to perform authentication and authorization. May or may not offer App2App via a native app claiming it's urls as deep links.
-Such app may or may not be installed on end-user's device.
+: The Authorization Server which interacts with end-user to perform authentication and authorization.
+
+"Deep Link":
+: A url claimed by a native application.
 
 # Conventions and Definitions
 
@@ -151,24 +149,25 @@ Such app may or may not be installed on end-user's device.
 
 # Challenge of App2App with Brokers
 
-## App2App with brokers requires a web browser
+## App2App with OAuth Brokers requires a web browser
 
 ~~~ aasvg
 {::include art/app2app-w-brokers-and-browser.ascii-art}
 ~~~
 {: #app2app-w-brokers-and-browser title="App2App with brokers and browser" }
 
-Since OAuth Brokers reside on web domains which no native app claims as Deep Links, OAuth requests to Brokers and responses to Broker's redirect_uri will be handled by a web browser.
+Since OAuth Brokers url's are not claimed by any native app, requests targeting them (OAuth requests and redirect_uri responses) are handled by a web browser.
 
 ## Impact of using a web browser
 
-Using a web browser downgrades the user experience in several ways. The browser may be noticed by end-user as it is loading urls and redirecting to native apps.
+Using a web browser downgrades the user experience in several ways:
 
-The browser may prompt end-user for consent before opening deep links, introducing additional friction.
+* Some browsers do not support deep links at all. Others may not support deep links depending on the settings used.
+* The browser may prompt end-user for consent before opening deep links, introducing additional friction.
+* Even if the browser supports deep links and does not prompt the end-user, browser loading of urls and redirecting may be noticeable.
+* The browser may be left after the flow ends with "orphan" browser tabs used for redirection. While these do not impact the process directly, they can be seen as clutter which degrades the overall UX's cleanliness.
 
-App developers have limited control as to which browser will be opened on the return redirect to the Broker, so any cookies used to bind session identifiers (nonce, state or PKCE verifier) to the user agent may be lost, causing the flow to break.
-
-Finally, the browser may be left after the flow ends with "orphan" browser tabs used for redirection. While these do not impact the process directly, they can be seen as clutter which degrades the overall UX's cleanliness.
+In addition, app developers cannot control which browser will be used to handle the response redirect_uri, which risks losing of cookies used to bind session identifiers (nonce, state or PKCE verifier) to the user agent, which may break the flow.
 
 # App2Web
 ~~~ aasvg
@@ -176,11 +175,11 @@ Finally, the browser may be left after the flow ends with "orphan" browser tabs 
 ~~~
 {: #app2web-w-brokers title="App2Web with brokers" }
 
-When the user's device does not have an app owning the User-Authenticating Authorization Server's urls as deep links, the flow requires the help of a browser.
+When the user's device does not have an app owning the User-Authenticating Authorization Server's urls, the flow requires the help of a browser.
 
 This is the case when the User-Authenticating Authorization Server offers no native app, or when such an app exists but is not installed on the end-user's device.
 
-This is similar to the flow described in {{RFC8252}}, and referred to in {{App2App}} as **App2Web**.
+This is similar to the flow described in "OAuth 2.0 for Native Apps" {{RFC8252}}, and referred to in {{App2App}} as **App2Web**.
 
 # Browser-less App2App with Brokers
 
@@ -190,54 +189,54 @@ This is similar to the flow described in {{RFC8252}}, and referred to in {{App2A
 ~~~
 {: #app2app-browserless-w-brokers title="Browser-less App2App with Brokers" }
 
-- (1) Client App uses HTTP to call Primary Broker's authorization endpoint with an authorization request including *app2app* scope.
-- (2) Primary Broker prepares authorization request for Downstream Authorization Server including scope app2app:*client_app_deep_link*
-- (3) Client App loops through Brokers, natively calling their authorization endpoint over HTTP using previously obtained authorization request urls, and processing their HTTP 3xx redirect directives, until a deep link owned by an app on the device is reached.
-- (4) Client App natively invokes User-Authenticating App via its deep link.
-- (5) User-Authenticating App authenticates user and authorizes the request. It identifies app2app mode and uses client_app_deep_link to override the request's redirect_uri.
-- (6) User-Authenticating App natively invokes Client App using client_app_deep_link, handing it redirect_uri response.
-- (7) Client App loops through Brokers, starting from the redirect_uri it received from User-Authenticating App. It natively calls them using HTTP traversing through their redirect directives, until Primary Broker redirects to Client App's own deep link.
+- (1) Client App uses HTTP to call Initial Broker's authorization endpoint with an authorization request including *app2app* scope.
+- (2) Initial Broker returns an authorization request for Downstream Authorization Server including scope app2app:*client_app_deep_link*
+- (3) If the authorization request url is owned by an app on the device this step is skipped. Otherwise Client App loops through Downstream Authorization Servers, using HTTP to call their authorization endpoint and process their HTTP 3xx redirect responses, until a url owned by an app on the device is reached.
+- (4) Client App natively invokes User-Authenticating App.
+- (5) User-Authenticating App authenticates user and authorizes the request. It identifies app2app mode and overrides the request's redirect_uri, using client_app_deep_link instead.
+- (6) User-Authenticating App natively invokes Client App using client_app_deep_link, handing it the redirect_uri.
+- (7) Client App loops through Authorization Servers in reverse order, starting from the redirect_uri it received from the User-Authenticating App. It uses HTTP to call the first redirect_uri and any subsequent uri obtained as 3xx redirect directive, until it obtains a redirect to its own redirect_uri.
 - (8) Client App exchanges code for tokens.
 
 ## Protocol Flow {#protocol-flow}
 
-### Client App calls Primary Broker
+### Client App calls Initial Broker
 
-Client App calls Primary Broker's authorization_endpoint to initiate an authorization code flow, it SHALL indicate App2App flow using the dedicated scope app2app.
+Client App calls Initial Broker's authorization_endpoint to initiate an authorization code flow, it SHALL indicate App2App flow using the dedicated scope **app2app**.
 
-Client App's redirect_uri SHALL be claimed as a deep link and will be referred to as *client_app_deep_link*.
+Client App's redirect_uri SHALL be claimed by the app and will be referred to as *client_app_deep_link*.
 
-### Primary Broker returns authorization request to Downstream Authorization Server
+### Initial Broker returns authorization request to Downstream Authorization Server
 
-* Primary Broker SHALL validate Client's request and prepare an authorization request to Downstream Authorization Server's authorization_endpoint.
-* Primary Broker SHALL provide *client_app_deep_link* to Downstream Authorization Server as a suffix to the dedicated scope app2app. The combined scope is: app2app:**client_app_deep_link**.
-* Primary Broker SHALL respond with HTTP 302 with the authorization request url towards Downstream Authorization Server in the Location header.
+* Initial Broker SHALL validate Client's request and prepare an authorization request to Downstream Authorization Server's authorization_endpoint.
+* Initial Broker SHALL provide *client_app_deep_link* to Downstream Authorization Server as a suffix to the dedicated scope *app2app*. The combined scope is: *app2app*:**client_app_deep_link**.
+* Initial Broker SHALL respond with HTTP 3xx and the authorization request url towards Downstream Authorization Server in the Location header.
 
-### Client App traverses Brokers with request
+### Client App invokes app of User-Interacting Authorization Server
 
-Client App SHALL use OS mechanisms to detect if the authorization request URL it received is handled by an app installed on the device.
+Client App SHALL use OS mechanisms to locate an app installed on the device claiming the authorization request url.
 If so, Client App SHALL natively invoke the app claiming the url to process the authorization request. This achieves native navigation across applications.
-If an app handling the authorization request URL is not found, Client App SHALL natively call the authorization request URL using HTTP GET and processe the response:
+If an app handling the authorization request url is not found, Client App SHALL use HTTP to call the authorization request url and process the response:
 
 * If the response is successful (HTTP Code 2xx), it is assumed to be the User-Interacting Authorization Server. This means the Client App "over-stepped" and MUST downgrade to App2Web.
-* If the response is a redirect instruction (HTTP Code 3xx + Location header), a Secondary Broker was reached and Client App SHALL repeat the logic previously described:
+* If the response is a redirect instruction (HTTP Code 3xx + Location header), Client App SHALL repeat the logic previously described:
 
   * Check if an app owns the obtained url, and if so natively invoke it.
-  * Otherwise natively call the obtained url and analyze the response.
+  * Otherwise use HTTP to call the obtained url and analyze the response.
 * Handle error response (HTTP 4xx / 5xx) for example by displaying the error.
 
-As the Client App traverses through Brokers, it SHALL maintain a list of all the domains it traverses, which serves later as the Allowlist when traversing the response.
+As the Client App traverses through Brokers, it SHALL maintain a list of all the DNS domains it traverses, which serves later as the Allowlist when traversing the response.
 
-#### Secondary Brokers
+#### Downstream Authorization Servers
 
-Secondary Brokers engaged in the journey MUST retain structured scope app2app:**client_app_deep_link** in downstream authorization requests they create.
+Downstream Authorization Servers engaged in the journey MUST retain structured scope *app2app*:**client_app_deep_link** in downstream authorization requests they create.
 
 #### Downgrade to App2Web
 
-If Client App reaches a User-Interacting Authorization Server with no app handling its urls, it may be impossible to relaunch the last authorization request URL on the browser as it might have included a single use request_uri which by now has been used and is therefore invalid.
+If Client App reaches a User-Interacting Authorization Server but failed to locate an app claiming its urls, it may be impossible to relaunch the last authorization request on the browser as it might have included a single-use "OAuth 2.0 Pushed Authorization Requests" {{RFC9126}} request_uri which by now has been used and is therefore invalid.
 
-In such a case the Client App MUST start over, generating a new authorization request without App2App indication, which is then launched on the browser.
-The remaining flow follows {{RFC8252}} and is therefore not further elaborated in this document.
+In such a case the Client App MUST start over, generating a new authorization request without the **app2app** scope indication, which is then launched on the browser.
+The remaining flow follows "OAuth 2.0 for Native Apps" {{RFC8252}} and is therefore not further elaborated in this document.
 
 ### Processing by User-Interacting Authorization Server:
 
@@ -246,21 +245,21 @@ The User-Interacting Authorization Server SHALL handle the authorization request
 * Native app authenticates end user and authorizes the request.
 * The *client_app_deep_link* provided in the strcutured scope, SHALL override the request's original redirect_uri:
 
-  * User-Interacting Authorization Server's native app SHALL validate that an app owning *client_app_deep_link* is on the device
+  * User-Interacting Authorization Server's app SHALL validate that an app claiming *client_app_deep_link* is on the device
   * If so it SHALL natively invoke it, handing it the redirect url with its response parameters
   * If such an app does not exist it is an error and the flow SHALL terminate
 
-* To establish trust towards client_app_deep_link, User-Interacting Authorization Server MAY use mechanisms outside the scope of this document, or OpenID Federation:
+* To establish trust towards client_app_deep_link, User-Interacting Authorization Server MAY use mechanisms outside the scope of this document, or {{OpenID.Federation}}:
 
-  * SHALL strip url path from *client_app_deep_link* (retaining the domain).
-  * SHALL add url path /.well-known/openid-federation and perform trust chain resolution.
+  * SHALL strip url path from *client_app_deep_link* (retaining the DNS domain).
+  * SHALL add the url path /.well-known/openid-federation and perform trust chain resolution.
   * SHALL inspect Client's metadata for redirect_uri's and validate *client_app_deep_link* is included.
 
-### Client App traverses Brokers in reverse order
+### Client App traverses OAuth Brokers in reverse order
 
 Client App is natively invoked by User-Interacting Authorization Server App, with the request's redirect_uri.
 
-Client App MUST validate this url, and any url subsequently obtained through a 3xx redirect instruction from the brokers it traverses, against the Allowlist generated for this flow, and MUST fail if any url is not included in the Allowlist.
+Client App MUST validate this url, and any url subsequently obtained via a 3xx redirect instruction, against the Allowlist it previously generated, and MUST fail if any url is not included in the Allowlist.
 
 Client App SHALL invoke the url it received using HTTP GET:
 
@@ -269,7 +268,7 @@ Client App SHALL invoke the url it received using HTTP GET:
 
 ### Client App obtains response
 
-Once Client App's own redirect_uri is returned in a redirect 3xx directive, the traversal is complete.
+Once Client App's own redirect_uri is returned in a redirect 3xx directive, the traversal of OAuth Brokers is complete.
 
 Client App SHALL proceed according to OAuth to exchange code for tokens, or handle error responses.
 
@@ -291,7 +290,7 @@ Otherwise the method returns false in completion.success
 
 ## OAuth request forgery and manipulation
 
-It is RECOMMENDED Client App acts as a confidential OAuth client.
+It is RECOMMENDED that Client App acts as a confidential OAuth client.
 
 ## Secure Native application communication
 
@@ -303,15 +302,15 @@ If Client App uses a Backend it is RECOMMENDED to communicate with it securely:
 
 ## Deep link hijacking
 
-It is RECOMMENDED that all apps in this specification shall protect their deep links using Android universal links / iOS App Links including the most specific package identifiers to prevent deep link hijacking by malicious apps.
+It is RECOMMENDED that all apps in this specification shall use https-scheme deep links (Android App Links / iOS universal links). Apps SHOULD implement the most specific package identifiers mitigating deep link hijacking by malicious apps.
 
 ## Open redirection
 
-Client App SHALL construct an Allowlist of domains it traverses through while processing the request, used to enforce all urls it later traverses through during response processing.
-This mitigates open redirection attacks as urls outside of this Allowlist will be rejected.
+Client App SHALL construct an Allowlist of DNS domains it traverses while processing the request, used to enforce all urls it later traverses during response processing.
+This mitigates open redirection attacks as urls not in this Allowlist SHALL be rejected.
 
 In addition Client App MUST ignore any invocation for response processing which is not in the context of a request it initiated.
-It is RECOMMENDED the Allowlist is managed as a single-use object and destructed after each protocol flow ends.
+It is RECOMMENDED the Allowlist be managed as a single-use object, destructed after each protocol flow ends.
 
 It is RECOMMENDED Client App allows only one OAuth request processing at a time.
 
@@ -321,12 +320,12 @@ It is RECOMMENDED that PKCE is used and that the code_verifier is tied to the Cl
 
 ## Handling of Cookies
 
-It can be assumed that Authorization Servers will use Cookies to bind security elements (state, nonce, PKCE) to the user agent, and will break if these cookies are later missing.
+It can be assumed that Authorization Servers will use Cookies to bind security elements (state, nonce, PKCE) to the user agent, which will break the flow if these cookies are not present in subsequent HTTP requests.
 
-Therefore, Client App MUST handle Cookies as a web browser would:
+Therefore, Client App MUST handle Cookies:
 
-* SHALL store cookies it obtains on HTTP responses.
-* SHALL send cookies on subsequent HTTP requests to servers that returned cookies.
+* Store cookies it obtains on HTTP responses.
+* Send cookies on subsequent HTTP requests to Authorization Servers that returned such cookies.
 
 # IANA Considerations
 
