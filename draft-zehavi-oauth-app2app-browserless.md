@@ -9,18 +9,18 @@ number:
 date:
 consensus: true
 v: 3
-# area: "Security"
-# workgroup: "Web Authorization Protocol"
+area: "Security"
+workgroup: "Web Authorization Protocol"
 keyword:
  - native-apps
  - oauth
  - app2app
  - browserless
 venue:
-#  group: "Web Authorization Protocol"
-#  type: "Working Group"
-#  mail: "oauth@ietf.org"
-#  arch: "https://mailarchive.ietf.org/arch/browse/oauth/"
+  group: "Web Authorization Protocol"
+  type: "Working Group"
+  mail: "oauth@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/oauth/"
   github: "yaron-zehavi/oauth-app2app-browserless"
   latest: "https://yaron-zehavi.github.io/oauth-app2app-browserless/draft-zehavi-oauth-app2app-browserless.html"
 
