@@ -2,11 +2,11 @@
 
 
 
-Network Working Group                                          Y. Zehavi
+Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                                                  H. Kroll
 Intended status: Standards Track                               G. Hyseni
-Expires: 9 November 2025                   Raiffeisen Bank International
-                                                              8 May 2025
+Expires: 10 November 2025                  Raiffeisen Bank International
+                                                              9 May 2025
 
 
                    OAuth 2.0 App2App Browserless Flow
@@ -32,6 +32,11 @@ About This Document
    be found at https://datatracker.ietf.org/doc/draft-zehavi-oauth-
    app2app-browserless/.
 
+   Discussion of this document takes place on the Web Authorization
+   Protocol Working Group mailing list (mailto:oauth@ietf.org), which is
+   archived at https://mailarchive.ietf.org/arch/browse/oauth/.
+   Subscribe at https://www.ietf.org/mailman/listinfo/oauth/.
+
    Source for this draft and an issue tracker can be found at
    https://github.com/yaron-zehavi/oauth-app2app-browserless.
 
@@ -50,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 November 2025.
+   This Internet-Draft will expire on 10 November 2025.
 
 Copyright Notice
 
