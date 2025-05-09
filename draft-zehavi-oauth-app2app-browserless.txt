@@ -197,7 +197,7 @@ Table of Contents
 |         +------>| Initial |------>| Authorization|------>|   Authenticating   |  | |
 |  Authorization| | Broker  | Auth. | Servers      | Auth. |   Authorization    |  | |
 |  Request      | +---------+ Req.  +--------------+ Req.  |      Server        |  | |
-|               |                                          +--------------------+  | |
+|               |                                          +---------+----------+  | |
 |               +----------------------------------------------------|-------------+ |
 |                                                                    |               |
 | +--------------+                                                   |               |
