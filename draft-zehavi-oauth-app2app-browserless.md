@@ -102,11 +102,11 @@ This document, OAuth 2.0 App2App Browserless Flow (Native App2App), presents a p
 It addresses the challenges presented when using a web browser to navigate through **one or more** Brokering Authorization Servers:
 
 * Such OAuth Brokers are needed when Client App is not an OAuth client of the User-Interacting Authorization Server.
-* Since no app owns OAuth Brokers' urls, App2App flows involving brokers require using a web browser, which degrades the user experience.
+* Since no app owns OAuth Brokers' urls, App2App flows involving brokers require a web browser, which degrades the user experience.
 
 This document specifies a new scope.
 
-## Difference from {{OpenID.Native-SSO}}
+## Difference from OpenID.Native-SSO
 
 {{OpenID.Native-SSO}} also offers a native SSO flow across apps. However, it is limited to apps published by the same issuer which can therefore securely share information.
 
@@ -160,14 +160,14 @@ Since OAuth Brokers url's are not claimed by any native app, requests targeting 
 
 ## Impact of using a web browser
 
-Using a web browser downgrades the user experience in several ways:
+Using a web browser degrades the user experience in several ways:
 
 * Some browsers do not support deep links at all. Others may not support deep links depending on the settings used.
 * The browser may prompt end-user for consent before opening deep links, introducing additional friction.
 * Even if the browser supports deep links and does not prompt the end-user, browser loading of urls and redirecting may be noticeable.
 * The browser may be left after the flow ends with "orphan" browser tabs used for redirection. While these do not impact the process directly, they can be seen as clutter which degrades the overall UX's cleanliness.
 
-In addition, app developers cannot control which browser will be used to handle the response redirect_uri, which risks losing of cookies used to bind session identifiers (nonce, state or PKCE verifier) to the user agent, which may break the flow.
+In addition, app developers cannot control which browser will be used to handle the response redirect_uri, risking loss of cookies used to bind session identifiers to the user agent (nonce, state or PKCE verifier), which may break the flow.
 
 # App2Web
 ~~~ aasvg
