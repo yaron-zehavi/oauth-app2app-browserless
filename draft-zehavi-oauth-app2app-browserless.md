@@ -105,6 +105,7 @@ This document specifies:
 ## Difference from OpenID.Native-SSO
 
 {{OpenID.Native-SSO}} also offers a native SSO flow across apps. However, it is limited to apps:
+
 * Published by the same issuer, therefore can securely share information.
 * Use the same Authorization Server.
 
@@ -155,7 +156,8 @@ Brokers may be replaced in the future with dynamic trust establishment leveragin
 ~~~ aasvg
 {::include art/app2app-w-brokers-and-browser.ascii-art}
 ~~~
-{: #app2app-w-brokers-and-browser title="App2App with brokers and browser" }
+{: #app2app-w-brokers-and-browser title="App2App with brokers and browser (redirects back to Client not depicted)" }
+
 
 Since no native app claims OAuth Brokers' urls, OAuth requests and redirect_uri responses to and from OAuth Brokers are handled by a web browser as User Agent.
 
@@ -173,7 +175,7 @@ Using a web browser may degrade the user experience in several ways:
 ~~~ aasvg
 {::include art/app2web-w-brokers.ascii-art}
 ~~~
-{: #app2web-w-brokers title="App2Web with brokers" }
+{: #app2web-w-brokers title="App2Web with brokers (redirects back to Client not depicted)" }
 
 When the user's device has no app owning the User-Authenticating Authorization Server's urls, the flow requires the help of a browser.
 
@@ -203,34 +205,34 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" {{RFC8252}}
 The protocol described in this document requires User-Authenticating App to natively redirect end-user to Client App, which means it needs to obtain Client App's native_callback_uri.
 Therefore this document defines new parameters and values.
 
-"app2app":
-: New scope value, used by Client App to request an app2app flow from Initial Authorization Server.
+"**app2app**":
+: New scope value, used by Client App to request an app2app flow from *Initial Authorization Server*.
 
-*Initial Authorization Server*, processing an app2app flow according to this document, MUST provide Client App's redirect_uri as Native Callback uri to Downstream Authorization Server using one of the following options:
+*Initial Authorization Server*, processing an app2app flow according to this document, MUST provide Client App's redirect_uri as Native Callback uri to *Downstream Authorization Server* using one of the following options:
 
-"native_callback_uri":
-: OPTIONAL. New authorization endpoint request parameter. When native_callback_uri is provided, structured scope app2app:native_callback_uri MUST NOT be provided. When invoked by User-Authenticating Authorization Server's App, native_callback_uri accepts the following query parameter:
-  "redirect_uri":
+"**native_callback_uri**":
+: OPTIONAL. New authorization endpoint request parameter. When **native_callback_uri** is provided, structured scope **app2app:native_callback_uri** MUST NOT be provided. When invoked by User-Authenticating Authorization Server's App, **native_callback_uri** accepts the following query parameter:
+  "**redirect_uri**":
   : url-encoded OAuth redirect_uri with its response parameters.
 
-"app2app:{*native_callback_uri*}":
-: OPTIONAL. New structured scope value including the **app2app** flag as well as the Client's **native_callback_uri**, separated by a colon. When structured scope app2app:{*native_callback_uri*} is provided, native_callback_uri MUST NOT be provided.
+"**app2app:{*native_callback_uri*}**":
+: OPTIONAL. New structured scope value including the **app2app** flag as well as the Client's **native_callback_uri**, separated by a colon. When structured scope **app2app:{*native_callback_uri*}** is provided, **native_callback_uri** MUST NOT be provided.
 
 *Downstream Authorization Server*, processing an app2app flow according to this document:
 
-* MUST retain the native_callback_uri in downstream authorization requests they create.
-* MAY validate the native_callback_uri.
+* MUST retain the **native_callback_uri** in downstream authorization requests created.
+* MAY validate **native_callback_uri**.
 
-## Validation of native_callback_uri
+## Validation of **native_callback_uri**
 
-Validation of native_callback_uri by User-Authenticating Authorization Server and its App is RECOMMENDED, to mitiagte open redirection attacks.
+Validation of **native_callback_uri** by User-Authenticating Authorization Server and its App is RECOMMENDED, to mitiagte open redirection attacks.
 
 A validating Authorization Server MAY use various mechanisms outside the scope of this document.
 For example, validation using {{OpenID.Federation}} is possible:
 
-* Strip url path from *native_callback_uri* (retaining the DNS domain).
+* Strip url path from **native_callback_uri** (retaining the DNS domain).
 * Add the url path /.well-known/openid-federation and perform trust chain resolution.
-* Inspect Client's metadata for redirect_uri's and validate *native_callback_uri* is included.
+* Inspect Client's metadata for redirect_uri's and validate **native_callback_uri** is included.
 
 ## Protocol Flow {#protocol-flow}
 
@@ -240,8 +242,8 @@ Client App calls Initial Authorization Server's authorization_endpoint to initia
 
 ### Initial Authorization Server returns authorization request to Downstream Authorization Server
 
-Initial Authorization Server SHALL process Client's request and return an HTTP 3xx response with a Location header containing an authorization request url towards Downstream Authorization Server's authorization_endpoint.
-The request SHALL include Client's redirect_uri as *native_callback_uri* in one of the methods specified in {#parameters}.
+*Initial Authorization Server* SHALL process Client's request and return an HTTP 3xx response with a Location header containing an authorization request url towards *Downstream Authorization Server's* authorization_endpoint.
+The request SHALL include Client's redirect_uri as **native_callback_uri** in one of the methods specified in this document.
 
 ### Client App invokes app of User-Interacting Authorization Server
 
@@ -267,34 +269,34 @@ The remaining flow follows "OAuth 2.0 for Native Apps" {{RFC8252}} and is theref
 
 ### Processing by User-Interacting Authorization Server's App:
 
-The User-Interacting Authorization Server SHALL handle the authorization request using its native app:
+The *User-Interacting Authorization Server* SHALL handle the authorization request using its native app:
 
-* Native app authenticates end user and authorizes the request.
-* Native app SHALL use *native_callback_uri* to override the request's original redirect_uri:
+* Authenticates end user and authorizes the request.
+* SHALL use **native_callback_uri** to override the request's original redirect_uri:
 
-  * User-Interacting Authorization Server's app validates that an app claiming *native_callback_uri* is on the device
-  * If so it natively invokes it, handing it the redirect url with its response parameters.
-  * If such an app does not exist on the device, the flow terminates and User-Interacting Authorization Server's app redirects to redirect_uri with:
+  * *User-Interacting Authorization Server's app* validates that an app claiming **native_callback_uri** is on the device
+  * If so it natively invokes **native_callback_uri** with the redirect url and its response parameters as the url-encoded query parameter **redirect_uri**.
+  * If such an app does not exist on the device, the flow terminates and *User-Interacting Authorization Server's app* redirects to redirect_uri with:
 
     * error=invalid_request.
-    * error_description=native_callback_uri_not_claimed.
+    * error_description=**native_callback_uri_not_claimed**.
 
 ### Client App traverses OAuth Brokers in reverse order
 
-Client App is natively invoked by User-Interacting Authorization Server App, with the request's redirect_uri.
+*Client App* is natively invoked by User-Interacting Authorization Server App, with the request's redirect_uri.
 
-Client App MUST validate this url, and any url subsequently obtained via a 3xx redirect instruction, against the Allowlist it previously generated, and MUST fail if any url is not included in the Allowlist.
+*Client App* MUST validate this url, and any url subsequently obtained via a 3xx redirect instruction, against the Allowlist it previously generated, and MUST fail if any url is not included in the Allowlist.
 
-Client App SHALL invoke the url it received using HTTP GET:
+*Client App* SHALL invoke the url it received using HTTP GET:
 
-* If the response is a redirect instruction (HTTP Code 3xx + Location header), Client App SHALL repeat the logic and proceed to call obtained urls until reaching its own redirect_uri (*native_callback_uri*).
+* If the response is a redirect instruction (HTTP Code 3xx + Location header), *Client App* SHALL repeat the logic and proceed to call obtained urls until reaching its own redirect_uri (**native_callback_uri**).
 * SHALL handle any other HTTP code (2xx / 4xx / 5xx) as a failure.
 
 ### Client App obtains response
 
-Once Client App's own redirect_uri is returned in a redirect 3xx directive, the traversal of OAuth Brokers is complete.
+Once *Client App's* own redirect_uri is returned in a redirect 3xx directive, the traversal of OAuth Brokers is complete.
 
-Client App SHALL proceed according to OAuth to exchange code for tokens, or handle error responses.
+*Client App* SHALL proceed according to OAuth to exchange code for tokens, or handle error responses.
 
 # Detecting Presence of Native Apps Owning Urls
 
