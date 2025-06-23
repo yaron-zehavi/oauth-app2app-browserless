@@ -192,21 +192,21 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" {{RFC8252}}
 
 ## New Parameters and Values
 
-The protocol described in this document requires User-Authenticating App to natively redirect end-user to Client App, which means it needs to obtain Client App's native_callback_uri. 
+The protocol described in this document requires User-Authenticating App to natively redirect end-user to Client App, which means it needs to obtain Client App's native_callback_uri.
 To this end new parameters and values are proposed.
 
 "app2app":
 : New scope value, used by Client App to request an app2app flow from Initial Authorization Server.
 
-Initial Authorization Server, processing an app2app flow according to this document, MUST provide Client App's redirect_uri as Native Callback uri to Downstream Authorization Server in one of these methods:
+*Initial Authorization Server*, processing an app2app flow according to this document, MUST provide Client App's redirect_uri as Native Callback uri to Downstream Authorization Server in one of these methods:
 
 "native_callback_uri":
-: OPTIONAL. New authorization endpoint request parameter. If provided 
+: OPTIONAL. New authorization endpoint request parameter.
 
 "app2app:native_callback_uri":
 : New structured scope value including the **app2app** flag as well as the native_callback_uri, separated by a colon.
 
-Downstream Authorization Server, processing an app2app flow according to this document:
+*Downstream Authorization Server*, processing an app2app flow according to this document:
 
 * MUST retain the native_callback_uri in downstream authorization requests they create.
 * MAY validate the native_callback_uri.
