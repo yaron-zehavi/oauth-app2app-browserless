@@ -195,11 +195,11 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" {{RFC8252}}
 
 - (1) *Client App* presents an authorization request to *Initial Authorization Server*, indicating app2app flow using new scope value **app2app**.
 - (2) *Initial Authorization Server* returns an authorization request for Downstream Authorization Server, including Client App's redirect_uri as **native_callback_uri**.
-- (3) *Client App* detects if the returned authorization request url is owned by an app on the device and if so proceeds to the next step. Otherwise it loops through Downstream Authorization Servers, calling their authorization endpoints and processing their HTTP 3xx redirect responses, until a url owned by an app on the device is reached.
-- (4) *Client App* natively invokes User-Authenticating App.
+- (3) *Client App* checks if the returned authorization request url is claimed by an app on the device and if so proceeds to the next step. Otherwise it loops through Downstream Authorization Servers, calling their authorization endpoints and processing their HTTP 3xx redirect responses, until a url claimed by an app on the device is reached.
+- (4) *Client App* natively invokes *User-Authenticating App*.
 - (5) *User-Authenticating App* authenticates user and authorizes the request.
 - (6) *User-Authenticating App* natively invokes **native_callback_uri** (overriding the request's redirect_uri), and provides it the redirect_uri as a parameter.
-- (7) *Client App* loops through Authorization Servers in reverse order, starting from the redirect_uri it received from the User-Authenticating App. It uses HTTP to call the first redirect_uri and any subsequent uri obtained as 3xx redirect directive, until it obtains a location header indicating its own redirect_uri.
+- (7) *Client App* loops through Authorization Servers in reverse order, starting from the redirect_uri it received from the *User-Authenticating App*. It calls the first redirect_uri and any subsequent uri obtained as 3xx redirect directive, until it obtains a location header indicating its own redirect_uri.
 - (8) *Client App* exchanges code for tokens and the flow is complete.
 
 ## New Parameters and Values {#parameters}
