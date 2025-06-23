@@ -323,9 +323,9 @@ Table of Contents
 
                 Figure 3: Browser-less App2App with Brokers
 
-   *  (1) _Client App_ uses HTTP to present an authorization request to
-      Initial Authorization Server, indicating app2app flow using new
-      scope value *app2app*.
+   *  (1) _Client App_ presents an authorization request to _Initial
+      Authorization Server_, indicating app2app flow using new scope
+      value *app2app*.
 
    *  (2) _Initial Authorization Server_ returns an authorization
       request for Downstream Authorization Server, including Client
