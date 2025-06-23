@@ -330,4 +330,4 @@ This document has no IANA actions.
 {:numbered="false"}
 
 The authors would like to thank the following individuals who contributed ideas, feedback, and wording that shaped and formed the final specification: Henrik Kroll, Grese Hyseni.
-As well as the attendees of the OAuth Security Workshop 2025 session in which this topic was discussed. who contributed ideas and feedback.
+As well as the attendees of the OAuth Security Workshop 2025 session in which this topic was discussed for their ideas and feedback.
