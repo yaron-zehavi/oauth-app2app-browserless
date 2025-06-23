@@ -1291,7 +1291,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <p id="section-1-3.2.1">Since no app owns OAuth Brokers' urls, App2App flows involving brokers require a web browser, which degrades the user experience.<a href="#section-1-3.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-1-4">This document specifies a new parameter to the authorization endpoint: <strong>native_callback_uri</strong>, a new scope value: <strong>app2app</strong> as well as a new error_description value <strong>native_callback_uri_not_claimed</strong>.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-4">This document specifies:
+* A new parameter to the authorization endpoint: <strong>native_callback_uri</strong>.
+* A new scope value: <strong>app2app</strong>.
+* A new error_description value: <strong>native_callback_uri_not_claimed</strong>.<a href="#section-1-4" class="pilcrow">¶</a></p>
 <div id="difference-from-openidnative-sso">
 <section id="section-1.1">
         <h3 id="name-difference-from-openidnativ">
@@ -1465,7 +1468,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#name-app2app-with-brokers-and-br" class="selfRef">App2App with brokers and browser</a>
           </figcaption></figure>
 </div>
-<p id="section-3.1-2">Since no native app claims OAuth Brokers' urls, OAuth requests and redirect_uri responses to and from them are handled by a web browser as User Agent.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">Since no native app claims OAuth Brokers' urls, OAuth requests and redirect_uri responses to and from OAuth Brokers are handled by a web browser as User Agent.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="impact-of-using-a-web-browser">
