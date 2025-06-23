@@ -96,7 +96,10 @@ It addresses the challenges presented when using a web browser to navigate throu
 * Such OAuth Brokers are needed when Client App is not an OAuth client of the User-Interacting Authorization Server.
 * Since no app owns OAuth Brokers' urls, App2App flows involving brokers require a web browser, which degrades the user experience.
 
-This document specifies a new parameter to the authorization endpoint: **native_callback_uri**, a new scope value: **app2app** as well as a new error_description value **native_callback_uri_not_claimed**.
+This document specifies:
+* A new parameter to the authorization endpoint: **native_callback_uri**.
+* A new scope value: **app2app**.
+* A new error_description value: **native_callback_uri_not_claimed**.
 
 ## Difference from OpenID.Native-SSO
 
@@ -153,7 +156,7 @@ Brokers may be replaced in the future with dynamic trust establishment leveragin
 ~~~
 {: #app2app-w-brokers-and-browser title="App2App with brokers and browser" }
 
-Since no native app claims OAuth Brokers' urls, OAuth requests and redirect_uri responses to and from them are handled by a web browser as User Agent.
+Since no native app claims OAuth Brokers' urls, OAuth requests and redirect_uri responses to and from OAuth Brokers are handled by a web browser as User Agent.
 
 ## Impact of using a web browser
 
