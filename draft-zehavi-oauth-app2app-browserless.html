@@ -1349,7 +1349,12 @@ Brokers may be replaced in the future with dynamic trust establishment leveragin
           <dd class="break"></dd>
 <dt id="section-1.2-2.15">"Deep Link":</dt>
           <dd style="margin-left: 1.5em" id="section-1.2-2.16">
-            <p id="section-1.2-2.16.1">A url claimed by a native application. The <strong>Native Callback uri</strong> is the Client App's deep link.<a href="#section-1.2-2.16.1" class="pilcrow">¶</a></p>
+            <p id="section-1.2-2.16.1">A url claimed by a native application.<a href="#section-1.2-2.16.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-1.2-2.17">"Native Callback uri":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-2.18">
+            <p id="section-1.2-2.18.1">Client App's deep link and also it's redirect_uri.<a href="#section-1.2-2.18.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -1672,10 +1677,10 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
             <p id="section-5.1-2.1.1">(1) Client App uses HTTP to present an authorization request to Initial Authorization Server, indicating app2app flow using new scope <strong>app2app</strong>.<a href="#section-5.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.2">
-            <p id="section-5.1-2.2.1">(2) Initial Authorization Server returns an authorization request for Downstream Authorization Server, including Client App's native_callback_uri.<a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-2.2.1">(2) Initial Authorization Server returns an authorization request for Downstream Authorization Server, including Client App's redirect_uri as <strong>native_callback_uri</strong>.<a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.3">
-            <p id="section-5.1-2.3.1">(3) Client App detects if the returned authorization request url is owned by an app on the device, if so proceeds to the next step. Otherwise it loops through Downstream Authorization Servers, calling their authorization endpoints and processing their HTTP 3xx redirect responses, until a url owned by an app on the device is reached.<a href="#section-5.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-2.3.1">(3) Client App detects if the returned authorization request url is owned by an app on the device and if so proceeds to the next step. Otherwise it loops through Downstream Authorization Servers, calling their authorization endpoints and processing their HTTP 3xx redirect responses, until a url owned by an app on the device is reached.<a href="#section-5.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.4">
             <p id="section-5.1-2.4.1">(4) Client App natively invokes User-Authenticating App.<a href="#section-5.1-2.4.1" class="pilcrow">¶</a></p>
@@ -1713,7 +1718,19 @@ To this end new parameters and values are proposed.<a href="#section-5.2-1" clas
 <span class="break"></span><dl class="dlParallel" id="section-5.2-4">
           <dt id="section-5.2-4.1">"native_callback_uri":</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-4.2">
-            <p id="section-5.2-4.2.1"><span class="bcp14">OPTIONAL</span>. New authorization endpoint request parameter.<a href="#section-5.2-4.2.1" class="pilcrow">¶</a></p>
+            <span class="break"></span><dl class="dlParallel" id="section-5.2-4.2.1">
+              <dt id="section-5.2-4.2.1.1">
+<span class="bcp14">OPTIONAL</span>. New authorization endpoint request parameter. When invoked by User-Authenticating Authorization Server's App it receives the following query parameter:</dt>
+              <dd style="margin-left: 1.5em" id="section-5.2-4.2.1.2">
+                <p id="section-5.2-4.2.1.2.1"></p><a href="#section-5.2-4.2.1.2" class="pilcrow">¶</a>
+</dd>
+              <dd class="break"></dd>
+<dt id="section-5.2-4.2.1.3">"redirect_uri":</dt>
+              <dd style="margin-left: 1.5em" id="section-5.2-4.2.1.4">
+                <p id="section-5.2-4.2.1.4.1">url-encoded OAuth redirect_uri with its response parameters.<a href="#section-5.2-4.2.1.4.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+</dl>
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.2-4.3">"app2app:native_callback_uri":</dt>
