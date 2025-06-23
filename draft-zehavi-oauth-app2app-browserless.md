@@ -193,7 +193,7 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" {{RFC8252}}
 ~~~
 {: #app2app-browserless-w-brokers title="Browser-less App2App with Brokers" }
 
-- (1) *Client App* uses HTTP to present an authorization request to Initial Authorization Server, indicating app2app flow using new scope value **app2app**.
+- (1) *Client App* presents an authorization request to *Initial Authorization Server*, indicating app2app flow using new scope value **app2app**.
 - (2) *Initial Authorization Server* returns an authorization request for Downstream Authorization Server, including Client App's redirect_uri as **native_callback_uri**.
 - (3) *Client App* detects if the returned authorization request url is owned by an app on the device and if so proceeds to the next step. Otherwise it loops through Downstream Authorization Servers, calling their authorization endpoints and processing their HTTP 3xx redirect responses, until a url owned by an app on the device is reached.
 - (4) *Client App* natively invokes User-Authenticating App.
