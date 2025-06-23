@@ -3,10 +3,9 @@
 
 
 Web Authorization Protocol                                     Y. Zehavi
-Internet-Draft                                                  H. Kroll
-Intended status: Standards Track                               G. Hyseni
-Expires: 30 November 2025                  Raiffeisen Bank International
-                                                             29 May 2025
+Internet-Draft                             Raiffeisen Bank International
+Intended status: Standards Track                            23 June 2025
+Expires: 25 December 2025
 
 
                    OAuth 2.0 App2App Browserless Flow
@@ -55,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 November 2025.
+   This Internet-Draft will expire on 25 December 2025.
 
 Copyright Notice
 
@@ -107,7 +106,7 @@ Table of Contents
      9.1.  Normative References
      9.2.  Informative References
    Acknowledgments
-   Authors' Addresses
+   Author's Address
 
 1.  Introduction
 
@@ -629,23 +628,14 @@ Table of Contents
 
 Acknowledgments
 
-   The authors would like to thank the attendees of the OAuth Security
-   Workshop 2025 session in which this was discussed, as well as the
-   following individuals who contributed ideas, feedback, and wording
-   that shaped and formed the final specification:
+   The authors would like to thank the following individuals who
+   contributed ideas, feedback, and wording that shaped and formed the
+   final specification: Henrik Kroll, Grese Hyseni.  As well as the
+   attendees of the OAuth Security Workshop 2025 session in which this
+   topic was discussed for their ideas and feedback.
 
-Authors' Addresses
+Author's Address
 
    Yaron Zehavi
    Raiffeisen Bank International
    Email: yaron.zehavi@rbinternational.com
-
-
-   Henrik Kroll
-   Raiffeisen Bank International
-   Email: henrik.kroll@rbinternational.com
-
-
-   Grese Hyseni
-   Raiffeisen Bank International
-   Email: grese.hyseni@rbinternational.com
