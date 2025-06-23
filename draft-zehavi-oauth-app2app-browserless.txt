@@ -312,7 +312,7 @@ Table of Contents
 
    *  (1) Client App uses HTTP to present an authorization request to
       Initial Authorization Server, indicating app2app flow using new
-      scope *app2app*.
+      scope value *app2app*.
 
    *  (2) Initial Authorization Server returns an authorization request
       for Downstream Authorization Server, including Client App's
@@ -346,28 +346,31 @@ Table of Contents
 
    The protocol described in this document requires User-Authenticating
    App to natively redirect end-user to Client App, which means it needs
-   to obtain Client App's native_callback_uri.  To this end new
-   parameters and values are proposed.
+   to obtain Client App's native_callback_uri.  To this end this
+   document defines new parameters and values.
 
    "app2app":  New scope value, used by Client App to request an app2app
       flow from Initial Authorization Server.
 
    _Initial Authorization Server_, processing an app2app flow according
    to this document, MUST provide Client App's redirect_uri as Native
-   Callback uri to Downstream Authorization Server in one of these
-   methods:
+   Callback uri to Downstream Authorization Server using one of the
+   following options:
 
    "native_callback_uri":  OPTIONAL.  New authorization endpoint
-      request parameter.  When invoked by User-Authenticating
-      Authorization Server's App it receives the following query
-      parameter:
+      request parameter.  When native_callback_uri is provided,
+      structured scope app2app:native_callback_uri MUST NOT be
+      provided.  When invoked by User-Authenticating Authorization
+      Server's App it receives the following query parameter:
 
                            "redirect_uri":  url-encoded OAuth
          redirect_uri with its response parameters.
 
-   "app2app:native_callback_uri":  New structured scope value including
-      the *app2app* flag as well as the native_callback_uri, separated
-      by a colon.
+   "app2app:native_callback_uri":  OPTIONAL.  New structured scope value
+      including the *app2app* flag as well as the native_callback_uri,
+      separated by a colon.  When structured scope
+      app2app:native_callback_uri is provided, native_callback_uri MUST
+      NOT be provided.
 
    _Downstream Authorization Server_, processing an app2app flow
    according to this document:

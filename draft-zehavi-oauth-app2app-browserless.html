@@ -1674,7 +1674,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 </div>
 <ul class="normal">
 <li class="normal" id="section-5.1-2.1">
-            <p id="section-5.1-2.1.1">(1) Client App uses HTTP to present an authorization request to Initial Authorization Server, indicating app2app flow using new scope <strong>app2app</strong>.<a href="#section-5.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-2.1.1">(1) Client App uses HTTP to present an authorization request to Initial Authorization Server, indicating app2app flow using new scope value <strong>app2app</strong>.<a href="#section-5.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.2">
             <p id="section-5.1-2.2.1">(2) Initial Authorization Server returns an authorization request for Downstream Authorization Server, including Client App's redirect_uri as <strong>native_callback_uri</strong>.<a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
@@ -1706,7 +1706,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-new-parameters-and-values" class="section-name selfRef">New Parameters and Values</a>
         </h3>
 <p id="section-5.2-1">The protocol described in this document requires User-Authenticating App to natively redirect end-user to Client App, which means it needs to obtain Client App's native_callback_uri.
-To this end new parameters and values are proposed.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+To this end this document defines new parameters and values.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.2-2">
           <dt id="section-5.2-2.1">"app2app":</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-2.2">
@@ -1714,13 +1714,13 @@ To this end new parameters and values are proposed.<a href="#section-5.2-1" clas
 </dd>
         <dd class="break"></dd>
 </dl>
-<p id="section-5.2-3"><em>Initial Authorization Server</em>, processing an app2app flow according to this document, <span class="bcp14">MUST</span> provide Client App's redirect_uri as Native Callback uri to Downstream Authorization Server in one of these methods:<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.2-3"><em>Initial Authorization Server</em>, processing an app2app flow according to this document, <span class="bcp14">MUST</span> provide Client App's redirect_uri as Native Callback uri to Downstream Authorization Server using one of the following options:<a href="#section-5.2-3" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.2-4">
           <dt id="section-5.2-4.1">"native_callback_uri":</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-4.2">
             <span class="break"></span><dl class="dlParallel" id="section-5.2-4.2.1">
               <dt id="section-5.2-4.2.1.1">
-<span class="bcp14">OPTIONAL</span>. New authorization endpoint request parameter. When invoked by User-Authenticating Authorization Server's App it receives the following query parameter:</dt>
+<span class="bcp14">OPTIONAL</span>. New authorization endpoint request parameter. When native_callback_uri is provided, structured scope app2app:native_callback_uri <span class="bcp14">MUST NOT</span> be provided. When invoked by User-Authenticating Authorization Server's App it receives the following query parameter:</dt>
               <dd style="margin-left: 1.5em" id="section-5.2-4.2.1.2">
                 <p id="section-5.2-4.2.1.2.1"></p><a href="#section-5.2-4.2.1.2" class="pilcrow">¶</a>
 </dd>
@@ -1735,7 +1735,7 @@ To this end new parameters and values are proposed.<a href="#section-5.2-1" clas
           <dd class="break"></dd>
 <dt id="section-5.2-4.3">"app2app:native_callback_uri":</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-4.4">
-            <p id="section-5.2-4.4.1">New structured scope value including the <strong>app2app</strong> flag as well as the native_callback_uri, separated by a colon.<a href="#section-5.2-4.4.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-4.4.1"><span class="bcp14">OPTIONAL</span>. New structured scope value including the <strong>app2app</strong> flag as well as the native_callback_uri, separated by a colon. When structured scope app2app:native_callback_uri is provided, native_callback_uri <span class="bcp14">MUST NOT</span> be provided.<a href="#section-5.2-4.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
