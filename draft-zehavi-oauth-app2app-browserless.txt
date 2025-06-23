@@ -128,9 +128,14 @@ Table of Contents
    *  Since no app owns OAuth Brokers' urls, App2App flows involving
       brokers require a web browser, which degrades the user experience.
 
-   This document specifies: * A new parameter to the authorization
-   endpoint: *native_callback_uri*. * A new scope value: *app2app*. * A
-   new error_description value: *native_callback_uri_not_claimed*.
+   This document specifies:
+
+   *  A new parameter to the authorization endpoint:
+      *native_callback_uri*.
+
+   *  A new scope value: *app2app*.
+
+   *  A new error_description value: *native_callback_uri_not_claimed*.
 
 1.1.  Difference from OpenID.Native-SSO
 
@@ -405,17 +410,18 @@ Table of Contents
 5.4.1.  Client App calls Initial Authorization Server
 
    Client App calls Initial Authorization Server's
-   authorization_endpoint to initiate an authorization code flow, it
-   SHALL indicate App2App flow using the dedicated scope *app2app*.
+   authorization_endpoint to initiate an authorization code flow and
+   indicates App2App flow using the scope: *app2app*.
 
 5.4.2.  Initial Authorization Server returns authorization request to
         Downstream Authorization Server
 
    Initial Authorization Server SHALL process Client's request and
-   return an HTTP 3xx response containing an authorization request to
-   Downstream Authorization Server's authorization_endpoint, including
-   Client's redirect_uri as _native_callback_uri_, in the Location
-   header.
+   return an HTTP 3xx response with a Location header containing an
+   authorization request url towards Downstream Authorization Server's
+   authorization_endpoint.  The request SHALL include Client's
+   redirect_uri as _native_callback_uri_ in one of the methods specified
+   in {#parameters}.
 
 5.4.3.  Client App invokes app of User-Interacting Authorization Server
 
