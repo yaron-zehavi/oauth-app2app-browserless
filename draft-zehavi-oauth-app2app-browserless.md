@@ -96,11 +96,13 @@ It addresses the challenges presented when using a web browser to navigate throu
 * Such OAuth Brokers are needed when Client App is not an OAuth client of the User-Interacting Authorization Server.
 * Since no app owns OAuth Brokers' urls, App2App flows involving brokers require a web browser, which degrades the user experience.
 
-This document specifies a new parameter to the authorization endpoint: **native_callback_uri**, as well as a new scope: **app2app**.
+This document specifies a new parameter to the authorization endpoint: **native_callback_uri**, a new scope value: **app2app** as well as a new error_description value **native_callback_uri_not_claimed**.
 
 ## Difference from OpenID.Native-SSO
 
-{{OpenID.Native-SSO}} also offers a native SSO flow across apps. However, it is limited to apps published by the same issuer which can therefore securely share information.
+{{OpenID.Native-SSO}} also offers a native SSO flow across apps. However, it is limited to apps:
+* Published by the same issuer, therefore can securely share information.
+* Use the same Authorization Server.
 
 ## Terminology
 
@@ -136,7 +138,7 @@ Brokers may be replaced in the future with dynamic trust establishment leveragin
 : A url claimed by a native application.
 
 "Native Callback uri":
-: Client App's deep link and also it's redirect_uri.
+: Client App's redirect_uri, claimed as a deep link.
 
 # Conventions and Definitions
 
@@ -151,18 +153,17 @@ Brokers may be replaced in the future with dynamic trust establishment leveragin
 ~~~
 {: #app2app-w-brokers-and-browser title="App2App with brokers and browser" }
 
-Since OAuth Brokers' urls are not claimed by any native app, requests targeting them (OAuth requests and redirect_uri responses) are handled by a web browser.
+Since no native app claims OAuth Brokers' urls, OAuth requests and redirect_uri responses to and from them are handled by a web browser as User Agent.
 
-## Negative impact of using a web browser
+## Impact of using a web browser
 
-Using a web browser degrades the user experience in several ways:
+Using a web browser may degrade the user experience in several ways:
 
-* Some browsers do not support deep links at all. Others may not support deep links depending on the settings used.
+* Some browser's support for deep links is limited by design or by the settings used.
 * The browser may prompt end-user for consent before opening deep links, introducing additional friction.
-* Even if the browser supports deep links and does not prompt the end-user, browser loading of urls and redirecting may be noticeable.
-* The browser may be left after the flow ends with "orphan" browser tabs used for redirection. While these do not impact the process directly, they can be seen as clutter which degrades the overall UX's cleanliness.
-
-In addition, app developers cannot control which browser will be used to handle the response redirect_uri, risking loss of cookies used to bind session identifiers to the user agent (nonce, state or PKCE verifier), which may break the flow.
+* Browser loading of urls and redirecting may be noticeable, providing a less smooth UX.
+* App developers cannot control which browser will be used to handle the response redirect_uri, which risks losing cookies used to bind session identifiers to the user agent (nonce, state or PKCE verifier), which may cause the flow to break.
+* "Orphan" browser tabs might be left over, which while they do not directly impact the flow, such "clutter" degrades the overall UX's cleanliness.
 
 # App2Web
 ~~~ aasvg
@@ -256,8 +257,8 @@ As the Client App traverses through Brokers, it SHALL maintain a list of all the
 
 If Client App reaches a User-Interacting Authorization Server but failed to locate an app claiming its urls, it may be impossible to relaunch the last authorization request on the browser as it might have included a single-use "OAuth 2.0 Pushed Authorization Requests" {{RFC9126}} request_uri which by now has been used and is therefore invalid.
 
-In such a case the Client App MUST start over, generating a new authorization request without the **app2app** scope indication, which is then launched on the browser.
-The remaining flow follows "OAuth 2.0 for Native Apps" {{RFC8252}} and is therefore not further elaborated in this document.
+In such a case the Client App MUST start over, generating a new authorization request without the **app2app** scope, which is then launched on the browser.
+The remaining flow follows "OAuth 2.0 for Native Apps" {{RFC8252}} and is therefore not elaborated further in this document.
 
 ### Processing by User-Interacting Authorization Server's App:
 
