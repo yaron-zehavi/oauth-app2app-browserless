@@ -344,7 +344,7 @@ It is RECOMMENDED *Client App* allows only one OAuth request processing at a tim
 
 ## Open redirection by User-Interacting Authorization Server's App
 
-It is RECOMMENDED that User-Interacting Authorization Server's App establishes trust in native_callback_uri to mitigate open redirection attacks and reject untrusted urls.
+It is RECOMMENDED that User-Interacting Authorization Server's App establishes trust in **native_callback_uri** to mitigate open redirection attacks and reject untrusted urls.
 
 ## Authorization code theft and injection
 
