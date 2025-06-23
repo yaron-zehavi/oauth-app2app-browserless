@@ -185,8 +185,8 @@ Table of Contents
       which interacts with end-user to perform authentication and
       authorization.
 
-   "User-Authenticating App":  Native App of User-Interacting
-      Authorization Server.
+   "User-Interacting App":  Native App of User-Interacting Authorization
+      Server.
 
    "Deep Link":  A url claimed by a native application.
 
@@ -280,10 +280,10 @@ Table of Contents
      Figure 2: App2Web with brokers (redirects back to Client not
                               depicted)
 
-   When the user's device has no app owning the User-Authenticating
+   When the user's device has no app owning the User-Interacting
    Authorization Server's urls, the flow requires the help of a browser.
 
-   This is the case when the _User-Authenticating Authorization Server_
+   This is the case when the _User-Interacting Authorization Server_
    offers no native app, or when such an app exists but is not installed
    on the end-user's device.
 
@@ -338,19 +338,18 @@ Table of Contents
       their HTTP 3xx redirect responses, until a url claimed by an app
       on the device is reached.
 
-   *  (4) _Client App_ natively invokes _User-Authenticating App_.
+   *  (4) _Client App_ natively invokes _User-Interacting App_.
 
-   *  (5) _User-Authenticating App_ authenticates user and authorizes
-      the request.
+   *  (5) _User-Interacting App_ authenticates user and authorizes the
+      request.
 
-   *  (6) _User-Authenticating App_ natively invokes
-      *native_callback_uri* (overriding the request's redirect_uri),
-      providing as a parameter the redirect_uri with its response
-      parameters.
+   *  (6) _User-Interacting App_ natively invokes *native_callback_uri*
+      (overriding the request's redirect_uri), providing as a parameter
+      the redirect_uri with its response parameters.
 
    *  (7) _Client App_ loops through Authorization Servers in reverse
       order, starting from the redirect_uri it received from the _User-
-      Authenticating App_. It calls the first redirect_uri and any
+      Interacting App_. It calls the first redirect_uri and any
       subsequent uri obtained as 3xx redirect directive, until it
       obtains a location header indicating its own redirect_uri.
 
@@ -359,7 +358,7 @@ Table of Contents
 
 5.2.  New Parameters and Values
 
-   The protocol described in this document requires _User-Authenticating
+   The protocol described in this document requires _User-Interacting
    App_ to natively redirect end-user to Client App, which means it
    needs to obtain Client App's native_callback_uri.  Therefore this
    document defines new parameters and values.
@@ -375,7 +374,7 @@ Table of Contents
    "*native_callback_uri*":  OPTIONAL.  New authorization endpoint
       request parameter.  When *native_callback_uri* is provided,
       structured scope *app2app:native_callback_uri* MUST NOT be
-      provided.  When invoked by User-Authenticating Authorization
+      provided.  When invoked by User-Interacting Authorization
       Server's App, *native_callback_uri* accepts the following query
       parameter:
 
@@ -398,7 +397,7 @@ Table of Contents
 
 5.3.  Validation of *native_callback_uri*
 
-   Validation of *native_callback_uri* by _User-Authenticating
+   Validation of *native_callback_uri* by _User-Interacting
    Authorization Server_ and its App is RECOMMENDED, to mitiagte open
    redirection attacks.
 
@@ -594,8 +593,8 @@ Table of Contents
 7.5.  Open redirection by User-Interacting Authorization Server's App
 
    It is RECOMMENDED that User-Interacting Authorization Server's App
-   establishes trust in native_callback_uri to mitigate open redirection
-   attacks and reject untrusted urls.
+   establishes trust in *native_callback_uri* to mitigate open
+   redirection attacks and reject untrusted urls.
 
 7.6.  Authorization code theft and injection
 
