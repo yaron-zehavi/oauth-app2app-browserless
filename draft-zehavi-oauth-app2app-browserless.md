@@ -97,6 +97,7 @@ It addresses the challenges presented when using a web browser to navigate throu
 * Since no app owns OAuth Brokers' urls, App2App flows involving brokers require a web browser, which degrades the user experience.
 
 This document specifies:
+
 * A new parameter to the authorization endpoint: **native_callback_uri**.
 * A new scope value: **app2app**.
 * A new error_description value: **native_callback_uri_not_claimed**.
@@ -197,7 +198,7 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" {{RFC8252}}
 - (7) Client App loops through Authorization Servers in reverse order, starting from the redirect_uri it received from the User-Authenticating App. It uses HTTP to call the first redirect_uri and any subsequent uri obtained as 3xx redirect directive, until it obtains a location header indicating its own redirect_uri.
 - (8) Client App exchanges code for tokens and the flow is complete.
 
-## New Parameters and Values
+## New Parameters and Values {#parameters}
 
 The protocol described in this document requires User-Authenticating App to natively redirect end-user to Client App, which means it needs to obtain Client App's native_callback_uri.
 Therefore this document defines new parameters and values.
@@ -235,11 +236,12 @@ For example, validation using {{OpenID.Federation}} is possible:
 
 ### Client App calls Initial Authorization Server
 
-Client App calls Initial Authorization Server's authorization_endpoint to initiate an authorization code flow, it SHALL indicate App2App flow using the dedicated scope **app2app**.
+Client App calls Initial Authorization Server's authorization_endpoint to initiate an authorization code flow and indicates App2App flow using the scope: **app2app**.
 
 ### Initial Authorization Server returns authorization request to Downstream Authorization Server
 
-Initial Authorization Server SHALL process Client's request and return an HTTP 3xx response containing an authorization request to Downstream Authorization Server's authorization_endpoint, including Client's redirect_uri as *native_callback_uri*, in the Location header.
+Initial Authorization Server SHALL process Client's request and return an HTTP 3xx response with a Location header containing an authorization request url towards Downstream Authorization Server's authorization_endpoint.
+The request SHALL include Client's redirect_uri as *native_callback_uri* in one of the methods specified in {#parameters}.
 
 ### Client App invokes app of User-Interacting Authorization Server
 
