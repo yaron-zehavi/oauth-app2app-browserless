@@ -344,8 +344,9 @@ Table of Contents
       the request.
 
    *  (6) _User-Authenticating App_ natively invokes
-      *native_callback_uri* (overriding the request's redirect_uri), and
-      provides it the redirect_uri as a parameter.
+      *native_callback_uri* (overriding the request's redirect_uri),
+      providing as a parameter the redirect_uri with its response
+      parameters.
 
    *  (7) _Client App_ loops through Authorization Servers in reverse
       order, starting from the redirect_uri it received from the _User-

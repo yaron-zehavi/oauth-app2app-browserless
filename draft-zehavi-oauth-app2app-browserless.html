@@ -1715,7 +1715,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
             <p id="section-5.1-2.5.1">(5) <em>User-Authenticating App</em> authenticates user and authorizes the request.<a href="#section-5.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.6">
-            <p id="section-5.1-2.6.1">(6) <em>User-Authenticating App</em> natively invokes <strong>native_callback_uri</strong> (overriding the request's redirect_uri), and provides it the redirect_uri as a parameter.<a href="#section-5.1-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-2.6.1">(6) <em>User-Authenticating App</em> natively invokes <strong>native_callback_uri</strong> (overriding the request's redirect_uri), providing as a parameter the redirect_uri with its response parameters.<a href="#section-5.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.7">
             <p id="section-5.1-2.7.1">(7) <em>Client App</em> loops through Authorization Servers in reverse order, starting from the redirect_uri it received from the <em>User-Authenticating App</em>. It calls the first redirect_uri and any subsequent uri obtained as 3xx redirect directive, until it obtains a location header indicating its own redirect_uri.<a href="#section-5.1-2.7.1" class="pilcrow">¶</a></p>
