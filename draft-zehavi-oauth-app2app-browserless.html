@@ -1706,10 +1706,10 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
             <p id="section-5.1-2.2.1">(2) <em>Initial Authorization Server</em> returns an authorization request for Downstream Authorization Server, including Client App's redirect_uri as <strong>native_callback_uri</strong>.<a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.3">
-            <p id="section-5.1-2.3.1">(3) <em>Client App</em> detects if the returned authorization request url is owned by an app on the device and if so proceeds to the next step. Otherwise it loops through Downstream Authorization Servers, calling their authorization endpoints and processing their HTTP 3xx redirect responses, until a url owned by an app on the device is reached.<a href="#section-5.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-2.3.1">(3) <em>Client App</em> checks if the returned authorization request url is claimed by an app on the device and if so proceeds to the next step. Otherwise it loops through Downstream Authorization Servers, calling their authorization endpoints and processing their HTTP 3xx redirect responses, until a url claimed by an app on the device is reached.<a href="#section-5.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.4">
-            <p id="section-5.1-2.4.1">(4) <em>Client App</em> natively invokes User-Authenticating App.<a href="#section-5.1-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-2.4.1">(4) <em>Client App</em> natively invokes <em>User-Authenticating App</em>.<a href="#section-5.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.5">
             <p id="section-5.1-2.5.1">(5) <em>User-Authenticating App</em> authenticates user and authorizes the request.<a href="#section-5.1-2.5.1" class="pilcrow">¶</a></p>
@@ -1718,7 +1718,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
             <p id="section-5.1-2.6.1">(6) <em>User-Authenticating App</em> natively invokes <strong>native_callback_uri</strong> (overriding the request's redirect_uri), and provides it the redirect_uri as a parameter.<a href="#section-5.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.7">
-            <p id="section-5.1-2.7.1">(7) <em>Client App</em> loops through Authorization Servers in reverse order, starting from the redirect_uri it received from the User-Authenticating App. It uses HTTP to call the first redirect_uri and any subsequent uri obtained as 3xx redirect directive, until it obtains a location header indicating its own redirect_uri.<a href="#section-5.1-2.7.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-2.7.1">(7) <em>Client App</em> loops through Authorization Servers in reverse order, starting from the redirect_uri it received from the <em>User-Authenticating App</em>. It calls the first redirect_uri and any subsequent uri obtained as 3xx redirect directive, until it obtains a location header indicating its own redirect_uri.<a href="#section-5.1-2.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.8">
             <p id="section-5.1-2.8.1">(8) <em>Client App</em> exchanges code for tokens and the flow is complete.<a href="#section-5.1-2.8.1" class="pilcrow">¶</a></p>

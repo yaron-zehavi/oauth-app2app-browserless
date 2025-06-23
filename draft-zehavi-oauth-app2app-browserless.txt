@@ -331,14 +331,14 @@ Table of Contents
       request for Downstream Authorization Server, including Client
       App's redirect_uri as *native_callback_uri*.
 
-   *  (3) _Client App_ detects if the returned authorization request url
-      is owned by an app on the device and if so proceeds to the next
+   *  (3) _Client App_ checks if the returned authorization request url
+      is claimed by an app on the device and if so proceeds to the next
       step.  Otherwise it loops through Downstream Authorization
       Servers, calling their authorization endpoints and processing
-      their HTTP 3xx redirect responses, until a url owned by an app on
-      the device is reached.
+      their HTTP 3xx redirect responses, until a url claimed by an app
+      on the device is reached.
 
-   *  (4) _Client App_ natively invokes User-Authenticating App.
+   *  (4) _Client App_ natively invokes _User-Authenticating App_.
 
    *  (5) _User-Authenticating App_ authenticates user and authorizes
       the request.
@@ -348,10 +348,10 @@ Table of Contents
       provides it the redirect_uri as a parameter.
 
    *  (7) _Client App_ loops through Authorization Servers in reverse
-      order, starting from the redirect_uri it received from the User-
-      Authenticating App. It uses HTTP to call the first redirect_uri
-      and any subsequent uri obtained as 3xx redirect directive, until
-      it obtains a location header indicating its own redirect_uri.
+      order, starting from the redirect_uri it received from the _User-
+      Authenticating App_. It calls the first redirect_uri and any
+      subsequent uri obtained as 3xx redirect directive, until it
+      obtains a location header indicating its own redirect_uri.
 
    *  (8) _Client App_ exchanges code for tokens and the flow is
       complete.
