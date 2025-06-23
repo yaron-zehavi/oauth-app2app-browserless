@@ -139,7 +139,7 @@ Brokers may be replaced in the future with dynamic trust establishment leveragin
 "User-Interacting Authorization Server":
 : The Authorization Server which interacts with end-user to perform authentication and authorization.
 
-"User-Authenticating App":
+"User-Interacting App":
 : Native App of User-Interacting Authorization Server.
 
 "Deep Link":
@@ -179,9 +179,9 @@ Using a web browser may degrade the user experience in several ways:
 ~~~
 {: #app2web-w-brokers title="App2Web with brokers (redirects back to Client not depicted)" }
 
-When the user's device has no app owning the User-Authenticating Authorization Server's urls, the flow requires the help of a browser.
+When the user's device has no app owning the User-Interacting Authorization Server's urls, the flow requires the help of a browser.
 
-This is the case when the *User-Authenticating Authorization Server* offers no native app, or when such an app exists but is not installed on the end-user's device.
+This is the case when the *User-Interacting Authorization Server* offers no native app, or when such an app exists but is not installed on the end-user's device.
 
 This is similar to the flow described in "OAuth 2.0 for Native Apps" {{RFC8252}}, and referred to in {{App2App}} as **App2Web**.
 
@@ -196,15 +196,15 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" {{RFC8252}}
 - (1) *Client App* presents an authorization request to *Initial Authorization Server*, indicating app2app flow using new scope value **app2app**.
 - (2) *Initial Authorization Server* returns an authorization request for Downstream Authorization Server, including Client App's redirect_uri as **native_callback_uri**.
 - (3) *Client App* checks if the returned authorization request url is claimed by an app on the device and if so proceeds to the next step. Otherwise it loops through Downstream Authorization Servers, calling their authorization endpoints and processing their HTTP 3xx redirect responses, until a url claimed by an app on the device is reached.
-- (4) *Client App* natively invokes *User-Authenticating App*.
-- (5) *User-Authenticating App* authenticates user and authorizes the request.
-- (6) *User-Authenticating App* natively invokes **native_callback_uri** (overriding the request's redirect_uri), providing as a parameter the redirect_uri with its response parameters.
-- (7) *Client App* loops through Authorization Servers in reverse order, starting from the redirect_uri it received from the *User-Authenticating App*. It calls the first redirect_uri and any subsequent uri obtained as 3xx redirect directive, until it obtains a location header indicating its own redirect_uri.
+- (4) *Client App* natively invokes *User-Interacting App*.
+- (5) *User-Interacting App* authenticates user and authorizes the request.
+- (6) *User-Interacting App* natively invokes **native_callback_uri** (overriding the request's redirect_uri), providing as a parameter the redirect_uri with its response parameters.
+- (7) *Client App* loops through Authorization Servers in reverse order, starting from the redirect_uri it received from the *User-Interacting App*. It calls the first redirect_uri and any subsequent uri obtained as 3xx redirect directive, until it obtains a location header indicating its own redirect_uri.
 - (8) *Client App* exchanges code for tokens and the flow is complete.
 
 ## New Parameters and Values {#parameters}
 
-The protocol described in this document requires *User-Authenticating App* to natively redirect end-user to Client App, which means it needs to obtain Client App's native_callback_uri.
+The protocol described in this document requires *User-Interacting App* to natively redirect end-user to Client App, which means it needs to obtain Client App's native_callback_uri.
 Therefore this document defines new parameters and values.
 
 "**app2app**":
@@ -213,7 +213,7 @@ Therefore this document defines new parameters and values.
 *Initial Authorization Server*, processing an app2app flow according to this document, MUST provide Client App's redirect_uri as Native Callback uri to *Downstream Authorization Server* using one of the following options:
 
 "**native_callback_uri**":
-: OPTIONAL. New authorization endpoint request parameter. When **native_callback_uri** is provided, structured scope **app2app:native_callback_uri** MUST NOT be provided. When invoked by User-Authenticating Authorization Server's App, **native_callback_uri** accepts the following query parameter:
+: OPTIONAL. New authorization endpoint request parameter. When **native_callback_uri** is provided, structured scope **app2app:native_callback_uri** MUST NOT be provided. When invoked by User-Interacting Authorization Server's App, **native_callback_uri** accepts the following query parameter:
   "**redirect_uri**":
   : url-encoded OAuth redirect_uri with its response parameters.
 
@@ -227,7 +227,7 @@ Therefore this document defines new parameters and values.
 
 ## Validation of **native_callback_uri**
 
-Validation of **native_callback_uri** by *User-Authenticating Authorization Server* and its App is RECOMMENDED, to mitiagte open redirection attacks.
+Validation of **native_callback_uri** by *User-Interacting Authorization Server* and its App is RECOMMENDED, to mitiagte open redirection attacks.
 
 A validating Authorization Server MAY use various mechanisms outside the scope of this document.
 For example, validation using {{OpenID.Federation}} is possible:
