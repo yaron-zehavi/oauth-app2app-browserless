@@ -268,7 +268,7 @@ The User-Interacting Authorization Server SHALL handle the authorization request
 
   * User-Interacting Authorization Server's app validates that an app claiming *native_callback_uri* is on the device
   * If so it natively invokes it, handing it the redirect url with its response parameters.
-  * If such an app does not exist on the device, it is an error and the flow terminates. In such case, User-Interacting Authorization Server's app redirects to redirect_uri with: 
+  * If such an app does not exist on the device, it is an error and the flow terminates. In such case, User-Interacting Authorization Server's app redirects to redirect_uri with:
 
     * error=invalid_request.
     * error_description=native_callback_uri_not_claimed.
