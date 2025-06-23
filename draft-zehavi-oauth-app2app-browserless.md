@@ -184,7 +184,7 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" {{RFC8252}}
 ~~~
 {: #app2app-browserless-w-brokers title="Browser-less App2App with Brokers" }
 
-- (1) Client App uses HTTP to present an authorization request to Initial Authorization Server, indicating app2app flow using new scope **app2app**.
+- (1) Client App uses HTTP to present an authorization request to Initial Authorization Server, indicating app2app flow using new scope value **app2app**.
 - (2) Initial Authorization Server returns an authorization request for Downstream Authorization Server, including Client App's redirect_uri as **native_callback_uri**.
 - (3) Client App detects if the returned authorization request url is owned by an app on the device and if so proceeds to the next step. Otherwise it loops through Downstream Authorization Servers, calling their authorization endpoints and processing their HTTP 3xx redirect responses, until a url owned by an app on the device is reached.
 - (4) Client App natively invokes User-Authenticating App.
@@ -196,20 +196,20 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" {{RFC8252}}
 ## New Parameters and Values
 
 The protocol described in this document requires User-Authenticating App to natively redirect end-user to Client App, which means it needs to obtain Client App's native_callback_uri.
-To this end new parameters and values are proposed.
+To this end this document defines new parameters and values.
 
 "app2app":
 : New scope value, used by Client App to request an app2app flow from Initial Authorization Server.
 
-*Initial Authorization Server*, processing an app2app flow according to this document, MUST provide Client App's redirect_uri as Native Callback uri to Downstream Authorization Server in one of these methods:
+*Initial Authorization Server*, processing an app2app flow according to this document, MUST provide Client App's redirect_uri as Native Callback uri to Downstream Authorization Server using one of the following options:
 
 "native_callback_uri":
-: OPTIONAL. New authorization endpoint request parameter. When invoked by User-Authenticating Authorization Server's App it receives the following query parameter:
+: OPTIONAL. New authorization endpoint request parameter. When native_callback_uri is provided, structured scope app2app:native_callback_uri MUST NOT be provided. When invoked by User-Authenticating Authorization Server's App it receives the following query parameter:
   "redirect_uri":
   : url-encoded OAuth redirect_uri with its response parameters.
 
 "app2app:native_callback_uri":
-: New structured scope value including the **app2app** flag as well as the native_callback_uri, separated by a colon.
+: OPTIONAL. New structured scope value including the **app2app** flag as well as the native_callback_uri, separated by a colon. When structured scope app2app:native_callback_uri is provided, native_callback_uri MUST NOT be provided.
 
 *Downstream Authorization Server*, processing an app2app flow according to this document:
 
