@@ -346,8 +346,8 @@ Table of Contents
 
    The protocol described in this document requires User-Authenticating
    App to natively redirect end-user to Client App, which means it needs
-   to obtain Client App's native_callback_uri.  To this end this
-   document defines new parameters and values.
+   to obtain Client App's native_callback_uri.  Therefore this document
+   defines new parameters and values.
 
    "app2app":  New scope value, used by Client App to request an app2app
       flow from Initial Authorization Server.
@@ -361,16 +361,17 @@ Table of Contents
       request parameter.  When native_callback_uri is provided,
       structured scope app2app:native_callback_uri MUST NOT be
       provided.  When invoked by User-Authenticating Authorization
-      Server's App it receives the following query parameter:
+      Server's App, native_callback_uri accepts the following query
+      parameter:
 
                            "redirect_uri":  url-encoded OAuth
          redirect_uri with its response parameters.
 
-   "app2app:native_callback_uri":  OPTIONAL.  New structured scope value
-      including the *app2app* flag as well as the native_callback_uri,
-      separated by a colon.  When structured scope
-      app2app:native_callback_uri is provided, native_callback_uri MUST
-      NOT be provided.
+   "app2app:{_native_callback_uri_}":  OPTIONAL.  New structured scope
+      value including the *app2app* flag as well as the Client's
+      *native_callback_uri*, separated by a colon.  When structured
+      scope app2app:{_native_callback_uri_} is provided,
+      native_callback_uri MUST NOT be provided.
 
    _Downstream Authorization Server_, processing an app2app flow
    according to this document:
@@ -469,17 +470,22 @@ Table of Contents
 
    *  Native app authenticates end user and authorizes the request.
 
-   *  The _native_callback_uri_ provided in the strcutured scope, SHALL
-      override the request's original redirect_uri:
+   *  Native app SHALL use _native_callback_uri_ to override the
+      request's original redirect_uri:
 
-      -  User-Interacting Authorization Server's app SHALL validate that
-         an app claiming _native_callback_uri_ is on the device
+      -  User-Interacting Authorization Server's app validates that an
+         app claiming _native_callback_uri_ is on the device
 
-      -  If so it SHALL natively invoke it, handing it the redirect url
-         with its response parameters
+      -  If so it natively invokes it, handing it the redirect url with
+         its response parameters.
 
-      -  If such an app does not exist it is an error and the flow SHALL
-         terminate
+      -  If such an app does not exist on the device, it is an error and
+         the flow terminates.  In such case, User-Interacting
+         Authorization Server's app redirects to redirect_uri with:
+
+         o  error=invalid_request.
+
+         o  error_description=native_callback_uri_not_claimed.
 
 5.4.5.  Client App traverses OAuth Brokers in reverse order
 

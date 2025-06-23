@@ -1706,7 +1706,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-new-parameters-and-values" class="section-name selfRef">New Parameters and Values</a>
         </h3>
 <p id="section-5.2-1">The protocol described in this document requires User-Authenticating App to natively redirect end-user to Client App, which means it needs to obtain Client App's native_callback_uri.
-To this end this document defines new parameters and values.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+Therefore this document defines new parameters and values.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.2-2">
           <dt id="section-5.2-2.1">"app2app":</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-2.2">
@@ -1720,7 +1720,7 @@ To this end this document defines new parameters and values.<a href="#section-5.
           <dd style="margin-left: 1.5em" id="section-5.2-4.2">
             <span class="break"></span><dl class="dlParallel" id="section-5.2-4.2.1">
               <dt id="section-5.2-4.2.1.1">
-<span class="bcp14">OPTIONAL</span>. New authorization endpoint request parameter. When native_callback_uri is provided, structured scope app2app:native_callback_uri <span class="bcp14">MUST NOT</span> be provided. When invoked by User-Authenticating Authorization Server's App it receives the following query parameter:</dt>
+<span class="bcp14">OPTIONAL</span>. New authorization endpoint request parameter. When native_callback_uri is provided, structured scope app2app:native_callback_uri <span class="bcp14">MUST NOT</span> be provided. When invoked by User-Authenticating Authorization Server's App, native_callback_uri accepts the following query parameter:</dt>
               <dd style="margin-left: 1.5em" id="section-5.2-4.2.1.2">
                 <p id="section-5.2-4.2.1.2.1"></p><a href="#section-5.2-4.2.1.2" class="pilcrow">¶</a>
 </dd>
@@ -1733,9 +1733,9 @@ To this end this document defines new parameters and values.<a href="#section-5.
 </dl>
 </dd>
           <dd class="break"></dd>
-<dt id="section-5.2-4.3">"app2app:native_callback_uri":</dt>
+<dt id="section-5.2-4.3">"app2app:{<em>native_callback_uri</em>}":</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-4.4">
-            <p id="section-5.2-4.4.1"><span class="bcp14">OPTIONAL</span>. New structured scope value including the <strong>app2app</strong> flag as well as the native_callback_uri, separated by a colon. When structured scope app2app:native_callback_uri is provided, native_callback_uri <span class="bcp14">MUST NOT</span> be provided.<a href="#section-5.2-4.4.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-4.4.1"><span class="bcp14">OPTIONAL</span>. New structured scope value including the <strong>app2app</strong> flag as well as the Client's <strong>native_callback_uri</strong>, separated by a colon. When structured scope app2app:{<em>native_callback_uri</em>} is provided, native_callback_uri <span class="bcp14">MUST NOT</span> be provided.<a href="#section-5.2-4.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -1843,16 +1843,24 @@ The remaining flow follows "OAuth 2.0 for Native Apps" <span>[<a href="#RFC8252"
               <p id="section-5.4.4-2.1.1">Native app authenticates end user and authorizes the request.<a href="#section-5.4.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.4.4-2.2">
-              <p id="section-5.4.4-2.2.1">The <em>native_callback_uri</em> provided in the strcutured scope, <span class="bcp14">SHALL</span> override the request's original redirect_uri:<a href="#section-5.4.4-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-5.4.4-2.2.1">Native app <span class="bcp14">SHALL</span> use <em>native_callback_uri</em> to override the request's original redirect_uri:<a href="#section-5.4.4-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4.4-2.2.2.1">
-                  <p id="section-5.4.4-2.2.2.1.1">User-Interacting Authorization Server's app <span class="bcp14">SHALL</span> validate that an app claiming <em>native_callback_uri</em> is on the device<a href="#section-5.4.4-2.2.2.1.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.4.4-2.2.2.1.1">User-Interacting Authorization Server's app validates that an app claiming <em>native_callback_uri</em> is on the device<a href="#section-5.4.4-2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-5.4.4-2.2.2.2">
-                  <p id="section-5.4.4-2.2.2.2.1">If so it <span class="bcp14">SHALL</span> natively invoke it, handing it the redirect url with its response parameters<a href="#section-5.4.4-2.2.2.2.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.4.4-2.2.2.2.1">If so it natively invokes it, handing it the redirect url with its response parameters.<a href="#section-5.4.4-2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-5.4.4-2.2.2.3">
-                  <p id="section-5.4.4-2.2.2.3.1">If such an app does not exist it is an error and the flow <span class="bcp14">SHALL</span> terminate<a href="#section-5.4.4-2.2.2.3.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.4.4-2.2.2.3.1">If such an app does not exist on the device, it is an error and the flow terminates. In such case, User-Interacting Authorization Server's app redirects to redirect_uri with:<a href="#section-5.4.4-2.2.2.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.4.4-2.2.2.3.2.1">
+                      <p id="section-5.4.4-2.2.2.3.2.1.1">error=invalid_request.<a href="#section-5.4.4-2.2.2.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                    <li class="normal" id="section-5.4.4-2.2.2.3.2.2">
+                      <p id="section-5.4.4-2.2.2.3.2.2.1">error_description=native_callback_uri_not_claimed.<a href="#section-5.4.4-2.2.2.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                  </ul>
 </li>
               </ul>
 </li>
