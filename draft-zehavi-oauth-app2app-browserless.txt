@@ -360,9 +360,10 @@ Table of Contents
 5.2.  New Parameters and Values
 
    The protocol described in this document requires _User-Interacting
-   App_ to natively redirect end-user to Client App, which means it
-   needs to obtain Client App's native_callback_uri.  Therefore this
-   document defines new parameters and values.
+   App_ to natively navigate end-user back to Client App, for which it
+   requires Client App's native_callback_uri.
+
+   Therefore this document defines new parameters and values.
 
    "*app2app*":  New scope value, used by _Client App_ to request an
       app2app flow from _Initial Authorization Server_.
@@ -383,6 +384,12 @@ Table of Contents
       scope *app2app:{_native_callback_uri_}* is provided,
       *native_callback_uri* MUST NOT be provided.
 
+   *native_callback_uri* accepts the following query parameter when
+   invoked by _User-Interacting Authorization Server's App_:
+
+   "*redirect_uri*":  url-encoded OAuth redirect_uri with its response
+      parameters.
+
    _Downstream Authorization Server_, processing an app2app flow
    according to this document:
 
@@ -390,12 +397,6 @@ Table of Contents
       requests created.
 
    *  MAY validate *native_callback_uri*.
-
-   *native_callback_uri* accepts the following query parameter when
-   invoked by _User-Interacting Authorization Server's App_:
-
-   "*redirect_uri*":  url-encoded OAuth redirect_uri with its response
-      parameters.
 
 5.3.  Validation of *native_callback_uri*
 
