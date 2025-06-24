@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                             Raiffeisen Bank International
-Intended status: Standards Track                            23 June 2025
-Expires: 25 December 2025
+Intended status: Standards Track                            24 June 2025
+Expires: 26 December 2025
 
 
                    OAuth 2.0 App2App Browserless Flow
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 December 2025.
+   This Internet-Draft will expire on 26 December 2025.
 
 Copyright Notice
 
@@ -190,8 +190,9 @@ Table of Contents
 
    "Deep Link":  A url claimed by a native application.
 
-   "Native Callback uri":  Client App's redirect_uri, claimed as a deep
-      link.
+   "Native Callback uri":  _Client App's_ redirect_uri, claimed as a
+      deep link.  This deep link is invoked by _User-Interacting App_ to
+      natively return to _Client App_.
 
 2.  Conventions and Definitions
 
@@ -374,12 +375,7 @@ Table of Contents
    "*native_callback_uri*":  OPTIONAL.  New authorization endpoint
       request parameter.  When *native_callback_uri* is provided,
       structured scope *app2app:native_callback_uri* MUST NOT be
-      provided.  When invoked by User-Interacting Authorization
-      Server's App, *native_callback_uri* accepts the following query
-      parameter:
-
-                             "*redirect_uri*":  url-encoded OAuth
-         redirect_uri with its response parameters.
+      provided.
 
    "*app2app:{_native_callback_uri_}*":  OPTIONAL.  New structured scope
       value including the *app2app* flag as well as the Client's
@@ -394,6 +390,12 @@ Table of Contents
       requests created.
 
    *  MAY validate *native_callback_uri*.
+
+   *native_callback_uri* accepts the following query parameter when
+   invoked by _User-Interacting Authorization Server's App_:
+
+   "*redirect_uri*":  url-encoded OAuth redirect_uri with its response
+      parameters.
 
 5.3.  Validation of *native_callback_uri*
 
