@@ -204,7 +204,8 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" {{RFC8252}}
 
 ## New Parameters and Values {#parameters}
 
-The protocol described in this document requires *User-Interacting App* to natively redirect end-user to Client App, which means it needs to obtain Client App's native_callback_uri.
+The protocol described in this document requires *User-Interacting App* to natively navigate end-user back to Client App, for which it requires Client App's native_callback_uri.
+
 Therefore this document defines new parameters and values.
 
 "**app2app**":
@@ -212,21 +213,21 @@ Therefore this document defines new parameters and values.
 
 *Initial Authorization Server*, processing an app2app flow according to this document, MUST provide Client App's redirect_uri as Native Callback uri to *Downstream Authorization Server* using one of the following options:
 
-"**native_callback_uri**":
-: OPTIONAL. New authorization endpoint request parameter. When **native_callback_uri** is provided, structured scope **app2app:native_callback_uri** MUST NOT be provided.
+  "**native_callback_uri**":
+  : OPTIONAL. New authorization endpoint request parameter. When **native_callback_uri** is provided, structured scope **app2app:native_callback_uri** MUST NOT be provided.
 
-"**app2app:{*native_callback_uri*}**":
-: OPTIONAL. New structured scope value including the **app2app** flag as well as the Client's **native_callback_uri**, separated by a colon. When structured scope **app2app:{*native_callback_uri*}** is provided, **native_callback_uri** MUST NOT be provided.
+  "**app2app:{*native_callback_uri*}**":
+  : OPTIONAL. New structured scope value including the **app2app** flag as well as the Client's **native_callback_uri**, separated by a colon. When structured scope **app2app:{*native_callback_uri*}** is provided, **native_callback_uri** MUST NOT be provided.
+
+**native_callback_uri** accepts the following query parameter when invoked by *User-Interacting Authorization Server's App*:
+
+  "**redirect_uri**":
+  : url-encoded OAuth redirect_uri with its response parameters.
 
 *Downstream Authorization Server*, processing an app2app flow according to this document:
 
 * MUST retain the **native_callback_uri** in downstream authorization requests created.
 * MAY validate **native_callback_uri**.
-
-**native_callback_uri** accepts the following query parameter when invoked by *User-Interacting Authorization Server's App*:
-
-"**redirect_uri**":
-: url-encoded OAuth redirect_uri with its response parameters.
 
 ## Validation of **native_callback_uri**
 
