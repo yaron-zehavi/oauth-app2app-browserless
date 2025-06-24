@@ -229,7 +229,7 @@ Therefore this document defines new parameters and values.
 * MUST retain the **native_callback_uri** in downstream authorization requests created.
 * MAY validate **native_callback_uri**.
 
-## Validation of **native_callback_uri**
+## Validation of native_callback_uri
 
 Validation of **native_callback_uri** by *User-Interacting Authorization Server* and its App is RECOMMENDED, to mitiagte open redirection attacks.
 
