@@ -83,7 +83,7 @@ Table of Contents
    5.  Browser-less App2App with OAuth Brokers
      5.1.  Flow Diagram
      5.2.  New Parameters and Values
-     5.3.  Validation of *native_callback_uri*
+     5.3.  Validation of native_callback_uri
      5.4.  Protocol Flow
        5.4.1.  Client App calls Initial Authorization Server
        5.4.2.  Initial Authorization Server returns authorization
@@ -398,7 +398,7 @@ Table of Contents
 
    *  MAY validate *native_callback_uri*.
 
-5.3.  Validation of *native_callback_uri*
+5.3.  Validation of native_callback_uri
 
    Validation of *native_callback_uri* by _User-Interacting
    Authorization Server_ and its App is RECOMMENDED, to mitiagte open
