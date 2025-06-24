@@ -13,13 +13,10 @@ Expires: 26 December 2025
 
 Abstract
 
-   This document describes a protocol enabling native apps from any app
-   publisher, using the [App2App] pattern, to achieve native user
-   navigation without requiring a web browser.
-
-   Native navigation UX is retained regardless of any number of OAuth
-   brokers federating the request across trust domains, while offering
-   highest levels of security.
+   This document describes a protocol connecting 2 native apps via the
+   OAuth [App2App] pattern, to achieve native user navigation (no web
+   browser required), regardless of any number of OAuth brokers
+   federating the request across trust domains.
 
 About This Document
 
