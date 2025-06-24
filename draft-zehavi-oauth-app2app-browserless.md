@@ -146,7 +146,7 @@ Brokers may be replaced in the future with dynamic trust establishment leveragin
 : A url claimed by a native application.
 
 "Native Callback uri":
-: Client App's redirect_uri, claimed as a deep link.
+: *Client App's* redirect_uri, claimed as a deep link. This deep link is invoked by *User-Interacting App* to natively return to *Client App*.
 
 # Conventions and Definitions
 
@@ -213,9 +213,7 @@ Therefore this document defines new parameters and values.
 *Initial Authorization Server*, processing an app2app flow according to this document, MUST provide Client App's redirect_uri as Native Callback uri to *Downstream Authorization Server* using one of the following options:
 
 "**native_callback_uri**":
-: OPTIONAL. New authorization endpoint request parameter. When **native_callback_uri** is provided, structured scope **app2app:native_callback_uri** MUST NOT be provided. When invoked by User-Interacting Authorization Server's App, **native_callback_uri** accepts the following query parameter:
-  "**redirect_uri**":
-  : url-encoded OAuth redirect_uri with its response parameters.
+: OPTIONAL. New authorization endpoint request parameter. When **native_callback_uri** is provided, structured scope **app2app:native_callback_uri** MUST NOT be provided.
 
 "**app2app:{*native_callback_uri*}**":
 : OPTIONAL. New structured scope value including the **app2app** flag as well as the Client's **native_callback_uri**, separated by a colon. When structured scope **app2app:{*native_callback_uri*}** is provided, **native_callback_uri** MUST NOT be provided.
@@ -224,6 +222,11 @@ Therefore this document defines new parameters and values.
 
 * MUST retain the **native_callback_uri** in downstream authorization requests created.
 * MAY validate **native_callback_uri**.
+
+**native_callback_uri** accepts the following query parameter when invoked by *User-Interacting Authorization Server's App*:
+
+"**redirect_uri**":
+: url-encoded OAuth redirect_uri with its response parameters.
 
 ## Validation of **native_callback_uri**
 
