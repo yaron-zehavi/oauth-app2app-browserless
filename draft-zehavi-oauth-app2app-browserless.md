@@ -181,7 +181,7 @@ End-user's device may not have an app claiming *User-Interacting Authorization S
 
 * *User-Interacting Authorization Server* offers no native app.
 * Or such an app is offered, but is not installed on the end-user's device.
- 
+
 In such case interacting with *User-Interacting Authorization Server's* MUST use the browser as user agent.
 This is similar to the flow described in "OAuth 2.0 for Native Apps" {{RFC8252}}, and referred to in {{App2App}} as **App2Web**, and is therefore not discussed further in this document.
 
