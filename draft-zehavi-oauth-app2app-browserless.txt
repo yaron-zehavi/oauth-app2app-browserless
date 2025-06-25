@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                             Raiffeisen Bank International
-Intended status: Standards Track                            24 June 2025
-Expires: 26 December 2025
+Intended status: Standards Track                            25 June 2025
+Expires: 27 December 2025
 
 
                    OAuth 2.0 App2App Browserless Flow
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 December 2025.
+   This Internet-Draft will expire on 27 December 2025.
 
 Copyright Notice
 
@@ -76,7 +76,7 @@ Table of Contents
    3.  Challenge of App2App with OAuth Brokers
      3.1.  App2App with OAuth Brokers requires a web browser
      3.2.  Impact of using a web browser
-   4.  App2Web
+   4.  App2Web with brokers
    5.  Browser-less App2App with OAuth Brokers
      5.1.  Flow Diagram
      5.2.  New Parameters and Values
@@ -91,7 +91,7 @@ Table of Contents
                App:
        5.4.5.  Client App traverses OAuth Brokers in reverse order
        5.4.6.  Client App obtains response
-   6.  Detecting Presence of Native Apps Owning Urls
+   6.  Detecting Presence of Native Apps claiming Urls
      6.1.  Android
      6.2.  iOS
    7.  Security Considerations
@@ -112,17 +112,18 @@ Table of Contents
 
 1.  Introduction
 
-   This document, OAuth 2.0 App2App Browserless Flow (Native App2App),
-   presents a protocol enabling native [App2App] *browser-less*
+   This document, _OAuth 2.0 App2App Browserless Flow_ (Native App2App),
+   presents a protocol enabling native OAuth [App2App] *browser-less*
    navigation across apps.
 
    It addresses the challenges presented when using a web browser to
    navigate through *one or more* Brokering Authorization Servers:
 
-   *  Such OAuth Brokers are needed when _Client App_ is not an OAuth
-      client of the User-Interacting Authorization Server.
+   *  Such _OAuth Brokers_ are required when _Client App_ is not an
+      OAuth client of the _User-Interacting Authorization Server_ and so
+      they federate the flow across trust domains.
 
-   *  Since no app owns OAuth Brokers' urls, App2App flows involving
+   *  Since no app owns _OAuth Brokers'_ urls, App2App flows involving
       brokers require a web browser, which degrades the user experience.
 
    This document specifies:
@@ -161,18 +162,18 @@ Table of Contents
       Authorization Servers_. Brokers are used to facilitate a trust
       relationship when there is no direct relation between an OAuth
       Client and the final Authorization Server where end-user
-      authenticates and authorizes.  This pattern is currently employed
-      to establish trust in federation use cases, such as in Academia
-      and in the business world across corporations.  Brokers may be
-      replaced in the future with dynamic trust establishment leveraging
-      [OpenID.Federation].
+      authenticates and authorizes.  This pattern is in current use to
+      establish trust in federation use cases in Academia and in the
+      business world, across corporations.  Note: It is possible OAuth
+      Brokers will be superseded in the future by [OpenID.Federation],
+      offering dynamic trust establishment.
 
    "Client App":  A Native app implementing "OAuth 2.0 for Native Apps"
       [RFC8252] as an OAuth client of _Initial Authorization Server_.
       Client's redirect_uri is claimed by the app.
 
    "Initial Authorization Server":  The Authorization Server of _Client
-      App_ which acts as an OAuth Broker, as an OAuth client of a
+      App_ which acts as an _OAuth Broker_ as an OAuth client of a
       _Downstream Authorization Server_.
 
    "Downstream Authorization Server":  An Authorization Server which may
@@ -182,8 +183,8 @@ Table of Contents
       which interacts with end-user to perform authentication and
       authorization.
 
-   "User-Interacting App":  Native App of User-Interacting Authorization
-      Server.
+   "User-Interacting App":  Native App of _User-Interacting
+      Authorization Server_.
 
    "Deep Link":  A url claimed by a native application.
 
@@ -227,33 +228,33 @@ Table of Contents
     Figure 1: App2App with brokers and browser (redirects back to
                          Client not depicted)
 
-   Since no native app claims OAuth Brokers' urls, OAuth requests and
-   redirect_uri responses to and from OAuth Brokers are handled by a web
-   browser as User Agent.
+   Since no native app claims _OAuth Brokers'_ urls, OAuth requests and
+   redirect_uri responses to and from _OAuth Brokers_ are handled by a
+   web browser as the User Agent.
 
 3.2.  Impact of using a web browser
 
    Using a web browser may degrade the user experience in several ways:
 
-   *  Some browser's support for deep links is limited by design or by
+   *  Some browser's support for deep links is limited by design, or by
       the settings used.
 
    *  The browser may prompt end-user for consent before opening deep
       links, introducing additional friction.
 
-   *  Browser loading of urls and redirecting may be noticeable,
-      providing a less smooth UX.
+   *  Browser's loading of urls and redirecting may be noticeable by
+      end-user, rendering the UX less smooth.
 
-   *  App developers cannot control which browser will be used to handle
-      the response redirect_uri, which risks losing cookies used to bind
-      session identifiers to the user agent (nonce, state or PKCE
-      verifier), which may cause the flow to break.
+   *  App developers cannot control which browser will handle the
+      response redirect_uri.  This poses a risk that necessary cookies
+      used to bind session identifiers to the user agent (nonce, state
+      or PKCE verifier) will be unavailable, which may break the flow.
 
-   *  After the flow is complete, "orphan" browser tabs might be left
-      over.  While they do not directly impact the flow, they can be
-      regarded as unnecessary "clutter".
+   *  After the flow is complete, "orphan" browser tabs might remain.
+      While they do not directly impact the flow, they can be regarded
+      as unnecessary "clutter".
 
-4.  App2Web
+4.  App2Web with brokers
 
 +------------------------------------------------------------------------------------+
 | +-----------+                                                                      |
@@ -278,15 +279,19 @@ Table of Contents
      Figure 2: App2Web with brokers (redirects back to Client not
                               depicted)
 
-   When the user's device has no app owning the User-Interacting
-   Authorization Server's urls, the flow requires the help of a browser.
+   End-user's device may not have an app claiming _User-Interacting
+   Authorization Server's_ urls, when:
 
-   This is the case when the _User-Interacting Authorization Server_
-   offers no native app, or when such an app exists but is not installed
-   on the end-user's device.
+   *  _User-Interacting Authorization Server_ offers no native app.
 
-   This is similar to the flow described in "OAuth 2.0 for Native Apps"
-   [RFC8252], and referred to in [App2App] as *App2Web*.
+   *  Or such an app is offered, but is not installed on the end-user's
+      device.
+
+   In such case interacting with _User-Interacting Authorization
+   Server's_ MUST use the browser as user agent.  This is similar to the
+   flow described in "OAuth 2.0 for Native Apps" [RFC8252], and referred
+   to in [App2App] as *App2Web*, and is therefore not discussed further
+   in this document.
 
 5.  Browser-less App2App with OAuth Brokers
 
@@ -483,7 +488,7 @@ Table of Contents
    The _User-Interacting Authorization Server_ SHALL handle the
    authorization request using its native app:
 
-   *  Authenticates end user and authorizes the request.
+   *  Authenticates end-user and authorizes the request.
 
    *  SHALL use *native_callback_uri* to override the request's original
       redirect_uri:
@@ -530,7 +535,7 @@ Table of Contents
    _Client App_ SHALL proceed according to OAuth to exchange code for
    tokens, or handle error responses.
 
-6.  Detecting Presence of Native Apps Owning Urls
+6.  Detecting Presence of Native Apps claiming Urls
 
    Native Apps on iOS and Android MAY use OS SDK's to detect if an app
    owns a url.  The general method is the same - App calls an SDK to

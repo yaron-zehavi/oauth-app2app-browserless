@@ -1051,7 +1051,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Zehavi</td>
-<td class="center">Expires 26 December 2025</td>
+<td class="center">Expires 27 December 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1064,12 +1064,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-zehavi-oauth-app2app-browserless-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-06-24" class="published">24 June 2025</time>
+<time datetime="2025-06-25" class="published">25 June 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-12-26">26 December 2025</time></dd>
+<dd class="expires"><time datetime="2025-12-27">27 December 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1119,7 +1119,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 26 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 27 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1174,7 +1174,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-app2web" class="internal xref">App2Web</a></p>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-app2web-with-brokers" class="internal xref">App2Web with brokers</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-browser-less-app2app-with-o" class="internal xref">Browser-less App2App with OAuth Brokers</a></p>
@@ -1214,7 +1214,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-detecting-presence-of-nativ" class="internal xref">Detecting Presence of Native Apps Owning Urls</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-detecting-presence-of-nativ" class="internal xref">Detecting Presence of Native Apps claiming Urls</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-android" class="internal xref">Android</a></p>
@@ -1279,14 +1279,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">This document, OAuth 2.0 App2App Browserless Flow (Native App2App), presents a protocol enabling native <span>[<a href="#App2App" class="cite xref">App2App</a>]</span> <strong>browser-less</strong> navigation across apps.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1">This document, <em>OAuth 2.0 App2App Browserless Flow</em> (Native App2App), presents a protocol enabling native OAuth <span>[<a href="#App2App" class="cite xref">App2App</a>]</span> <strong>browser-less</strong> navigation across apps.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">It addresses the challenges presented when using a web browser to navigate through <strong>one or more</strong> Brokering Authorization Servers:<a href="#section-1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1-3.1">
-          <p id="section-1-3.1.1">Such OAuth Brokers are needed when <em>Client App</em> is not an OAuth client of the User-Interacting Authorization Server.<a href="#section-1-3.1.1" class="pilcrow">¶</a></p>
+          <p id="section-1-3.1.1">Such <em>OAuth Brokers</em> are required when <em>Client App</em> is not an OAuth client of the <em>User-Interacting Authorization Server</em> and so they federate the flow across trust domains.<a href="#section-1-3.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-3.2">
-          <p id="section-1-3.2.1">Since no app owns OAuth Brokers' urls, App2App flows involving brokers require a web browser, which degrades the user experience.<a href="#section-1-3.2.1" class="pilcrow">¶</a></p>
+          <p id="section-1-3.2.1">Since no app owns <em>OAuth Brokers'</em> urls, App2App flows involving brokers require a web browser, which degrades the user experience.<a href="#section-1-3.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-1-4">This document specifies:<a href="#section-1-4" class="pilcrow">¶</a></p>
@@ -1340,8 +1340,8 @@ to prevent various attacks on OAuth authorization codes.<a href="#section-1.2-2.
           <dd style="margin-left: 1.5em" id="section-1.2-2.6">
             <p id="section-1.2-2.6.1">A component acting as an Authorization Server for its clients, as well as an OAuth Client towards <em>Downstream Authorization Servers</em>.
 Brokers are used to facilitate a trust relationship when there is no direct relation between an OAuth Client and the final Authorization Server where end-user authenticates and authorizes.
-This pattern is currently employed to establish trust in federation use cases, such as in Academia and in the business world across corporations.
-Brokers may be replaced in the future with dynamic trust establishment leveraging <span>[<a href="#OpenID.Federation" class="cite xref">OpenID.Federation</a>]</span>.<a href="#section-1.2-2.6.1" class="pilcrow">¶</a></p>
+This pattern is in current use to establish trust in federation use cases in Academia and in the business world, across corporations.
+Note: It is possible OAuth Brokers will be superseded in the future by <span>[<a href="#OpenID.Federation" class="cite xref">OpenID.Federation</a>]</span>, offering dynamic trust establishment.<a href="#section-1.2-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-1.2-2.7">"Client App":</dt>
@@ -1351,7 +1351,7 @@ Brokers may be replaced in the future with dynamic trust establishment leveragin
           <dd class="break"></dd>
 <dt id="section-1.2-2.9">"Initial Authorization Server":</dt>
           <dd style="margin-left: 1.5em" id="section-1.2-2.10">
-            <p id="section-1.2-2.10.1">The Authorization Server of <em>Client App</em> which acts as an OAuth Broker, as an OAuth client of a <em>Downstream Authorization Server</em>.<a href="#section-1.2-2.10.1" class="pilcrow">¶</a></p>
+            <p id="section-1.2-2.10.1">The Authorization Server of <em>Client App</em> which acts as an <em>OAuth Broker</em> as an OAuth client of a <em>Downstream Authorization Server</em>.<a href="#section-1.2-2.10.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-1.2-2.11">"Downstream Authorization Server":</dt>
@@ -1366,7 +1366,7 @@ Brokers may be replaced in the future with dynamic trust establishment leveragin
           <dd class="break"></dd>
 <dt id="section-1.2-2.15">"User-Interacting App":</dt>
           <dd style="margin-left: 1.5em" id="section-1.2-2.16">
-            <p id="section-1.2-2.16.1">Native App of User-Interacting Authorization Server.<a href="#section-1.2-2.16.1" class="pilcrow">¶</a></p>
+            <p id="section-1.2-2.16.1">Native App of <em>User-Interacting Authorization Server</em>.<a href="#section-1.2-2.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-1.2-2.17">"Deep Link":</dt>
@@ -1485,7 +1485,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#name-app2app-with-brokers-and-br" class="selfRef">App2App with brokers and browser (redirects back to Client not depicted)</a>
           </figcaption></figure>
 </div>
-<p id="section-3.1-2">Since no native app claims OAuth Brokers' urls, OAuth requests and redirect_uri responses to and from OAuth Brokers are handled by a web browser as User Agent.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">Since no native app claims <em>OAuth Brokers'</em> urls, OAuth requests and redirect_uri responses to and from <em>OAuth Brokers</em> are handled by a web browser as the User Agent.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="impact-of-using-a-web-browser">
@@ -1496,29 +1496,29 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-3.2-1">Using a web browser may degrade the user experience in several ways:<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.2-2.1">
-            <p id="section-3.2-2.1.1">Some browser's support for deep links is limited by design or by the settings used.<a href="#section-3.2-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.2-2.1.1">Some browser's support for deep links is limited by design, or by the settings used.<a href="#section-3.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-2.2">
             <p id="section-3.2-2.2.1">The browser may prompt end-user for consent before opening deep links, introducing additional friction.<a href="#section-3.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-2.3">
-            <p id="section-3.2-2.3.1">Browser loading of urls and redirecting may be noticeable, providing a less smooth UX.<a href="#section-3.2-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.2-2.3.1">Browser's loading of urls and redirecting may be noticeable by end-user, rendering the UX less smooth.<a href="#section-3.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-2.4">
-            <p id="section-3.2-2.4.1">App developers cannot control which browser will be used to handle the response redirect_uri, which risks losing cookies used to bind session identifiers to the user agent (nonce, state or PKCE verifier), which may cause the flow to break.<a href="#section-3.2-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-3.2-2.4.1">App developers cannot control which browser will handle the response redirect_uri. This poses a risk that necessary cookies used to bind session identifiers to the user agent (nonce, state or PKCE verifier) will be unavailable, which may break the flow.<a href="#section-3.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-2.5">
-            <p id="section-3.2-2.5.1">After the flow is complete, "orphan" browser tabs might be left over. While they do not directly impact the flow, they can be regarded as unnecessary "clutter".<a href="#section-3.2-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-3.2-2.5.1">After the flow is complete, "orphan" browser tabs might remain. While they do not directly impact the flow, they can be regarded as unnecessary "clutter".<a href="#section-3.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 </section>
 </div>
-<div id="app2web">
+<div id="app2web-with-brokers">
 <section id="section-4">
-      <h2 id="name-app2web">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-app2web" class="section-name selfRef">App2Web</a>
+      <h2 id="name-app2web-with-brokers">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-app2web-with-brokers" class="section-name selfRef">App2Web with brokers</a>
       </h2>
 <span id="name-app2web-with-brokers-redire"></span><div id="app2web-w-brokers">
 <figure id="figure-2">
@@ -1594,9 +1594,17 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#name-app2web-with-brokers-redire" class="selfRef">App2Web with brokers (redirects back to Client not depicted)</a>
         </figcaption></figure>
 </div>
-<p id="section-4-2">When the user's device has no app owning the User-Interacting Authorization Server's urls, the flow requires the help of a browser.<a href="#section-4-2" class="pilcrow">¶</a></p>
-<p id="section-4-3">This is the case when the <em>User-Interacting Authorization Server</em> offers no native app, or when such an app exists but is not installed on the end-user's device.<a href="#section-4-3" class="pilcrow">¶</a></p>
-<p id="section-4-4">This is similar to the flow described in "OAuth 2.0 for Native Apps" <span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span>, and referred to in <span>[<a href="#App2App" class="cite xref">App2App</a>]</span> as <strong>App2Web</strong>.<a href="#section-4-4" class="pilcrow">¶</a></p>
+<p id="section-4-2">End-user's device may not have an app claiming <em>User-Interacting Authorization Server's</em> urls, when:<a href="#section-4-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4-3.1">
+          <p id="section-4-3.1.1"><em>User-Interacting Authorization Server</em> offers no native app.<a href="#section-4-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-4-3.2">
+          <p id="section-4-3.2.1">Or such an app is offered, but is not installed on the end-user's device.<a href="#section-4-3.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-4-4">In such case interacting with <em>User-Interacting Authorization Server's</em> <span class="bcp14">MUST</span> use the browser as user agent.
+This is similar to the flow described in "OAuth 2.0 for Native Apps" <span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span>, and referred to in <span>[<a href="#App2App" class="cite xref">App2App</a>]</span> as <strong>App2Web</strong>, and is therefore not discussed further in this document.<a href="#section-4-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="browser-less-app2app-with-oauth-brokers">
@@ -1861,7 +1869,7 @@ The remaining flow follows "OAuth 2.0 for Native Apps" <span>[<a href="#RFC8252"
 <p id="section-5.4.4-1">The <em>User-Interacting Authorization Server</em> <span class="bcp14">SHALL</span> handle the authorization request using its native app:<a href="#section-5.4.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4.4-2.1">
-              <p id="section-5.4.4-2.1.1">Authenticates end user and authorizes the request.<a href="#section-5.4.4-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.4.4-2.1.1">Authenticates end-user and authorizes the request.<a href="#section-5.4.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.4.4-2.2">
               <p id="section-5.4.4-2.2.1"><span class="bcp14">SHALL</span> use <strong>native_callback_uri</strong> to override the request's original redirect_uri:<a href="#section-5.4.4-2.2.1" class="pilcrow">¶</a></p>
@@ -1919,10 +1927,10 @@ The remaining flow follows "OAuth 2.0 for Native Apps" <span>[<a href="#RFC8252"
 </div>
 </section>
 </div>
-<div id="detecting-presence-of-native-apps-owning-urls">
+<div id="detecting-presence-of-native-apps-claiming-urls">
 <section id="section-6">
       <h2 id="name-detecting-presence-of-nativ">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-detecting-presence-of-nativ" class="section-name selfRef">Detecting Presence of Native Apps Owning Urls</a>
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-detecting-presence-of-nativ" class="section-name selfRef">Detecting Presence of Native Apps claiming Urls</a>
       </h2>
 <p id="section-6-1">Native Apps on iOS and Android <span class="bcp14">MAY</span> use OS SDK's to detect if an app owns a url.
 The general method is the same - App calls an SDK to open the url as deep link and handles an exception thrown if no matching app is found.<a href="#section-6-1" class="pilcrow">¶</a></p>
