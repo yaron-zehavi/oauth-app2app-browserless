@@ -372,29 +372,4 @@ This document has no IANA actions.
 The authors would like to thank the following individuals who contributed ideas, feedback, and wording that shaped and formed the final specification: Henrik Kroll, Grese Hyseni.
 As well as the attendees of the OAuth Security Workshop 2025 session in which this topic was discussed for their ideas and feedback.
 
-# Document History
 
-\[\[ To be removed from the final specification ]]
--latest
-* Phrased the challenge in Trust Domain terminology
-* Discussed interim Authorization Server interacting the end-user, which is not the user-authenticating Authorization Server
-* Moved Cookies discussion to Protocol Flow
-
--03
-
-* Defined parameters and values
-* Added error native_callback_uri_not_claimed
-
--02
-
-* Clarified wording
-* Improved figures
-
--01
-
-* Better defined terms
-* Explained deep link claiming detection on iOS and android
-
--00
-
-* initial working group version (previously draft-zehavi-oauth-app2app-browserless)
