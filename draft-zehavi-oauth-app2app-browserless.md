@@ -381,16 +381,20 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
 * Moved Cookies discussion to Protocol Flow
 
 -03
+
 * Defined parameters and values
 * Added error native_callback_uri_not_claimed
 
 -02
+
 * Clarified wording
 * Improved figures
 
 -01
+
 * Better defined terms
 * Explained deep link claiming detection on iOS and android
 
 -00
+
 * initial working group version (previously draft-zehavi-oauth-app2app-browserless)
