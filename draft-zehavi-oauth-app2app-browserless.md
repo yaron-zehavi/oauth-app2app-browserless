@@ -367,7 +367,6 @@ This document has no IANA actions.
 --- back
 
 # Acknowledgments
-{:numbered="false"}
 
 The authors would like to thank the following individuals who contributed ideas, feedback, and wording that shaped and formed the final specification: Henrik Kroll, Grese Hyseni.
 As well as the attendees of the OAuth Security Workshop 2025 session in which this topic was discussed for their ideas and feedback.
@@ -376,40 +375,25 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
 
 \[\[ To be removed from the final specification ]]
 -latest
-* Editorial pass on Appendix for consistency
-* Clarified introduction
-* Added security considerations for unconstrained authorization grants.
-
--04
-
-* Clarified diagrams and description of authorization server acting as a client.
-* Remove references to sd-jwt.
-* Added text to recommend use of explicit typing.
-* Added security consideration on preventing lateral moves.
-* Editorial updates to be consistent about the trust domain for a client, authorization server or resource server.
-* Added sender constraining of tokens to security considerations
+* Phrased the challenge in Trust Domain terminology
+* Discussed interim Authorization Server interacting the end-user, which is not the user-authenticating Authorization Server
+* Moved Cookies discussion to Protocol Flow
 
 -03
 
-* Editorial updates
+* Defined parameters and values
+* Added error native_callback_uri_not_claimed
 
 -02
 
-* remove recommendation to not use RFC8693's requested_token_type
-* Corrected discrepancy between alphabetic numbering of the diagram and text in the resource acting as client example
-
+* Clarified wording
+* Improved figures
 
 -01
 
-* limit the authorization grant format to RFC7523 JWT
-* minor example fixes
-* editorial fixes
-* added Aaron Parecki to acknowledgements
-* renamed section headers to be more explicit
-* use more specific term "JWT authorization grant"
-* changed name to "OAuth Identity and Authorization Chaining Across Domains"
-* move use cases to appendix and add continuous integration use case
+* Better defined terms
+* Explained deep link claiming detection on iOS and android
 
 -00
 
-* initial working group version (previously draft-schwenkschuster-oauth-identity-chaining)
+* initial working group version (previously draft-zehavi-oauth-app2app-browserless)
