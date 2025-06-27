@@ -135,7 +135,7 @@ Note: It is possible OAuth Brokers will be superseded in the future by {{OpenID.
 : An Authorization Server which may be an *OAuth Broker* or a *User-Interacting Authorization Server*.
 
 "User-Interacting Authorization Server":
-: The Authorization Server which interacts with end-user to perform authentication and authorization.
+: An Authorization Server which interacts with end-user. The interaction may be interim navigation (e.g: user input guides where to redirect), or the interaction of performing user authentication and request authorization.
 
 "User-Interacting App":
 : Native App of *User-Interacting Authorization Server*.
@@ -264,14 +264,20 @@ If an app handling the authorization request url is not found, *Client App* SHAL
   * Otherwise use HTTP to call the obtained url and analyze the response.
 * Handle error response (HTTP 4xx / 5xx) for example by displaying the error.
 
-As the *Client App* traverses through Brokers, it SHALL maintain a list of all the DNS domains it traverses, which serves later as the Allowlist when traversing the response.
+As the *Client App* traverses through Brokers, it SHALL maintain a list of all the DNS domains it traverses, to be used as Allowlist for response handling traversal.
+
+As Authorization Servers MAY use Cookies to bind security elements (state, nonce, PKCE) to the user agent, causing the flow to break if said cookies are not present in subsequent HTTP requests, *Client App* MUST act as a browser would:
+
+* Store Cookies it obtains in HTTP responses.
+* Send Cookies in subsequent HTTP requests.
 
 #### Downgrade to App2Web
 
-If *Client App* reaches a *User-Interacting Authorization Server* but failed to locate an app claiming its urls, it may be impossible to relaunch the last authorization request on the browser as it might have included a single-use "OAuth 2.0 Pushed Authorization Requests" {{RFC9126}} request_uri which by now has been used and is therefore invalid.
+If *Client App* reaches a *User-Interacting Authorization Server* but no app claims its url, it needs to complete the flow on the browser. It may be impossible to relaunch the last authorization request on the browser as it might have included single-use elements such as a *request_uri* which by now has been used and is therefore no longer valid.
 
-In such a case the *Client App* MUST start over, generating a new authorization request without the **app2app** scope, which is then launched on the browser.
-The remaining flow follows "OAuth 2.0 for Native Apps" {{RFC8252}} and is therefore not elaborated further in this document.
+In such case *Client App* MUST start over, generating a new authorization request without the **app2app** scope, which is then launched on the browser.
+
+The remaining flow follows "OAuth 2.0 for Native Apps" {{RFC8252}} and is therefore not elaborated in this document.
 
 ### Processing by User-Interacting Authorization Server's App:
 
@@ -352,16 +358,7 @@ It is RECOMMENDED that User-Interacting Authorization Server's App establishes t
 
 ## Authorization code theft and injection
 
-It is RECOMMENDED that PKCE is used and that the code_verifier is tied to the *Client App* instance.
-
-## Handling of Cookies
-
-It can be assumed that Authorization Servers will use Cookies to bind security elements (state, nonce, PKCE) to the user agent, which will break the flow if these cookies are not present in subsequent HTTP requests.
-
-Therefore, *Client App* MUST handle Cookies:
-
-* Store cookies it obtains on HTTP responses.
-* Send cookies on subsequent HTTP requests to Authorization Servers that returned such cookies.
+It is RECOMMENDED that PKCE is used and that the code_verifier is tied to the *Client App* instance, as mitigation to authorization code theft and injection attacks.
 
 # IANA Considerations
 
@@ -374,3 +371,26 @@ This document has no IANA actions.
 
 The authors would like to thank the following individuals who contributed ideas, feedback, and wording that shaped and formed the final specification: Henrik Kroll, Grese Hyseni.
 As well as the attendees of the OAuth Security Workshop 2025 session in which this topic was discussed for their ideas and feedback.
+
+# Document History
+
+\[\[ To be removed from the final specification ]]
+-latest
+* Phrased the challenge in Trust Domain terminology
+* Discussed interim Authorization Server interacting the end-user, which is not the user-authenticating Authorization Server
+* Moved Cookies discussion to Protocol Flow
+
+-03
+* Defined parameters and values
+* Added error native_callback_uri_not_claimed
+
+-02
+* Clarified wording
+* Improved figures
+
+-01
+* Better defined terms
+* Explained deep link claiming detection on iOS and android
+
+-00
+* initial working group version (previously draft-zehavi-oauth-app2app-browserless)
