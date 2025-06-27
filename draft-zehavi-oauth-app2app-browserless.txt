@@ -106,7 +106,8 @@ Table of Contents
    9.  References
      9.1.  Normative References
      9.2.  Informative References
-   Acknowledgments
+   Appendix A.  Acknowledgments
+   Appendix B.  Document History
    Author's Address
 
 1.  Introduction
@@ -697,13 +698,44 @@ Table of Contents
               November 2022, <https://openid.net/specs/openid-connect-
               native-sso-1_0.html>.
 
-Acknowledgments
+Appendix A.  Acknowledgments
 
    The authors would like to thank the following individuals who
    contributed ideas, feedback, and wording that shaped and formed the
    final specification: Henrik Kroll, Grese Hyseni.  As well as the
    attendees of the OAuth Security Workshop 2025 session in which this
    topic was discussed for their ideas and feedback.
+
+Appendix B.  Document History
+
+   [[ To be removed from the final specification ]] -latest * Phrased
+   the challenge in Trust Domain terminology * Discussed interim
+   Authorization Server interacting the end-user, which is not the user-
+   authenticating Authorization Server * Moved Cookies discussion to
+   Protocol Flow
+
+   -03
+
+   *  Defined parameters and values
+
+   *  Added error native_callback_uri_not_claimed
+
+   -02
+
+   *  Clarified wording
+
+   *  Improved figures
+
+   -01
+
+   *  Better defined terms
+
+   *  Explained deep link claiming detection on iOS and android
+
+   -00
+
+   *  initial working group version (previously draft-zehavi-oauth-
+      app2app-browserless)
 
 Author's Address
 
