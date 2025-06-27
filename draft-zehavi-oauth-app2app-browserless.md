@@ -372,4 +372,44 @@ This document has no IANA actions.
 The authors would like to thank the following individuals who contributed ideas, feedback, and wording that shaped and formed the final specification: Henrik Kroll, Grese Hyseni.
 As well as the attendees of the OAuth Security Workshop 2025 session in which this topic was discussed for their ideas and feedback.
 
+# Document History
 
+\[\[ To be removed from the final specification ]]
+-latest
+* Editorial pass on Appendix for consistency
+* Clarified introduction
+* Added security considerations for unconstrained authorization grants.
+
+-04
+
+* Clarified diagrams and description of authorization server acting as a client.
+* Remove references to sd-jwt.
+* Added text to recommend use of explicit typing.
+* Added security consideration on preventing lateral moves.
+* Editorial updates to be consistent about the trust domain for a client, authorization server or resource server.
+* Added sender constraining of tokens to security considerations
+
+-03
+
+* Editorial updates
+
+-02
+
+* remove recommendation to not use RFC8693's requested_token_type
+* Corrected discrepancy between alphabetic numbering of the diagram and text in the resource acting as client example
+
+
+-01
+
+* limit the authorization grant format to RFC7523 JWT
+* minor example fixes
+* editorial fixes
+* added Aaron Parecki to acknowledgements
+* renamed section headers to be more explicit
+* use more specific term "JWT authorization grant"
+* changed name to "OAuth Identity and Authorization Chaining Across Domains"
+* move use cases to appendix and add continuous integration use case
+
+-00
+
+* initial working group version (previously draft-schwenkschuster-oauth-identity-chaining)
