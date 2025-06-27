@@ -374,7 +374,9 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
 # Document History
 
 \[\[ To be removed from the final specification ]]
+
 -latest
+
 * Phrased the challenge in Trust Domain terminology
 * Discussed interim Authorization Server interacting the end-user, which is not the user-authenticating Authorization Server
 * Moved Cookies discussion to Protocol Flow
