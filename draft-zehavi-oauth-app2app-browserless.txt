@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                             Raiffeisen Bank International
-Intended status: Standards Track                            25 June 2025
-Expires: 27 December 2025
+Intended status: Standards Track                            27 June 2025
+Expires: 29 December 2025
 
 
                    OAuth 2.0 App2App Browserless Flow
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 December 2025.
+   This Internet-Draft will expire on 29 December 2025.
 
 Copyright Notice
 
@@ -102,7 +102,6 @@ Table of Contents
      7.5.  Open redirection by User-Interacting Authorization Server's
            App
      7.6.  Authorization code theft and injection
-     7.7.  Handling of Cookies
    8.  IANA Considerations
    9.  References
      9.1.  Normative References
@@ -179,8 +178,10 @@ Table of Contents
    "Downstream Authorization Server":  An Authorization Server which may
       be an _OAuth Broker_ or a _User-Interacting Authorization Server_.
 
-   "User-Interacting Authorization Server":  The Authorization Server
-      which interacts with end-user to perform authentication and
+   "User-Interacting Authorization Server":  An Authorization Server
+      which interacts with end-user.  The interaction may be interim
+      navigation (e.g: user input guides where to redirect), or the
+      interaction of performing user authentication and request
       authorization.
 
    "User-Interacting App":  Native App of _User-Interacting
@@ -465,23 +466,33 @@ Table of Contents
       the error.
 
    As the _Client App_ traverses through Brokers, it SHALL maintain a
-   list of all the DNS domains it traverses, which serves later as the
-   Allowlist when traversing the response.
+   list of all the DNS domains it traverses, to be used as Allowlist for
+   response handling traversal.
+
+   As Authorization Servers MAY use Cookies to bind security elements
+   (state, nonce, PKCE) to the user agent, causing the flow to break if
+   said cookies are not present in subsequent HTTP requests, _Client
+   App_ MUST act as a browser would:
+
+   *  Store Cookies it obtains in HTTP responses.
+
+   *  Send Cookies in subsequent HTTP requests.
 
 5.4.3.1.  Downgrade to App2Web
 
    If _Client App_ reaches a _User-Interacting Authorization Server_ but
-   failed to locate an app claiming its urls, it may be impossible to
-   relaunch the last authorization request on the browser as it might
-   have included a single-use "OAuth 2.0 Pushed Authorization Requests"
-   [RFC9126] request_uri which by now has been used and is therefore
-   invalid.
+   no app claims its url, it needs to complete the flow on the browser.
+   It may be impossible to relaunch the last authorization request on
+   the browser as it might have included single-use elements such as a
+   _request_uri_ which by now has been used and is therefore no longer
+   valid.
 
-   In such a case the _Client App_ MUST start over, generating a new
+   In such case _Client App_ MUST start over, generating a new
    authorization request without the *app2app* scope, which is then
-   launched on the browser.  The remaining flow follows "OAuth 2.0 for
-   Native Apps" [RFC8252] and is therefore not elaborated further in
-   this document.
+   launched on the browser.
+
+   The remaining flow follows "OAuth 2.0 for Native Apps" [RFC8252] and
+   is therefore not elaborated in this document.
 
 5.4.4.  Processing by User-Interacting Authorization Server's App:
 
@@ -604,21 +615,8 @@ Table of Contents
 7.6.  Authorization code theft and injection
 
    It is RECOMMENDED that PKCE is used and that the code_verifier is
-   tied to the _Client App_ instance.
-
-7.7.  Handling of Cookies
-
-   It can be assumed that Authorization Servers will use Cookies to bind
-   security elements (state, nonce, PKCE) to the user agent, which will
-   break the flow if these cookies are not present in subsequent HTTP
-   requests.
-
-   Therefore, _Client App_ MUST handle Cookies:
-
-   *  Store cookies it obtains on HTTP responses.
-
-   *  Send cookies on subsequent HTTP requests to Authorization Servers
-      that returned such cookies.
+   tied to the _Client App_ instance, as mitigation to authorization
+   code theft and injection attacks.
 
 8.  IANA Considerations
 

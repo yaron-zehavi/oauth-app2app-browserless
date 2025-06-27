@@ -1051,7 +1051,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Zehavi</td>
-<td class="center">Expires 27 December 2025</td>
+<td class="center">Expires 29 December 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1064,12 +1064,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-zehavi-oauth-app2app-browserless-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-06-25" class="published">25 June 2025</time>
+<time datetime="2025-06-27" class="published">27 June 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-12-27">27 December 2025</time></dd>
+<dd class="expires"><time datetime="2025-12-29">29 December 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1119,7 +1119,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 29 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1245,9 +1245,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.6">
                 <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="auto internal xref">7.6</a>.  <a href="#name-authorization-code-theft-an" class="internal xref">Authorization code theft and injection</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.7">
-                <p id="section-toc.1-1.7.2.7.1"><a href="#section-7.7" class="auto internal xref">7.7</a>.  <a href="#name-handling-of-cookies" class="internal xref">Handling of Cookies</a></p>
-</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
@@ -1361,7 +1358,7 @@ Note: It is possible OAuth Brokers will be superseded in the future by <span>[<a
           <dd class="break"></dd>
 <dt id="section-1.2-2.13">"User-Interacting Authorization Server":</dt>
           <dd style="margin-left: 1.5em" id="section-1.2-2.14">
-            <p id="section-1.2-2.14.1">The Authorization Server which interacts with end-user to perform authentication and authorization.<a href="#section-1.2-2.14.1" class="pilcrow">¶</a></p>
+            <p id="section-1.2-2.14.1">An Authorization Server which interacts with end-user. The interaction may be interim navigation (e.g: user input guides where to redirect), or the interaction of performing user authentication and request authorization.<a href="#section-1.2-2.14.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-1.2-2.15">"User-Interacting App":</dt>
@@ -1848,15 +1845,24 @@ If an app handling the authorization request url is not found, <em>Client App</e
               <p id="section-5.4.3-2.3.1">Handle error response (HTTP 4xx / 5xx) for example by displaying the error.<a href="#section-5.4.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-5.4.3-3">As the <em>Client App</em> traverses through Brokers, it <span class="bcp14">SHALL</span> maintain a list of all the DNS domains it traverses, which serves later as the Allowlist when traversing the response.<a href="#section-5.4.3-3" class="pilcrow">¶</a></p>
+<p id="section-5.4.3-3">As the <em>Client App</em> traverses through Brokers, it <span class="bcp14">SHALL</span> maintain a list of all the DNS domains it traverses, to be used as Allowlist for response handling traversal.<a href="#section-5.4.3-3" class="pilcrow">¶</a></p>
+<p id="section-5.4.3-4">As Authorization Servers <span class="bcp14">MAY</span> use Cookies to bind security elements (state, nonce, PKCE) to the user agent, causing the flow to break if said cookies are not present in subsequent HTTP requests, <em>Client App</em> <span class="bcp14">MUST</span> act as a browser would:<a href="#section-5.4.3-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.4.3-5.1">
+              <p id="section-5.4.3-5.1.1">Store Cookies it obtains in HTTP responses.<a href="#section-5.4.3-5.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.4.3-5.2">
+              <p id="section-5.4.3-5.2.1">Send Cookies in subsequent HTTP requests.<a href="#section-5.4.3-5.2.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 <div id="downgrade-to-app2web">
 <section id="section-5.4.3.1">
             <h5 id="name-downgrade-to-app2web">
 <a href="#section-5.4.3.1" class="section-number selfRef">5.4.3.1. </a><a href="#name-downgrade-to-app2web" class="section-name selfRef">Downgrade to App2Web</a>
             </h5>
-<p id="section-5.4.3.1-1">If <em>Client App</em> reaches a <em>User-Interacting Authorization Server</em> but failed to locate an app claiming its urls, it may be impossible to relaunch the last authorization request on the browser as it might have included a single-use "OAuth 2.0 Pushed Authorization Requests" <span>[<a href="#RFC9126" class="cite xref">RFC9126</a>]</span> request_uri which by now has been used and is therefore invalid.<a href="#section-5.4.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.4.3.1-2">In such a case the <em>Client App</em> <span class="bcp14">MUST</span> start over, generating a new authorization request without the <strong>app2app</strong> scope, which is then launched on the browser.
-The remaining flow follows "OAuth 2.0 for Native Apps" <span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span> and is therefore not elaborated further in this document.<a href="#section-5.4.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.4.3.1-1">If <em>Client App</em> reaches a <em>User-Interacting Authorization Server</em> but no app claims its url, it needs to complete the flow on the browser. It may be impossible to relaunch the last authorization request on the browser as it might have included single-use elements such as a <em>request_uri</em> which by now has been used and is therefore no longer valid.<a href="#section-5.4.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.4.3.1-2">In such case <em>Client App</em> <span class="bcp14">MUST</span> start over, generating a new authorization request without the <strong>app2app</strong> scope, which is then launched on the browser.<a href="#section-5.4.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.4.3.1-3">The remaining flow follows "OAuth 2.0 for Native Apps" <span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span> and is therefore not elaborated in this document.<a href="#section-5.4.3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2018,24 +2024,7 @@ It is <span class="bcp14">RECOMMENDED</span> the Allowlist be managed as a singl
         <h3 id="name-authorization-code-theft-an">
 <a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-authorization-code-theft-an" class="section-name selfRef">Authorization code theft and injection</a>
         </h3>
-<p id="section-7.6-1">It is <span class="bcp14">RECOMMENDED</span> that PKCE is used and that the code_verifier is tied to the <em>Client App</em> instance.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="handling-of-cookies">
-<section id="section-7.7">
-        <h3 id="name-handling-of-cookies">
-<a href="#section-7.7" class="section-number selfRef">7.7. </a><a href="#name-handling-of-cookies" class="section-name selfRef">Handling of Cookies</a>
-        </h3>
-<p id="section-7.7-1">It can be assumed that Authorization Servers will use Cookies to bind security elements (state, nonce, PKCE) to the user agent, which will break the flow if these cookies are not present in subsequent HTTP requests.<a href="#section-7.7-1" class="pilcrow">¶</a></p>
-<p id="section-7.7-2">Therefore, <em>Client App</em> <span class="bcp14">MUST</span> handle Cookies:<a href="#section-7.7-2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-7.7-3.1">
-            <p id="section-7.7-3.1.1">Store cookies it obtains on HTTP responses.<a href="#section-7.7-3.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.7-3.2">
-            <p id="section-7.7-3.2.1">Send cookies on subsequent HTTP requests to Authorization Servers that returned such cookies.<a href="#section-7.7-3.2.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
+<p id="section-7.6-1">It is <span class="bcp14">RECOMMENDED</span> that PKCE is used and that the code_verifier is tied to the <em>Client App</em> instance, as mitigation to authorization code theft and injection attacks.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
