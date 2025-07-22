@@ -135,7 +135,7 @@ Note: It is possible OAuth Brokers will be superseded in the future by {{OpenID.
 : An Authorization Server which may be an *OAuth Broker* or a *User-Interacting Authorization Server*.
 
 "User-Interacting Authorization Server":
-: An Authorization Server which interacts with end-user. The interaction may be interim navigation (e.g: user input guides where to redirect), or the interaction of performing user authentication and request authorization.
+: An Authorization Server which interacts with end-user. The interaction may be interim navigation (e.g: user input guides where to redirect), or user authentication and request authorization.
 
 "User-Interacting App":
 : Native App of *User-Interacting Authorization Server*.
@@ -273,13 +273,14 @@ As Authorization Servers MAY use Cookies to bind security elements (state, nonce
 
 ### Downgrade to App2Web
 
-If *Client App* reaches a *User-Interacting Authorization Server* but no app claims its url, a new flow MUST be intiated using the browser.
-It is NOT RECOMMENDED to relaunch the current flow's last authorization request on the browser as:
+If *Client App* obtains an HTTP response other than a 3xx redirect, a new flow MUST be initiated using the browser. It is NOT RECOMMENDED to relaunch the current flow's last authorization request on the browser as:
 
 * Single-use elements such as a *request_uri* might have been used in the request, and if so relaunching on the browser will fail.
 * Upstream Authorization Servers may have returned necessary cookies to *Client App*, which are unavailable to the browser.
 
 Therefore *Client App* MUST start a new flow, launching on the browser a new authorization request without the **app2app** scope, which then follows an *App2Web* flow as described in "OAuth 2.0 for Native Apps" {{RFC8252}}.
+
+Note - this is the case whether a *User-Interacting Authorization Server* was reached, but also if the Authorization Server redirects the user by means other than HTTP 3xx, such as HTTP Form, Javascript code etc.
 
 ### Processing by User-Interacting Authorization Server's App:
 
