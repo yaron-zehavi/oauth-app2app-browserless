@@ -492,8 +492,8 @@ Table of Contents
    It is NOT RECOMMENDED to relaunch the current flow's last
    authorization request on the browser as:
 
-   *  Single-use elements such as a _request_uri_ might have been used,
-      therefore relaunching on the browser might fail.
+   *  Single-use elements such as a _request_uri_ might have been used
+      in the request, and if so relaunching on the browser will fail.
 
    *  Upstream Authorization Servers may have returned necessary cookies
       to _Client App_, which are unavailable to the browser.
