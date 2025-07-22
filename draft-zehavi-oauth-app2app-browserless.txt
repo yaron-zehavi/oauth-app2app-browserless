@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                             Raiffeisen Bank International
-Intended status: Standards Track                            27 June 2025
-Expires: 29 December 2025
+Intended status: Standards Track                            22 July 2025
+Expires: 23 January 2026
 
 
                    OAuth 2.0 App2App Browserless Flow
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 December 2025.
+   This Internet-Draft will expire on 23 January 2026.
 
 Copyright Notice
 
@@ -87,25 +87,30 @@ Table of Contents
                request to Downstream Authorization Server
        5.4.3.  Client App invokes app of User-Interacting
                Authorization Server
-       5.4.4.  Processing by User-Interacting Authorization Server's
+       5.4.4.  Downgrade to App2Web
+       5.4.5.  Processing by User-Interacting Authorization Server's
                App:
-       5.4.5.  Client App traverses OAuth Brokers in reverse order
-       5.4.6.  Client App obtains response
+       5.4.6.  Client App traverses OAuth Brokers in reverse order
+       5.4.7.  Client App obtains response
    6.  Detecting Presence of Native Apps claiming Urls
      6.1.  Android
      6.2.  iOS
-   7.  Security Considerations
-     7.1.  OAuth request forgery and manipulation
-     7.2.  Secure Native application communication
-     7.3.  Deep link hijacking
-     7.4.  Open redirection by Client App
-     7.5.  Open redirection by User-Interacting Authorization Server's
+   7.  User Experience Considerations
+     7.1.  Flow Routing Cookies
+     7.2.  Reset past routing choices
+     7.3.  Retry of App2App after App2Web
+   8.  Security Considerations
+     8.1.  OAuth request forgery and manipulation
+     8.2.  Secure Native application communication
+     8.3.  Deep link hijacking
+     8.4.  Open redirection by Client App
+     8.5.  Open redirection by User-Interacting Authorization Server's
            App
-     7.6.  Authorization code theft and injection
-   8.  IANA Considerations
-   9.  References
-     9.1.  Normative References
-     9.2.  Informative References
+     8.6.  Authorization code theft and injection
+   9.  IANA Considerations
+   10. References
+     10.1.  Normative References
+     10.2.  Informative References
    Appendix A.  Acknowledgments
    Appendix B.  Document History
    Author's Address
@@ -450,8 +455,9 @@ Table of Contents
    request url and process the response:
 
    *  If the response is successful (HTTP Code 2xx), it is assumed to be
-      the User-Interacting Authorization Server.  This means the _Client
-      App_ "over-stepped" and MUST downgrade to App2Web.
+      a _User-Interacting Authorization Server_. This means the _Client
+      App_ "over-stepped" its traversal and SHOULD downgrade to
+      _App2Web_.
 
    *  If the response is a redirect instruction (HTTP Code 3xx +
       Location header), _Client App_ SHALL repeat the logic previously
@@ -479,23 +485,25 @@ Table of Contents
 
    *  Send Cookies in subsequent HTTP requests.
 
-5.4.3.1.  Downgrade to App2Web
+5.4.4.  Downgrade to App2Web
 
    If _Client App_ reaches a _User-Interacting Authorization Server_ but
-   no app claims its url, it needs to complete the flow on the browser.
-   It may be impossible to relaunch the last authorization request on
-   the browser as it might have included single-use elements such as a
-   _request_uri_ which by now has been used and is therefore no longer
-   valid.
+   no app claims its url, a new flow MUST be intiated using the browser.
+   It is NOT RECOMMENDED to relaunch the current flow's last
+   authorization request on the browser as:
 
-   In such case _Client App_ MUST start over, generating a new
-   authorization request without the *app2app* scope, which is then
-   launched on the browser.
+   *  Single-use elements such as a _request_uri_ might have been used,
+      therefore relaunching on the browser might fail.
 
-   The remaining flow follows "OAuth 2.0 for Native Apps" [RFC8252] and
-   is therefore not elaborated in this document.
+   *  Upstream Authorization Servers may have returned necessary cookies
+      to _Client App_, which are unavailable to the browser.
 
-5.4.4.  Processing by User-Interacting Authorization Server's App:
+   Therefore _Client App_ MUST start a new flow, launching on the
+   browser a new authorization request without the *app2app* scope,
+   which then follows an _App2Web_ flow as described in "OAuth 2.0 for
+   Native Apps" [RFC8252].
+
+5.4.5.  Processing by User-Interacting Authorization Server's App:
 
    The _User-Interacting Authorization Server_ SHALL handle the
    authorization request using its native app:
@@ -520,7 +528,7 @@ Table of Contents
 
          o  error_description=*native_callback_uri_not_claimed*.
 
-5.4.5.  Client App traverses OAuth Brokers in reverse order
+5.4.6.  Client App traverses OAuth Brokers in reverse order
 
    _Client App_ is natively invoked by _User-Interacting Authorization
    Server App_, with the request's redirect_uri.
@@ -539,7 +547,7 @@ Table of Contents
 
    *  SHALL handle any other HTTP code (2xx / 4xx / 5xx) as a failure.
 
-5.4.6.  Client App obtains response
+5.4.7.  Client App obtains response
 
    Once _Client App's_ own redirect_uri is returned in a redirect 3xx
    directive, the traversal of OAuth Brokers is complete.
@@ -567,14 +575,52 @@ Table of Contents
    links and have an app configured to open them.  Otherwise the method
    returns false in completion.success
 
-7.  Security Considerations
+7.  User Experience Considerations
 
-7.1.  OAuth request forgery and manipulation
+7.1.  Flow Routing Cookies
+
+   A _User-Interacting Authorization Server_ may use a web page to
+   interact with end-user for the purpose of routing the flow to a
+   downstream Authorization Server, for example: "Select your Bank" or
+   "Select your University", etc.
+
+   As mentioned before, this interaction would be handled as _App2Web_.
+   However, if the final _User-Interacting Authorization Server's_ url
+   is claimed by a _User-Interacting App_ on the user's device, such app
+   would be invoked and the flow would be _App2App_ including browser.
+
+   A _browser-less App2App_ flow is possible in future invocations, if
+   the _User-Interacting Authorization Server_ shall store end-user's
+   flow routing choice as a cookie, used in future invocations to
+   determine routing without necessitating end-user interaction.
+   However, to prevent cementing a failed routing decision, which end-
+   user may have mistakenly made, it is RECOMMENDED the setting of such
+   routing cookie be deferred until _User-Interacting Authorization
+   Server_ obtains a successful return redirect.
+
+7.2.  Reset past routing choices
+
+   _Client App_ MAY offer end-user a "reset" option, which discards
+   previously stored cookies.  If among the stored cookies were routing
+   cookies, their absence will prompt end-user for routing.
+
+7.3.  Retry of App2App after App2Web
+
+   _Client App_ MAY retry _browser-less App2App_ flows, despite
+   experiencing in the past a downgrade to _App2Web_. It is possible
+   that past _App2Web_ flows were the result of _User-Interacting App_
+   not present on the user's device.  Since in the meantime the app may
+   have been installed, retrying may achieve the desired _browser-less
+   App2App_ flow.
+
+8.  Security Considerations
+
+8.1.  OAuth request forgery and manipulation
 
    It is RECOMMENDED that _Client App_ acts as a confidential OAuth
    client.
 
-7.2.  Secure Native application communication
+8.2.  Secure Native application communication
 
    If _Client App_ uses a Backend it is RECOMMENDED to communicate with
    it securely:
@@ -585,14 +631,14 @@ Table of Contents
 
    *  Perform certificate pinning.
 
-7.3.  Deep link hijacking
+8.3.  Deep link hijacking
 
    It is RECOMMENDED that all apps in this specification shall use
    https-scheme deep links (Android App Links / iOS universal links).
    Apps SHOULD implement the most specific package identifiers
    mitigating deep link hijacking by malicious apps.
 
-7.4.  Open redirection by Client App
+8.4.  Open redirection by Client App
 
    Client App SHALL construct an Allowlist of DNS domains it traverses
    while processing the request, used to enforce all urls it later
@@ -607,25 +653,25 @@ Table of Contents
    It is RECOMMENDED _Client App_ allows only one OAuth request
    processing at a time.
 
-7.5.  Open redirection by User-Interacting Authorization Server's App
+8.5.  Open redirection by User-Interacting Authorization Server's App
 
-   It is RECOMMENDED that User-Interacting Authorization Server's App
+   It is RECOMMENDED that _User-Interacting Authorization Server's_ App
    establishes trust in *native_callback_uri* to mitigate open
    redirection attacks and reject untrusted urls.
 
-7.6.  Authorization code theft and injection
+8.6.  Authorization code theft and injection
 
    It is RECOMMENDED that PKCE is used and that the code_verifier is
    tied to the _Client App_ instance, as mitigation to authorization
    code theft and injection attacks.
 
-8.  IANA Considerations
+9.  IANA Considerations
 
    This document has no IANA actions.
 
-9.  References
+10.  References
 
-9.1.  Normative References
+10.1.  Normative References
 
    [OpenID]   Sakimura, N., Bradley, J., Jones, M. B., de Medeiros, B.,
               and C. Mortimore, "OpenID Connect Core 1.0", November
@@ -670,7 +716,7 @@ Table of Contents
               RFC 9126, DOI 10.17487/RFC9126, September 2021,
               <https://www.rfc-editor.org/rfc/rfc9126>.
 
-9.2.  Informative References
+10.2.  Informative References
 
    [android.method.intent]
               "Android Intent Method", n.d.,
@@ -702,9 +748,10 @@ Appendix A.  Acknowledgments
 
    The authors would like to thank the following individuals who
    contributed ideas, feedback, and wording that shaped and formed the
-   final specification: Henrik Kroll, Grese Hyseni.  As well as the
-   attendees of the OAuth Security Workshop 2025 session in which this
-   topic was discussed for their ideas and feedback.
+   final specification: George Fletcher, Arndt Schwenkschuster, Henrik
+   Kroll, Grese Hyseni.  As well as the attendees of the OAuth Security
+   Workshop 2025 session in which this topic was discussed for their
+   ideas and feedback.
 
 Appendix B.  Document History
 
@@ -718,6 +765,8 @@ Appendix B.  Document History
       which is not the user-authenticating Authorization Server
 
    *  Moved Cookies discussion to Protocol Flow
+
+   *  Enhanced cookie discussion to support routing cookies
 
    -03
 

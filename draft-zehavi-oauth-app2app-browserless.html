@@ -9,14 +9,14 @@
 <meta content="
        This document describes a protocol connecting 2 native apps via the OAuth   pattern, to achieve native user navigation (no web browser required), regardless of any number of OAuth brokers federating the request across trust domains. 
     " name="description">
-<meta content="xml2rfc 3.29.0" name="generator">
+<meta content="xml2rfc 3.30.0" name="generator">
 <meta content="native-apps" name="keyword">
 <meta content="oauth" name="keyword">
 <meta content="app2app" name="keyword">
 <meta content="browserless" name="keyword">
 <meta content="draft-zehavi-oauth-app2app-browserless-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.29.0
+  xml2rfc 3.30.0
     Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
@@ -1047,11 +1047,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Native OAuth App2App</td>
-<td class="right">June 2025</td>
+<td class="right">July 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Zehavi</td>
-<td class="center">Expires 29 December 2025</td>
+<td class="center">Expires 23 January 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1064,12 +1064,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-zehavi-oauth-app2app-browserless-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-06-27" class="published">27 June 2025</time>
+<time datetime="2025-07-22" class="published">22 July 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-12-29">29 December 2025</time></dd>
+<dd class="expires"><time datetime="2026-01-23">23 January 2026</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1119,7 +1119,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 29 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1201,13 +1201,16 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <p id="section-toc.1-1.5.2.4.2.3.1"><a href="#section-5.4.3" class="auto internal xref">5.4.3</a>.  <a href="#name-client-app-invokes-app-of-u" class="internal xref">Client App invokes app of User-Interacting Authorization Server</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.4">
-                    <p id="section-toc.1-1.5.2.4.2.4.1"><a href="#section-5.4.4" class="auto internal xref">5.4.4</a>.  <a href="#name-processing-by-user-interact" class="internal xref">Processing by User-Interacting Authorization Server's App:</a></p>
+                    <p id="section-toc.1-1.5.2.4.2.4.1"><a href="#section-5.4.4" class="auto internal xref">5.4.4</a>.  <a href="#name-downgrade-to-app2web" class="internal xref">Downgrade to App2Web</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.5">
-                    <p id="section-toc.1-1.5.2.4.2.5.1"><a href="#section-5.4.5" class="auto internal xref">5.4.5</a>.  <a href="#name-client-app-traverses-oauth-" class="internal xref">Client App traverses OAuth Brokers in reverse order</a></p>
+                    <p id="section-toc.1-1.5.2.4.2.5.1"><a href="#section-5.4.5" class="auto internal xref">5.4.5</a>.  <a href="#name-processing-by-user-interact" class="internal xref">Processing by User-Interacting Authorization Server's App:</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.6">
-                    <p id="section-toc.1-1.5.2.4.2.6.1"><a href="#section-5.4.6" class="auto internal xref">5.4.6</a>.  <a href="#name-client-app-obtains-response" class="internal xref">Client App obtains response</a></p>
+                    <p id="section-toc.1-1.5.2.4.2.6.1"><a href="#section-5.4.6" class="auto internal xref">5.4.6</a>.  <a href="#name-client-app-traverses-oauth-" class="internal xref">Client App traverses OAuth Brokers in reverse order</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.7">
+                    <p id="section-toc.1-1.5.2.4.2.7.1"><a href="#section-5.4.7" class="auto internal xref">5.4.7</a>.  <a href="#name-client-app-obtains-response" class="internal xref">Client App obtains response</a></p>
 </li>
                 </ul>
 </li>
@@ -1225,50 +1228,64 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-user-experience-considerati" class="internal xref">User Experience Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
-                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-oauth-request-forgery-and-m" class="internal xref">OAuth request forgery and manipulation</a></p>
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-flow-routing-cookies" class="internal xref">Flow Routing Cookies</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
-                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-secure-native-application-c" class="internal xref">Secure Native application communication</a></p>
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-reset-past-routing-choices" class="internal xref">Reset past routing choices</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
-                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-deep-link-hijacking" class="internal xref">Deep link hijacking</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4">
-                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-open-redirection-by-client-" class="internal xref">Open redirection by Client App</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.5">
-                <p id="section-toc.1-1.7.2.5.1"><a href="#section-7.5" class="auto internal xref">7.5</a>.  <a href="#name-open-redirection-by-user-in" class="internal xref">Open redirection by User-Interacting Authorization Server's App</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.6">
-                <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="auto internal xref">7.6</a>.  <a href="#name-authorization-code-theft-an" class="internal xref">Authorization code theft and injection</a></p>
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-retry-of-app2app-after-app2" class="internal xref">Retry of App2App after App2Web</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-references" class="internal xref">References</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-oauth-request-forgery-and-m" class="internal xref">OAuth request forgery and manipulation</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-secure-native-application-c" class="internal xref">Secure Native application communication</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3">
+                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="auto internal xref">8.3</a>.  <a href="#name-deep-link-hijacking" class="internal xref">Deep link hijacking</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.4">
+                <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="auto internal xref">8.4</a>.  <a href="#name-open-redirection-by-client-" class="internal xref">Open redirection by Client App</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.5">
+                <p id="section-toc.1-1.8.2.5.1"><a href="#section-8.5" class="auto internal xref">8.5</a>.  <a href="#name-open-redirection-by-user-in" class="internal xref">Open redirection by User-Interacting Authorization Server's App</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.6">
+                <p id="section-toc.1-1.8.2.6.1"><a href="#section-8.6" class="auto internal xref">8.6</a>.  <a href="#name-authorization-code-theft-an" class="internal xref">Authorization code theft and injection</a></p>
 </li>
             </ul>
 </li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-document-history" class="internal xref">Document History</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-document-history" class="internal xref">Document History</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
 </li>
         </ul>
 </nav>
@@ -1831,7 +1848,7 @@ If so, <em>Client App</em> <span class="bcp14">SHALL</span> natively invoke the 
 If an app handling the authorization request url is not found, <em>Client App</em> <span class="bcp14">SHALL</span> use HTTP to call the authorization request url and process the response:<a href="#section-5.4.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4.3-2.1">
-              <p id="section-5.4.3-2.1.1">If the response is successful (HTTP Code 2xx), it is assumed to be the User-Interacting Authorization Server. This means the <em>Client App</em> "over-stepped" and <span class="bcp14">MUST</span> downgrade to App2Web.<a href="#section-5.4.3-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.4.3-2.1.1">If the response is successful (HTTP Code 2xx), it is assumed to be a <em>User-Interacting Authorization Server</em>. This means the <em>Client App</em> "over-stepped" its traversal and <span class="bcp14">SHOULD</span> downgrade to <em>App2Web</em>.<a href="#section-5.4.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.4.3-2.2">
               <p id="section-5.4.3-2.2.1">If the response is a redirect instruction (HTTP Code 3xx + Location header), <em>Client App</em> <span class="bcp14">SHALL</span> repeat the logic previously described:<a href="#section-5.4.3-2.2.1" class="pilcrow">¶</a></p>
@@ -1858,45 +1875,53 @@ If an app handling the authorization request url is not found, <em>Client App</e
               <p id="section-5.4.3-5.2.1">Send Cookies in subsequent HTTP requests.<a href="#section-5.4.3-5.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<div id="downgrade-to-app2web">
-<section id="section-5.4.3.1">
-            <h5 id="name-downgrade-to-app2web">
-<a href="#section-5.4.3.1" class="section-number selfRef">5.4.3.1. </a><a href="#name-downgrade-to-app2web" class="section-name selfRef">Downgrade to App2Web</a>
-            </h5>
-<p id="section-5.4.3.1-1">If <em>Client App</em> reaches a <em>User-Interacting Authorization Server</em> but no app claims its url, it needs to complete the flow on the browser. It may be impossible to relaunch the last authorization request on the browser as it might have included single-use elements such as a <em>request_uri</em> which by now has been used and is therefore no longer valid.<a href="#section-5.4.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.4.3.1-2">In such case <em>Client App</em> <span class="bcp14">MUST</span> start over, generating a new authorization request without the <strong>app2app</strong> scope, which is then launched on the browser.<a href="#section-5.4.3.1-2" class="pilcrow">¶</a></p>
-<p id="section-5.4.3.1-3">The remaining flow follows "OAuth 2.0 for Native Apps" <span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span> and is therefore not elaborated in this document.<a href="#section-5.4.3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="downgrade-to-app2web">
+<section id="section-5.4.4">
+          <h4 id="name-downgrade-to-app2web">
+<a href="#section-5.4.4" class="section-number selfRef">5.4.4. </a><a href="#name-downgrade-to-app2web" class="section-name selfRef">Downgrade to App2Web</a>
+          </h4>
+<p id="section-5.4.4-1">If <em>Client App</em> reaches a <em>User-Interacting Authorization Server</em> but no app claims its url, a new flow <span class="bcp14">MUST</span> be intiated using the browser.
+It is <span class="bcp14">NOT RECOMMENDED</span> to relaunch the current flow's last authorization request on the browser as:<a href="#section-5.4.4-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.4.4-2.1">
+              <p id="section-5.4.4-2.1.1">Single-use elements such as a <em>request_uri</em> might have been used, therefore relaunching on the browser might fail.<a href="#section-5.4.4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.4.4-2.2">
+              <p id="section-5.4.4-2.2.1">Upstream Authorization Servers may have returned necessary cookies to <em>Client App</em>, which are unavailable to the browser.<a href="#section-5.4.4-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-5.4.4-3">Therefore <em>Client App</em> <span class="bcp14">MUST</span> start a new flow, launching on the browser a new authorization request without the <strong>app2app</strong> scope, which then follows an <em>App2Web</em> flow as described in "OAuth 2.0 for Native Apps" <span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span>.<a href="#section-5.4.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="processing-by-user-interacting-authorization-servers-app">
-<section id="section-5.4.4">
+<section id="section-5.4.5">
           <h4 id="name-processing-by-user-interact">
-<a href="#section-5.4.4" class="section-number selfRef">5.4.4. </a><a href="#name-processing-by-user-interact" class="section-name selfRef">Processing by User-Interacting Authorization Server's App:</a>
+<a href="#section-5.4.5" class="section-number selfRef">5.4.5. </a><a href="#name-processing-by-user-interact" class="section-name selfRef">Processing by User-Interacting Authorization Server's App:</a>
           </h4>
-<p id="section-5.4.4-1">The <em>User-Interacting Authorization Server</em> <span class="bcp14">SHALL</span> handle the authorization request using its native app:<a href="#section-5.4.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.4.5-1">The <em>User-Interacting Authorization Server</em> <span class="bcp14">SHALL</span> handle the authorization request using its native app:<a href="#section-5.4.5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.4.4-2.1">
-              <p id="section-5.4.4-2.1.1">Authenticates end-user and authorizes the request.<a href="#section-5.4.4-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.4.5-2.1">
+              <p id="section-5.4.5-2.1.1">Authenticates end-user and authorizes the request.<a href="#section-5.4.5-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-5.4.4-2.2">
-              <p id="section-5.4.4-2.2.1"><span class="bcp14">SHALL</span> use <strong>native_callback_uri</strong> to override the request's original redirect_uri:<a href="#section-5.4.4-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.4.5-2.2">
+              <p id="section-5.4.5-2.2.1"><span class="bcp14">SHALL</span> use <strong>native_callback_uri</strong> to override the request's original redirect_uri:<a href="#section-5.4.5-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.4.4-2.2.2.1">
-                  <p id="section-5.4.4-2.2.2.1.1"><em>User-Interacting Authorization Server's app</em> validates that an app claiming <strong>native_callback_uri</strong> is on the device<a href="#section-5.4.4-2.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.4.5-2.2.2.1">
+                  <p id="section-5.4.5-2.2.2.1.1"><em>User-Interacting Authorization Server's app</em> validates that an app claiming <strong>native_callback_uri</strong> is on the device<a href="#section-5.4.5-2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-5.4.4-2.2.2.2">
-                  <p id="section-5.4.4-2.2.2.2.1">If so it natively invokes <strong>native_callback_uri</strong> with the redirect url and its response parameters as the url-encoded query parameter <strong>redirect_uri</strong>.<a href="#section-5.4.4-2.2.2.2.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-5.4.5-2.2.2.2">
+                  <p id="section-5.4.5-2.2.2.2.1">If so it natively invokes <strong>native_callback_uri</strong> with the redirect url and its response parameters as the url-encoded query parameter <strong>redirect_uri</strong>.<a href="#section-5.4.5-2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-5.4.4-2.2.2.3">
-                  <p id="section-5.4.4-2.2.2.3.1">If such an app does not exist on the device, the flow terminates and <em>User-Interacting Authorization Server's app</em> redirects to redirect_uri with:<a href="#section-5.4.4-2.2.2.3.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-5.4.5-2.2.2.3">
+                  <p id="section-5.4.5-2.2.2.3.1">If such an app does not exist on the device, the flow terminates and <em>User-Interacting Authorization Server's app</em> redirects to redirect_uri with:<a href="#section-5.4.5-2.2.2.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.4.4-2.2.2.3.2.1">
-                      <p id="section-5.4.4-2.2.2.3.2.1.1">error=invalid_request.<a href="#section-5.4.4-2.2.2.3.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.4.5-2.2.2.3.2.1">
+                      <p id="section-5.4.5-2.2.2.3.2.1.1">error=invalid_request.<a href="#section-5.4.5-2.2.2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                    <li class="normal" id="section-5.4.4-2.2.2.3.2.2">
-                      <p id="section-5.4.4-2.2.2.3.2.2.1">error_description=<strong>native_callback_uri_not_claimed</strong>.<a href="#section-5.4.4-2.2.2.3.2.2.1" class="pilcrow">¶</a></p>
+                    <li class="normal" id="section-5.4.5-2.2.2.3.2.2">
+                      <p id="section-5.4.5-2.2.2.3.2.2.1">error_description=<strong>native_callback_uri_not_claimed</strong>.<a href="#section-5.4.5-2.2.2.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
                   </ul>
 </li>
@@ -1906,30 +1931,30 @@ If an app handling the authorization request url is not found, <em>Client App</e
 </section>
 </div>
 <div id="client-app-traverses-oauth-brokers-in-reverse-order">
-<section id="section-5.4.5">
+<section id="section-5.4.6">
           <h4 id="name-client-app-traverses-oauth-">
-<a href="#section-5.4.5" class="section-number selfRef">5.4.5. </a><a href="#name-client-app-traverses-oauth-" class="section-name selfRef">Client App traverses OAuth Brokers in reverse order</a>
+<a href="#section-5.4.6" class="section-number selfRef">5.4.6. </a><a href="#name-client-app-traverses-oauth-" class="section-name selfRef">Client App traverses OAuth Brokers in reverse order</a>
           </h4>
-<p id="section-5.4.5-1"><em>Client App</em> is natively invoked by <em>User-Interacting Authorization Server App</em>, with the request's redirect_uri.<a href="#section-5.4.5-1" class="pilcrow">¶</a></p>
-<p id="section-5.4.5-2"><em>Client App</em> <span class="bcp14">MUST</span> validate this url, and any url subsequently obtained via a 3xx redirect instruction, against the Allowlist it previously generated, and <span class="bcp14">MUST</span> fail if any url is not included in the Allowlist.<a href="#section-5.4.5-2" class="pilcrow">¶</a></p>
-<p id="section-5.4.5-3"><em>Client App</em> <span class="bcp14">SHALL</span> invoke the url it received using HTTP GET:<a href="#section-5.4.5-3" class="pilcrow">¶</a></p>
+<p id="section-5.4.6-1"><em>Client App</em> is natively invoked by <em>User-Interacting Authorization Server App</em>, with the request's redirect_uri.<a href="#section-5.4.6-1" class="pilcrow">¶</a></p>
+<p id="section-5.4.6-2"><em>Client App</em> <span class="bcp14">MUST</span> validate this url, and any url subsequently obtained via a 3xx redirect instruction, against the Allowlist it previously generated, and <span class="bcp14">MUST</span> fail if any url is not included in the Allowlist.<a href="#section-5.4.6-2" class="pilcrow">¶</a></p>
+<p id="section-5.4.6-3"><em>Client App</em> <span class="bcp14">SHALL</span> invoke the url it received using HTTP GET:<a href="#section-5.4.6-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.4.5-4.1">
-              <p id="section-5.4.5-4.1.1">If the response is a redirect instruction (HTTP Code 3xx + Location header), <em>Client App</em> <span class="bcp14">SHALL</span> repeat the logic and proceed to call obtained urls until reaching its own redirect_uri (<strong>native_callback_uri</strong>).<a href="#section-5.4.5-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.4.6-4.1">
+              <p id="section-5.4.6-4.1.1">If the response is a redirect instruction (HTTP Code 3xx + Location header), <em>Client App</em> <span class="bcp14">SHALL</span> repeat the logic and proceed to call obtained urls until reaching its own redirect_uri (<strong>native_callback_uri</strong>).<a href="#section-5.4.6-4.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-5.4.5-4.2">
-              <p id="section-5.4.5-4.2.1"><span class="bcp14">SHALL</span> handle any other HTTP code (2xx / 4xx / 5xx) as a failure.<a href="#section-5.4.5-4.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.4.6-4.2">
+              <p id="section-5.4.6-4.2.1"><span class="bcp14">SHALL</span> handle any other HTTP code (2xx / 4xx / 5xx) as a failure.<a href="#section-5.4.6-4.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 </div>
 <div id="client-app-obtains-response">
-<section id="section-5.4.6">
+<section id="section-5.4.7">
           <h4 id="name-client-app-obtains-response">
-<a href="#section-5.4.6" class="section-number selfRef">5.4.6. </a><a href="#name-client-app-obtains-response" class="section-name selfRef">Client App obtains response</a>
+<a href="#section-5.4.7" class="section-number selfRef">5.4.7. </a><a href="#name-client-app-obtains-response" class="section-name selfRef">Client App obtains response</a>
           </h4>
-<p id="section-5.4.6-1">Once <em>Client App's</em> own redirect_uri is returned in a redirect 3xx directive, the traversal of OAuth Brokers is complete.<a href="#section-5.4.6-1" class="pilcrow">¶</a></p>
-<p id="section-5.4.6-2"><em>Client App</em> <span class="bcp14">SHALL</span> proceed according to OAuth to exchange code for tokens, or handle error responses.<a href="#section-5.4.6-2" class="pilcrow">¶</a></p>
+<p id="section-5.4.7-1">Once <em>Client App's</em> own redirect_uri is returned in a redirect 3xx directive, the traversal of OAuth Brokers is complete.<a href="#section-5.4.7-1" class="pilcrow">¶</a></p>
+<p id="section-5.4.7-2"><em>Client App</em> <span class="bcp14">SHALL</span> proceed according to OAuth to exchange code for tokens, or handle error responses.<a href="#section-5.4.7-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1962,93 +1987,129 @@ Otherwise the method returns false in completion.success<a href="#section-6.2-1"
 </div>
 </section>
 </div>
-<div id="security-considerations">
+<div id="user-experience-considerations">
 <section id="section-7">
+      <h2 id="name-user-experience-considerati">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-user-experience-considerati" class="section-name selfRef">User Experience Considerations</a>
+      </h2>
+<div id="flow-routing-cookies">
+<section id="section-7.1">
+        <h3 id="name-flow-routing-cookies">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-flow-routing-cookies" class="section-name selfRef">Flow Routing Cookies</a>
+        </h3>
+<p id="section-7.1-1">A <em>User-Interacting Authorization Server</em> may use a web page to interact with end-user for the purpose of routing the flow to a downstream Authorization Server, for example: "Select your Bank" or "Select your University", etc.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">As mentioned before, this interaction would be handled as <em>App2Web</em>.
+However, if the final <em>User-Interacting Authorization Server's</em> url is claimed by a <em>User-Interacting App</em> on the user's device, such app would be invoked and the flow would be <em>App2App</em> including browser.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.1-3">A <em>browser-less App2App</em> flow is possible in future invocations, if the <em>User-Interacting Authorization Server</em> shall store end-user's flow routing choice as a cookie, used in future invocations to determine routing without necessitating end-user interaction.
+However, to prevent cementing a failed routing decision, which end-user may have mistakenly made, it is <span class="bcp14">RECOMMENDED</span> the setting of such routing cookie be deferred until <em>User-Interacting Authorization Server</em> obtains a successful return redirect.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="reset-past-routing-choices">
+<section id="section-7.2">
+        <h3 id="name-reset-past-routing-choices">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-reset-past-routing-choices" class="section-name selfRef">Reset past routing choices</a>
+        </h3>
+<p id="section-7.2-1"><em>Client App</em> <span class="bcp14">MAY</span> offer end-user a "reset" option, which discards previously stored cookies. If among the stored cookies were routing cookies, their absence will prompt end-user for routing.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="retry-of-app2app-after-app2web">
+<section id="section-7.3">
+        <h3 id="name-retry-of-app2app-after-app2">
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-retry-of-app2app-after-app2" class="section-name selfRef">Retry of App2App after App2Web</a>
+        </h3>
+<p id="section-7.3-1"><em>Client App</em> <span class="bcp14">MAY</span> retry <em>browser-less App2App</em> flows, despite experiencing in the past a downgrade to <em>App2Web</em>. It is possible that past <em>App2Web</em> flows were the result of <em>User-Interacting App</em> not present on the user's device.
+Since in the meantime the app may have been installed, retrying may achieve the desired <em>browser-less App2App</em> flow.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-8">
       <h2 id="name-security-considerations">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <div id="oauth-request-forgery-and-manipulation">
-<section id="section-7.1">
+<section id="section-8.1">
         <h3 id="name-oauth-request-forgery-and-m">
-<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-oauth-request-forgery-and-m" class="section-name selfRef">OAuth request forgery and manipulation</a>
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-oauth-request-forgery-and-m" class="section-name selfRef">OAuth request forgery and manipulation</a>
         </h3>
-<p id="section-7.1-1">It is <span class="bcp14">RECOMMENDED</span> that <em>Client App</em> acts as a confidential OAuth client.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.1-1">It is <span class="bcp14">RECOMMENDED</span> that <em>Client App</em> acts as a confidential OAuth client.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="secure-native-application-communication">
-<section id="section-7.2">
+<section id="section-8.2">
         <h3 id="name-secure-native-application-c">
-<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-secure-native-application-c" class="section-name selfRef">Secure Native application communication</a>
+<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-secure-native-application-c" class="section-name selfRef">Secure Native application communication</a>
         </h3>
-<p id="section-7.2-1">If <em>Client App</em> uses a Backend it is <span class="bcp14">RECOMMENDED</span> to communicate with it securely:<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<p id="section-8.2-1">If <em>Client App</em> uses a Backend it is <span class="bcp14">RECOMMENDED</span> to communicate with it securely:<a href="#section-8.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.2-2.1">
-            <p id="section-7.2-2.1.1">Use TLS in up to date versions and ciphers.<a href="#section-7.2-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-8.2-2.1">
+            <p id="section-8.2-2.1.1">Use TLS in up to date versions and ciphers.<a href="#section-8.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-2.2">
-            <p id="section-7.2-2.2.1">Use DNSSEC.<a href="#section-7.2-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.2-2.2">
+            <p id="section-8.2-2.2.1">Use DNSSEC.<a href="#section-8.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-2.3">
-            <p id="section-7.2-2.3.1">Perform certificate pinning.<a href="#section-7.2-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.2-2.3">
+            <p id="section-8.2-2.3.1">Perform certificate pinning.<a href="#section-8.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="deep-link-hijacking">
-<section id="section-7.3">
+<section id="section-8.3">
         <h3 id="name-deep-link-hijacking">
-<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-deep-link-hijacking" class="section-name selfRef">Deep link hijacking</a>
+<a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-deep-link-hijacking" class="section-name selfRef">Deep link hijacking</a>
         </h3>
-<p id="section-7.3-1">It is <span class="bcp14">RECOMMENDED</span> that all apps in this specification shall use https-scheme deep links (Android App Links / iOS universal links). Apps <span class="bcp14">SHOULD</span> implement the most specific package identifiers mitigating deep link hijacking by malicious apps.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<p id="section-8.3-1">It is <span class="bcp14">RECOMMENDED</span> that all apps in this specification shall use https-scheme deep links (Android App Links / iOS universal links). Apps <span class="bcp14">SHOULD</span> implement the most specific package identifiers mitigating deep link hijacking by malicious apps.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="open-redirection-by-client-app">
-<section id="section-7.4">
+<section id="section-8.4">
         <h3 id="name-open-redirection-by-client-">
-<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-open-redirection-by-client-" class="section-name selfRef">Open redirection by Client App</a>
+<a href="#section-8.4" class="section-number selfRef">8.4. </a><a href="#name-open-redirection-by-client-" class="section-name selfRef">Open redirection by Client App</a>
         </h3>
-<p id="section-7.4-1">Client App <span class="bcp14">SHALL</span> construct an Allowlist of DNS domains it traverses while processing the request, used to enforce all urls it later traverses during response processing.
-This mitigates open redirection attacks as urls not in this Allowlist <span class="bcp14">SHALL</span> be rejected.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
-<p id="section-7.4-2">In addition <em>Client App</em> <span class="bcp14">MUST</span> ignore any invocation for response processing which is not in the context of a request it initiated.
-It is <span class="bcp14">RECOMMENDED</span> the Allowlist be managed as a single-use object, destructed after each protocol flow ends.<a href="#section-7.4-2" class="pilcrow">¶</a></p>
-<p id="section-7.4-3">It is <span class="bcp14">RECOMMENDED</span> <em>Client App</em> allows only one OAuth request processing at a time.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
+<p id="section-8.4-1">Client App <span class="bcp14">SHALL</span> construct an Allowlist of DNS domains it traverses while processing the request, used to enforce all urls it later traverses during response processing.
+This mitigates open redirection attacks as urls not in this Allowlist <span class="bcp14">SHALL</span> be rejected.<a href="#section-8.4-1" class="pilcrow">¶</a></p>
+<p id="section-8.4-2">In addition <em>Client App</em> <span class="bcp14">MUST</span> ignore any invocation for response processing which is not in the context of a request it initiated.
+It is <span class="bcp14">RECOMMENDED</span> the Allowlist be managed as a single-use object, destructed after each protocol flow ends.<a href="#section-8.4-2" class="pilcrow">¶</a></p>
+<p id="section-8.4-3">It is <span class="bcp14">RECOMMENDED</span> <em>Client App</em> allows only one OAuth request processing at a time.<a href="#section-8.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="open-redirection-by-user-interacting-authorization-servers-app">
-<section id="section-7.5">
+<section id="section-8.5">
         <h3 id="name-open-redirection-by-user-in">
-<a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-open-redirection-by-user-in" class="section-name selfRef">Open redirection by User-Interacting Authorization Server's App</a>
+<a href="#section-8.5" class="section-number selfRef">8.5. </a><a href="#name-open-redirection-by-user-in" class="section-name selfRef">Open redirection by User-Interacting Authorization Server's App</a>
         </h3>
-<p id="section-7.5-1">It is <span class="bcp14">RECOMMENDED</span> that User-Interacting Authorization Server's App establishes trust in <strong>native_callback_uri</strong> to mitigate open redirection attacks and reject untrusted urls.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
+<p id="section-8.5-1">It is <span class="bcp14">RECOMMENDED</span> that <em>User-Interacting Authorization Server's</em> App establishes trust in <strong>native_callback_uri</strong> to mitigate open redirection attacks and reject untrusted urls.<a href="#section-8.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authorization-code-theft-and-injection">
-<section id="section-7.6">
+<section id="section-8.6">
         <h3 id="name-authorization-code-theft-an">
-<a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-authorization-code-theft-an" class="section-name selfRef">Authorization code theft and injection</a>
+<a href="#section-8.6" class="section-number selfRef">8.6. </a><a href="#name-authorization-code-theft-an" class="section-name selfRef">Authorization code theft and injection</a>
         </h3>
-<p id="section-7.6-1">It is <span class="bcp14">RECOMMENDED</span> that PKCE is used and that the code_verifier is tied to the <em>Client App</em> instance, as mitigation to authorization code theft and injection attacks.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
+<p id="section-8.6-1">It is <span class="bcp14">RECOMMENDED</span> that PKCE is used and that the code_verifier is tied to the <em>Client App</em> instance, as mitigation to authorization code theft and injection attacks.<a href="#section-8.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="iana-considerations">
-<section id="section-8">
+<section id="section-9">
       <h2 id="name-iana-considerations">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-8-1">This document has no IANA actions.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-9-1">This document has no IANA actions.<a href="#section-9-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">
-<section id="section-9">
+<section id="section-10">
       <h2 id="name-references">
-<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
 <div id="sec-normative-references">
-<section id="section-9.1">
+<section id="section-10.1">
         <h3 id="name-normative-references">
-<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="OpenID">[OpenID]</dt>
@@ -2091,9 +2152,9 @@ It is <span class="bcp14">RECOMMENDED</span> the Allowlist be managed as a singl
 </section>
 </div>
 <div id="sec-informative-references">
-<section id="section-9.2">
+<section id="section-10.2">
         <h3 id="name-informative-references">
-<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="android.method.intent">[android.method.intent]</dt>
@@ -2126,7 +2187,7 @@ It is <span class="bcp14">RECOMMENDED</span> the Allowlist be managed as a singl
       <h2 id="name-acknowledgments">
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-A-1">The authors would like to thank the following individuals who contributed ideas, feedback, and wording that shaped and formed the final specification: Henrik Kroll, Grese Hyseni.
+<p id="appendix-A-1">The authors would like to thank the following individuals who contributed ideas, feedback, and wording that shaped and formed the final specification: George Fletcher, Arndt Schwenkschuster, Henrik Kroll, Grese Hyseni.
 As well as the attendees of the OAuth Security Workshop 2025 session in which this topic was discussed for their ideas and feedback.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2146,6 +2207,9 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
 </li>
         <li class="normal" id="appendix-B-3.3">
           <p id="appendix-B-3.3.1">Moved Cookies discussion to Protocol Flow<a href="#appendix-B-3.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-3.4">
+          <p id="appendix-B-3.4.1">Enhanced cookie discussion to support routing cookies<a href="#appendix-B-3.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-B-4">-03<a href="#appendix-B-4" class="pilcrow">¶</a></p>
