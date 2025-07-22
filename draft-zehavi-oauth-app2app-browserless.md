@@ -405,7 +405,7 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
 -latest
 
 * Phrased the challenge in Trust Domain terminology
-* Discussed interim Authorization Server interacting the end-user, which is not the user-authenticating Authorization Server
+* Discussed interim Authorization Server interacting the end-user, which is not the User-Authenticating Authorization Server
 * Moved Cookies topic to Protocol Flow and added UX discussion on flow routing cookies
 * Mentioned that Authorization Servers redirecting not through HTTP 3xx force the use of a browser 
 
