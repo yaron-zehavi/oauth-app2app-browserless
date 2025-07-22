@@ -344,7 +344,7 @@ However, to prevent cementing a failed routing decision, which end-user may have
 
 ## Retry of App2App after App2Web
 
-*Client App* MAY retry *browser-less App2App* flows, despite experiencing in the past a downgrade to *App2Web*. It is possible that past *App2Web* flows were the result of *User-Interacting App* not present on the user's device.
+*Client App* MAY retry the *browser-less App2App* flow, despite in the past having to downgrade to *App2Web*. It is possible that past *App2Web* flows resulted from lack of *User-Interacting App* on the user's device.
 Since in the meantime the app may have been installed, retrying may achieve the desired *browser-less App2App* flow.
 
 # Security Considerations
