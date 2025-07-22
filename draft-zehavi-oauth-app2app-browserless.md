@@ -280,7 +280,7 @@ If *Client App* obtains an HTTP response other than a 3xx redirect, a new flow M
 
 Therefore *Client App* MUST start a new flow, launching on the browser a new authorization request without the **app2app** scope, which then follows an *App2Web* flow as described in "OAuth 2.0 for Native Apps" {{RFC8252}}.
 
-Note - this is the case whether a *User-Interacting Authorization Server* was reached, but also if the Authorization Server redirects the user by means other than HTTP 3xx, such as HTTP Form, Javascript code etc.
+**Note**: Downgrade to App2Web occurs also in case the Authorization Server redirects the user by means other than HTTP 3xx, such as HTTP Form, Javascript code etc.
 
 ### Processing by User-Interacting Authorization Server's App:
 
