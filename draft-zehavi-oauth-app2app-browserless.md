@@ -276,7 +276,7 @@ As Authorization Servers MAY use Cookies to bind security elements (state, nonce
 If *Client App* reaches a *User-Interacting Authorization Server* but no app claims its url, a new flow MUST be intiated using the browser.
 It is NOT RECOMMENDED to relaunch the current flow's last authorization request on the browser as:
 
-* Single-use elements such as a *request_uri* might have been used, therefore relaunching on the browser might fail.
+* Single-use elements such as a *request_uri* might have been used in the request, and if so relaunching on the browser will fail.
 * Upstream Authorization Servers may have returned necessary cookies to *Client App*, which are unavailable to the browser.
 
 Therefore *Client App* MUST start a new flow, launching on the browser a new authorization request without the **app2app** scope, which then follows an *App2Web* flow as described in "OAuth 2.0 for Native Apps" {{RFC8252}}.
