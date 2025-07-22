@@ -340,11 +340,14 @@ However, to prevent cementing a failed routing decision, which end-user may have
 
 ## Reset previous routing choices
 
-*Client App* MAY offer end-user a "reset" option, which discards previously stored cookies. If among the stored cookies were routing cookies, their absence will cause end-user to be prompted for routing decisions.
+*Client App* MAY offer end-user a "reset" option, which discards previously stored cookies.
+
+If among the stored cookies were routing cookies, their absence will cause end-user to be prompted for routing decisions.
 
 ## Retry of App2App after App2Web
 
 *Client App* MAY retry the *browser-less App2App* flow, despite in the past having to downgrade to *App2Web*. It is possible that past *App2Web* flows resulted from lack of *User-Interacting App* on the user's device.
+
 Since in the meantime the app may have been installed, retrying may achieve the desired *browser-less App2App* flow.
 
 # Security Considerations
