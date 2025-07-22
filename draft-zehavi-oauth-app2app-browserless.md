@@ -257,7 +257,7 @@ Client App SHALL use OS mechanisms to locate an app installed on the device clai
 If so, *Client App* SHALL natively invoke the app claiming the url to process the authorization request. This achieves native navigation across applications.
 If an app handling the authorization request url is not found, *Client App* SHALL use HTTP to call the authorization request url and process the response:
 
-* If the response is successful (HTTP Code 2xx), it is assumed to be the User-Interacting Authorization Server. This means the *Client App* "over-stepped" and MUST downgrade to App2Web.
+* If the response is successful (HTTP Code 2xx), it is assumed to be a *User-Interacting Authorization Server*. This means the *Client App* "over-stepped" its traversal and SHOULD downgrade to *App2Web*.
 * If the response is a redirect instruction (HTTP Code 3xx + Location header), *Client App* SHALL repeat the logic previously described:
 
   * Check if an app owns the obtained url, and if so natively invoke it.
@@ -271,13 +271,15 @@ As Authorization Servers MAY use Cookies to bind security elements (state, nonce
 * Store Cookies it obtains in HTTP responses.
 * Send Cookies in subsequent HTTP requests.
 
-#### Downgrade to App2Web
+### Downgrade to App2Web
 
-If *Client App* reaches a *User-Interacting Authorization Server* but no app claims its url, it needs to complete the flow on the browser. It may be impossible to relaunch the last authorization request on the browser as it might have included single-use elements such as a *request_uri* which by now has been used and is therefore no longer valid.
+If *Client App* reaches a *User-Interacting Authorization Server* but no app claims its url, a new flow MUST be intiated using the browser.
+It is NOT RECOMMENDED to relaunch the current flow's last authorization request on the browser as:
 
-In such case *Client App* MUST start over, generating a new authorization request without the **app2app** scope, which is then launched on the browser.
+* Single-use elements such as a *request_uri* might have been used, therefore relaunching on the browser might fail.
+* Upstream Authorization Servers may have returned necessary cookies to *Client App*, which are unavailable to the browser.
 
-The remaining flow follows "OAuth 2.0 for Native Apps" {{RFC8252}} and is therefore not elaborated in this document.
+Therefore *Client App* MUST start a new flow, launching on the browser a new authorization request without the **app2app** scope, which then follows an *App2Web* flow as described in "OAuth 2.0 for Native Apps" {{RFC8252}}.
 
 ### Processing by User-Interacting Authorization Server's App:
 
@@ -324,6 +326,27 @@ App SHALL invoke Android {{android.method.intent}} method with FLAG_ACTIVITY_REQ
 App SHALL invoke iOS {{iOS.method.openUrl}} method with options {{iOS.option.universalLinksOnly}} which ensures URLs must be universal links and have an app configured to open them.
 Otherwise the method returns false in completion.success
 
+# User Experience Considerations
+
+## Flow Routing Cookies
+
+A *User-Interacting Authorization Server* may use a web page to interact with end-user for the purpose of routing the flow to a downstream Authorization Server, for example: "Select your Bank" or "Select your University", etc.
+
+As mentioned before, this interaction would be handled as *App2Web*.
+However, if the final *User-Interacting Authorization Server's* url is claimed by a *User-Interacting App* on the user's device, such app would be invoked and the flow would be *App2App* including browser.
+
+A *browser-less App2App* flow is possible in future invocations, if the *User-Interacting Authorization Server* shall store end-user's flow routing choice as a cookie, used in future invocations to determine routing without necessitating end-user interaction.
+However, to prevent cementing a failed routing decision, which end-user may have mistakenly made, it is RECOMMENDED the setting of such routing cookie be deferred until *User-Interacting Authorization Server* obtains a successful return redirect.
+
+## Reset past routing choices
+
+*Client App* MAY offer end-user a "reset" option, which discards previously stored cookies. If among the stored cookies were routing cookies, their absence will prompt end-user for routing.
+
+## Retry of App2App after App2Web
+
+*Client App* MAY retry *browser-less App2App* flows, despite experiencing in the past a downgrade to *App2Web*. It is possible that past *App2Web* flows were the result of *User-Interacting App* not present on the user's device. 
+Since in the meantime the app may have been installed, retrying may achieve the desired *browser-less App2App* flow.
+
 # Security Considerations
 
 ## OAuth request forgery and manipulation
@@ -354,7 +377,7 @@ It is RECOMMENDED *Client App* allows only one OAuth request processing at a tim
 
 ## Open redirection by User-Interacting Authorization Server's App
 
-It is RECOMMENDED that User-Interacting Authorization Server's App establishes trust in **native_callback_uri** to mitigate open redirection attacks and reject untrusted urls.
+It is RECOMMENDED that *User-Interacting Authorization Server's* App establishes trust in **native_callback_uri** to mitigate open redirection attacks and reject untrusted urls.
 
 ## Authorization code theft and injection
 
@@ -368,7 +391,7 @@ This document has no IANA actions.
 
 # Acknowledgments
 
-The authors would like to thank the following individuals who contributed ideas, feedback, and wording that shaped and formed the final specification: Henrik Kroll, Grese Hyseni.
+The authors would like to thank the following individuals who contributed ideas, feedback, and wording that shaped and formed the final specification: George Fletcher, Arndt Schwenkschuster, Henrik Kroll, Grese Hyseni.
 As well as the attendees of the OAuth Security Workshop 2025 session in which this topic was discussed for their ideas and feedback.
 
 # Document History
@@ -380,6 +403,7 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
 * Phrased the challenge in Trust Domain terminology
 * Discussed interim Authorization Server interacting the end-user, which is not the user-authenticating Authorization Server
 * Moved Cookies discussion to Protocol Flow
+* Enhanced cookie discussion to support routing cookies
 
 -03
 
