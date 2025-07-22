@@ -1892,7 +1892,7 @@ If an app handling the authorization request url is not found, <em>Client App</e
 </li>
           </ul>
 <p id="section-5.4.4-3">Therefore <em>Client App</em> <span class="bcp14">MUST</span> start a new flow, launching on the browser a new authorization request without the <strong>app2app</strong> scope, which then follows an <em>App2Web</em> flow as described in "OAuth 2.0 for Native Apps" <span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span>.<a href="#section-5.4.4-3" class="pilcrow">¶</a></p>
-<p id="section-5.4.4-4">Note - this is the case whether a <em>User-Interacting Authorization Server</em> was reached, but also if the Authorization Server redirects the user by means other than HTTP 3xx, such as HTTP Form, Javascript code etc.<a href="#section-5.4.4-4" class="pilcrow">¶</a></p>
+<p id="section-5.4.4-4"><strong>Note</strong>: Downgrade to App2Web occurs also in case the Authorization Server redirects the user by means other than HTTP 3xx, such as HTTP Form, Javascript code etc.<a href="#section-5.4.4-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="processing-by-user-interacting-authorization-servers-app">

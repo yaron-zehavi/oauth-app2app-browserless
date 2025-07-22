@@ -502,10 +502,9 @@ Table of Contents
    which then follows an _App2Web_ flow as described in "OAuth 2.0 for
    Native Apps" [RFC8252].
 
-   Note - this is the case whether a _User-Interacting Authorization
-   Server_ was reached, but also if the Authorization Server redirects
-   the user by means other than HTTP 3xx, such as HTTP Form, Javascript
-   code etc.
+   *Note*: Downgrade to App2Web occurs also in case the Authorization
+   Server redirects the user by means other than HTTP 3xx, such as HTTP
+   Form, Javascript code etc.
 
 5.4.5.  Processing by User-Interacting Authorization Server's App:
 
