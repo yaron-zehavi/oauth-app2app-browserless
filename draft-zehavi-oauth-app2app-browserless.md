@@ -338,9 +338,9 @@ However, if the final *User-Interacting Authorization Server's* url is claimed b
 A *browser-less App2App* flow is possible in future invocations, if the *User-Interacting Authorization Server* shall store end-user's flow routing choice as a cookie, used in future invocations to determine routing without necessitating end-user interaction.
 However, to prevent cementing a failed routing decision, which end-user may have mistakenly made, it is RECOMMENDED the setting of such routing cookie be deferred until *User-Interacting Authorization Server* obtains a successful return redirect.
 
-## Reset past routing choices
+## Reset previous routing choices
 
-*Client App* MAY offer end-user a "reset" option, which discards previously stored cookies. If among the stored cookies were routing cookies, their absence will prompt end-user for routing.
+*Client App* MAY offer end-user a "reset" option, which discards previously stored cookies. If among the stored cookies were routing cookies, their absence will re-prompt end-user for routing decisions.
 
 ## Retry of App2App after App2Web
 
