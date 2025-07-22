@@ -97,7 +97,7 @@ Table of Contents
      6.2.  iOS
    7.  User Experience Considerations
      7.1.  Flow Routing Cookies
-     7.2.  Reset past routing choices
+     7.2.  Reset previous routing choices
      7.3.  Retry of App2App after App2Web
    8.  Security Considerations
      8.1.  OAuth request forgery and manipulation
@@ -598,11 +598,11 @@ Table of Contents
    routing cookie be deferred until _User-Interacting Authorization
    Server_ obtains a successful return redirect.
 
-7.2.  Reset past routing choices
+7.2.  Reset previous routing choices
 
    _Client App_ MAY offer end-user a "reset" option, which discards
    previously stored cookies.  If among the stored cookies were routing
-   cookies, their absence will prompt end-user for routing.
+   cookies, their absence will re-prompt end-user for routing decisions.
 
 7.3.  Retry of App2App after App2Web
 
