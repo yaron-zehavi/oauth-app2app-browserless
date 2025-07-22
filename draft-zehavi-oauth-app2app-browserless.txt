@@ -607,12 +607,12 @@ Table of Contents
 
 7.3.  Retry of App2App after App2Web
 
-   _Client App_ MAY retry _browser-less App2App_ flows, despite
-   experiencing in the past a downgrade to _App2Web_. It is possible
-   that past _App2Web_ flows were the result of _User-Interacting App_
-   not present on the user's device.  Since in the meantime the app may
-   have been installed, retrying may achieve the desired _browser-less
-   App2App_ flow.
+   _Client App_ MAY retry the _browser-less App2App_ flow, despite in
+   the past having to downgrade to _App2Web_. It is possible that past
+   _App2Web_ flows resulted from lack of _User-Interacting App_ on the
+   user's device.  Since in the meantime the app may have been
+   installed, retrying may achieve the desired _browser-less App2App_
+   flow.
 
 8.  Security Considerations
 
