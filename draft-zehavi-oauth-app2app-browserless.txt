@@ -602,7 +602,8 @@ Table of Contents
 
    _Client App_ MAY offer end-user a "reset" option, which discards
    previously stored cookies.  If among the stored cookies were routing
-   cookies, their absence will re-prompt end-user for routing decisions.
+   cookies, their absence will cause end-user to be prompted for routing
+   decisions.
 
 7.3.  Retry of App2App after App2Web
 
