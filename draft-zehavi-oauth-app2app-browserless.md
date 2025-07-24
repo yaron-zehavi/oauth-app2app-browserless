@@ -36,6 +36,7 @@ normative:
   RFC7636:
   RFC8252:
   RFC9126:
+  RFC9396:
   OpenID:
     title: OpenID Connect Core 1.0
     target: https://openid.net/specs/openid-connect-core-1_0.html
@@ -204,7 +205,7 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" {{RFC8252}}
 
 ## New Parameters and Values {#parameters}
 
-The protocol described in this document requires *User-Interacting App* to natively navigate end-user back to Client App, for which it requires Client App's native_callback_uri.
+The protocol described in this document requires **User-Interacting App** to natively navigate end-user back to Client App, for which it requires Client App's **native_callback_uri**.
 
 Therefore this document defines new parameters and values.
 
@@ -218,6 +219,8 @@ Therefore this document defines new parameters and values.
 
   "**app2app:{*native_callback_uri*}**":
   : OPTIONAL. New structured scope value including the **app2app** flag as well as the Client's **native_callback_uri**, separated by a colon. When structured scope **app2app:{*native_callback_uri*}** is provided, **native_callback_uri** MUST NOT be provided.
+
+**Note**: It is considered to replace these options and the validation logic by *Initial Authorization Server*, by providing the **native_callback_uri** through a {{RFC9396}} rich authorization details type.
 
 **native_callback_uri** accepts the following query parameter when invoked by *User-Interacting Authorization Server's App*:
 
