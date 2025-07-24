@@ -253,16 +253,16 @@ The request SHALL include Client's redirect_uri as **native_callback_uri** in on
 
 ### Client App invokes app of User-Interacting Authorization Server
 
-Client App SHALL use OS mechanisms to locate an app installed on the device claiming the authorization request url.
-If so, *Client App* SHALL natively invoke the app claiming the url to process the authorization request. This achieves native navigation across applications.
-If an app handling the authorization request url is not found, *Client App* SHALL use HTTP to call the authorization request url and process the response:
+Client App SHALL use OS mechanisms to attempt to locate an app installed on the device claiming the authorization request url.
+If such app is found, *Client App* SHALL natively invoke the app claiming the url to process the authorization request. This achieves the desired native navigation across applications.
+If a suitable app is not found, *Client App* SHALL use HTTP to call the authorization request url and process the response:
 
-* If the response is successful (HTTP Code 2xx), it is assumed to be a *User-Interacting Authorization Server*. This means the *Client App* "over-stepped" its traversal and SHOULD downgrade to *App2Web*.
+* If the response code is HTTP 2xx, *Client App* cannot accomplish the browser-less flow and MUST fallback to using the browser. The reason is that it reached a *User-Interacting Authorization Server*, whether aiming to authenticate the user and authorize the request, or prompt the user for a routing decision or perhaps to redirect through HTTP Form-Post or Javascript. All of which are not compliant with the browser-less flow.
 * If the response is a redirect instruction (HTTP Code 3xx + Location header), *Client App* SHALL repeat the logic previously described:
 
-  * Check if an app owns the obtained url, and if so natively invoke it.
-  * Otherwise use HTTP to call the obtained url and analyze the response.
-* Handle error response (HTTP 4xx / 5xx) for example by displaying the error.
+  * Check if an app claims the url in the Location header, and if so natively invoke it.
+  * Otherwise use HTTP to call the url and analyze the response.
+* Client App SHALL handle error responses (HTTP 4xx / 5xx), for example display the error.
 
 As the *Client App* traverses through Brokers, it SHALL maintain a list of all the DNS domains it traverses, to be used as Allowlist for response handling traversal.
 
@@ -271,16 +271,17 @@ As Authorization Servers MAY use Cookies to bind security elements (state, nonce
 * Store Cookies it obtains in HTTP responses.
 * Send Cookies in subsequent HTTP requests.
 
-### Downgrade to App2Web
+### Fallback to using the browser
 
-If *Client App* obtains an HTTP response other than a 3xx redirect, a new flow MUST be initiated using the browser. It is NOT RECOMMENDED to relaunch the current flow's last authorization request on the browser as:
+If *Client App* obtains an HTTP 2xx response, a new flow MUST be initiated **using the browser**. It is NOT RECOMMENDED to relaunch the current flow's last authorization request on the browser as:
 
-* Single-use elements such as a *request_uri* might have been used in the request, and if so relaunching on the browser will fail.
-* Upstream Authorization Servers may have returned necessary cookies to *Client App*, which are unavailable to the browser.
+* Single-use elements such as *request_uri* might have been used in the request, and if so relaunching the request on the browser will fail.
+* Authorization Servers previously engaged may have returned cookies to *Client App*, which would be unavailable to the browser and cause the flow to fail.
 
-Therefore *Client App* MUST start a new flow, launching on the browser a new authorization request without the **app2app** scope, which then follows an *App2Web* flow as described in "OAuth 2.0 for Native Apps" {{RFC8252}}.
+Therefore *Client App* MUST start a new flow by launching on the browser a new authorization request without the **app2app** scope, which then follows "OAuth 2.0 for Native Apps" {{RFC8252}} and does not require further elaboration in this document.
 
-**Note**: Downgrade to App2Web occurs also in case the Authorization Server redirects the user by means other than HTTP 3xx, such as HTTP Form, Javascript code etc.
+Note - In future interactions *Client App* MAY retry the *browser-less App2App* flow because past usage of the browser might have resulted from lack of *User-Interacting App* on the user's device.
+Since in the meantime the app may have been installed, retrying may achieve the desired *browser-less App2App* flow.
 
 ### Processing by User-Interacting Authorization Server's App:
 
@@ -326,30 +327,6 @@ App SHALL invoke Android {{android.method.intent}} method with FLAG_ACTIVITY_REQ
 
 App SHALL invoke iOS {{iOS.method.openUrl}} method with options {{iOS.option.universalLinksOnly}} which ensures URLs must be universal links and have an app configured to open them.
 Otherwise the method returns false in completion.success
-
-# User Experience Considerations
-
-## Flow Routing Cookies
-
-A *User-Interacting Authorization Server* may use a web page to interact with end-user for the purpose of routing the flow to a downstream Authorization Server, for example: "Select your Bank" or "Select your University", etc.
-
-As mentioned before, this interaction would be handled as *App2Web*.
-However, if the final *User-Interacting Authorization Server's* url is claimed by a *User-Interacting App* on the user's device, such app would be invoked and the flow would be *App2App* including browser.
-
-A *browser-less App2App* flow is possible in future invocations, if the *User-Interacting Authorization Server* shall store end-user's flow routing choice as a cookie, used in future invocations to determine routing without necessitating end-user interaction.
-However, to prevent cementing a failed routing decision, which end-user may have mistakenly made, it is RECOMMENDED the setting of such routing cookie be deferred until *User-Interacting Authorization Server* obtains a successful return redirect.
-
-## Reset previous routing choices
-
-*Client App* MAY offer end-user a "reset" option, which discards previously stored cookies.
-
-If among the stored cookies were routing cookies, their absence will cause end-user to be prompted for routing decisions.
-
-## Retry of App2App after App2Web
-
-*Client App* MAY retry the *browser-less App2App* flow, despite in the past having to downgrade to *App2Web*. It is possible that past *App2Web* flows resulted from lack of *User-Interacting App* on the user's device.
-
-Since in the meantime the app may have been installed, retrying may achieve the desired *browser-less App2App* flow.
 
 # Security Considerations
 
