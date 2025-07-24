@@ -96,13 +96,14 @@ Table of Contents
      6.1.  Android
      6.2.  iOS
    7.  Security Considerations
-     7.1.  OAuth request forgery and manipulation
-     7.2.  Secure Native application communication
-     7.3.  Deep link hijacking
-     7.4.  Open redirection by Client App
-     7.5.  Open redirection by User-Interacting Authorization Server's
+     7.1.  Embedded User Agents
+     7.2.  OAuth request forgery and manipulation
+     7.3.  Secure Native application communication
+     7.4.  Deep link hijacking
+     7.5.  Open redirection by Client App
+     7.6.  Open redirection by User-Interacting Authorization Server's
            App
-     7.6.  Authorization code theft and injection
+     7.7.  Authorization code theft and injection
    8.  IANA Considerations
    9.  References
      9.1.  Normative References
@@ -457,9 +458,9 @@ Table of Contents
    *  If the response code is HTTP 2xx, _Client App_ cannot accomplish
       the browser-less flow and MUST fallback to using the browser.  The
       reason is that it reached a _User-Interacting Authorization
-      Server_, whether aiming to authenticate the user and authorize the
+      Server_, perhaps aiming to authenticate the user and authorize the
       request, or prompt the user for a routing decision or perhaps to
-      redirect through HTTP Form-Post or Javascript.  All of which are
+      redirect through HTTP Form-Post or Javascript.  All of these are
       not compliant with the browser-less flow.
 
    *  If the response is a redirect instruction (HTTP Code 3xx +
@@ -582,16 +583,27 @@ Table of Contents
    App SHALL invoke iOS [iOS.method.openUrl] method with options
    [iOS.option.universalLinksOnly] which ensures URLs must be universal
    links and have an app configured to open them.  Otherwise the method
-   returns false in completion.success
+   returns false in completion.success.
 
 7.  Security Considerations
 
-7.1.  OAuth request forgery and manipulation
+7.1.  Embedded User Agents
+
+   [RFC8252] in its Security Considerations [https://www.rfc-
+   editor.org/rfc/rfc8252.html#section-8.12], advises against _embedded
+   user agents_. The main concern named is preventing keystroke
+   recording of end-user's credentials such as usernames and passwords.
+
+   This risk does not apply to this draft as _Client App_ acts as User
+   Agent only for the purpose of flow redirection, and does not interact
+   with end-user's credentials in any way.
+
+7.2.  OAuth request forgery and manipulation
 
    It is RECOMMENDED that _Client App_ acts as a confidential OAuth
    client.
 
-7.2.  Secure Native application communication
+7.3.  Secure Native application communication
 
    If _Client App_ uses a Backend it is RECOMMENDED to communicate with
    it securely:
@@ -602,14 +614,14 @@ Table of Contents
 
    *  Perform certificate pinning.
 
-7.3.  Deep link hijacking
+7.4.  Deep link hijacking
 
    It is RECOMMENDED that all apps in this specification shall use
    https-scheme deep links (Android App Links / iOS universal links).
    Apps SHOULD implement the most specific package identifiers
    mitigating deep link hijacking by malicious apps.
 
-7.4.  Open redirection by Client App
+7.5.  Open redirection by Client App
 
    Client App SHALL construct an Allowlist of DNS domains it traverses
    while processing the request, used to enforce all urls it later
@@ -624,13 +636,13 @@ Table of Contents
    It is RECOMMENDED _Client App_ allows only one OAuth request
    processing at a time.
 
-7.5.  Open redirection by User-Interacting Authorization Server's App
+7.6.  Open redirection by User-Interacting Authorization Server's App
 
    It is RECOMMENDED that _User-Interacting Authorization Server's_ App
    establishes trust in *native_callback_uri* to mitigate open
    redirection attacks and reject untrusted urls.
 
-7.6.  Authorization code theft and injection
+7.7.  Authorization code theft and injection
 
    It is RECOMMENDED that PKCE is used and that the code_verifier is
    tied to the _Client App_ instance, as mitigation to authorization
@@ -744,6 +756,8 @@ Appendix B.  Document History
 
    *  Mentioned that Authorization Servers redirecting not through HTTP
       3xx force the use of a browser
+
+   *  Discussed Embedded user agents security consideration
 
    *  Starting to consider using a rich authorization details type as
       simpler container for native_callback_uri

@@ -1231,22 +1231,25 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
-                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-oauth-request-forgery-and-m" class="internal xref">OAuth request forgery and manipulation</a></p>
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-embedded-user-agents" class="internal xref">Embedded User Agents</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
-                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-secure-native-application-c" class="internal xref">Secure Native application communication</a></p>
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-oauth-request-forgery-and-m" class="internal xref">OAuth request forgery and manipulation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
-                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-deep-link-hijacking" class="internal xref">Deep link hijacking</a></p>
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-secure-native-application-c" class="internal xref">Secure Native application communication</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4">
-                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-open-redirection-by-client-" class="internal xref">Open redirection by Client App</a></p>
+                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-deep-link-hijacking" class="internal xref">Deep link hijacking</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.5">
-                <p id="section-toc.1-1.7.2.5.1"><a href="#section-7.5" class="auto internal xref">7.5</a>.  <a href="#name-open-redirection-by-user-in" class="internal xref">Open redirection by User-Interacting Authorization Server's App</a></p>
+                <p id="section-toc.1-1.7.2.5.1"><a href="#section-7.5" class="auto internal xref">7.5</a>.  <a href="#name-open-redirection-by-client-" class="internal xref">Open redirection by Client App</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.6">
-                <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="auto internal xref">7.6</a>.  <a href="#name-authorization-code-theft-an" class="internal xref">Authorization code theft and injection</a></p>
+                <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="auto internal xref">7.6</a>.  <a href="#name-open-redirection-by-user-in" class="internal xref">Open redirection by User-Interacting Authorization Server's App</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.7">
+                <p id="section-toc.1-1.7.2.7.1"><a href="#section-7.7" class="auto internal xref">7.7</a>.  <a href="#name-authorization-code-theft-an" class="internal xref">Authorization code theft and injection</a></p>
 </li>
             </ul>
 </li>
@@ -1835,7 +1838,7 @@ If such app is found, <em>Client App</em> <span class="bcp14">SHALL</span> nativ
 If a suitable app is not found, <em>Client App</em> <span class="bcp14">SHALL</span> use HTTP to call the authorization request url and process the response:<a href="#section-5.4.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4.3-2.1">
-              <p id="section-5.4.3-2.1.1">If the response code is HTTP 2xx, <em>Client App</em> cannot accomplish the browser-less flow and <span class="bcp14">MUST</span> fallback to using the browser. The reason is that it reached a <em>User-Interacting Authorization Server</em>, whether aiming to authenticate the user and authorize the request, or prompt the user for a routing decision or perhaps to redirect through HTTP Form-Post or Javascript. All of which are not compliant with the browser-less flow.<a href="#section-5.4.3-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.4.3-2.1.1">If the response code is HTTP 2xx, <em>Client App</em> cannot accomplish the browser-less flow and <span class="bcp14">MUST</span> fallback to using the browser. The reason is that it reached a <em>User-Interacting Authorization Server</em>, perhaps aiming to authenticate the user and authorize the request, or prompt the user for a routing decision or perhaps to redirect through HTTP Form-Post or Javascript. All of these are not compliant with the browser-less flow.<a href="#section-5.4.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.4.3-2.2">
               <p id="section-5.4.3-2.2.1">If the response is a redirect instruction (HTTP Code 3xx + Location header), <em>Client App</em> <span class="bcp14">SHALL</span> repeat the logic previously described:<a href="#section-5.4.3-2.2.1" class="pilcrow">¶</a></p>
@@ -1970,7 +1973,7 @@ The general method is the same - App calls an SDK to open the url as deep link a
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-ios" class="section-name selfRef">iOS</a>
         </h3>
 <p id="section-6.2-1">App <span class="bcp14">SHALL</span> invoke iOS <span>[<a href="#iOS.method.openUrl" class="cite xref">iOS.method.openUrl</a>]</span> method with options <span>[<a href="#iOS.option.universalLinksOnly" class="cite xref">iOS.option.universalLinksOnly</a>]</span> which ensures URLs must be universal links and have an app configured to open them.
-Otherwise the method returns false in completion.success<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+Otherwise the method returns false in completion.success.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1980,67 +1983,76 @@ Otherwise the method returns false in completion.success<a href="#section-6.2-1"
       <h2 id="name-security-considerations">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<div id="oauth-request-forgery-and-manipulation">
+<div id="embedded-user-agents">
 <section id="section-7.1">
-        <h3 id="name-oauth-request-forgery-and-m">
-<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-oauth-request-forgery-and-m" class="section-name selfRef">OAuth request forgery and manipulation</a>
+        <h3 id="name-embedded-user-agents">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-embedded-user-agents" class="section-name selfRef">Embedded User Agents</a>
         </h3>
-<p id="section-7.1-1">It is <span class="bcp14">RECOMMENDED</span> that <em>Client App</em> acts as a confidential OAuth client.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-1"><span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span> in its Security Considerations [https://www.rfc-editor.org/rfc/rfc8252.html#section-8.12], advises against <em>embedded user agents</em>. The main concern named is preventing keystroke recording of end-user's credentials such as usernames and passwords.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">This risk does not apply to this draft as <em>Client App</em> acts as User Agent only for the purpose of flow redirection, and does not interact with end-user's credentials in any way.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="oauth-request-forgery-and-manipulation">
+<section id="section-7.2">
+        <h3 id="name-oauth-request-forgery-and-m">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-oauth-request-forgery-and-m" class="section-name selfRef">OAuth request forgery and manipulation</a>
+        </h3>
+<p id="section-7.2-1">It is <span class="bcp14">RECOMMENDED</span> that <em>Client App</em> acts as a confidential OAuth client.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="secure-native-application-communication">
-<section id="section-7.2">
+<section id="section-7.3">
         <h3 id="name-secure-native-application-c">
-<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-secure-native-application-c" class="section-name selfRef">Secure Native application communication</a>
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-secure-native-application-c" class="section-name selfRef">Secure Native application communication</a>
         </h3>
-<p id="section-7.2-1">If <em>Client App</em> uses a Backend it is <span class="bcp14">RECOMMENDED</span> to communicate with it securely:<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.3-1">If <em>Client App</em> uses a Backend it is <span class="bcp14">RECOMMENDED</span> to communicate with it securely:<a href="#section-7.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.2-2.1">
-            <p id="section-7.2-2.1.1">Use TLS in up to date versions and ciphers.<a href="#section-7.2-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-7.3-2.1">
+            <p id="section-7.3-2.1.1">Use TLS in up to date versions and ciphers.<a href="#section-7.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-2.2">
-            <p id="section-7.2-2.2.1">Use DNSSEC.<a href="#section-7.2-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.3-2.2">
+            <p id="section-7.3-2.2.1">Use DNSSEC.<a href="#section-7.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-2.3">
-            <p id="section-7.2-2.3.1">Perform certificate pinning.<a href="#section-7.2-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.3-2.3">
+            <p id="section-7.3-2.3.1">Perform certificate pinning.<a href="#section-7.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="deep-link-hijacking">
-<section id="section-7.3">
+<section id="section-7.4">
         <h3 id="name-deep-link-hijacking">
-<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-deep-link-hijacking" class="section-name selfRef">Deep link hijacking</a>
+<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-deep-link-hijacking" class="section-name selfRef">Deep link hijacking</a>
         </h3>
-<p id="section-7.3-1">It is <span class="bcp14">RECOMMENDED</span> that all apps in this specification shall use https-scheme deep links (Android App Links / iOS universal links). Apps <span class="bcp14">SHOULD</span> implement the most specific package identifiers mitigating deep link hijacking by malicious apps.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<p id="section-7.4-1">It is <span class="bcp14">RECOMMENDED</span> that all apps in this specification shall use https-scheme deep links (Android App Links / iOS universal links). Apps <span class="bcp14">SHOULD</span> implement the most specific package identifiers mitigating deep link hijacking by malicious apps.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="open-redirection-by-client-app">
-<section id="section-7.4">
+<section id="section-7.5">
         <h3 id="name-open-redirection-by-client-">
-<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-open-redirection-by-client-" class="section-name selfRef">Open redirection by Client App</a>
+<a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-open-redirection-by-client-" class="section-name selfRef">Open redirection by Client App</a>
         </h3>
-<p id="section-7.4-1">Client App <span class="bcp14">SHALL</span> construct an Allowlist of DNS domains it traverses while processing the request, used to enforce all urls it later traverses during response processing.
-This mitigates open redirection attacks as urls not in this Allowlist <span class="bcp14">SHALL</span> be rejected.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
-<p id="section-7.4-2">In addition <em>Client App</em> <span class="bcp14">MUST</span> ignore any invocation for response processing which is not in the context of a request it initiated.
-It is <span class="bcp14">RECOMMENDED</span> the Allowlist be managed as a single-use object, destructed after each protocol flow ends.<a href="#section-7.4-2" class="pilcrow">¶</a></p>
-<p id="section-7.4-3">It is <span class="bcp14">RECOMMENDED</span> <em>Client App</em> allows only one OAuth request processing at a time.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
+<p id="section-7.5-1">Client App <span class="bcp14">SHALL</span> construct an Allowlist of DNS domains it traverses while processing the request, used to enforce all urls it later traverses during response processing.
+This mitigates open redirection attacks as urls not in this Allowlist <span class="bcp14">SHALL</span> be rejected.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
+<p id="section-7.5-2">In addition <em>Client App</em> <span class="bcp14">MUST</span> ignore any invocation for response processing which is not in the context of a request it initiated.
+It is <span class="bcp14">RECOMMENDED</span> the Allowlist be managed as a single-use object, destructed after each protocol flow ends.<a href="#section-7.5-2" class="pilcrow">¶</a></p>
+<p id="section-7.5-3">It is <span class="bcp14">RECOMMENDED</span> <em>Client App</em> allows only one OAuth request processing at a time.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="open-redirection-by-user-interacting-authorization-servers-app">
-<section id="section-7.5">
+<section id="section-7.6">
         <h3 id="name-open-redirection-by-user-in">
-<a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-open-redirection-by-user-in" class="section-name selfRef">Open redirection by User-Interacting Authorization Server's App</a>
+<a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-open-redirection-by-user-in" class="section-name selfRef">Open redirection by User-Interacting Authorization Server's App</a>
         </h3>
-<p id="section-7.5-1">It is <span class="bcp14">RECOMMENDED</span> that <em>User-Interacting Authorization Server's</em> App establishes trust in <strong>native_callback_uri</strong> to mitigate open redirection attacks and reject untrusted urls.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
+<p id="section-7.6-1">It is <span class="bcp14">RECOMMENDED</span> that <em>User-Interacting Authorization Server's</em> App establishes trust in <strong>native_callback_uri</strong> to mitigate open redirection attacks and reject untrusted urls.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authorization-code-theft-and-injection">
-<section id="section-7.6">
+<section id="section-7.7">
         <h3 id="name-authorization-code-theft-an">
-<a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-authorization-code-theft-an" class="section-name selfRef">Authorization code theft and injection</a>
+<a href="#section-7.7" class="section-number selfRef">7.7. </a><a href="#name-authorization-code-theft-an" class="section-name selfRef">Authorization code theft and injection</a>
         </h3>
-<p id="section-7.6-1">It is <span class="bcp14">RECOMMENDED</span> that PKCE is used and that the code_verifier is tied to the <em>Client App</em> instance, as mitigation to authorization code theft and injection attacks.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
+<p id="section-7.7-1">It is <span class="bcp14">RECOMMENDED</span> that PKCE is used and that the code_verifier is tied to the <em>Client App</em> instance, as mitigation to authorization code theft and injection attacks.<a href="#section-7.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2168,7 +2180,10 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
           <p id="appendix-B-3.4.1">Mentioned that Authorization Servers redirecting not through HTTP 3xx force the use of a browser<a href="#appendix-B-3.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-B-3.5">
-          <p id="appendix-B-3.5.1">Starting to consider using a rich authorization details type as simpler container for native_callback_uri<a href="#appendix-B-3.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-3.5.1">Discussed Embedded user agents security consideration<a href="#appendix-B-3.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-3.6">
+          <p id="appendix-B-3.6.1">Starting to consider using a rich authorization details type as simpler container for native_callback_uri<a href="#appendix-B-3.6.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-B-4">-03<a href="#appendix-B-4" class="pilcrow">¶</a></p>
