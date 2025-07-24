@@ -389,18 +389,6 @@ Table of Contents
       scope *app2app:{_native_callback_uri_}* is provided,
       *native_callback_uri* MUST NOT be provided.
 
-   *Note*: It is considered to replace these options and the validation
-   logic by _Initial Authorization Server_, by providing the
-   *native_callback_uri* through a [RFC9396] rich authorization details
-   type:
-
-   {
-      "type": "https://scheme.example.org/native_callback_uri",
-      "locations": [
-         "https://app.example.com/native_callback_uri"
-      ]
-   }
-
    *native_callback_uri* accepts the following query parameter when
    invoked by _User-Interacting Authorization Server's App_:
 
@@ -414,6 +402,19 @@ Table of Contents
       requests created.
 
    *  MAY validate *native_callback_uri*.
+
+   *Note*: A simplification is considered, to replace these options and
+   the validation logic by _Initial Authorization Server_, by having
+   _Client App_ provide the *native_callback_uri* through a [RFC9396]
+   rich authorization details type, which is expected to be passed on by
+   _Downstream Authorization Servers_:
+
+   {
+      "type": "https://scheme.example.org/native_callback_uri",
+      "locations": [
+         "https://app.example.com/native_callback_uri"
+      ]
+   }
 
 5.3.  Validation of native_callback_uri
 

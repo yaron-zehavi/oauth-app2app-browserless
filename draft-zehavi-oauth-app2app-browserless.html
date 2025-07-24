@@ -1765,8 +1765,25 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" <span>[<a h
 </dd>
         <dd class="break"></dd>
 </dl>
-<p id="section-5.2-6"><strong>Note</strong>: It is considered to replace these options and the validation logic by <em>Initial Authorization Server</em>, by providing the <strong>native_callback_uri</strong> through a <span>[<a href="#RFC9396" class="cite xref">RFC9396</a>]</span> rich authorization details type:<a href="#section-5.2-6" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-5.2-7">
+<p id="section-5.2-6"><strong>native_callback_uri</strong> accepts the following query parameter when invoked by <em>User-Interacting Authorization Server's App</em>:<a href="#section-5.2-6" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-5.2-7">
+          <dt id="section-5.2-7.1">"<strong>redirect_uri</strong>":</dt>
+          <dd style="margin-left: 1.5em" id="section-5.2-7.2">
+            <p id="section-5.2-7.2.1">url-encoded OAuth redirect_uri with its response parameters.<a href="#section-5.2-7.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-5.2-8"><em>Downstream Authorization Server</em>, processing an app2app flow according to this document:<a href="#section-5.2-8" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.2-9.1">
+            <p id="section-5.2-9.1.1"><span class="bcp14">MUST</span> retain the <strong>native_callback_uri</strong> in downstream authorization requests created.<a href="#section-5.2-9.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-9.2">
+            <p id="section-5.2-9.2.1"><span class="bcp14">MAY</span> validate <strong>native_callback_uri</strong>.<a href="#section-5.2-9.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-5.2-10"><strong>Note</strong>: A simplification is considered, to replace these options and the validation logic by <em>Initial Authorization Server</em>, by having <em>Client App</em> provide the <strong>native_callback_uri</strong> through a <span>[<a href="#RFC9396" class="cite xref">RFC9396</a>]</span> rich authorization details type, which is expected to be passed on by <em>Downstream Authorization Servers</em>:<a href="#section-5.2-10" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.2-11">
 <pre>
 {
    "type": "https://scheme.example.org/native_callback_uri",
@@ -1774,25 +1791,8 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" <span>[<a h
       "https://app.example.com/native_callback_uri"
    ]
 }
-</pre><a href="#section-5.2-7" class="pilcrow">¶</a>
+</pre><a href="#section-5.2-11" class="pilcrow">¶</a>
 </div>
-<p id="section-5.2-8"><strong>native_callback_uri</strong> accepts the following query parameter when invoked by <em>User-Interacting Authorization Server's App</em>:<a href="#section-5.2-8" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-5.2-9">
-          <dt id="section-5.2-9.1">"<strong>redirect_uri</strong>":</dt>
-          <dd style="margin-left: 1.5em" id="section-5.2-9.2">
-            <p id="section-5.2-9.2.1">url-encoded OAuth redirect_uri with its response parameters.<a href="#section-5.2-9.2.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-</dl>
-<p id="section-5.2-10"><em>Downstream Authorization Server</em>, processing an app2app flow according to this document:<a href="#section-5.2-10" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.2-11.1">
-            <p id="section-5.2-11.1.1"><span class="bcp14">MUST</span> retain the <strong>native_callback_uri</strong> in downstream authorization requests created.<a href="#section-5.2-11.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.2-11.2">
-            <p id="section-5.2-11.2.1"><span class="bcp14">MAY</span> validate <strong>native_callback_uri</strong>.<a href="#section-5.2-11.2.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
 </section>
 </div>
 <div id="validation-of-nativecallbackuri">
