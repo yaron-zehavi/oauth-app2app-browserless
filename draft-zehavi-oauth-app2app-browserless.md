@@ -260,7 +260,7 @@ Client App SHALL use OS mechanisms to attempt to locate an app installed on the 
 If such app is found, *Client App* SHALL natively invoke the app claiming the url to process the authorization request. This achieves the desired native navigation across applications.
 If a suitable app is not found, *Client App* SHALL use HTTP to call the authorization request url and process the response:
 
-* If the response code is HTTP 2xx, *Client App* cannot accomplish the browser-less flow and MUST fallback to using the browser. The reason is that it reached a *User-Interacting Authorization Server*, whether aiming to authenticate the user and authorize the request, or prompt the user for a routing decision or perhaps to redirect through HTTP Form-Post or Javascript. All of which are not compliant with the browser-less flow.
+* If the response code is HTTP 2xx, *Client App* cannot accomplish the browser-less flow and MUST fallback to using the browser. The reason is that it reached a *User-Interacting Authorization Server*, perhaps aiming to authenticate the user and authorize the request, or prompt the user for a routing decision or perhaps to redirect through HTTP Form-Post or Javascript. All of these are not compliant with the browser-less flow.
 * If the response is a redirect instruction (HTTP Code 3xx + Location header), *Client App* SHALL repeat the logic previously described:
 
   * Check if an app claims the url in the Location header, and if so natively invoke it.
@@ -329,9 +329,15 @@ App SHALL invoke Android {{android.method.intent}} method with FLAG_ACTIVITY_REQ
 ## iOS
 
 App SHALL invoke iOS {{iOS.method.openUrl}} method with options {{iOS.option.universalLinksOnly}} which ensures URLs must be universal links and have an app configured to open them.
-Otherwise the method returns false in completion.success
+Otherwise the method returns false in completion.success.
 
 # Security Considerations
+
+## Embedded User Agents
+
+{{RFC8252}} in its Security Considerations [https://www.rfc-editor.org/rfc/rfc8252.html#section-8.12], advises against *embedded user agents*. The main concern named is preventing keystroke recording of end-user's credentials such as usernames and passwords.
+
+This risk does not apply to this draft as *Client App* acts as User Agent only for the purpose of flow redirection, and does not interact with end-user's credentials in any way.
 
 ## OAuth request forgery and manipulation
 
@@ -388,6 +394,7 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
 * Discussed interim Authorization Server interacting the end-user, which is not the User-Authenticating Authorization Server
 * Moved Cookies topic to Protocol Flow
 * Mentioned that Authorization Servers redirecting not through HTTP 3xx force the use of a browser
+* Discussed Embedded user agents security consideration
 * Starting to consider using a rich authorization details type as simpler container for native_callback_uri
 
 -03
