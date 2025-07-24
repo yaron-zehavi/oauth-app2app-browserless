@@ -220,7 +220,14 @@ Therefore this document defines new parameters and values.
   "**app2app:{*native_callback_uri*}**":
   : OPTIONAL. New structured scope value including the **app2app** flag as well as the Client's **native_callback_uri**, separated by a colon. When structured scope **app2app:{*native_callback_uri*}** is provided, **native_callback_uri** MUST NOT be provided.
 
-**Note**: It is considered to replace these options and the validation logic by *Initial Authorization Server*, by providing the **native_callback_uri** through a {{RFC9396}} rich authorization details type.
+**Note**: It is considered to replace these options and the validation logic by *Initial Authorization Server*, by providing the **native_callback_uri** through a {{RFC9396}} rich authorization details type:
+
+    {
+       "type": "https://scheme.example.org/native_callback_uri",
+       "locations": [
+          "https://app.example.com/native_callback_uri"
+       ]
+    }
 
 **native_callback_uri** accepts the following query parameter when invoked by *User-Interacting Authorization Server's App*:
 
@@ -335,7 +342,7 @@ Otherwise the method returns false in completion.success.
 
 ## Embedded User Agents
 
-{{RFC8252}} in its Security Considerations [https://www.rfc-editor.org/rfc/rfc8252.html#section-8.12], advises against *embedded user agents*. The main concern named is preventing keystroke recording of end-user's credentials such as usernames and passwords.
+{{RFC8252}} Security Considerations advises against using *embedded user agents*. The main concern is preventing theft through keystroke recording of end-user's credentials such as usernames and passwords.
 
 This risk does not apply to this draft as *Client App* acts as User Agent only for the purpose of flow redirection, and does not interact with end-user's credentials in any way.
 
