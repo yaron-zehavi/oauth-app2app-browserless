@@ -220,15 +220,6 @@ Therefore this document defines new parameters and values.
   "**app2app:{*native_callback_uri*}**":
   : OPTIONAL. New structured scope value including the **app2app** flag as well as the Client's **native_callback_uri**, separated by a colon. When structured scope **app2app:{*native_callback_uri*}** is provided, **native_callback_uri** MUST NOT be provided.
 
-**Note**: It is considered to replace these options and the validation logic by *Initial Authorization Server*, by providing the **native_callback_uri** through a {{RFC9396}} rich authorization details type:
-
-    {
-       "type": "https://scheme.example.org/native_callback_uri",
-       "locations": [
-          "https://app.example.com/native_callback_uri"
-       ]
-    }
-
 **native_callback_uri** accepts the following query parameter when invoked by *User-Interacting Authorization Server's App*:
 
   "**redirect_uri**":
@@ -238,6 +229,15 @@ Therefore this document defines new parameters and values.
 
 * MUST retain the **native_callback_uri** in downstream authorization requests created.
 * MAY validate **native_callback_uri**.
+
+**Note**: A simplification is considered, to replace these options and the validation logic by *Initial Authorization Server*, by having *Client App* provide the **native_callback_uri** through a {{RFC9396}} rich authorization details type, which is expected to be passed on by *Downstream Authorization Servers*:
+
+    {
+       "type": "https://scheme.example.org/native_callback_uri",
+       "locations": [
+          "https://app.example.com/native_callback_uri"
+       ]
+    }
 
 ## Validation of native_callback_uri
 
