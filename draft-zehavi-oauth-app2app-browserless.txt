@@ -392,7 +392,14 @@ Table of Contents
    *Note*: It is considered to replace these options and the validation
    logic by _Initial Authorization Server_, by providing the
    *native_callback_uri* through a [RFC9396] rich authorization details
-   type.
+   type:
+
+   {
+      "type": "https://scheme.example.org/native_callback_uri",
+      "locations": [
+         "https://app.example.com/native_callback_uri"
+      ]
+   }
 
    *native_callback_uri* accepts the following query parameter when
    invoked by _User-Interacting Authorization Server's App_:
@@ -589,9 +596,8 @@ Table of Contents
 
 7.1.  Embedded User Agents
 
-   [RFC8252] in its Security Considerations [https://www.rfc-
-   editor.org/rfc/rfc8252.html#section-8.12], advises against _embedded
-   user agents_. The main concern named is preventing keystroke
+   [RFC8252] Security Considerations advises against using _embedded
+   user agents_. The main concern is preventing theft through keystroke
    recording of end-user's credentials such as usernames and passwords.
 
    This risk does not apply to this draft as _Client App_ acts as User
