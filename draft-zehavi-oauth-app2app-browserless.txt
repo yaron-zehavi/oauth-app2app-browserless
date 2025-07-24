@@ -363,9 +363,9 @@ Table of Contents
 
 5.2.  New Parameters and Values
 
-   The protocol described in this document requires _User-Interacting
-   App_ to natively navigate end-user back to Client App, for which it
-   requires Client App's native_callback_uri.
+   The protocol described in this document requires *User-Interacting
+   App* to natively navigate end-user back to Client App, for which it
+   requires Client App's *native_callback_uri*.
 
    Therefore this document defines new parameters and values.
 
@@ -387,6 +387,11 @@ Table of Contents
       *native_callback_uri*, separated by a colon.  When structured
       scope *app2app:{_native_callback_uri_}* is provided,
       *native_callback_uri* MUST NOT be provided.
+
+   *Note*: It is considered to replace these options and the validation
+   logic by _Initial Authorization Server_, by providing the
+   *native_callback_uri* through a [RFC9396] rich authorization details
+   type.
 
    *native_callback_uri* accepts the following query parameter when
    invoked by _User-Interacting Authorization Server's App_:
@@ -681,6 +686,11 @@ Table of Contents
               and F. Skokan, "OAuth 2.0 Pushed Authorization Requests",
               RFC 9126, DOI 10.17487/RFC9126, September 2021,
               <https://www.rfc-editor.org/rfc/rfc9126>.
+
+   [RFC9396]  Lodderstedt, T., Richer, J., and B. Campbell, "OAuth 2.0
+              Rich Authorization Requests", RFC 9396,
+              DOI 10.17487/RFC9396, May 2023,
+              <https://www.rfc-editor.org/rfc/rfc9396>.
 
 9.2.  Informative References
 

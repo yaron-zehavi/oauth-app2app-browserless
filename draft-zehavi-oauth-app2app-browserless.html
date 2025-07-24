@@ -1740,7 +1740,7 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" <span>[<a h
         <h3 id="name-new-parameters-and-values">
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-new-parameters-and-values" class="section-name selfRef">New Parameters and Values</a>
         </h3>
-<p id="section-5.2-1">The protocol described in this document requires <em>User-Interacting App</em> to natively navigate end-user back to Client App, for which it requires Client App's native_callback_uri.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-1">The protocol described in this document requires <strong>User-Interacting App</strong> to natively navigate end-user back to Client App, for which it requires Client App's <strong>native_callback_uri</strong>.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2-2">Therefore this document defines new parameters and values.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.2-3">
           <dt id="section-5.2-3.1">"<strong>app2app</strong>":</dt>
@@ -1762,21 +1762,22 @@ This is similar to the flow described in "OAuth 2.0 for Native Apps" <span>[<a h
 </dd>
         <dd class="break"></dd>
 </dl>
-<p id="section-5.2-6"><strong>native_callback_uri</strong> accepts the following query parameter when invoked by <em>User-Interacting Authorization Server's App</em>:<a href="#section-5.2-6" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-5.2-7">
-          <dt id="section-5.2-7.1">"<strong>redirect_uri</strong>":</dt>
-          <dd style="margin-left: 1.5em" id="section-5.2-7.2">
-            <p id="section-5.2-7.2.1">url-encoded OAuth redirect_uri with its response parameters.<a href="#section-5.2-7.2.1" class="pilcrow">¶</a></p>
+<p id="section-5.2-6"><strong>Note</strong>: It is considered to replace these options and the validation logic by <em>Initial Authorization Server</em>, by providing the <strong>native_callback_uri</strong> through a <span>[<a href="#RFC9396" class="cite xref">RFC9396</a>]</span> rich authorization details type.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
+<p id="section-5.2-7"><strong>native_callback_uri</strong> accepts the following query parameter when invoked by <em>User-Interacting Authorization Server's App</em>:<a href="#section-5.2-7" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-5.2-8">
+          <dt id="section-5.2-8.1">"<strong>redirect_uri</strong>":</dt>
+          <dd style="margin-left: 1.5em" id="section-5.2-8.2">
+            <p id="section-5.2-8.2.1">url-encoded OAuth redirect_uri with its response parameters.<a href="#section-5.2-8.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
-<p id="section-5.2-8"><em>Downstream Authorization Server</em>, processing an app2app flow according to this document:<a href="#section-5.2-8" class="pilcrow">¶</a></p>
+<p id="section-5.2-9"><em>Downstream Authorization Server</em>, processing an app2app flow according to this document:<a href="#section-5.2-9" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.2-9.1">
-            <p id="section-5.2-9.1.1"><span class="bcp14">MUST</span> retain the <strong>native_callback_uri</strong> in downstream authorization requests created.<a href="#section-5.2-9.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.2-10.1">
+            <p id="section-5.2-10.1.1"><span class="bcp14">MUST</span> retain the <strong>native_callback_uri</strong> in downstream authorization requests created.<a href="#section-5.2-10.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.2-9.2">
-            <p id="section-5.2-9.2.1"><span class="bcp14">MAY</span> validate <strong>native_callback_uri</strong>.<a href="#section-5.2-9.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-5.2-10.2">
+            <p id="section-5.2-10.2.1"><span class="bcp14">MAY</span> validate <strong>native_callback_uri</strong>.<a href="#section-5.2-10.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2096,8 +2097,12 @@ It is <span class="bcp14">RECOMMENDED</span> the Allowlist be managed as a singl
 <span class="refAuthor">Denniss, W.</span> and <span class="refAuthor">J. Bradley</span>, <span class="refTitle">"OAuth 2.0 for Native Apps"</span>, <span class="seriesInfo">BCP 212</span>, <span class="seriesInfo">RFC 8252</span>, <span class="seriesInfo">DOI 10.17487/RFC8252</span>, <time datetime="2017-10" class="refDate">October 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8252">https://www.rfc-editor.org/rfc/rfc8252</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9126">[RFC9126]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Lodderstedt, T.</span>, <span class="refAuthor">Campbell, B.</span>, <span class="refAuthor">Sakimura, N.</span>, <span class="refAuthor">Tonge, D.</span>, and <span class="refAuthor">F. Skokan</span>, <span class="refTitle">"OAuth 2.0 Pushed Authorization Requests"</span>, <span class="seriesInfo">RFC 9126</span>, <span class="seriesInfo">DOI 10.17487/RFC9126</span>, <time datetime="2021-09" class="refDate">September 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9126">https://www.rfc-editor.org/rfc/rfc9126</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9396">[RFC9396]</dt>
+      <dd>
+<span class="refAuthor">Lodderstedt, T.</span>, <span class="refAuthor">Richer, J.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"OAuth 2.0 Rich Authorization Requests"</span>, <span class="seriesInfo">RFC 9396</span>, <span class="seriesInfo">DOI 10.17487/RFC9396</span>, <time datetime="2023-05" class="refDate">May 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9396">https://www.rfc-editor.org/rfc/rfc9396</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
