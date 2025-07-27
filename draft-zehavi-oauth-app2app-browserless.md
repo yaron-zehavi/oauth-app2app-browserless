@@ -174,7 +174,7 @@ Using a web browser may degrade the user experience in several ways:
 
 # App2Web with brokers
 ~~~ aasvg
-{::include art/app2web-w-brokers.ascii-art}
+{::include art/app2web-w-brokers-2.ascii-art}
 ~~~
 {: #app2web-w-brokers title="App2Web with brokers (redirects back to Client not depicted)" }
 
