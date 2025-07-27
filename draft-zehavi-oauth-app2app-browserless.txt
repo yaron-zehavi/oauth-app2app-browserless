@@ -212,8 +212,8 @@ Table of Contents
 | |  Client  |                                                                               |
 | |   App    |                                                                               |
 | +-------+--+                                                                               |
-|   ^     |    Launch Authorization                                                          |
-|   |     |    Request on Browser            Mobile Browser                                  |
+|   ^     | Launch Authorization                                                             |
+|   |     | Request on Browser               Mobile Browser                                  |
 |   |     |    +---------------------------------------------------------------------------+ |
 |   |     |    | +--------------+ Auth. +---------------+    Auth. +--------------------+  | |
 |   |     |    | |    Initial   | Req.  |   Downstream  +-+  Req.  |       User-        |  | |
@@ -228,7 +228,7 @@ Table of Contents
 | +-------------+       Authenticate & Authorize (Deep Link)             |      |            |
 | |    User-    |<-------------------------------------------------------+      |            |
 | | Interacting |                                                               |            |
-| |     App     +--------------------------------=------------------------------+            |
+| |     App     +---------------------------------------------------------------+            |
 | +-------------+       Authentication & Authorization Response                              |
 |                                                                                            |
 +--------------------------------------------------------------------------------------------+
@@ -270,8 +270,8 @@ Table of Contents
 | |  Client  |                                                                               |
 | |   App    |                                                                               |
 | +-------+--+                                                                               |
-|   ^     |    Launch Authorization                                                          |
-|   |     |    Request on Browser            Mobile Browser                                  |
+|   ^     | Launch Authorization                                                             |
+|   |     | Request on Browser               Mobile Browser                                  |
 |   |     |    +---------------------------------------------------------------------------+ |
 |   |     |    | +--------------+ Auth. +---------------+    Auth. +--------------------+  | |
 |   |     |    | |    Initial   | Req.  |   Downstream  +-+  Req.  |       User-        |  | |
@@ -280,10 +280,10 @@ Table of Contents
 |   +----------+-+              |<------+               | |<-------+      Server        |  | |
 | Authorization| +--------------+ Auth. +-+-------------+ |  Auth. |                    |  | |
 |   Response   |                Response  +---------------+Response+-+----------------+-+  | |
-|  (Deep Link) |                                                     |     User-      |    | |
-|              |                                                     | Authenticating |    | |
-|              |                                                     |     Web UI     |    | |
+|  (Deep Link) |                                                     |     Web UI     |    | |
 |              |                                                     +----------------+    | |
+|              |                                                        Authenticate       | |
+|              |                                                        & Authorize        | |
 |              +---------------------------------------------------------------------------+ |
 +--------------------------------------------------------------------------------------------+
                                     Mobile Device
