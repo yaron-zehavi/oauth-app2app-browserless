@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                             Raiffeisen Bank International
-Intended status: Standards Track                            24 July 2025
-Expires: 25 January 2026
+Intended status: Standards Track                            27 July 2025
+Expires: 28 January 2026
 
 
                    OAuth 2.0 App2App Browserless Flow
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 January 2026.
+   This Internet-Draft will expire on 28 January 2026.
 
 Copyright Notice
 
@@ -259,24 +259,24 @@ Table of Contents
 
 4.  App2Web with brokers
 
-+------------------------------------------------------------------------------------+
-| +-----------+                                                                      |
-| |           |                                                                      |
-| |   Client  |                              Mobile Browser                          |
-| |    App    | +------------------------------------------------------------------+ |
-| |           | |                                                                  | |
-| +-----------+ | +---------+       +--------------+       +--------------------+  | |
-|         |     | |         |       | Downstream   |       |       User-        |  | |
-|         +------>| Initial |------>| Authorization|------>|   Authenticating   |  | |
-|  Authorization| | Broker  | Auth. | Servers      | Auth. |   Authorization    |  | |
-|  Request      | +---------+ Req.  +--------------+ Req.  |      Server        |  | |
-|               |                                          +-+----------------+-+  | |
-|               |                                            |     User-      |    | |
-|               |                                            | Authenticating |    | |
-|               |                                            |     Web UI     |    | |
-|               |                                            +----------------+    | |
-|               +------------------------------------------------------------------+ |
-+------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------+
+| +-----------+                                                                           |
+| |   Client  |                              Mobile Browser                               |
+| |    App    | +-----------------------------------------------------------------------+ |
+| |           | |                  Auth.                  Auth.                         | |
+| +--------+--+ | +--------------+ Req.  +--------------+ Req.  +--------------------+  | |
+|   ^  Auth|oriz|a|tion          |       |              |       |                    |  | |
+|   |   Req|uest| | Initial      +------>| Downstream   +------>|       User-        |  | |
+|   |      +----->| Authorization|       | Authorization|       |   Authenticating   |  | |
+|   +-----------+-+ Server       |<------+ Servers      |<------+   Authorization    |  | |
+| Authorization | +--------------+ Auth. +--------------+ Auth. |      Server        |  | |
+|   Response    |                Response               Response+-+----------------+-+  | |
+|               |                                                 |     User-      |    | |
+|               |                                                 | Authenticating |    | |
+|               |                                                 |     Web UI     |    | |
+|               |                                                 +----------------+    | |
+|               +-----------------------------------------------------------------------+ |
++-----------------------------------------------------------------------------------------+
                                      Mobile Device
 
      Figure 2: App2Web with brokers (redirects back to Client not
