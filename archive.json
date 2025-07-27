@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-24T01:43:14.897941+00:00",
+  "timestamp": "2025-07-27T01:51:09.219571+00:00",
   "repo": "yaron-zehavi/oauth-app2app-browserless",
   "labels": [
     {
@@ -49,7 +49,72 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 3,
+      "id": "I_kwDOOlAD9M7CrTyc",
+      "title": "RAR type as container of native_callback_uri",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/3",
+      "state": "OPEN",
+      "author": "yaron-zehavi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "- Seems cleaner than structured scope\n- Simpler to get WG consent for a RAR type than a new top-level OAuth parameter\n- Should native_callback_uri equal the client's redirect_uri? NO - as this validation works ONLY for the 1st AS in the originating trust domain\n- Should the structure contain **routing hints?** See separate issue\n\n```\nProposed structure:\n{\n   \"type\": \"https://scheme.example.org/native_callback_uri\",\n   \"locations\": [\n      \"https://app.example.com/native_callback_uri\"\n   ]\n}\n```",
+      "createdAt": "2025-07-26T21:16:43Z",
+      "updatedAt": "2025-07-26T21:23:04Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOOlAD9M7CrUfp",
+      "title": "Consider adding new native_authorization_endpoint and corresponding AS metadata",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/4",
+      "state": "OPEN",
+      "author": "yaron-zehavi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "A new endpoint and corresponding authorization server metadata.\nNote - AS may reuse existing authorization_endpoint instead of creating separate one, or add a path / query parameter to their existing one.\nBy providing native_authorization_endpoint, AS commits to:\n- Supporting the RAR type\n- Forwarding the RAR type\n- Redirecting with 30x and not JS / HTTP Form Post\n- Does not throw captcha if called without cookies",
+      "createdAt": "2025-07-26T21:17:58Z",
+      "updatedAt": "2025-07-26T21:17:58Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 5,
+      "id": "I_kwDOOlAD9M7CrYJF",
+      "title": "Support routing hints",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/5",
+      "state": "OPEN",
+      "author": "yaron-zehavi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Some AS might need to interact with the user solely for routing inputs (choose your Bank, choose your University, etc).\nSuch interactions using html:\n- Break the browser-less flow.\n- Can't share remembered choices made on browser (cookie), with client app\n\nCurrently it's declared as an unsupported case.\nAlternatively perhaps AS can provide another metadata element: `routing_options_supported` which is an Array of:\n`[{hint, description, logo_uri}, {}, {}]`\n\nFor example:\n```\n{\n    \"hint\": \"rbro\",\n    \"description\": \"Raiffeisen Bank Romania\",\n    \"logo_uri\": \"https://rb.ro/e/e9/Raiffeisen_Bank_Rom%C3%A2nia.svg\"\n}\n```\n\nThis enables client to present routing options to end-user, and include in RAR type an array of `hints`.\nCons - Limited. Client can only pull this for first hop",
+      "createdAt": "2025-07-26T21:32:03Z",
+      "updatedAt": "2025-07-26T21:32:03Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOOlAD9M7CrYTW",
+      "title": "Client should detect AS url is claimed on device and if so - not use this protocol",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/6",
+      "state": "OPEN",
+      "author": "yaron-zehavi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-07-26T21:33:20Z",
+      "updatedAt": "2025-07-26T21:33:20Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": [
     {
       "number": 1,
