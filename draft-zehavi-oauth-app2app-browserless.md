@@ -156,7 +156,7 @@ Note: It is possible OAuth Brokers will be superseded in the future by {{OpenID.
 ## App2App with OAuth Brokers requires a web browser
 
 ~~~ aasvg
-{::include art/app2app-w-brokers-and-browser.ascii-art}
+{::include art/app2app-w-brokers-and-browser-2.ascii-art}
 ~~~
 {: #app2app-w-brokers-and-browser title="App2App with brokers and browser (redirects back to Client not depicted)" }
 
