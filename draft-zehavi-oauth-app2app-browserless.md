@@ -202,6 +202,8 @@ In such case the flow is as described in "OAuth 2.0 for Native Apps" {{RFC8252}}
 
 {{OAuth.First-Party}} also deals with native apps, but it MUST only be used by first-party applications, which is when the authorization server and application are controlled by the same entity, which is not true in the case described in this document.
 
+While this document also discusses a mechanism for *Authorization Servers* to guide *Client App* in obtaining user's input to guide routing the request across trust domains, the {{OAuth.First-Party}} required high degree of trust between the authorization server and the client is not fulfilled.
+
 # Protocol Overview
 
 ## Usage and Applicability
@@ -340,7 +342,7 @@ Example *Client App* response following end-user input entry:
 
 ## Flow Diagram
 ~~~ aasvg
-{::include art/app2app-browserless-w-brokers.ascii-art}
+{::include art/app2app-browserless.ascii-art}
 ~~~
 {: #app2app-browserless-w-brokers title="Browser-less App2App across trust domains" }
 
@@ -443,6 +445,8 @@ Otherwise the method returns false in completion.success.
 {{RFC8252}} Security Considerations advises against using *embedded user agents*. The main concern is preventing theft through keystroke recording of end-user's credentials such as usernames and passwords.
 
 This risk does not apply to this draft as *Client App* acts as User Agent only for the purpose of flow redirection, and does not interact with end-user's credentials in any way.
+
+The mechanism for providing routing instructions MUST NOT be used to request end-user to provide any authentication credentials.
 
 ## Validation of native_callback_uri
 
