@@ -91,28 +91,28 @@ informative:
     target: https://developer.android.com/reference/android/content/Intent
 --- abstract
 
-This document describes a protocol allowing a *Client App* to obtain an OAuth grant from a native App supporting the {{App2App}} pattern, while providing **native** app navigation experience (no web browser required), despite both apps residing on different trust domains.
+This document describes a protocol allowing a *Client App* to obtain an OAuth grant from a native App using the {{App2App}} pattern, with a **native** app navigation user-experience (no web browser required), despite both apps residing on different trust domains.
 
 --- middle
 
 # Introduction
 
-This document, *OAuth 2.0 App2App Browser-less Flow* (Native App2App), describes a protocol enabling native (**Browser-less**) app navigation, between apps in an {{App2App}} OAuth grant.
+This document, *OAuth 2.0 App2App Browser-less Flow*, describes a protocol enabling native (**Browser-less**) app navigation in an {{App2App}} OAuth grant.
 
-When Clients and Authorization Servers are located on different Trust Domains, the routing of OAuth authorization requests across domains is performed by Federation across Authorization Servers, whereby each Authorization Server acts as a client of the next *Downstream Authorization Server*.
+When Clients and Authorization Servers are located on *different Trust Domains*, routing of authorization requests across domains is achieved by federation performed by Authorization Servers, each acting as a client of the next *Downstream Authorization Server*.
 
-Such federation setups are commonly used to create trust networks in Academia and in the business world, across corporations.
+Such federation setups are in use to create trust networks in Academia and in the business world, across corporations.
 
-However in {{App2App}} scenarios such setups mandate using a web browser as the user-agent to redirect requests across Authorization Servers. The reason is that such *OAuth Brokers* url's are not claimed by any native apps .
+However in {{App2App}} scenarios these setups mandate using a web browser as user-agent redirecting requests across Authorization Servers, because redirecting Authorization Servers url's are not claimed by any native app.
 
-The use of the web browser in App2App flows, degrades the user experience.
+The use of the web browser in App2App flows, degrades the user experience somewhat.
 
 This document specifies:
 
 * A **Browser-less App2App** profile *Authorization Servers* MUST follow to enable native App2App flows.
 * A new Authorization Server metadata property: native_authorization_endpoint, indicating to clients that an *Authorization Server* supports the **Browser-less App2App** profile.
 * A new {{RFC9396}} Authorization Details Type: **https://scheme.example.org/native_callback_uri**.
-* A new error_description value: **native_callback_uri_not_claimed**.
+* 2 new error_description values for the invalid_request OAuth error: **native_app2app_unsupported_by_downstream_authorization_server** and **native_callback_uri_not_claimed**.
 
 ## Related specifications considered but found non-applicable
 
