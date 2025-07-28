@@ -320,7 +320,7 @@ Example prompting end-user for input entry:
 : *inputs* specifies free-form input.
 
 *Client App* then responds using *respose* which specifies HTTP GET or POST urls.
-*Client App* includes "id" which identifies the interaction to the Authorization Server.
+If provided, *Client App* includes "id" to identify the interaction to the Authorization Server.
 
 Example *Client App* response following end-user multiple-choice:
 
