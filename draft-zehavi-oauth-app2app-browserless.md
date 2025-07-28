@@ -76,9 +76,9 @@ informative:
     title: OAuth 2.0 for First-Party Applications
     target: https://www.ietf.org/archive/id/draft-ietf-oauth-first-party-apps-01.html
     author:
-      - ins: A. Parecki, Okta
-      - ins: G. Fletcher, Capital One Financial
-      - ins: P. Kasselman, SPIRL
+      - ins: A. Parecki
+      - ins: G. Fletcher
+      - ins: P. Kasselman
     date: November 2022
   iOS.method.openUrl:
     title: iOS open(_:options:completionHandler:) Method
@@ -114,16 +114,18 @@ This document specifies:
 * A new {{RFC9396}} Authorization Details Type: **https://scheme.example.org/native_callback_uri**.
 * A new error_description value: **native_callback_uri_not_claimed**.
 
-## Non-Applicability of {{OpenID.Native-SSO}}
+## Related specifications considered but found non-applicable
+
+### {{OpenID.Native-SSO}}
 
 {{OpenID.Native-SSO}} also offers a native SSO flow across apps. However, it is limited to apps:
 
 * Published by the same issuer, therefore can securely share information.
 * Using the same Authorization Server.
 
-## Non-Applicability of {{OAuth.First-Party}}
+### {{OAuth.First-Party}}
 
-{{OAuth.First-Party}} also deals with native apps, but targets the case when *Client App* is a direct OAuth client of the *User-Interacting Authorization Server*.
+{{OAuth.First-Party}} also deals with native apps, but targets the use-case when *Client App* is a direct OAuth client of the *User-Interacting Authorization Server*.
 
 ## Terminology
 
