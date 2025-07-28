@@ -1,5 +1,5 @@
 ---
-title: "OAuth 2.0 App2App Browserless Flow"
+title: "OAuth 2.0 App2App Browser-less Flow"
 abbrev: "Native OAuth App2App"
 category: std
 
@@ -15,6 +15,7 @@ keyword:
  - native-apps
  - oauth
  - app2app
+ - browser-less
  - browserless
 venue:
   group: "Web Authorization Protocol"
@@ -71,6 +72,14 @@ informative:
     author:
       - ins: G. Fletcher
     date: November 2022
+  OAuth.First-Party:
+    title: OAuth 2.0 for First-Party Applications
+    target: https://www.ietf.org/archive/id/draft-ietf-oauth-first-party-apps-01.html
+    author:
+      - ins: A. Parecki, Okta
+      - ins: G. Fletcher, Capital One Financial
+      - ins: P. Kasselman, SPIRL
+    date: November 2022
   iOS.method.openUrl:
     title: iOS open(_:options:completionHandler:) Method
     target: https://developer.apple.com/documentation/uikit/uiapplication/open(_:options:completionhandler:)
@@ -82,23 +91,27 @@ informative:
     target: https://developer.android.com/reference/android/content/Intent
 --- abstract
 
-This document describes a protocol connecting 2 native apps via the OAuth {{App2App}} pattern, to achieve native user navigation (no web browser required), regardless of any number of OAuth brokers federating the request across trust domains.
+This document describes a protocol allowing a *Client App* to obtain an OAuth grant from a native App supporting the {{App2App}} pattern, while providing **native** app navigation experience (no web browser required), despite both apps residing on different trust domains.
 
 --- middle
 
 # Introduction
 
-This document, *OAuth 2.0 App2App Browserless Flow* (Native App2App), presents a protocol enabling native OAuth {{App2App}} **browser-less** navigation across apps.
+This document, *OAuth 2.0 App2App Browser-less Flow* (Native App2App), describes a protocol enabling native (**Browser-less**) app navigation, between apps in an {{App2App}} OAuth grant.
 
-It addresses the challenges presented when using a web browser to navigate through **one or more** Brokering Authorization Servers:
+When Clients and Authorization Servers are located on different Trust Domains, the routing of OAuth authorization requests across domains is performed by Federation across Authorization Servers, whereby each Authorization Server acts as a client of the next *Downstream Authorization Server*.
 
-* Such *OAuth Brokers* are required when *Client App* is not an OAuth client of the *User-Interacting Authorization Server* and so they federate the flow across trust domains.
-* Since no app owns *OAuth Brokers'* urls, App2App flows involving brokers require a web browser, which degrades the user experience.
+Such federation setups are commonly used to create trust networks in Academia and in the business world, across corporations.
+
+However in {{App2App}} scenarios such setups mandate using a web browser as the user-agent to redirect requests across Authorization Servers. The reason is that such *OAuth Brokers* url's are not claimed by any native apps .
+
+The use of the web browser in App2App flows, degrades the user experience.
 
 This document specifies:
 
-* A new parameter to the authorization endpoint: **native_callback_uri**.
-* A new scope value: **app2app**.
+* A **Browser-less App2App** profile *Authorization Servers* MUST follow to enable native App2App flows.
+* A new Authorization Server metadata property: native_authorization_endpoint, indicating to clients that an *Authorization Server* supports the **Browser-less App2App** profile.
+* A new {{RFC9396}} Authorization Details Type: **https://scheme.example.org/native_callback_uri**.
 * A new error_description value: **native_callback_uri_not_claimed**.
 
 ## Difference from OpenID.Native-SSO
