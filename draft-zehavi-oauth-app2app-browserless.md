@@ -242,13 +242,15 @@ To this end this document defines a new Authorization Details Type:
 
 ## Routing Instructions Response
 
-*Authorization servers* supporting the *Native App2App profile*, but requiring end-user input to guide federated request routing, MAY provide a *Routing Instructions Response*, for example:
+*Authorization servers* supporting the *Native App2App profile*, but requiring end-user input to guide federated request routing, MAY provide a *Routing Instructions Response*.
+
+Example prompting end-user for multiple-choice:
 
     HTTP/1.1 200 OK
     Content-Type: application/vnd.oauth.app2app.routing+json
 
     {
-        "id": "request-identifier",
+        "id": "request-identifier-1",
         "logo": "uri or base64-encoded logo of Authorization Server",
         "userPrompt": {
             "options": {
@@ -276,7 +278,23 @@ To this end this document defines a new Authorization Details Type:
                         "ic": "Institutional Clients"
                     }
                 }
-            },
+            }
+        },
+        "response": {
+            "post": "url to POST to using application/x-www-form-urlencoded",
+            "get": "url to use for a GET with query params"
+        }
+    }
+
+Example prompting end-user for input entry:
+
+    HTTP/1.1 200 OK
+    Content-Type: application/vnd.oauth.app2app.routing+json
+
+    {
+        "id": "request-identifier-2",
+        "logo": "uri or base64-encoded logo of Authorization Server",
+        "userPrompt": {
             "inputs": {
                 "email": {
                     "hint": "Enter your email address",
@@ -291,6 +309,31 @@ To this end this document defines a new Authorization Details Type:
         }
     }
 
+*Client App* identifies the response as *Routing Instructions Response* using the response's Content-Type, then renders a UI to interact with end-user to request their input:
+
+: *logo* is OPTIONAL and used to brand the interaction and represent the Authorization Server.
+: *userPrompt* MUST specify either *options* or *inputs*.
+: *options* specifies 1..n multiple-choice prompts.
+: *inputs* specifies free-form input.
+
+*Client App* then responds using *respose* which specifies HTTP GET or POST urls.
+*Client App* includes "id" which identifies the interaction to the Authorization Server.
+
+Example *Client App* response following end-user multiple-choice:
+
+    POST /native/routing HTTP/1.1
+    Content-Type: application/x-www-form-urlencoded
+    Host: example.as.com
+
+    id=request-identifier-1&bank=bankOfSomething&segment=retail
+
+Example *Client App* response following end-user input entry:
+
+    POST /native/routing HTTP/1.1
+    Content-Type: application/x-www-form-urlencoded
+    Host: example.as.com
+
+    id=request-identifier-2&email=end_user@example.as.com
 
 ## Flow Diagram
 ~~~ aasvg
