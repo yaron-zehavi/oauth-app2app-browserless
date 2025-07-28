@@ -157,15 +157,14 @@ This document specifies:
 * A new error code value: **native_app2app_unsupported**
 * A new error_description value for *invalid_request* error: **native_callback_uri_not_claimed**.
 
-## App2App with OAuth Brokers requires a web browser
+## App2App across trust domains requires a web browser
 
 ~~~ aasvg
 {::include art/app2app-w-brokers-and-browser-2.ascii-art}
 ~~~
 {: #app2app-w-brokers-and-browser title="App2App across trust domains using browser" }
 
-
-Since no native app claims the url's of redirecting Authorization Servers (*OAuth Brokers*), mobile OS' default to using the system browser as the User Agent.
+Since no native app claims the urls of redirecting Authorization Servers (*OAuth Brokers*), mobile Operating Systems default to using the system browser as the User Agent.
 
 ## Impact of using a web browser
 
@@ -255,17 +254,6 @@ To this end this document defines a new Authorization Details Type:
 - (6) *User-Interacting App* natively invokes **native_callback_uri** (overriding the request's redirect_uri), providing as a parameter the redirect_uri with its response parameters.
 - (7) *Client App* loops through *Authorization Servers*, starting from the redirect_uri it received from the *User-Interacting App*. It calls any subsequent uri obtained as 30x redirect directive, until it reaches a location header pointing to itself (indicating its own redirect_uri).
 - (8) *Client App* exchanges code for tokens and the flow is complete.
-
-## Validation of native_callback_uri
-
-Validation of **native_callback_uri** by *User-Interacting Authorization Server* and its App is RECOMMENDED, to mitiagte open redirection attacks.
-
-A validating Authorization Server MAY use various mechanisms outside the scope of this document.
-For example, validation using {{OpenID.Federation}} is possible:
-
-* Strip url path from **native_callback_uri** (retaining the DNS domain).
-* Add the url path /.well-known/openid-federation and perform trust chain resolution.
-* Inspect Client's metadata for redirect_uri's and validate **native_callback_uri** is included.
 
 ## Protocol Flow {#protocol-flow}
 
@@ -362,6 +350,17 @@ Otherwise the method returns false in completion.success.
 {{RFC8252}} Security Considerations advises against using *embedded user agents*. The main concern is preventing theft through keystroke recording of end-user's credentials such as usernames and passwords.
 
 This risk does not apply to this draft as *Client App* acts as User Agent only for the purpose of flow redirection, and does not interact with end-user's credentials in any way.
+
+## Validation of native_callback_uri
+
+Validation of **native_callback_uri** is RECOMMENDED, to mitigate open redirection attacks.
+
+A validating Authorization Server MAY use various mechanisms outside the scope of this document.
+For example, validation using {{OpenID.Federation}} is possible:
+
+* Strip url path from **native_callback_uri** (retaining the DNS domain).
+* Add the url path /.well-known/openid-federation and perform trust chain resolution.
+* Inspect Client's metadata for redirect_uri's and validate **native_callback_uri** is included.
 
 ## OAuth request forgery and manipulation
 
