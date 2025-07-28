@@ -113,8 +113,9 @@ This document specifies:
 * A new Authorization Server metadata property: native_authorization_endpoint, indicating to clients that an *Authorization Server* supports the **Browser-less App2App** profile.
 * A new {{RFC9396}} Authorization Details Type: **https://scheme.example.org/native_callback_uri**.
 * 2 new error_description values for the invalid_request OAuth error:
-: **native_app2app_unsupported_downstream**.
-: **native_callback_uri_not_claimed**.
+
+  : **native_app2app_unsupported_downstream**.
+  : **native_callback_uri_not_claimed**.
 
 ## Related specifications considered
 
