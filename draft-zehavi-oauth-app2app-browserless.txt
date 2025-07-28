@@ -78,20 +78,23 @@ Table of Contents
      2.4.  Relation to OpenID.Native-SSO
      2.5.  Relation to OAuth.First-Party
    3.  Protocol Overview
-     3.1.  Flow Diagram
-     3.2.  New Parameters and Values
-     3.3.  Validation of native_callback_uri
-     3.4.  Protocol Flow
-       3.4.1.  Client App calls Initial Authorization Server
-       3.4.2.  Initial Authorization Server returns authorization
+     3.1.  Usage and Applicability
+     3.2.  Authorization Server Metadata
+     3.3.  RFC9396 Authorization Details Type *native_callback_uri*
+     3.4.  Native App2App Profile
+     3.5.  Flow Diagram
+     3.6.  Validation of native_callback_uri
+     3.7.  Protocol Flow
+       3.7.1.  Client App calls Initial Authorization Server
+       3.7.2.  Initial Authorization Server returns authorization
                request to Downstream Authorization Server
-       3.4.3.  Client App invokes app of User-Interacting
+       3.7.3.  Client App invokes app of User-Interacting
                Authorization Server
-       3.4.4.  Fallback to using the browser
-       3.4.5.  Processing by User-Interacting Authorization Server's
+       3.7.4.  Fallback to using the browser
+       3.7.5.  Processing by User-Interacting Authorization Server's
                App:
-       3.4.6.  Client App traverses OAuth Brokers in reverse order
-       3.4.7.  Client App obtains response
+       3.7.6.  Client App traverses OAuth Brokers in reverse order
+       3.7.7.  Client App obtains response
    4.  Detecting Presence of Native Apps claiming Urls
      4.1.  Android
      4.2.  iOS
@@ -197,8 +200,9 @@ Table of Contents
    *  A new [RFC9396] Authorization Details Type:
       *https://scheme.example.org/native_callback_uri*.
 
-   *  2 new error_description values for the _invalid_request_ OAuth
-      error: *native_app2app_unsupported_downstream* &
+   *  A new error code value: *native_app2app_unsupported*
+
+   *  A new error_description value for _invalid_request_ error:
       *native_callback_uri_not_claimed*.
 
 2.1.  App2App with OAuth Brokers requires a web browser
@@ -316,13 +320,67 @@ Table of Contents
 
 2.5.  Relation to [OAuth.First-Party]
 
-   [OAuth.First-Party] also deals with native apps, but targets a
-   different use-case when _Client App_ is a direct OAuth client of the
-   _User-Interacting Authorization Server_.
+   [OAuth.First-Party] also deals with native apps, but it MUST only be
+   used by first-party applications, which is when the authorization
+   server and application are controlled by the same entity, which is
+   not true in the case described in this document.
 
 3.  Protocol Overview
 
-3.1.  Flow Diagram
+3.1.  Usage and Applicability
+
+   This specification MUST NOT be used when _Client App_ detects
+   _Initial Authorization Server's_ url is claimed by an app on the
+   device.
+
+   In such case _Client App_ SHOULD natively invoke the authorization
+   request url.
+
+3.2.  Authorization Server Metadata
+
+   This document introduces the following authorization server metadata
+   [RFC8414] parameter to signal support for *native App2App*.
+
+   *native_authorization_endpoint*: URL of the authorization server's
+   native authorization endpoint supporting the *native App2App* profile
+
+3.3.  [RFC9396] Authorization Details Type *native_callback_uri*
+
+   The protocol described in this document requires *User-Interacting
+   App* to natively navigate end-user back to _Client App_, for which it
+   requires _Client App's_ *native_callback_uri*.
+
+   To this end this document defines a new Authorization Details Type:
+
+   {
+      "type": "https://scheme.example.org/native_callback_uri",
+      "locations": [
+         "https://app.example.com/native_callback_uri"
+      ]
+   }
+
+3.4.  Native App2App Profile
+
+   _Authorization servers_ providing a *native_authorization_endpoint*
+   MUST follow the Native App2App profile processing requirements:
+
+   *  Accept the [RFC9396] Authorization Details Type:
+      *https://scheme.example.org/native_callback_uri*.
+
+   *  Forwarding the Authorization Details Type to _Downstream
+      Authorization Servers_.
+
+   *  Ensuring _Downstream Authorization Servers_ support the Native
+      App2App profile, otherwise respond to redirect_uri with
+      error=native_app2app_unsupported.
+
+   *  Redirect using HTTP 30x (and not using HTTP Form Post or embedded
+      Javascript in HTML pages).
+
+   *  Avoid challenging end-user with bot-detection such as CAPTCHAs
+      when invoked without cookies.
+
+3.5.  Flow Diagram
 
    +--------------------------------------------------+
    |                     (8)       +---------------+  |
@@ -354,19 +412,18 @@ Table of Contents
             Figure 3: Browser-less App2App across trust domains
 
    *  (1) _Client App_ presents an authorization request to _Initial
-      Authorization Server_, indicating app2app flow using new scope
-      value *app2app*.
+      Authorization Server's_ *native_authorization_endpoint*, including
+      a *native_callback_uri* Authorization Details [RFC9396] RAR Type.
 
-   *  (2) _Initial Authorization Server_ returns an authorization
-      request for Downstream Authorization Server, including Client
-      App's redirect_uri as *native_callback_uri*.
+   *  (2) _Initial Authorization Server_ returns an _authorization
+      request url_ for Downstream Authorization Server, including the
+      *native_callback_uri* Authorization Details.
 
-   *  (3) _Client App_ checks if the returned authorization request url
-      is claimed by an app on the device and if so proceeds to the next
-      step.  Otherwise it loops through Downstream Authorization
-      Servers, calling their authorization endpoints and processing
-      their HTTP 3xx redirect responses, until a url claimed by an app
-      on the device is reached.
+   *  (3) _Client App_ seeks an app on the device claiming the obtained
+      _authorization request url_, and if so proceeds to the next step.
+      Otherwise it loops through invocations of obtained _authorization
+      request urls_, processing HTTP 30x redirect responses, until a
+      claimed url is reached.
 
    *  (4) _Client App_ natively invokes _User-Interacting App_.
 
@@ -377,70 +434,16 @@ Table of Contents
       (overriding the request's redirect_uri), providing as a parameter
       the redirect_uri with its response parameters.
 
-   *  (7) _Client App_ loops through Authorization Servers in reverse
-      order, starting from the redirect_uri it received from the _User-
-      Interacting App_. It calls the first redirect_uri and any
-      subsequent uri obtained as 3xx redirect directive, until it
-      obtains a location header indicating its own redirect_uri.
+   *  (7) _Client App_ loops through _Authorization Servers_, starting
+      from the redirect_uri it received from the _User-Interacting App_.
+      It calls any subsequent uri obtained as 30x redirect directive,
+      until it reaches a location header pointing to itself (indicating
+      its own redirect_uri).
 
    *  (8) _Client App_ exchanges code for tokens and the flow is
       complete.
 
-3.2.  New Parameters and Values
-
-   The protocol described in this document requires *User-Interacting
-   App* to natively navigate end-user back to Client App, for which it
-   requires Client App's *native_callback_uri*.
-
-   Therefore this document defines new parameters and values.
-
-   "*app2app*":  New scope value, used by _Client App_ to request an
-      app2app flow from _Initial Authorization Server_.
-
-   _Initial Authorization Server_, processing an app2app flow according
-   to this document, MUST provide Client App's redirect_uri as Native
-   Callback uri to _Downstream Authorization Server_ using one of the
-   following options:
-
-   "*native_callback_uri*":  OPTIONAL.  New authorization endpoint
-      request parameter.  When *native_callback_uri* is provided,
-      structured scope *app2app:native_callback_uri* MUST NOT be
-      provided.
-
-   "*app2app:{_native_callback_uri_}*":  OPTIONAL.  New structured scope
-      value including the *app2app* flag as well as the Client's
-      *native_callback_uri*, separated by a colon.  When structured
-      scope *app2app:{_native_callback_uri_}* is provided,
-      *native_callback_uri* MUST NOT be provided.
-
-   *native_callback_uri* accepts the following query parameter when
-   invoked by _User-Interacting Authorization Server's App_:
-
-   "*redirect_uri*":  url-encoded OAuth redirect_uri with its response
-      parameters.
-
-   _Downstream Authorization Server_, processing an app2app flow
-   according to this document:
-
-   *  MUST retain the *native_callback_uri* in downstream authorization
-      requests created.
-
-   *  MAY validate *native_callback_uri*.
-
-   *Note*: A simplification is considered, to replace these options and
-   the validation logic by _Initial Authorization Server_, by having
-   _Client App_ provide the *native_callback_uri* through a [RFC9396]
-   rich authorization details type, which is expected to be passed on by
-   _Downstream Authorization Servers_:
-
-   {
-      "type": "https://scheme.example.org/native_callback_uri",
-      "locations": [
-         "https://app.example.com/native_callback_uri"
-      ]
-   }
-
-3.3.  Validation of native_callback_uri
+3.6.  Validation of native_callback_uri
 
    Validation of *native_callback_uri* by _User-Interacting
    Authorization Server_ and its App is RECOMMENDED, to mitiagte open
@@ -459,25 +462,25 @@ Table of Contents
    *  Inspect Client's metadata for redirect_uri's and validate
       *native_callback_uri* is included.
 
-3.4.  Protocol Flow
+3.7.  Protocol Flow
 
-3.4.1.  Client App calls Initial Authorization Server
+3.7.1.  Client App calls Initial Authorization Server
 
    Client App calls Initial Authorization Server's
    authorization_endpoint to initiate an authorization code flow and
    indicates App2App flow using the scope: *app2app*.
 
-3.4.2.  Initial Authorization Server returns authorization request to
+3.7.2.  Initial Authorization Server returns authorization request to
         Downstream Authorization Server
 
    _Initial Authorization Server_ SHALL process Client's request and
-   return an HTTP 3xx response with a Location header containing an
+   return an HTTP 30x response with a Location header containing an
    authorization request url towards _Downstream Authorization Server's_
    authorization_endpoint.  The request SHALL include Client's
    redirect_uri as *native_callback_uri* in one of the methods specified
    in this document.
 
-3.4.3.  Client App invokes app of User-Interacting Authorization Server
+3.7.3.  Client App invokes app of User-Interacting Authorization Server
 
    Client App SHALL use OS mechanisms to attempt to locate an app
    installed on the device claiming the authorization request url.  If
@@ -495,7 +498,7 @@ Table of Contents
       redirect through HTTP Form-Post or Javascript.  All of these are
       not compliant with the browser-less flow.
 
-   *  If the response is a redirect instruction (HTTP Code 3xx +
+   *  If the response is a redirect instruction (HTTP Code 30x +
       Location header), _Client App_ SHALL repeat the logic previously
       described:
 
@@ -520,7 +523,7 @@ Table of Contents
 
    *  Send Cookies in subsequent HTTP requests.
 
-3.4.4.  Fallback to using the browser
+3.7.4.  Fallback to using the browser
 
    If _Client App_ obtains an HTTP 2xx response, a new flow MUST be
    initiated *using the browser*. It is NOT RECOMMENDED to relaunch the
@@ -545,7 +548,7 @@ Table of Contents
    Since in the meantime the app may have been installed, retrying may
    achieve the desired _browser-less App2App_ flow.
 
-3.4.5.  Processing by User-Interacting Authorization Server's App:
+3.7.5.  Processing by User-Interacting Authorization Server's App:
 
    The _User-Interacting Authorization Server_ SHALL handle the
    authorization request using its native app:
@@ -570,28 +573,28 @@ Table of Contents
 
          o  error_description=*native_callback_uri_not_claimed*.
 
-3.4.6.  Client App traverses OAuth Brokers in reverse order
+3.7.6.  Client App traverses OAuth Brokers in reverse order
 
    _Client App_ is natively invoked by _User-Interacting Authorization
    Server App_, with the request's redirect_uri.
 
    _Client App_ MUST validate this url, and any url subsequently
-   obtained via a 3xx redirect instruction, against the Allowlist it
+   obtained via a 30x redirect instruction, against the Allowlist it
    previously generated, and MUST fail if any url is not included in the
    Allowlist.
 
    _Client App_ SHALL invoke the url it received using HTTP GET:
 
-   *  If the response is a redirect instruction (HTTP Code 3xx +
+   *  If the response is a redirect instruction (HTTP Code 30x +
       Location header), _Client App_ SHALL repeat the logic and proceed
       to call obtained urls until reaching its own redirect_uri
       (*native_callback_uri*).
 
    *  SHALL handle any other HTTP code (2xx / 4xx / 5xx) as a failure.
 
-3.4.7.  Client App obtains response
+3.7.7.  Client App obtains response
 
-   Once _Client App's_ own redirect_uri is returned in a redirect 3xx
+   Once _Client App's_ own redirect_uri is returned in a redirect 30x
    directive, the traversal of OAuth Brokers is complete.
 
    _Client App_ SHALL proceed according to OAuth to exchange code for
@@ -725,6 +728,11 @@ Table of Contents
               BCP 212, RFC 8252, DOI 10.17487/RFC8252, October 2017,
               <https://www.rfc-editor.org/rfc/rfc8252>.
 
+   [RFC8414]  Jones, M., Sakimura, N., and J. Bradley, "OAuth 2.0
+              Authorization Server Metadata", RFC 8414,
+              DOI 10.17487/RFC8414, June 2018,
+              <https://www.rfc-editor.org/rfc/rfc8414>.
+
    [RFC9126]  Lodderstedt, T., Campbell, B., Sakimura, N., Tonge, D.,
               and F. Skokan, "OAuth 2.0 Pushed Authorization Requests",
               RFC 9126, DOI 10.17487/RFC9126, September 2021,
@@ -792,7 +800,7 @@ Appendix B.  Document History
    *  Moved Cookies topic to Protocol Flow
 
    *  Mentioned that Authorization Servers redirecting not through HTTP
-      3xx force the use of a browser
+      30x force the use of a browser
 
    *  Discussed Embedded user agents security consideration
 
