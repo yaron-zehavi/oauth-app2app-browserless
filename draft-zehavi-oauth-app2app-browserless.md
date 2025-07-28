@@ -219,7 +219,7 @@ This document introduces the following authorization server metadata {{RFC8414}}
 **native_authorization_endpoint**:
 : URL of the authorization server's native authorization endpoint
 
-## {{RFC9396}} Authorization Details Type **native_callback_uri**
+## {{RFC9396}} Authorization Details Type *native_callback_uri*
 
 The protocol described in this document requires **User-Interacting App** to natively navigate end-user back to *Client App*, for which it requires *Client App's* **native_callback_uri**.
 
