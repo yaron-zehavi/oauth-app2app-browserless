@@ -1202,25 +1202,22 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.3.2.7.1"><a href="#section-3.7" class="auto internal xref">3.7</a>.  <a href="#name-protocol-flow" class="internal xref">Protocol Flow</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.7.2.1">
-                    <p id="section-toc.1-1.3.2.7.2.1.1"><a href="#section-3.7.1" class="auto internal xref">3.7.1</a>.  <a href="#name-client-app-calls-initial-au" class="internal xref">Client App calls Initial Authorization Server</a></p>
+                    <p id="section-toc.1-1.3.2.7.2.1.1"><a href="#section-3.7.1" class="auto internal xref">3.7.1</a>.  <a href="#name-client-app-calls-authorizat" class="internal xref">Client App calls Authorization Server</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.7.2.2">
-                    <p id="section-toc.1-1.3.2.7.2.2.1"><a href="#section-3.7.2" class="auto internal xref">3.7.2</a>.  <a href="#name-initial-authorization-serve" class="internal xref">Initial Authorization Server returns authorization request to Downstream Authorization Server</a></p>
+                    <p id="section-toc.1-1.3.2.7.2.2.1"><a href="#section-3.7.2" class="auto internal xref">3.7.2</a>.  <a href="#name-authorization-server" class="internal xref">Authorization Server</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.7.2.3">
-                    <p id="section-toc.1-1.3.2.7.2.3.1"><a href="#section-3.7.3" class="auto internal xref">3.7.3</a>.  <a href="#name-client-app-invokes-app-of-u" class="internal xref">Client App invokes app of User-Interacting Authorization Server</a></p>
+                    <p id="section-toc.1-1.3.2.7.2.3.1"><a href="#section-3.7.3" class="auto internal xref">3.7.3</a>.  <a href="#name-client-app-processes-the-re" class="internal xref">Client App processes the response</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.7.2.4">
-                    <p id="section-toc.1-1.3.2.7.2.4.1"><a href="#section-3.7.4" class="auto internal xref">3.7.4</a>.  <a href="#name-fallback-to-using-the-brows" class="internal xref">Fallback to using the browser</a></p>
+                    <p id="section-toc.1-1.3.2.7.2.4.1"><a href="#section-3.7.4" class="auto internal xref">3.7.4</a>.  <a href="#name-processing-by-user-interact" class="internal xref">Processing by User-Interacting Authorization Server's App:</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.7.2.5">
-                    <p id="section-toc.1-1.3.2.7.2.5.1"><a href="#section-3.7.5" class="auto internal xref">3.7.5</a>.  <a href="#name-processing-by-user-interact" class="internal xref">Processing by User-Interacting Authorization Server's App:</a></p>
+                    <p id="section-toc.1-1.3.2.7.2.5.1"><a href="#section-3.7.5" class="auto internal xref">3.7.5</a>.  <a href="#name-client-app-traverses-author" class="internal xref">Client App traverses Authorization Servers in reverse order</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.7.2.6">
-                    <p id="section-toc.1-1.3.2.7.2.6.1"><a href="#section-3.7.6" class="auto internal xref">3.7.6</a>.  <a href="#name-client-app-traverses-oauth-" class="internal xref">Client App traverses OAuth Brokers in reverse order</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.7.2.7">
-                    <p id="section-toc.1-1.3.2.7.2.7.1"><a href="#section-3.7.7" class="auto internal xref">3.7.7</a>.  <a href="#name-client-app-obtains-response" class="internal xref">Client App obtains response</a></p>
+                    <p id="section-toc.1-1.3.2.7.2.6.1"><a href="#section-3.7.6" class="auto internal xref">3.7.6</a>.  <a href="#name-client-app-obtains-response" class="internal xref">Client App obtains response</a></p>
 </li>
                 </ul>
 </li>
@@ -1983,7 +1980,7 @@ id=request-identifier-2
 </div>
 <ul class="normal">
 <li class="normal" id="section-3.6-2.1">
-            <p id="section-3.6-2.1.1">(1) <em>Client App</em> presents an authorization request to <em>Initial Authorization Server's</em> <strong>native_authorization_endpoint</strong>, including a <strong>native_callback_uri</strong> Authorization Details <span>[<a href="#RFC9396" class="cite xref">RFC9396</a>]</span> RAR Type.<a href="#section-3.6-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.6-2.1.1">(1) <em>Client App</em> presents an authorization request to <em>Initial Authorization Server's</em> <strong>native_authorization_endpoint</strong>, including the <em>native_callback_uri</em> <em>Authorization Details Type</em>.<a href="#section-3.6-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.6-2.2">
             <p id="section-3.6-2.2.1">(2) <em>Initial Authorization Server</em> returns an <em>authorization request url</em> for Downstream Authorization Server, including the <strong>native_callback_uri</strong> Authorization Details.<a href="#section-3.6-2.2.1" class="pilcrow">¶</a></p>
@@ -2014,108 +2011,83 @@ id=request-identifier-2
         <h3 id="name-protocol-flow">
 <a href="#section-3.7" class="section-number selfRef">3.7. </a><a href="#name-protocol-flow" class="section-name selfRef">Protocol Flow</a>
         </h3>
-<div id="client-app-calls-initial-authorization-server">
+<div id="client-app-calls-authorization-server">
 <section id="section-3.7.1">
-          <h4 id="name-client-app-calls-initial-au">
-<a href="#section-3.7.1" class="section-number selfRef">3.7.1. </a><a href="#name-client-app-calls-initial-au" class="section-name selfRef">Client App calls Initial Authorization Server</a>
+          <h4 id="name-client-app-calls-authorizat">
+<a href="#section-3.7.1" class="section-number selfRef">3.7.1. </a><a href="#name-client-app-calls-authorizat" class="section-name selfRef">Client App calls Authorization Server</a>
           </h4>
-<p id="section-3.7.1-1">Client App calls Initial Authorization Server's authorization_endpoint to initiate an authorization code flow and indicates App2App flow using the scope: <strong>app2app</strong>.<a href="#section-3.7.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.7.1-1">Client App uses HTTP to call <em>Initial Authorization Server's</em> <em>native_authorization_endpoint</em> with an authorization request including the <em>native_callback_uri</em> Authorization Details <span>[<a href="#RFC9396" class="cite xref">RFC9396</a>]</span> RAR Type.<a href="#section-3.7.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="initial-authorization-server-returns-authorization-request-to-downstream-authorization-server">
+<div id="authorization-server">
 <section id="section-3.7.2">
-          <h4 id="name-initial-authorization-serve">
-<a href="#section-3.7.2" class="section-number selfRef">3.7.2. </a><a href="#name-initial-authorization-serve" class="section-name selfRef">Initial Authorization Server returns authorization request to Downstream Authorization Server</a>
+          <h4 id="name-authorization-server">
+<a href="#section-3.7.2" class="section-number selfRef">3.7.2. </a><a href="#name-authorization-server" class="section-name selfRef">Authorization Server</a>
           </h4>
-<p id="section-3.7.2-1"><em>Initial Authorization Server</em> <span class="bcp14">SHALL</span> process Client's request and return an HTTP 30x response with a Location header containing an authorization request url towards <em>Downstream Authorization Server's</em> authorization_endpoint.
-The request <span class="bcp14">SHALL</span> include Client's redirect_uri as <strong>native_callback_uri</strong> in one of the methods specified in this document.<a href="#section-3.7.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.7.2-1"><em>Authorization Server</em> evaluates the native authorization request.
+It <span class="bcp14">MAY</span> return:<a href="#section-3.7.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.7.2-2.1">
+              <p id="section-3.7.2-2.1.1">Error native_app2app_unsupported in case the intended <em>Downstream Authorization Server</em> does not support the <em>Native App2App Profile</em>.<a href="#section-3.7.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-3.7.2-2.2">
+              <p id="section-3.7.2-2.2.1">HTTP 200 with a <em>Routing Instructions Response</em>, in case it needs user input to guide choosing the <em>Downstream Authorization Server</em>.<a href="#section-3.7.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-3.7.2-2.3">
+              <p id="section-3.7.2-2.3.1">HTTP 30x in case the <em>Downstream Authorization Server</em> is known and eligible, including an authorization request url towards <em>Downstream Authorization Server's</em> <em>native_authorization_endpoint</em> in the Location header.<a href="#section-3.7.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </section>
 </div>
-<div id="client-app-invokes-app-of-user-interacting-authorization-server">
+<div id="client-app-processes-the-response">
 <section id="section-3.7.3">
-          <h4 id="name-client-app-invokes-app-of-u">
-<a href="#section-3.7.3" class="section-number selfRef">3.7.3. </a><a href="#name-client-app-invokes-app-of-u" class="section-name selfRef">Client App invokes app of User-Interacting Authorization Server</a>
+          <h4 id="name-client-app-processes-the-re">
+<a href="#section-3.7.3" class="section-number selfRef">3.7.3. </a><a href="#name-client-app-processes-the-re" class="section-name selfRef">Client App processes the response</a>
           </h4>
-<p id="section-3.7.3-1">Client App <span class="bcp14">SHALL</span> use OS mechanisms to attempt to locate an app installed on the device claiming the authorization request url.
-If such app is found, <em>Client App</em> <span class="bcp14">SHALL</span> natively invoke the app claiming the url to process the authorization request. This achieves the desired native navigation across applications.
-If a suitable app is not found, <em>Client App</em> <span class="bcp14">SHALL</span> use HTTP to call the authorization request url and process the response:<a href="#section-3.7.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-1"><em>Client App</em> <span class="bcp14">SHALL</span> terminate the protocol flow if an error response is obtained, or an HTTP 2xx response other than a <em>Routing Instructions Response</em>, or if it does not support a <em>Routing Instructions Response</em> it has obtained. <em>Client App</em> may recover in such case by launching a new normal authorization request using the browser.<a href="#section-3.7.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-2">Note - Failure because an HTTP 2xx response other than a <em>Routing Instructions Response</em> was obtained, suggests the <em>User-Interacting App</em> is not installed on end-user's device.
+<em>Client App</em> <span class="bcp14">MAY</span> choose to retry in future the <em>browser-less App2App</em> to benefit if in the meantime the missing app has been installed.<a href="#section-3.7.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-3">If a supported <em>Routing Instructions Response</em> was obtained, <em>Client App</em> interacts with end-user and provides their response to <em>Authorization Server</em>.<a href="#section-3.7.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-4">If a redirect HTTP 30x redirect response was obtained, <em>Client App</em> <span class="bcp14">SHALL</span> use OS mechanisms to locate an app installed on the device claiming the url in the Location header.<a href="#section-3.7.3-4" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-5">If a claiming app is found, <em>Client App</em> <span class="bcp14">SHALL</span> natively invoke the app to process the authorization request. This achieves the desired native navigation across applications.<a href="#section-3.7.3-5" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-6">If a suitable app is not found, <em>Client App</em> <span class="bcp14">SHALL</span> use HTTP to call the authorization request url and process the response as described in this step.<a href="#section-3.7.3-6" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-7">Client App repeats the action in this protocol step until a native app is reached, or an error occurs.<a href="#section-3.7.3-7" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-8">As the <em>Client App</em> performs HTTP calls, it <span class="bcp14">SHALL</span> maintain a list of all the DNS domains it interacts with, serving as an Allowlist for later invocations as part of the response handling.<a href="#section-3.7.3-8" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-9">As Authorization Servers <span class="bcp14">MAY</span> use Cookies to bind security elements (state, nonce, PKCE) to the user agent, causing the flow to break if required cookies are missing from subsequent HTTP requests, <em>Client App</em> <span class="bcp14">MUST</span> handle cookies:<a href="#section-3.7.3-9" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.7.3-2.1">
-              <p id="section-3.7.3-2.1.1">If the response code is HTTP 2xx, <em>Client App</em> cannot accomplish the browser-less flow and <span class="bcp14">MUST</span> fallback to using the browser. The reason is that it reached a <em>User-Interacting Authorization Server</em>, perhaps aiming to authenticate the user and authorize the request, or prompt the user for a routing decision or perhaps to redirect through HTTP Form-Post or Javascript. All of these are not compliant with the browser-less flow.<a href="#section-3.7.3-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.7.3-10.1">
+              <p id="section-3.7.3-10.1.1">Store Cookies it obtains in HTTP responses.<a href="#section-3.7.3-10.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.7.3-2.2">
-              <p id="section-3.7.3-2.2.1">If the response is a redirect instruction (HTTP Code 30x + Location header), <em>Client App</em> <span class="bcp14">SHALL</span> repeat the logic previously described:<a href="#section-3.7.3-2.2.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.7.3-2.2.2.1">
-                  <p id="section-3.7.3-2.2.2.1.1">Check if an app claims the url in the Location header, and if so natively invoke it.<a href="#section-3.7.3-2.2.2.1.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-3.7.3-2.2.2.2">
-                  <p id="section-3.7.3-2.2.2.2.1">Otherwise use HTTP to call the url and analyze the response.<a href="#section-3.7.3-2.2.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              </ul>
-</li>
-            <li class="normal" id="section-3.7.3-2.3">
-              <p id="section-3.7.3-2.3.1">Client App <span class="bcp14">SHALL</span> handle error responses (HTTP 4xx / 5xx), for example display the error.<a href="#section-3.7.3-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.7.3-10.2">
+              <p id="section-3.7.3-10.2.1">Send Cookies in subsequent HTTP requests.<a href="#section-3.7.3-10.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-3.7.3-3">As the <em>Client App</em> traverses through Brokers, it <span class="bcp14">SHALL</span> maintain a list of all the DNS domains it traverses, to be used as Allowlist for response handling traversal.<a href="#section-3.7.3-3" class="pilcrow">¶</a></p>
-<p id="section-3.7.3-4">As Authorization Servers <span class="bcp14">MAY</span> use Cookies to bind security elements (state, nonce, PKCE) to the user agent, causing the flow to break if said cookies are not present in subsequent HTTP requests, <em>Client App</em> <span class="bcp14">MUST</span> act as a browser would:<a href="#section-3.7.3-4" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.7.3-5.1">
-              <p id="section-3.7.3-5.1.1">Store Cookies it obtains in HTTP responses.<a href="#section-3.7.3-5.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.7.3-5.2">
-              <p id="section-3.7.3-5.2.1">Send Cookies in subsequent HTTP requests.<a href="#section-3.7.3-5.2.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-<div id="fallback-to-using-the-browser">
-<section id="section-3.7.4">
-          <h4 id="name-fallback-to-using-the-brows">
-<a href="#section-3.7.4" class="section-number selfRef">3.7.4. </a><a href="#name-fallback-to-using-the-brows" class="section-name selfRef">Fallback to using the browser</a>
-          </h4>
-<p id="section-3.7.4-1">If <em>Client App</em> obtains an HTTP 2xx response, a new flow <span class="bcp14">MUST</span> be initiated <strong>using the browser</strong>. It is <span class="bcp14">NOT RECOMMENDED</span> to relaunch the current flow's last authorization request on the browser as:<a href="#section-3.7.4-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.7.4-2.1">
-              <p id="section-3.7.4-2.1.1">Single-use elements such as <em>request_uri</em> might have been used in the request, and if so relaunching the request on the browser will fail.<a href="#section-3.7.4-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.7.4-2.2">
-              <p id="section-3.7.4-2.2.1">Authorization Servers previously engaged may have returned cookies to <em>Client App</em>, which would be unavailable to the browser and cause the flow to fail.<a href="#section-3.7.4-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-<p id="section-3.7.4-3">Therefore <em>Client App</em> <span class="bcp14">MUST</span> start a new flow by launching on the browser a new authorization request without the <strong>app2app</strong> scope, which then follows "OAuth 2.0 for Native Apps" <span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span> and does not require further elaboration in this document.<a href="#section-3.7.4-3" class="pilcrow">¶</a></p>
-<p id="section-3.7.4-4">Note - In future interactions <em>Client App</em> <span class="bcp14">MAY</span> retry the <em>browser-less App2App</em> flow because past usage of the browser might have resulted from lack of <em>User-Interacting App</em> on the user's device.
-Since in the meantime the app may have been installed, retrying may achieve the desired <em>browser-less App2App</em> flow.<a href="#section-3.7.4-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="processing-by-user-interacting-authorization-servers-app">
-<section id="section-3.7.5">
+<section id="section-3.7.4">
           <h4 id="name-processing-by-user-interact">
-<a href="#section-3.7.5" class="section-number selfRef">3.7.5. </a><a href="#name-processing-by-user-interact" class="section-name selfRef">Processing by User-Interacting Authorization Server's App:</a>
+<a href="#section-3.7.4" class="section-number selfRef">3.7.4. </a><a href="#name-processing-by-user-interact" class="section-name selfRef">Processing by User-Interacting Authorization Server's App:</a>
           </h4>
-<p id="section-3.7.5-1">The <em>User-Interacting Authorization Server</em> <span class="bcp14">SHALL</span> handle the authorization request using its native app:<a href="#section-3.7.5-1" class="pilcrow">¶</a></p>
+<p id="section-3.7.4-1">The <em>User-Interacting Authorization Server's</em> app handles the native authorization request:<a href="#section-3.7.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.7.5-2.1">
-              <p id="section-3.7.5-2.1.1">Authenticates end-user and authorizes the request.<a href="#section-3.7.5-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.7.4-2.1">
+              <p id="section-3.7.4-2.1.1">Authenticates end-user and authorizes the request.<a href="#section-3.7.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.7.5-2.2">
-              <p id="section-3.7.5-2.2.1"><span class="bcp14">SHALL</span> use <strong>native_callback_uri</strong> to override the request's original redirect_uri:<a href="#section-3.7.5-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.7.4-2.2">
+              <p id="section-3.7.4-2.2.1"><span class="bcp14">MUST</span> use <strong>native_callback_uri</strong> to invoke <em>Client App</em>:<a href="#section-3.7.4-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.7.5-2.2.2.1">
-                  <p id="section-3.7.5-2.2.2.1.1"><em>User-Interacting Authorization Server's app</em> validates that an app claiming <strong>native_callback_uri</strong> is on the device<a href="#section-3.7.5-2.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.7.4-2.2.2.1">
+                  <p id="section-3.7.4-2.2.2.1.1">Validates that an app claiming <strong>native_callback_uri</strong> is on the device and if so, natively invokes <strong>native_callback_uri</strong> with the redirect url and its response parameters as the url-encoded query parameter <strong>redirect_uri</strong>.<a href="#section-3.7.4-2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.7.5-2.2.2.2">
-                  <p id="section-3.7.5-2.2.2.2.1">If so it natively invokes <strong>native_callback_uri</strong> with the redirect url and its response parameters as the url-encoded query parameter <strong>redirect_uri</strong>.<a href="#section-3.7.5-2.2.2.2.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-3.7.5-2.2.2.3">
-                  <p id="section-3.7.5-2.2.2.3.1">If such an app does not exist on the device, the flow terminates and <em>User-Interacting Authorization Server's app</em> redirects to redirect_uri with:<a href="#section-3.7.5-2.2.2.3.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.7.4-2.2.2.2">
+                  <p id="section-3.7.4-2.2.2.2.1">If the app is not on the device, the flow terminates and <em>User-Interacting Authorization Server's app</em> redirects to redirect_uri with:<a href="#section-3.7.4-2.2.2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.7.5-2.2.2.3.2.1">
-                      <p id="section-3.7.5-2.2.2.3.2.1.1">error=invalid_request.<a href="#section-3.7.5-2.2.2.3.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.7.4-2.2.2.2.2.1">
+                      <p id="section-3.7.4-2.2.2.2.2.1.1">error=invalid_request.<a href="#section-3.7.4-2.2.2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                    <li class="normal" id="section-3.7.5-2.2.2.3.2.2">
-                      <p id="section-3.7.5-2.2.2.3.2.2.1">error_description=<strong>native_callback_uri_not_claimed</strong>.<a href="#section-3.7.5-2.2.2.3.2.2.1" class="pilcrow">¶</a></p>
+                    <li class="normal" id="section-3.7.4-2.2.2.2.2.2">
+                      <p id="section-3.7.4-2.2.2.2.2.2.1">error_description=<strong>native_callback_uri_not_claimed</strong>.<a href="#section-3.7.4-2.2.2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
                   </ul>
 </li>
@@ -2124,31 +2096,31 @@ Since in the meantime the app may have been installed, retrying may achieve the 
           </ul>
 </section>
 </div>
-<div id="client-app-traverses-oauth-brokers-in-reverse-order">
-<section id="section-3.7.6">
-          <h4 id="name-client-app-traverses-oauth-">
-<a href="#section-3.7.6" class="section-number selfRef">3.7.6. </a><a href="#name-client-app-traverses-oauth-" class="section-name selfRef">Client App traverses OAuth Brokers in reverse order</a>
+<div id="client-app-traverses-authorization-servers-in-reverse-order">
+<section id="section-3.7.5">
+          <h4 id="name-client-app-traverses-author">
+<a href="#section-3.7.5" class="section-number selfRef">3.7.5. </a><a href="#name-client-app-traverses-author" class="section-name selfRef">Client App traverses Authorization Servers in reverse order</a>
           </h4>
-<p id="section-3.7.6-1"><em>Client App</em> is natively invoked by <em>User-Interacting Authorization Server App</em>, with the request's redirect_uri.<a href="#section-3.7.6-1" class="pilcrow">¶</a></p>
-<p id="section-3.7.6-2"><em>Client App</em> <span class="bcp14">MUST</span> validate this url, and any url subsequently obtained via a 30x redirect instruction, against the Allowlist it previously generated, and <span class="bcp14">MUST</span> fail if any url is not included in the Allowlist.<a href="#section-3.7.6-2" class="pilcrow">¶</a></p>
-<p id="section-3.7.6-3"><em>Client App</em> <span class="bcp14">SHALL</span> invoke the url it received using HTTP GET:<a href="#section-3.7.6-3" class="pilcrow">¶</a></p>
+<p id="section-3.7.5-1"><em>Client App</em> is natively invoked by <em>User-Interacting Authorization Server App</em>, with the request's redirect_uri.<a href="#section-3.7.5-1" class="pilcrow">¶</a></p>
+<p id="section-3.7.5-2"><em>Client App</em> <span class="bcp14">MUST</span> validate this url, and any url subsequently obtained via a 30x redirect instruction, against the Allowlist it previously generated, and <span class="bcp14">MUST</span> fail if any url is not included in the Allowlist.<a href="#section-3.7.5-2" class="pilcrow">¶</a></p>
+<p id="section-3.7.5-3"><em>Client App</em> <span class="bcp14">SHALL</span> invoke urls it received using HTTP GET:<a href="#section-3.7.5-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.7.6-4.1">
-              <p id="section-3.7.6-4.1.1">If the response is a redirect instruction (HTTP Code 30x + Location header), <em>Client App</em> <span class="bcp14">SHALL</span> repeat the logic and proceed to call obtained urls until reaching its own redirect_uri (<strong>native_callback_uri</strong>).<a href="#section-3.7.6-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.7.5-4.1">
+              <p id="section-3.7.5-4.1.1">If the response is a redirect instruction (HTTP Code 30x + Location header), <em>Client App</em> <span class="bcp14">SHALL</span> proceed to call obtained urls until reaching its own redirect_uri.<a href="#section-3.7.5-4.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.7.6-4.2">
-              <p id="section-3.7.6-4.2.1"><span class="bcp14">SHALL</span> handle any other HTTP code (2xx / 4xx / 5xx) as a failure.<a href="#section-3.7.6-4.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.7.5-4.2">
+              <p id="section-3.7.5-4.2.1"><span class="bcp14">SHALL</span> handle any other HTTP code (2xx / 4xx / 5xx) as a failure and terminate the flow.<a href="#section-3.7.5-4.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 </div>
 <div id="client-app-obtains-response">
-<section id="section-3.7.7">
+<section id="section-3.7.6">
           <h4 id="name-client-app-obtains-response">
-<a href="#section-3.7.7" class="section-number selfRef">3.7.7. </a><a href="#name-client-app-obtains-response" class="section-name selfRef">Client App obtains response</a>
+<a href="#section-3.7.6" class="section-number selfRef">3.7.6. </a><a href="#name-client-app-obtains-response" class="section-name selfRef">Client App obtains response</a>
           </h4>
-<p id="section-3.7.7-1">Once <em>Client App's</em> own redirect_uri is returned in a redirect 30x directive, the traversal of OAuth Brokers is complete.<a href="#section-3.7.7-1" class="pilcrow">¶</a></p>
-<p id="section-3.7.7-2"><em>Client App</em> <span class="bcp14">SHALL</span> proceed according to OAuth to exchange code for tokens, or handle error responses.<a href="#section-3.7.7-2" class="pilcrow">¶</a></p>
+<p id="section-3.7.6-1">Once <em>Client App's</em> own redirect_uri is reached, the traversal of <em>Authorization Servers</em> is complete.<a href="#section-3.7.6-1" class="pilcrow">¶</a></p>
+<p id="section-3.7.6-2"><em>Client App</em> proceeds to exchange code for tokens, or handle error responses.<a href="#section-3.7.6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

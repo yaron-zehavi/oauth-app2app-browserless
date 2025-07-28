@@ -85,16 +85,14 @@ Table of Contents
      3.5.  Routing Instructions Response
      3.6.  Flow Diagram
      3.7.  Protocol Flow
-       3.7.1.  Client App calls Initial Authorization Server
-       3.7.2.  Initial Authorization Server returns authorization
-               request to Downstream Authorization Server
-       3.7.3.  Client App invokes app of User-Interacting
-               Authorization Server
-       3.7.4.  Fallback to using the browser
-       3.7.5.  Processing by User-Interacting Authorization Server's
+       3.7.1.  Client App calls Authorization Server
+       3.7.2.  Authorization Server
+       3.7.3.  Client App processes the response
+       3.7.4.  Processing by User-Interacting Authorization Server's
                App:
-       3.7.6.  Client App traverses OAuth Brokers in reverse order
-       3.7.7.  Client App obtains response
+       3.7.5.  Client App traverses Authorization Servers in reverse
+               order
+       3.7.6.  Client App obtains response
    4.  Detecting Presence of Native Apps claiming Urls
      4.1.  Android
      4.2.  iOS
@@ -518,7 +516,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
    *  (1) _Client App_ presents an authorization request to _Initial
       Authorization Server's_ *native_authorization_endpoint*, including
-      a *native_callback_uri* Authorization Details [RFC9396] RAR Type.
+      the _native_callback_uri_ _Authorization Details Type_.
 
    *  (2) _Initial Authorization Server_ returns an _authorization
       request url_ for Downstream Authorization Server, including the
@@ -550,116 +548,101 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
 3.7.  Protocol Flow
 
-3.7.1.  Client App calls Initial Authorization Server
+3.7.1.  Client App calls Authorization Server
 
-   Client App calls Initial Authorization Server's
-   authorization_endpoint to initiate an authorization code flow and
-   indicates App2App flow using the scope: *app2app*.
+   Client App uses HTTP to call _Initial Authorization Server's_
+   _native_authorization_endpoint_ with an authorization request
+   including the _native_callback_uri_ Authorization Details [RFC9396]
+   RAR Type.
 
-3.7.2.  Initial Authorization Server returns authorization request to
-        Downstream Authorization Server
+3.7.2.  Authorization Server
 
-   _Initial Authorization Server_ SHALL process Client's request and
-   return an HTTP 30x response with a Location header containing an
-   authorization request url towards _Downstream Authorization Server's_
-   authorization_endpoint.  The request SHALL include Client's
-   redirect_uri as *native_callback_uri* in one of the methods specified
-   in this document.
+   _Authorization Server_ evaluates the native authorization request.
+   It MAY return:
 
-3.7.3.  Client App invokes app of User-Interacting Authorization Server
+   *  Error native_app2app_unsupported in case the intended _Downstream
+      Authorization Server_ does not support the _Native App2App
+      Profile_.
 
-   Client App SHALL use OS mechanisms to attempt to locate an app
-   installed on the device claiming the authorization request url.  If
-   such app is found, _Client App_ SHALL natively invoke the app
-   claiming the url to process the authorization request.  This achieves
-   the desired native navigation across applications.  If a suitable app
-   is not found, _Client App_ SHALL use HTTP to call the authorization
-   request url and process the response:
+   *  HTTP 200 with a _Routing Instructions Response_, in case it needs
+      user input to guide choosing the _Downstream Authorization
+      Server_.
 
-   *  If the response code is HTTP 2xx, _Client App_ cannot accomplish
-      the browser-less flow and MUST fallback to using the browser.  The
-      reason is that it reached a _User-Interacting Authorization
-      Server_, perhaps aiming to authenticate the user and authorize the
-      request, or prompt the user for a routing decision or perhaps to
-      redirect through HTTP Form-Post or Javascript.  All of these are
-      not compliant with the browser-less flow.
+   *  HTTP 30x in case the _Downstream Authorization Server_ is known
+      and eligible, including an authorization request url towards
+      _Downstream Authorization Server's_
+      _native_authorization_endpoint_ in the Location header.
 
-   *  If the response is a redirect instruction (HTTP Code 30x +
-      Location header), _Client App_ SHALL repeat the logic previously
-      described:
+3.7.3.  Client App processes the response
 
-      -  Check if an app claims the url in the Location header, and if
-         so natively invoke it.
+   _Client App_ SHALL terminate the protocol flow if an error response
+   is obtained, or an HTTP 2xx response other than a _Routing
+   Instructions Response_, or if it does not support a _Routing
+   Instructions Response_ it has obtained. _Client App_ may recover in
+   such case by launching a new normal authorization request using the
+   browser.
 
-      -  Otherwise use HTTP to call the url and analyze the response.
+   Note - Failure because an HTTP 2xx response other than a _Routing
+   Instructions Response_ was obtained, suggests the _User-Interacting
+   App_ is not installed on end-user's device. _Client App_ MAY choose
+   to retry in future the _browser-less App2App_ to benefit if in the
+   meantime the missing app has been installed.
 
-   *  Client App SHALL handle error responses (HTTP 4xx / 5xx), for
-      example display the error.
+   If a supported _Routing Instructions Response_ was obtained, _Client
+   App_ interacts with end-user and provides their response to
+   _Authorization Server_.
 
-   As the _Client App_ traverses through Brokers, it SHALL maintain a
-   list of all the DNS domains it traverses, to be used as Allowlist for
-   response handling traversal.
+   If a redirect HTTP 30x redirect response was obtained, _Client App_
+   SHALL use OS mechanisms to locate an app installed on the device
+   claiming the url in the Location header.
+
+   If a claiming app is found, _Client App_ SHALL natively invoke the
+   app to process the authorization request.  This achieves the desired
+   native navigation across applications.
+
+   If a suitable app is not found, _Client App_ SHALL use HTTP to call
+   the authorization request url and process the response as described
+   in this step.
+
+   Client App repeats the action in this protocol step until a native
+   app is reached, or an error occurs.
+
+   As the _Client App_ performs HTTP calls, it SHALL maintain a list of
+   all the DNS domains it interacts with, serving as an Allowlist for
+   later invocations as part of the response handling.
 
    As Authorization Servers MAY use Cookies to bind security elements
    (state, nonce, PKCE) to the user agent, causing the flow to break if
-   said cookies are not present in subsequent HTTP requests, _Client
-   App_ MUST act as a browser would:
+   required cookies are missing from subsequent HTTP requests, _Client
+   App_ MUST handle cookies:
 
    *  Store Cookies it obtains in HTTP responses.
 
    *  Send Cookies in subsequent HTTP requests.
 
-3.7.4.  Fallback to using the browser
+3.7.4.  Processing by User-Interacting Authorization Server's App:
 
-   If _Client App_ obtains an HTTP 2xx response, a new flow MUST be
-   initiated *using the browser*. It is NOT RECOMMENDED to relaunch the
-   current flow's last authorization request on the browser as:
-
-   *  Single-use elements such as _request_uri_ might have been used in
-      the request, and if so relaunching the request on the browser will
-      fail.
-
-   *  Authorization Servers previously engaged may have returned cookies
-      to _Client App_, which would be unavailable to the browser and
-      cause the flow to fail.
-
-   Therefore _Client App_ MUST start a new flow by launching on the
-   browser a new authorization request without the *app2app* scope,
-   which then follows "OAuth 2.0 for Native Apps" [RFC8252] and does not
-   require further elaboration in this document.
-
-   Note - In future interactions _Client App_ MAY retry the _browser-
-   less App2App_ flow because past usage of the browser might have
-   resulted from lack of _User-Interacting App_ on the user's device.
-   Since in the meantime the app may have been installed, retrying may
-   achieve the desired _browser-less App2App_ flow.
-
-3.7.5.  Processing by User-Interacting Authorization Server's App:
-
-   The _User-Interacting Authorization Server_ SHALL handle the
-   authorization request using its native app:
+   The _User-Interacting Authorization Server's_ app handles the native
+   authorization request:
 
    *  Authenticates end-user and authorizes the request.
 
-   *  SHALL use *native_callback_uri* to override the request's original
-      redirect_uri:
+   *  MUST use *native_callback_uri* to invoke _Client App_:
 
-      -  _User-Interacting Authorization Server's app_ validates that an
-         app claiming *native_callback_uri* is on the device
-
-      -  If so it natively invokes *native_callback_uri* with the
-         redirect url and its response parameters as the url-encoded
+      -  Validates that an app claiming *native_callback_uri* is on the
+         device and if so, natively invokes *native_callback_uri* with
+         the redirect url and its response parameters as the url-encoded
          query parameter *redirect_uri*.
 
-      -  If such an app does not exist on the device, the flow
-         terminates and _User-Interacting Authorization Server's app_
-         redirects to redirect_uri with:
+      -  If the app is not on the device, the flow terminates and _User-
+         Interacting Authorization Server's app_ redirects to
+         redirect_uri with:
 
          o  error=invalid_request.
 
          o  error_description=*native_callback_uri_not_claimed*.
 
-3.7.6.  Client App traverses OAuth Brokers in reverse order
+3.7.5.  Client App traverses Authorization Servers in reverse order
 
    _Client App_ is natively invoked by _User-Interacting Authorization
    Server App_, with the request's redirect_uri.
@@ -669,22 +652,22 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    previously generated, and MUST fail if any url is not included in the
    Allowlist.
 
-   _Client App_ SHALL invoke the url it received using HTTP GET:
+   _Client App_ SHALL invoke urls it received using HTTP GET:
 
    *  If the response is a redirect instruction (HTTP Code 30x +
-      Location header), _Client App_ SHALL repeat the logic and proceed
-      to call obtained urls until reaching its own redirect_uri
-      (*native_callback_uri*).
+      Location header), _Client App_ SHALL proceed to call obtained urls
+      until reaching its own redirect_uri.
 
-   *  SHALL handle any other HTTP code (2xx / 4xx / 5xx) as a failure.
+   *  SHALL handle any other HTTP code (2xx / 4xx / 5xx) as a failure
+      and terminate the flow.
 
-3.7.7.  Client App obtains response
+3.7.6.  Client App obtains response
 
-   Once _Client App's_ own redirect_uri is returned in a redirect 30x
-   directive, the traversal of OAuth Brokers is complete.
+   Once _Client App's_ own redirect_uri is reached, the traversal of
+   _Authorization Servers_ is complete.
 
-   _Client App_ SHALL proceed according to OAuth to exchange code for
-   tokens, or handle error responses.
+   _Client App_ proceeds to exchange code for tokens, or handle error
+   responses.
 
 4.  Detecting Presence of Native Apps claiming Urls
 
