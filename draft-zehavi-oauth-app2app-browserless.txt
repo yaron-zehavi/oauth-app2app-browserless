@@ -495,8 +495,8 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    | +-------------+                                  |
    | |    Client   |                                  |
    | |     App     |                                  |
-   | +----+--+---+-+             +---------------+    |
-   |   ^  |  | ^ |     (1,3,7)   | Initial or    +-+  |
+   | +----+------+-+             +---------------+    |
+   |   ^  |  ^ ^ |     (1,3,7)   | Initial or    +-+  |
    |   |  |  | | +-------------->| Downstream    | |  |
    |   |  |  | +-----------------+ Authorization | |  |
    |   |  |  |          (2,8)    | Servers       | |  |
