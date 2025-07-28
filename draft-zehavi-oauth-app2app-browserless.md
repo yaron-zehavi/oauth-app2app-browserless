@@ -220,7 +220,7 @@ URL of the authorization server's native authorization endpoint supporting the *
 
 ## {{RFC9396}} Authorization Details Type **native_callback_uri**
 
-The protocol described in this document requires **User-Interacting App** to natively navigate end-user back to *Client App*, for which it requires *Client App's* **native_callback_uri**. 
+The protocol described in this document requires **User-Interacting App** to natively navigate end-user back to *Client App*, for which it requires *Client App's* **native_callback_uri**.
 
 To this end this document defines a new Authorization Details Type:
 
