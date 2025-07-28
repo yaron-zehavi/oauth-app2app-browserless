@@ -69,14 +69,14 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Introduction
-     1.1.  Relation to OpenID.Native-SSO
-     1.2.  Relation to OAuth.First-Party
-     1.3.  App2App with OAuth Brokers requires a web browser
-     1.4.  Impact of using a web browser
-     1.5.  Note - App2Web across trust domains
-   2.  Conventions and Definitions
-     2.1.  Terminology
+   1.  Conventions and Definitions
+     1.1.  Terminology
+   2.  Introduction
+     2.1.  App2App with OAuth Brokers requires a web browser
+     2.2.  Impact of using a web browser
+     2.3.  Note - App2Web across trust domains
+     2.4.  Relation to OpenID.Native-SSO
+     2.5.  Relation to OAuth.First-Party
    3.  Protocol Overview
      3.1.  Flow Diagram
      3.2.  New Parameters and Values
@@ -112,7 +112,58 @@ Table of Contents
    Appendix B.  Document History
    Author's Address
 
-1.  Introduction
+1.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+1.1.  Terminology
+
+   In addition to the terms defined in referenced specifications, this
+   document uses the following terms:
+
+   "OAuth":  In this document, "OAuth" refers to OAuth 2.0, [RFC6749]
+      and [RFC6750] as well as [OpenID], both in their *authorization
+      code flow*.
+
+   "PKCE":  Proof Key for Code Exchange (PKCE) [RFC7636], a mechanism to
+      prevent various attacks on OAuth authorization codes.
+
+   "OAuth Broker":  An Authorization Server federating to other trust
+      domains by acting as an OAuth Client of _Downstream Authorization
+      Servers_.
+
+   "Client App":  A Native app acting as client of _Initial
+      Authorization Server_. In accordance with "OAuth 2.0 for Native
+      Apps" [RFC8252], Client's redirect_uri is claimed by the app.
+
+   "Initial Authorization Server":  Authorization Server of _Client
+      App_. As an _OAuth Broker_ it is a client of _Downstream
+      Authorization Servers_, to which it federates requests.
+
+   "Downstream Authorization Server":  An Authorization Server
+      downstream of _Initial Authorization Server_. It may be an _OAuth
+      Broker_ or the _User-Interacting Authorization Server_.
+
+   "User-Interacting Authorization Server":  An Authorization Server
+      which interacts with end-user.  The interaction may be interim
+      navigation (e.g: user input is required to guide where to
+      redirect), or performs user authentication and request
+      authorization.
+
+   "User-Interacting App":  Native App of _User-Interacting
+      Authorization Server_.
+
+   "Deep Link":  A url claimed by a native application.
+
+   "Native Callback uri":  _Client App's_ redirect_uri, claimed as a
+      deep link.  This deep link is invoked by _User-Interacting App_ to
+      natively return to _Client App_.
+
+2.  Introduction
 
    This document, _OAuth 2.0 App2App Browser-less Flow_, describes a
    protocol enabling native (*Browser-less*) app navigation of an
@@ -150,23 +201,7 @@ Table of Contents
       error: *native_app2app_unsupported_downstream* &
       *native_callback_uri_not_claimed*.
 
-1.1.  Relation to [OpenID.Native-SSO]
-
-   [OpenID.Native-SSO] also offers a native SSO flow across apps.
-   However, it is limited to apps:
-
-   *  Published by the same issuer, therefore can securely share
-      information.
-
-   *  Using the same Authorization Server.
-
-1.2.  Relation to [OAuth.First-Party]
-
-   [OAuth.First-Party] also deals with native apps, but targets a
-   different use-case when _Client App_ is a direct OAuth client of the
-   _User-Interacting Authorization Server_.
-
-1.3.  App2App with OAuth Brokers requires a web browser
+2.1.  App2App with OAuth Brokers requires a web browser
 
 +---------------------------------------------------------------------------------------------+
 | +-----------+                                                                               |
@@ -202,7 +237,7 @@ Table of Contents
    Servers (_OAuth Brokers_), mobile OS' default to using the system
    browser as the User Agent.
 
-1.4.  Impact of using a web browser
+2.2.  Impact of using a web browser
 
    Using a web browser may degrade the user experience in several ways:
 
@@ -226,7 +261,7 @@ Table of Contents
       not directly impact the flow, but can be regarded as unnecessary
       "clutter".
 
-1.5.  Note - App2Web across trust domains
+2.3.  Note - App2Web across trust domains
 
 +---------------------------------------------------------------------------------------------+
 | +-----------+                                                                               |
@@ -269,56 +304,21 @@ Table of Contents
    In such case the flow is as described in "OAuth 2.0 for Native Apps"
    [RFC8252] and is therefore not discussed further in this document.
 
-2.  Conventions and Definitions
+2.4.  Relation to [OpenID.Native-SSO]
 
-   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in
-   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
-   capitals, as shown here.
+   [OpenID.Native-SSO] also offers a native SSO flow across apps.
+   However, it is limited to apps:
 
-2.1.  Terminology
+   *  Published by the same issuer, therefore can securely share
+      information.
 
-   In addition to the terms defined in referenced specifications, this
-   document uses the following terms:
+   *  Using the same Authorization Server.
 
-   "OAuth":  In this document, "OAuth" refers to OAuth 2.0, [RFC6749]
-      and [RFC6750] as well as [OpenID], both in their *authorization
-      code flow*.
+2.5.  Relation to [OAuth.First-Party]
 
-   "PKCE":  Proof Key for Code Exchange (PKCE) [RFC7636], a mechanism to
-      prevent various attacks on OAuth authorization codes.
-
-   "OAuth Broker":  An Authorization Server federating to other trust
-      domains by acting as an OAuth Client of _Downstream Authorization
-      Servers_.
-
-   "Client App":  A Native app acting as client of _Initial
-      Authorization Server_. In accordance with "OAuth 2.0 for Native
-      Apps" [RFC8252], Client's redirect_uri is claimed by the app.
-
-   "Initial Authorization Server":  Authorization Server of _Client
-      App_. As an _OAuth Broker_ it is a client of _Downstream
-      Authorization Servers_, to which it federates requests.
-
-   "Downstream Authorization Server":  An Authorization Server
-      downstream of _Initial Authorization Server_. It may be an _OAuth
-      Broker_ or the _User-Interacting Authorization Server_.
-
-   "User-Interacting Authorization Server":  An Authorization Server
-      which interacts with end-user.  The interaction may be interim
-      navigation (e.g: user input is required to guide where to
-      redirect), or performs user authentication and request
-      authorization.
-
-   "User-Interacting App":  Native App of _User-Interacting
-      Authorization Server_.
-
-   "Deep Link":  A url claimed by a native application.
-
-   "Native Callback uri":  _Client App's_ redirect_uri, claimed as a
-      deep link.  This deep link is invoked by _User-Interacting App_ to
-      natively return to _Client App_.
+   [OAuth.First-Party] also deals with native apps, but targets a
+   different use-case when _Client App_ is a direct OAuth client of the
+   _User-Interacting Authorization Server_.
 
 3.  Protocol Overview
 
