@@ -1376,10 +1376,10 @@ to prevent various attacks on OAuth authorization codes.<a href="#section-1.1-2.
 <p id="section-2-6">This document specifies:<a href="#section-2-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2-7.1">
-          <p id="section-2-7.1.1">A <strong>Browser-less App2App</strong> profile <em>Authorization Servers</em> <span class="bcp14">MUST</span> follow to enable native App2App flows.<a href="#section-2-7.1.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.1.1">A <strong>Browser-less App2App</strong> profile <em>Authorization Servers</em> <span class="bcp14">SHOULD</span> follow to support native App2App flows.<a href="#section-2-7.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-2-7.2">
-          <p id="section-2-7.2.1">A new Authorization Server metadata property: native_authorization_endpoint, indicating to clients that an <em>Authorization Server</em> supports the <strong>Browser-less App2App</strong> profile.<a href="#section-2-7.2.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.2.1">A new Authorization Server metadata property: <strong>native_authorization_endpoint</strong>, indicating an <em>Authorization Server</em> supports the <strong>Browser-less App2App</strong> profile.<a href="#section-2-7.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-2-7.3">
           <p id="section-2-7.3.1">A new <span>[<a href="#RFC9396" class="cite xref">RFC9396</a>]</span> Authorization Details Type: <strong>https://scheme.example.org/native_callback_uri</strong>.<a href="#section-2-7.3.1" class="pilcrow">¶</a></p>
@@ -1388,7 +1388,7 @@ to prevent various attacks on OAuth authorization codes.<a href="#section-1.1-2.
           <p id="section-2-7.4.1">A new error code value: <strong>native_app2app_unsupported</strong><a href="#section-2-7.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-2-7.5">
-          <p id="section-2-7.5.1">A new error_description value for <em>invalid_request</em> error: <strong>native_callback_uri_not_claimed</strong>.<a href="#section-2-7.5.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.5.1">A new error_description value: <strong>native_callback_uri_not_claimed</strong>.<a href="#section-2-7.5.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <div id="app2app-across-trust-domains-requires-a-web-browser">
