@@ -495,16 +495,14 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    | +-------------+                                  |
    | |    Client   |                                  |
    | |     App     |                                  |
-   | +----+--+-----+             +---------------+    |
-   |   ^  |  | ^ ^      (1,3)    | Initial or    +-+  |
+   | +----+--+---+-+             +---------------+    |
+   |   ^  |  | ^ |     (1,3,7)   | Initial or    +-+  |
    |   |  |  | | +-------------->| Downstream    | |  |
-   |   |  |  | +---------------->| Authorization | |  |
-   |   |  |  |          (2,7)    | Servers       | |  |
+   |   |  |  | +-----------------+ Authorization | |  |
+   |   |  |  |          (2,8)    | Servers       | |  |
    |   |  |  +------------------>|               | |  |
-   |   |  |              (8)     |               | |  |
-   |   |  |                      +-+-------------+ |  |
-   |   |  |                        +---------------+  |
-   |(6)|  |(4)                                        |
+   |   |  |              (9)     +-+-------------+ |  |
+   |(6)|  |(4)                     +---------------+  |
    |   |  v                                           |
    | +----------------+          +---------------+    |
    | |                |          |     User-     |    |
@@ -517,19 +515,18 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
             Figure 3: Browser-less App2App across trust domains
 
-   *  (1) _Client App_ presents an authorization request to _Initial
-      Authorization Server's_ *native_authorization_endpoint*, including
-      the _native_callback_uri_ _Authorization Details Type_.
+   *  (1) _Client App_ presents an authorization request to
+      _Authorization Server's_ *native_authorization_endpoint*,
+      including the _native_callback_uri_ _Authorization Details Type_.
 
-   *  (2) _Initial Authorization Server_ returns an _authorization
-      request url_ for Downstream Authorization Server, including the
+   *  (2) _Authorization Server_ returns an _authorization request url_
+      for Downstream Authorization Server, including the original
       *native_callback_uri* Authorization Details.
 
    *  (3) _Client App_ seeks an app on the device claiming the obtained
-      _authorization request url_, and if so proceeds to the next step.
-      Otherwise it loops through invocations of obtained _authorization
-      request urls_, processing HTTP 30x redirect responses, until a
-      claimed url is reached.
+      _authorization request url_. If not found it loops through
+      invocations of obtained _native authorization request urls_, until
+      a claimed url is reached.
 
    *  (4) _Client App_ natively invokes _User-Interacting App_.
 
@@ -542,11 +539,12 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
    *  (7) _Client App_ loops through _Authorization Servers_, starting
       from the redirect_uri it received from the _User-Interacting App_.
-      It calls any subsequent uri obtained as 30x redirect directive,
-      until it reaches a location header pointing to itself (indicating
-      its own redirect_uri).
 
-   *  (8) _Client App_ exchanges code for tokens and the flow is
+   *  (8) _Client App_ calls any subsequent uri obtained as 30x redirect
+      directive, until it reaches a location header indicating its own
+      redirect_uri.
+
+   *  (9) _Client App_ exchanges code for tokens and the flow is
       complete.
 
 3.7.  Protocol Flow
