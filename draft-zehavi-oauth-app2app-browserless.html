@@ -4,15 +4,16 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>OAuth 2.0 App2App Browserless Flow</title>
+<title>OAuth 2.0 App2App Browser-less Flow</title>
 <meta content="Yaron Zehavi" name="author">
 <meta content="
-       This document describes a protocol connecting 2 native apps via the OAuth   pattern, to achieve native user navigation (no web browser required), regardless of any number of OAuth brokers federating the request across trust domains. 
+       This document describes a protocol allowing a  Client App  to obtain an OAuth grant from a native App supporting the   pattern, while providing  native  app navigation experience (no web browser required), despite both apps residing on different trust domains. 
     " name="description">
 <meta content="xml2rfc 3.30.0" name="generator">
 <meta content="native-apps" name="keyword">
 <meta content="oauth" name="keyword">
 <meta content="app2app" name="keyword">
+<meta content="browser-less" name="keyword">
 <meta content="browserless" name="keyword">
 <meta content="draft-zehavi-oauth-app2app-browserless-latest" name="ietf.draft">
 <!-- Generator version information:
@@ -1051,7 +1052,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Zehavi</td>
-<td class="center">Expires 28 January 2026</td>
+<td class="center">Expires 29 January 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1064,12 +1065,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-zehavi-oauth-app2app-browserless-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-07-27" class="published">27 July 2025</time>
+<time datetime="2025-07-28" class="published">28 July 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-01-28">28 January 2026</time></dd>
+<dd class="expires"><time datetime="2026-01-29">29 January 2026</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1079,10 +1080,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </dd>
 </dl>
 </div>
-<h1 id="title">OAuth 2.0 App2App Browserless Flow</h1>
+<h1 id="title">OAuth 2.0 App2App Browser-less Flow</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document describes a protocol connecting 2 native apps via the OAuth <span>[<a href="#App2App" class="cite xref">App2App</a>]</span> pattern, to achieve native user navigation (no web browser required), regardless of any number of OAuth brokers federating the request across trust domains.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document describes a protocol allowing a <em>Client App</em> to obtain an OAuth grant from a native App supporting the <span>[<a href="#App2App" class="cite xref">App2App</a>]</span> pattern, while providing <strong>native</strong> app navigation experience (no web browser required), despite both apps residing on different trust domains.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1119,7 +1120,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 28 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 29 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1285,26 +1286,24 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">This document, <em>OAuth 2.0 App2App Browserless Flow</em> (Native App2App), presents a protocol enabling native OAuth <span>[<a href="#App2App" class="cite xref">App2App</a>]</span> <strong>browser-less</strong> navigation across apps.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">It addresses the challenges presented when using a web browser to navigate through <strong>one or more</strong> Brokering Authorization Servers:<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-1">This document, <em>OAuth 2.0 App2App Browser-less Flow</em> (Native App2App), describes a protocol enabling native (<strong>Browser-less</strong>) app navigation, between apps in an <span>[<a href="#App2App" class="cite xref">App2App</a>]</span> OAuth grant.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">When Clients and Authorization Servers are located on different Trust Domains, the routing of OAuth authorization requests across domains is performed by Federation across Authorization Servers, whereby each Authorization Server acts as a client of the next <em>Downstream Authorization Server</em>.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">Such federation setups are commonly used to create trust networks in Academia and in the business world, across corporations.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">However in <span>[<a href="#App2App" class="cite xref">App2App</a>]</span> scenarios such setups mandate using a web browser as the user-agent to redirect requests across Authorization Servers. The reason is that such <em>OAuth Brokers</em> url's are not claimed by any native apps .<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">The use of the web browser in App2App flows, degrades the user experience.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">This document specifies:<a href="#section-1-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1-3.1">
-          <p id="section-1-3.1.1">Such <em>OAuth Brokers</em> are required when <em>Client App</em> is not an OAuth client of the <em>User-Interacting Authorization Server</em> and so they federate the flow across trust domains.<a href="#section-1-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-1-7.1">
+          <p id="section-1-7.1.1">A <strong>Browser-less App2App</strong> profile <em>Authorization Servers</em> <span class="bcp14">MUST</span> follow to enable native App2App flows.<a href="#section-1-7.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-3.2">
-          <p id="section-1-3.2.1">Since no app owns <em>OAuth Brokers'</em> urls, App2App flows involving brokers require a web browser, which degrades the user experience.<a href="#section-1-3.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-1-7.2">
+          <p id="section-1-7.2.1">A new Authorization Server metadata property: native_authorization_endpoint, indicating to clients that an <em>Authorization Server</em> supports the <strong>Browser-less App2App</strong> profile.<a href="#section-1-7.2.1" class="pilcrow">¶</a></p>
 </li>
-      </ul>
-<p id="section-1-4">This document specifies:<a href="#section-1-4" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-1-5.1">
-          <p id="section-1-5.1.1">A new parameter to the authorization endpoint: <strong>native_callback_uri</strong>.<a href="#section-1-5.1.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-1-7.3">
+          <p id="section-1-7.3.1">A new <span>[<a href="#RFC9396" class="cite xref">RFC9396</a>]</span> Authorization Details Type: <strong>https://scheme.example.org/native_callback_uri</strong>.<a href="#section-1-7.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-5.2">
-          <p id="section-1-5.2.1">A new scope value: <strong>app2app</strong>.<a href="#section-1-5.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-1-5.3">
-          <p id="section-1-5.3.1">A new error_description value: <strong>native_callback_uri_not_claimed</strong>.<a href="#section-1-5.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-1-7.4">
+          <p id="section-1-7.4.1">A new error_description value: <strong>native_callback_uri_not_claimed</strong>.<a href="#section-1-7.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <div id="difference-from-openidnative-sso">
@@ -2215,6 +2214,10 @@ It is <span class="bcp14">RECOMMENDED</span> the Allowlist be managed as a singl
 <dt id="iOS.option.universalLinksOnly">[iOS.option.universalLinksOnly]</dt>
         <dd>
 <span class="refTitle">"iOS method property universalLinksOnly"</span>, <span>n.d.</span>, <span>&lt;<a href="https://developer.apple.com/documentation/uikit/uiapplication/openexternalurloptionskey/universallinksonly">https://developer.apple.com/documentation/uikit/uiapplication/openexternalurloptionskey/universallinksonly</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="OAuth.First-Party">[OAuth.First-Party]</dt>
+        <dd>
+<span class="refAuthor">Parecki, Okta, A.</span>, <span class="refAuthor">Fletcher, Capital One Financial, G.</span>, and <span class="refAuthor">P. Kasselman, SPIRL</span>, <span class="refTitle">"OAuth 2.0 for First-Party Applications"</span>, <time datetime="2022-11" class="refDate">November 2022</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-oauth-first-party-apps-01.html">https://www.ietf.org/archive/id/draft-ietf-oauth-first-party-apps-01.html</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="OpenID.Native-SSO">[OpenID.Native-SSO]</dt>
       <dd>

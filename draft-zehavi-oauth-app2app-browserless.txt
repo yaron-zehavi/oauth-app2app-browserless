@@ -4,19 +4,19 @@
 
 Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                             Raiffeisen Bank International
-Intended status: Standards Track                            27 July 2025
-Expires: 28 January 2026
+Intended status: Standards Track                            28 July 2025
+Expires: 29 January 2026
 
 
-                   OAuth 2.0 App2App Browserless Flow
+                  OAuth 2.0 App2App Browser-less Flow
              draft-zehavi-oauth-app2app-browserless-latest
 
 Abstract
 
-   This document describes a protocol connecting 2 native apps via the
-   OAuth [App2App] pattern, to achieve native user navigation (no web
-   browser required), regardless of any number of OAuth brokers
-   federating the request across trust domains.
+   This document describes a protocol allowing a _Client App_ to obtain
+   an OAuth grant from a native App supporting the [App2App] pattern,
+   while providing *native* app navigation experience (no web browser
+   required), despite both apps residing on different trust domains.
 
 About This Document
 
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 January 2026.
+   This Internet-Draft will expire on 29 January 2026.
 
 Copyright Notice
 
@@ -114,26 +114,39 @@ Table of Contents
 
 1.  Introduction
 
-   This document, _OAuth 2.0 App2App Browserless Flow_ (Native App2App),
-   presents a protocol enabling native OAuth [App2App] *browser-less*
-   navigation across apps.
+   This document, _OAuth 2.0 App2App Browser-less Flow_ (Native
+   App2App), describes a protocol enabling native (*Browser-less*) app
+   navigation, between apps in an [App2App] OAuth grant.
 
-   It addresses the challenges presented when using a web browser to
-   navigate through *one or more* Brokering Authorization Servers:
+   When Clients and Authorization Servers are located on different Trust
+   Domains, the routing of OAuth authorization requests across domains
+   is performed by Federation across Authorization Servers, whereby each
+   Authorization Server acts as a client of the next _Downstream
+   Authorization Server_.
 
-   *  Such _OAuth Brokers_ are required when _Client App_ is not an
-      OAuth client of the _User-Interacting Authorization Server_ and so
-      they federate the flow across trust domains.
+   Such federation setups are commonly used to create trust networks in
+   Academia and in the business world, across corporations.
 
-   *  Since no app owns _OAuth Brokers'_ urls, App2App flows involving
-      brokers require a web browser, which degrades the user experience.
+   However in [App2App] scenarios such setups mandate using a web
+   browser as the user-agent to redirect requests across Authorization
+   Servers.  The reason is that such _OAuth Brokers_ url's are not
+   claimed by any native apps .
+
+   The use of the web browser in App2App flows, degrades the user
+   experience.
 
    This document specifies:
 
-   *  A new parameter to the authorization endpoint:
-      *native_callback_uri*.
+   *  A *Browser-less App2App* profile _Authorization Servers_ MUST
+      follow to enable native App2App flows.
 
-   *  A new scope value: *app2app*.
+   *  A new Authorization Server metadata property:
+      native_authorization_endpoint, indicating to clients that an
+      _Authorization Server_ supports the *Browser-less App2App*
+      profile.
+
+   *  A new [RFC9396] Authorization Details Type:
+      *https://scheme.example.org/native_callback_uri*.
 
    *  A new error_description value: *native_callback_uri_not_claimed*.
 
@@ -744,6 +757,13 @@ Table of Contents
               <https://developer.apple.com/documentation/uikit/
               uiapplication/openexternalurloptionskey/
               universallinksonly>.
+
+   [OAuth.First-Party]
+              Parecki, Okta, A., Fletcher, Capital One Financial, G.,
+              and P. Kasselman, SPIRL, "OAuth 2.0 for First-Party
+              Applications", November 2022,
+              <https://www.ietf.org/archive/id/draft-ietf-oauth-first-
+              party-apps-01.html>.
 
    [OpenID.Native-SSO]
               Fletcher, G., "OpenID Connect Native SSO for Mobile Apps",
