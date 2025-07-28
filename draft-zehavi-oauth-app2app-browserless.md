@@ -99,13 +99,18 @@ This document describes a protocol allowing a *Client App* to obtain an OAuth gr
 
 This document, *OAuth 2.0 App2App Browser-less Flow*, describes a protocol enabling native (**Browser-less**) app navigation in an {{App2App}} OAuth grant.
 
+
 When Clients and Authorization Servers are located on *different Trust Domains*, routing of authorization requests across domains is achieved by federation performed by Authorization Servers, each acting as a client of the next *Downstream Authorization Server*.
+
 
 Such federation setups are in use to create trust networks in Academia and in the business world, across corporations.
 
+
 However in {{App2App}} scenarios these setups mandate using a web browser as user-agent redirecting requests across Authorization Servers, because redirecting Authorization Servers url's are not claimed by any native app.
 
+
 The use of the web browser in App2App flows, degrades the user experience somewhat.
+
 
 This document specifies:
 
