@@ -80,7 +80,7 @@ Table of Contents
    3.  Protocol Overview
      3.1.  Usage and Applicability
      3.2.  Authorization Server Metadata
-     3.3.  RFC9396 Authorization Details Type *native_callback_uri*
+     3.3.  RFC9396 Authorization Details Type _native_callback_uri_
      3.4.  Native App2App Profile
      3.5.  Routing Instructions Response
      3.6.  Flow Diagram
@@ -348,7 +348,7 @@ Table of Contents
    *native_authorization_endpoint*:  URL of the authorization server's
       native authorization endpoint
 
-3.3.  [RFC9396] Authorization Details Type *native_callback_uri*
+3.3.  [RFC9396] Authorization Details Type _native_callback_uri_
 
    The protocol described in this document requires *User-Interacting
    App* to natively navigate end-user back to _Client App_, for which it
