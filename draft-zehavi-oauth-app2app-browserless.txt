@@ -384,10 +384,12 @@ Table of Contents
    *  Avoid challenging end-user with bot-detection such as CAPTCHAs
       when invoked without cookies.
 
+   *  MAY provide Routing Instructions Response.
+
 3.5.  Routing Instructions Response
 
-   _Authorization servers_ supporting the _Native App2App profile_, but
-   requiring end-user input to guide federated request routing, MAY
+   _Authorization servers_ supporting the _Native App2App profile_, that
+   require end-user input to guide federated request routing, MAY
    provide a _Routing Instructions Response_.
 
    Example prompting end-user for multiple-choice:
