@@ -241,10 +241,11 @@ To this end this document defines a new Authorization Details Type:
 * Ensure *Downstream Authorization Servers* it federates to, support the *Native App2App profile*, and otherwise respond to redirect_uri with error=native_app2app_unsupported.
 * Redirect using HTTP 30x (avoid using HTTP Form Post or embedded Javascript in HTML pages).
 * Avoid challenging end-user with bot-detection such as CAPTCHAs when invoked without cookies.
+* MAY provide Routing Instructions Response.
 
 ## Routing Instructions Response
 
-*Authorization servers* supporting the *Native App2App profile*, but requiring end-user input to guide federated request routing, MAY provide a *Routing Instructions Response*.
+*Authorization servers* supporting the *Native App2App profile*, that require end-user input to guide federated request routing, MAY provide a *Routing Instructions Response*.
 
 Example prompting end-user for multiple-choice:
 
