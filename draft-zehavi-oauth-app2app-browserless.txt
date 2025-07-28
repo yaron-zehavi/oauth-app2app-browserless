@@ -149,10 +149,9 @@ Table of Contents
       *https://scheme.example.org/native_callback_uri*.
 
    *  2 new error_description values for the invalid_request OAuth
-      error:
+      error:  *native_app2app_unsupported_downstream*.
 
-   :* *native_app2app_unsupported_downstream*. :*
-   *native_callback_uri_not_claimed*.
+         *native_callback_uri_not_claimed*.
 
 1.1.  Related specifications considered
 
