@@ -309,7 +309,7 @@ Example prompting end-user for input entry:
         }
     }
 
-*Client App* identifies the response as *Routing Instructions Response* using the response's Content-Type, then renders a UI to interact with end-user to request their input:
+*Client App* supporting *Routing Instructions Response* identifies the response as such using its Content-Type, then interacts with end-user to request their input:
 
 : *logo* is OPTIONAL and used to brand the interaction and represent the Authorization Server.
 : *userPrompt* MUST specify either *options* or *inputs*.
@@ -322,18 +322,21 @@ Example prompting end-user for input entry:
 Example *Client App* response following end-user multiple-choice:
 
     POST /native/routing HTTP/1.1
-    Content-Type: application/x-www-form-urlencoded
     Host: example.as.com
+    Content-Type: application/x-www-form-urlencoded
 
-    id=request-identifier-1&bank=bankOfSomething&segment=retail
+    id=request-identifier-1
+    &bank=bankOfSomething
+    &segment=retail
 
 Example *Client App* response following end-user input entry:
 
     POST /native/routing HTTP/1.1
-    Content-Type: application/x-www-form-urlencoded
     Host: example.as.com
+    Content-Type: application/x-www-form-urlencoded
 
-    id=request-identifier-2&email=end_user@example.as.com
+    id=request-identifier-2
+    &email=end_user@example.as.com
 
 ## Flow Diagram
 ~~~ aasvg
