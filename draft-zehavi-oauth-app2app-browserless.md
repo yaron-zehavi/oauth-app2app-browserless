@@ -97,13 +97,13 @@ This document describes a protocol allowing a *Client App* to obtain an OAuth gr
 
 # Introduction
 
-This document, *OAuth 2.0 App2App Browser-less Flow*, describes a protocol enabling native (**Browser-less**) app navigation in an {{App2App}} OAuth grant.
+This document, *OAuth 2.0 App2App Browser-less Flow*, describes a protocol enabling native (**Browser-less**) app navigation of an {{App2App}} OAuth grant.
 
 When Clients and Authorization Servers are located on *different Trust Domains*, authorization requests may traverse across trust domains using federation, involving Authorization Servers acting as clients of *Downstream Authorization Server*.
 
 Such federation setups are used to create trust networks for example in Academia and in the business world across corporations.
 
-However in {{App2App}} scenarios these setups mandate using a web browser as the user-agent, because redirecting Authorization Servers url's are not claimed by any native app.
+However in {{App2App}} scenarios these setups mandate using the web browser as user-agent, because federating Authorization Servers url's are not claimed by any native app.
 
 The use of the web browser in App2App flows, degrades the user experience somewhat.
 
@@ -114,8 +114,8 @@ This document specifies:
 * A new {{RFC9396}} Authorization Details Type: **https://scheme.example.org/native_callback_uri**.
 * 2 new error_description values for the invalid_request OAuth error:
 
- * **native_app2app_unsupported_downstream**.
- * **native_callback_uri_not_claimed**.
+:* **native_app2app_unsupported_downstream**.
+:* **native_callback_uri_not_claimed**.
 
 ## Related specifications considered
 
