@@ -1150,13 +1150,16 @@ svg :is([fill="white"], [fill^="#fff"]) {
         </h2>
 <nav class="toc"><ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
-                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-difference-from-openidnativ" class="internal xref">Difference from OpenID.Native-SSO</a></p>
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-non-applicability-of" class="internal xref">Non-Applicability of OpenID.Native-SSO</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
-                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-non-applicability-of-2" class="internal xref">Non-Applicability of OAuth.First-Party</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.3">
+                <p id="section-toc.1-1.1.2.3.1" class="keepWithNext"><a href="#section-1.3" class="auto internal xref">1.3</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
 </li>
             </ul>
 </li>
@@ -1306,10 +1309,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <p id="section-1-7.4.1">A new error_description value: <strong>native_callback_uri_not_claimed</strong>.<a href="#section-1-7.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<div id="difference-from-openidnative-sso">
+<div id="non-applicability-of-openidnative-sso">
 <section id="section-1.1">
-        <h3 id="name-difference-from-openidnativ">
-<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-difference-from-openidnativ" class="section-name selfRef">Difference from OpenID.Native-SSO</a>
+        <h3 id="name-non-applicability-of">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-non-applicability-of" class="section-name selfRef">Non-Applicability of <span class="cite xref">[OpenID.Native-SSO]</span></a>
         </h3>
 <p id="section-1.1-1"><span>[<a href="#OpenID.Native-SSO" class="cite xref">OpenID.Native-SSO</a>]</span> also offers a native SSO flow across apps. However, it is limited to apps:<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1322,66 +1325,74 @@ svg :is([fill="white"], [fill^="#fff"]) {
         </ul>
 </section>
 </div>
-<div id="terminology">
+<div id="non-applicability-of-oauthfirst-party">
 <section id="section-1.2">
-        <h3 id="name-terminology">
-<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
+        <h3 id="name-non-applicability-of-2">
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-non-applicability-of-2" class="section-name selfRef">Non-Applicability of <span class="cite xref">[OAuth.First-Party]</span></a>
         </h3>
-<p id="section-1.2-1">In addition to the terms defined in referenced specifications, this document uses
-the following terms:<a href="#section-1.2-1" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-1.2-2">
-          <dt id="section-1.2-2.1">"OAuth":</dt>
-          <dd style="margin-left: 1.5em" id="section-1.2-2.2">
-            <p id="section-1.2-2.2.1">In this document, "OAuth" refers to OAuth 2.0, <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> and <span>[<a href="#RFC6750" class="cite xref">RFC6750</a>]</span> as well as <span>[<a href="#OpenID" class="cite xref">OpenID</a>]</span>, both in their <strong>authorization code flow</strong>.<a href="#section-1.2-2.2.1" class="pilcrow">¶</a></p>
+<p id="section-1.2-1"><span>[<a href="#OAuth.First-Party" class="cite xref">OAuth.First-Party</a>]</span> also deals with native apps, but targets the case when <em>Client App</em> is a direct OAuth client of the <em>User-Interacting Authorization Server</em>.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="terminology">
+<section id="section-1.3">
+        <h3 id="name-terminology">
+<a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
+        </h3>
+<p id="section-1.3-1">In addition to the terms defined in referenced specifications, this document uses
+the following terms:<a href="#section-1.3-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-1.3-2">
+          <dt id="section-1.3-2.1">"OAuth":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-2.2">
+            <p id="section-1.3-2.2.1">In this document, "OAuth" refers to OAuth 2.0, <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> and <span>[<a href="#RFC6750" class="cite xref">RFC6750</a>]</span> as well as <span>[<a href="#OpenID" class="cite xref">OpenID</a>]</span>, both in their <strong>authorization code flow</strong>.<a href="#section-1.3-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.2-2.3">"PKCE":</dt>
-          <dd style="margin-left: 1.5em" id="section-1.2-2.4">
-            <p id="section-1.2-2.4.1">Proof Key for Code Exchange (PKCE) <span>[<a href="#RFC7636" class="cite xref">RFC7636</a>]</span>, a mechanism
-to prevent various attacks on OAuth authorization codes.<a href="#section-1.2-2.4.1" class="pilcrow">¶</a></p>
+<dt id="section-1.3-2.3">"PKCE":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-2.4">
+            <p id="section-1.3-2.4.1">Proof Key for Code Exchange (PKCE) <span>[<a href="#RFC7636" class="cite xref">RFC7636</a>]</span>, a mechanism
+to prevent various attacks on OAuth authorization codes.<a href="#section-1.3-2.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.2-2.5">"OAuth Broker":</dt>
-          <dd style="margin-left: 1.5em" id="section-1.2-2.6">
-            <p id="section-1.2-2.6.1">A component acting as an Authorization Server for its clients, as well as an OAuth Client towards <em>Downstream Authorization Servers</em>.
+<dt id="section-1.3-2.5">"OAuth Broker":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-2.6">
+            <p id="section-1.3-2.6.1">A component acting as an Authorization Server for its clients, as well as an OAuth Client towards <em>Downstream Authorization Servers</em>.
 Brokers are used to facilitate a trust relationship when there is no direct relation between an OAuth Client and the final Authorization Server where end-user authenticates and authorizes.
 This pattern is in current use to establish trust in federation use cases in Academia and in the business world, across corporations.
-Note: It is possible OAuth Brokers will be superseded in the future by <span>[<a href="#OpenID.Federation" class="cite xref">OpenID.Federation</a>]</span>, offering dynamic trust establishment.<a href="#section-1.2-2.6.1" class="pilcrow">¶</a></p>
+Note: It is possible OAuth Brokers will be superseded in the future by <span>[<a href="#OpenID.Federation" class="cite xref">OpenID.Federation</a>]</span>, offering dynamic trust establishment.<a href="#section-1.3-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.2-2.7">"Client App":</dt>
-          <dd style="margin-left: 1.5em" id="section-1.2-2.8">
-            <p id="section-1.2-2.8.1">A Native app implementing "OAuth 2.0 for Native Apps" <span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span> as an OAuth client of <em>Initial Authorization Server</em>. Client's redirect_uri is claimed by the app.<a href="#section-1.2-2.8.1" class="pilcrow">¶</a></p>
+<dt id="section-1.3-2.7">"Client App":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-2.8">
+            <p id="section-1.3-2.8.1">A Native app implementing "OAuth 2.0 for Native Apps" <span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span> as an OAuth client of <em>Initial Authorization Server</em>. Client's redirect_uri is claimed by the app.<a href="#section-1.3-2.8.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.2-2.9">"Initial Authorization Server":</dt>
-          <dd style="margin-left: 1.5em" id="section-1.2-2.10">
-            <p id="section-1.2-2.10.1">The Authorization Server of <em>Client App</em> which acts as an <em>OAuth Broker</em> as an OAuth client of a <em>Downstream Authorization Server</em>.<a href="#section-1.2-2.10.1" class="pilcrow">¶</a></p>
+<dt id="section-1.3-2.9">"Initial Authorization Server":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-2.10">
+            <p id="section-1.3-2.10.1">The Authorization Server of <em>Client App</em> which acts as an <em>OAuth Broker</em> as an OAuth client of a <em>Downstream Authorization Server</em>.<a href="#section-1.3-2.10.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.2-2.11">"Downstream Authorization Server":</dt>
-          <dd style="margin-left: 1.5em" id="section-1.2-2.12">
-            <p id="section-1.2-2.12.1">An Authorization Server which may be an <em>OAuth Broker</em> or a <em>User-Interacting Authorization Server</em>.<a href="#section-1.2-2.12.1" class="pilcrow">¶</a></p>
+<dt id="section-1.3-2.11">"Downstream Authorization Server":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-2.12">
+            <p id="section-1.3-2.12.1">An Authorization Server which may be an <em>OAuth Broker</em> or a <em>User-Interacting Authorization Server</em>.<a href="#section-1.3-2.12.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.2-2.13">"User-Interacting Authorization Server":</dt>
-          <dd style="margin-left: 1.5em" id="section-1.2-2.14">
-            <p id="section-1.2-2.14.1">An Authorization Server which interacts with end-user. The interaction may be interim navigation (e.g: user input guides where to redirect), or user authentication and request authorization.<a href="#section-1.2-2.14.1" class="pilcrow">¶</a></p>
+<dt id="section-1.3-2.13">"User-Interacting Authorization Server":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-2.14">
+            <p id="section-1.3-2.14.1">An Authorization Server which interacts with end-user. The interaction may be interim navigation (e.g: user input guides where to redirect), or user authentication and request authorization.<a href="#section-1.3-2.14.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.2-2.15">"User-Interacting App":</dt>
-          <dd style="margin-left: 1.5em" id="section-1.2-2.16">
-            <p id="section-1.2-2.16.1">Native App of <em>User-Interacting Authorization Server</em>.<a href="#section-1.2-2.16.1" class="pilcrow">¶</a></p>
+<dt id="section-1.3-2.15">"User-Interacting App":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-2.16">
+            <p id="section-1.3-2.16.1">Native App of <em>User-Interacting Authorization Server</em>.<a href="#section-1.3-2.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.2-2.17">"Deep Link":</dt>
-          <dd style="margin-left: 1.5em" id="section-1.2-2.18">
-            <p id="section-1.2-2.18.1">A url claimed by a native application.<a href="#section-1.2-2.18.1" class="pilcrow">¶</a></p>
+<dt id="section-1.3-2.17">"Deep Link":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-2.18">
+            <p id="section-1.3-2.18.1">A url claimed by a native application.<a href="#section-1.3-2.18.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.2-2.19">"Native Callback uri":</dt>
-          <dd style="margin-left: 1.5em" id="section-1.2-2.20">
-            <p id="section-1.2-2.20.1"><em>Client App's</em> redirect_uri, claimed as a deep link. This deep link is invoked by <em>User-Interacting App</em> to natively return to <em>Client App</em>.<a href="#section-1.2-2.20.1" class="pilcrow">¶</a></p>
+<dt id="section-1.3-2.19">"Native Callback uri":</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-2.20">
+            <p id="section-1.3-2.20.1"><em>Client App's</em> redirect_uri, claimed as a deep link. This deep link is invoked by <em>User-Interacting App</em> to natively return to <em>Client App</em>.<a href="#section-1.3-2.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
