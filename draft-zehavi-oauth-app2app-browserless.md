@@ -346,14 +346,15 @@ Example *Client App* response following end-user input entry:
 ~~~
 {: #app2app-browserless-w-brokers title="Browser-less App2App across trust domains" }
 
-- (1) *Client App* presents an authorization request to *Initial Authorization Server's* **native_authorization_endpoint**, including the *native_callback_uri* *Authorization Details Type*.
-- (2) *Initial Authorization Server* returns an *authorization request url* for Downstream Authorization Server, including the **native_callback_uri** Authorization Details.
-- (3) *Client App* seeks an app on the device claiming the obtained *authorization request url*, and if so proceeds to the next step. Otherwise it loops through invocations of obtained *authorization request urls*, processing HTTP 30x redirect responses, until a claimed url is reached.
+- (1) *Client App* presents an authorization request to *Authorization Server's* **native_authorization_endpoint**, including the *native_callback_uri* *Authorization Details Type*.
+- (2) *Authorization Server* returns an *authorization request url* for Downstream Authorization Server, including the original **native_callback_uri** Authorization Details.
+- (3) *Client App* seeks an app on the device claiming the obtained *authorization request url*. If not found it loops through invocations of obtained *native authorization request urls*, until a claimed url is reached.
 - (4) *Client App* natively invokes *User-Interacting App*.
 - (5) *User-Interacting App* authenticates user and authorizes the request.
 - (6) *User-Interacting App* natively invokes **native_callback_uri** (overriding the request's redirect_uri), providing as a parameter the redirect_uri with its response parameters.
-- (7) *Client App* loops through *Authorization Servers*, starting from the redirect_uri it received from the *User-Interacting App*. It calls any subsequent uri obtained as 30x redirect directive, until it reaches a location header pointing to itself (indicating its own redirect_uri).
-- (8) *Client App* exchanges code for tokens and the flow is complete.
+- (7) *Client App* loops through *Authorization Servers*, starting from the redirect_uri it received from the *User-Interacting App*.
+- (8) *Client App* calls any subsequent uri obtained as 30x redirect directive, until it reaches a location header indicating its own redirect_uri.
+- (9) *Client App* exchanges code for tokens and the flow is complete.
 
 ## Protocol Flow {#protocol-flow}
 
