@@ -182,11 +182,11 @@ Using a web browser may degrade the user experience in several ways:
 ~~~
 {: #app2web-w-brokers title="App2Web across trust domains" }
 
-When end-user's device has **no app** claiming *User-Interacting Authorization Server's* urls, the browser MUST be used to interact with end-user.
+When end-user's device has **no app** claiming *User-Interacting Authorization Server's* urls, the browser MUST be used to interact with end-user for authentication and authorization.
 
 This is the case when:
 
-* No native app is offered by *User-Interacting Authorization Server* offers no native app.
+* No native app is offered by *User-Interacting Authorization Server*.
 * Or such an app is offered, but is not installed on the end-user's device.
 
 In such case the flow is as described in "OAuth 2.0 for Native Apps" {{RFC8252}} and is therefore not discussed further in this document.
@@ -212,10 +212,10 @@ In such case *Client App* SHOULD natively invoke the authorization request url.
 
 ## Authorization Server Metadata
 
-This document introduces the following authorization server metadata {{RFC8414}} parameter to signal support for **native App2App**.
+This document introduces the following authorization server metadata {{RFC8414}} parameter to indicate it supports the *Native App2App Profile*.
 
 **native_authorization_endpoint**:
-URL of the authorization server's native authorization endpoint supporting the **native App2App** profile
+: URL of the authorization server's native authorization endpoint
 
 ## {{RFC9396}} Authorization Details Type **native_callback_uri**
 
@@ -232,13 +232,65 @@ To this end this document defines a new Authorization Details Type:
 
 ## Native App2App Profile
 
-*Authorization servers* providing a **native_authorization_endpoint** MUST follow the Native App2App profile processing requirements:
+*Authorization servers* providing a **native_authorization_endpoint** MUST follow the **Native App2App Profile's** requirements:
 
 * Accept the {{RFC9396}} Authorization Details Type: **https://scheme.example.org/native_callback_uri**.
-* Forwarding the Authorization Details Type to *Downstream Authorization Servers*.
-* Ensuring *Downstream Authorization Servers* support the Native App2App profile, otherwise respond to redirect_uri with error=native_app2app_unsupported.
-* Redirect using HTTP 30x (and not using HTTP Form Post or embedded Javascript in HTML pages).
+* Forward the Authorization Details Type to *Downstream Authorization Servers*.
+* Ensure *Downstream Authorization Servers* it federates to, support the *Native App2App profile*, and otherwise respond to redirect_uri with error=native_app2app_unsupported.
+* Redirect using HTTP 30x (avoid using HTTP Form Post or embedded Javascript in HTML pages).
 * Avoid challenging end-user with bot-detection such as CAPTCHAs when invoked without cookies.
+
+## Routing Instructions Response
+
+*Authorization servers* supporting the *Native App2App profile*, but requiring end-user input to guide request federation routing, MAY provide a *Routing Instructions Response*, for example:
+
+    HTTP/1.1 200 OK
+    Content-Type: application/vnd.oauth.app2app.routing+json
+    
+    {
+        "id": "request-identifier",
+        "logo": "uri or base64-encoded logo of Authorization Server",
+        "userPrompt": {
+            "options": {
+                "bank": {
+                    "title": "Bank",
+                    "description": "Choose your Bank",
+                    "values": {
+                        "bankOfSomething": {
+                            "name": "Bank of Something",
+                            "logo": "uri or base64-encoded logo"
+                        },
+                        "firstBankOfCountry": {
+                            "name": "First Bank of Country",
+                            "logo": "uri or base64-encoded logo"
+                        }
+                    }
+                },
+                "segment": {
+                    "title": "Customer Segment",
+                    "description": "Choose your Customer Segment",
+                    "values": {
+                        "retail": "Retail",
+                        "smb": "Small & Medium Businesses",
+                        "corporate": "Corporate",
+                        "ic": "Institutional Clients"
+                    }
+                }
+            },
+            "inputs": {
+                "email": {
+                    "hint": "Enter your email address",
+                    "title": "E-Mail",
+                    "description": "Lore Ipsum"
+                }
+            }
+        },
+        "response": {
+            "post": "url to POST to using application/x-www-form-urlencoded",
+            "get": "url to use for a GET with query params"
+        }
+    }
+
 
 ## Flow Diagram
 ~~~ aasvg
