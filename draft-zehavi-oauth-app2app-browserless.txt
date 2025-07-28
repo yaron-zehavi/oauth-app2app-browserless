@@ -469,8 +469,8 @@ Content-Type: application/vnd.oauth.app2app.routing+json
       _inputs_ specifies free-form input.
 
    _Client App_ then responds using _respose_ which specifies HTTP GET
-   or POST urls. _Client App_ includes "id" which identifies the
-   interaction to the Authorization Server.
+   or POST urls.  If provided, _Client App_ includes "id" to identify
+   the interaction to the Authorization Server.
 
    Example _Client App_ response following end-user multiple-choice:
 
