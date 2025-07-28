@@ -1841,7 +1841,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 </div>
 <span class="break"></span><dl class="dlParallel" id="section-3.5-6">
           <dt id="section-3.5-6.1">
-<em>Client App</em> identifies the response as <em>Routing Instructions Response</em> using the response's Content-Type, then renders a UI to interact with end-user to request their input:</dt>
+<em>Client App</em> supporting <em>Routing Instructions Response</em> identifies the response as such using its Content-Type, then interacts with end-user to request their input:</dt>
           <dd style="margin-left: 1.5em" id="section-3.5-6.2">
             <p id="section-3.5-6.2.1"><em>logo</em> is <span class="bcp14">OPTIONAL</span> and used to brand the interaction and represent the Authorization Server.<a href="#section-3.5-6.2.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1868,20 +1868,23 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 <div class="alignLeft art-text artwork" id="section-3.5-9">
 <pre>
 POST /native/routing HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
 Host: example.as.com
+Content-Type: application/x-www-form-urlencoded
 
-id=request-identifier-1&amp;bank=bankOfSomething&amp;segment=retail
+id=request-identifier-1
+&amp;bank=bankOfSomething
+&amp;segment=retail
 </pre><a href="#section-3.5-9" class="pilcrow">¶</a>
 </div>
 <p id="section-3.5-10">Example <em>Client App</em> response following end-user input entry:<a href="#section-3.5-10" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-3.5-11">
 <pre>
 POST /native/routing HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
 Host: example.as.com
+Content-Type: application/x-www-form-urlencoded
 
-id=request-identifier-2&amp;email=end_user@example.as.com
+id=request-identifier-2
+&amp;email=end_user@example.as.com
 </pre><a href="#section-3.5-11" class="pilcrow">¶</a>
 </div>
 </section>
