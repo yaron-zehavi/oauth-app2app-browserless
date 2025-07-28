@@ -114,12 +114,16 @@ This document specifies:
 * A new {{RFC9396}} Authorization Details Type: **https://scheme.example.org/native_callback_uri**.
 * A new error_description value: **native_callback_uri_not_claimed**.
 
-## Difference from OpenID.Native-SSO
+## Non-Applicability of {{OpenID.Native-SSO}}
 
 {{OpenID.Native-SSO}} also offers a native SSO flow across apps. However, it is limited to apps:
 
 * Published by the same issuer, therefore can securely share information.
 * Using the same Authorization Server.
+
+## Non-Applicability of {{OAuth.First-Party}}
+
+{{OAuth.First-Party}} also deals with native apps, but targets the case when *Client App* is a direct OAuth client of the *User-Interacting Authorization Server*.
 
 ## Terminology
 
