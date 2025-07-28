@@ -242,11 +242,11 @@ To this end this document defines a new Authorization Details Type:
 
 ## Routing Instructions Response
 
-*Authorization servers* supporting the *Native App2App profile*, but requiring end-user input to guide request federation routing, MAY provide a *Routing Instructions Response*, for example:
+*Authorization servers* supporting the *Native App2App profile*, but requiring end-user input to guide federated request routing, MAY provide a *Routing Instructions Response*, for example:
 
     HTTP/1.1 200 OK
     Content-Type: application/vnd.oauth.app2app.routing+json
-    
+
     {
         "id": "request-identifier",
         "logo": "uri or base64-encoded logo of Authorization Server",
