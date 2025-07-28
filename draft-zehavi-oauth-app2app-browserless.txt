@@ -72,7 +72,7 @@ Table of Contents
    1.  Conventions and Definitions
      1.1.  Terminology
    2.  Introduction
-     2.1.  App2App with OAuth Brokers requires a web browser
+     2.1.  App2App across trust domains requires a web browser
      2.2.  Impact of using a web browser
      2.3.  Note - App2Web across trust domains
      2.4.  Relation to OpenID.Native-SSO
@@ -83,30 +83,30 @@ Table of Contents
      3.3.  RFC9396 Authorization Details Type *native_callback_uri*
      3.4.  Native App2App Profile
      3.5.  Flow Diagram
-     3.6.  Validation of native_callback_uri
-     3.7.  Protocol Flow
-       3.7.1.  Client App calls Initial Authorization Server
-       3.7.2.  Initial Authorization Server returns authorization
+     3.6.  Protocol Flow
+       3.6.1.  Client App calls Initial Authorization Server
+       3.6.2.  Initial Authorization Server returns authorization
                request to Downstream Authorization Server
-       3.7.3.  Client App invokes app of User-Interacting
+       3.6.3.  Client App invokes app of User-Interacting
                Authorization Server
-       3.7.4.  Fallback to using the browser
-       3.7.5.  Processing by User-Interacting Authorization Server's
+       3.6.4.  Fallback to using the browser
+       3.6.5.  Processing by User-Interacting Authorization Server's
                App:
-       3.7.6.  Client App traverses OAuth Brokers in reverse order
-       3.7.7.  Client App obtains response
+       3.6.6.  Client App traverses OAuth Brokers in reverse order
+       3.6.7.  Client App obtains response
    4.  Detecting Presence of Native Apps claiming Urls
      4.1.  Android
      4.2.  iOS
    5.  Security Considerations
      5.1.  Embedded User Agents
-     5.2.  OAuth request forgery and manipulation
-     5.3.  Secure Native application communication
-     5.4.  Deep link hijacking
-     5.5.  Open redirection by Client App
-     5.6.  Open redirection by User-Interacting Authorization Server's
+     5.2.  Validation of native_callback_uri
+     5.3.  OAuth request forgery and manipulation
+     5.4.  Secure Native application communication
+     5.5.  Deep link hijacking
+     5.6.  Open redirection by Client App
+     5.7.  Open redirection by User-Interacting Authorization Server's
            App
-     5.7.  Authorization code theft and injection
+     5.8.  Authorization code theft and injection
    6.  IANA Considerations
    7.  References
      7.1.  Normative References
@@ -205,7 +205,7 @@ Table of Contents
    *  A new error_description value for _invalid_request_ error:
       *native_callback_uri_not_claimed*.
 
-2.1.  App2App with OAuth Brokers requires a web browser
+2.1.  App2App across trust domains requires a web browser
 
 +---------------------------------------------------------------------------------------------+
 | +-----------+                                                                               |
@@ -237,9 +237,9 @@ Table of Contents
 
          Figure 1: App2App across trust domains using browser
 
-   Since no native app claims the url's of redirecting Authorization
-   Servers (_OAuth Brokers_), mobile OS' default to using the system
-   browser as the User Agent.
+   Since no native app claims the urls of redirecting Authorization
+   Servers (_OAuth Brokers_), mobile Operating Systems default to using
+   the system browser as the User Agent.
 
 2.2.  Impact of using a web browser
 
@@ -443,34 +443,15 @@ Table of Contents
    *  (8) _Client App_ exchanges code for tokens and the flow is
       complete.
 
-3.6.  Validation of native_callback_uri
+3.6.  Protocol Flow
 
-   Validation of *native_callback_uri* by _User-Interacting
-   Authorization Server_ and its App is RECOMMENDED, to mitiagte open
-   redirection attacks.
-
-   A validating Authorization Server MAY use various mechanisms outside
-   the scope of this document.  For example, validation using
-   [OpenID.Federation] is possible:
-
-   *  Strip url path from *native_callback_uri* (retaining the DNS
-      domain).
-
-   *  Add the url path /.well-known/openid-federation and perform trust
-      chain resolution.
-
-   *  Inspect Client's metadata for redirect_uri's and validate
-      *native_callback_uri* is included.
-
-3.7.  Protocol Flow
-
-3.7.1.  Client App calls Initial Authorization Server
+3.6.1.  Client App calls Initial Authorization Server
 
    Client App calls Initial Authorization Server's
    authorization_endpoint to initiate an authorization code flow and
    indicates App2App flow using the scope: *app2app*.
 
-3.7.2.  Initial Authorization Server returns authorization request to
+3.6.2.  Initial Authorization Server returns authorization request to
         Downstream Authorization Server
 
    _Initial Authorization Server_ SHALL process Client's request and
@@ -480,7 +461,7 @@ Table of Contents
    redirect_uri as *native_callback_uri* in one of the methods specified
    in this document.
 
-3.7.3.  Client App invokes app of User-Interacting Authorization Server
+3.6.3.  Client App invokes app of User-Interacting Authorization Server
 
    Client App SHALL use OS mechanisms to attempt to locate an app
    installed on the device claiming the authorization request url.  If
@@ -523,7 +504,7 @@ Table of Contents
 
    *  Send Cookies in subsequent HTTP requests.
 
-3.7.4.  Fallback to using the browser
+3.6.4.  Fallback to using the browser
 
    If _Client App_ obtains an HTTP 2xx response, a new flow MUST be
    initiated *using the browser*. It is NOT RECOMMENDED to relaunch the
@@ -548,7 +529,7 @@ Table of Contents
    Since in the meantime the app may have been installed, retrying may
    achieve the desired _browser-less App2App_ flow.
 
-3.7.5.  Processing by User-Interacting Authorization Server's App:
+3.6.5.  Processing by User-Interacting Authorization Server's App:
 
    The _User-Interacting Authorization Server_ SHALL handle the
    authorization request using its native app:
@@ -573,7 +554,7 @@ Table of Contents
 
          o  error_description=*native_callback_uri_not_claimed*.
 
-3.7.6.  Client App traverses OAuth Brokers in reverse order
+3.6.6.  Client App traverses OAuth Brokers in reverse order
 
    _Client App_ is natively invoked by _User-Interacting Authorization
    Server App_, with the request's redirect_uri.
@@ -592,7 +573,7 @@ Table of Contents
 
    *  SHALL handle any other HTTP code (2xx / 4xx / 5xx) as a failure.
 
-3.7.7.  Client App obtains response
+3.6.7.  Client App obtains response
 
    Once _Client App's_ own redirect_uri is returned in a redirect 30x
    directive, the traversal of OAuth Brokers is complete.
@@ -632,12 +613,30 @@ Table of Contents
    Agent only for the purpose of flow redirection, and does not interact
    with end-user's credentials in any way.
 
-5.2.  OAuth request forgery and manipulation
+5.2.  Validation of native_callback_uri
+
+   Validation of *native_callback_uri* is RECOMMENDED, to mitigate open
+   redirection attacks.
+
+   A validating Authorization Server MAY use various mechanisms outside
+   the scope of this document.  For example, validation using
+   [OpenID.Federation] is possible:
+
+   *  Strip url path from *native_callback_uri* (retaining the DNS
+      domain).
+
+   *  Add the url path /.well-known/openid-federation and perform trust
+      chain resolution.
+
+   *  Inspect Client's metadata for redirect_uri's and validate
+      *native_callback_uri* is included.
+
+5.3.  OAuth request forgery and manipulation
 
    It is RECOMMENDED that _Client App_ acts as a confidential OAuth
    client.
 
-5.3.  Secure Native application communication
+5.4.  Secure Native application communication
 
    If _Client App_ uses a Backend it is RECOMMENDED to communicate with
    it securely:
@@ -648,14 +647,14 @@ Table of Contents
 
    *  Perform certificate pinning.
 
-5.4.  Deep link hijacking
+5.5.  Deep link hijacking
 
    It is RECOMMENDED that all apps in this specification shall use
    https-scheme deep links (Android App Links / iOS universal links).
    Apps SHOULD implement the most specific package identifiers
    mitigating deep link hijacking by malicious apps.
 
-5.5.  Open redirection by Client App
+5.6.  Open redirection by Client App
 
    Client App SHALL construct an Allowlist of DNS domains it traverses
    while processing the request, used to enforce all urls it later
@@ -670,13 +669,13 @@ Table of Contents
    It is RECOMMENDED _Client App_ allows only one OAuth request
    processing at a time.
 
-5.6.  Open redirection by User-Interacting Authorization Server's App
+5.7.  Open redirection by User-Interacting Authorization Server's App
 
    It is RECOMMENDED that _User-Interacting Authorization Server's_ App
    establishes trust in *native_callback_uri* to mitigate open
    redirection attacks and reject untrusted urls.
 
-5.7.  Authorization code theft and injection
+5.8.  Authorization code theft and injection
 
    It is RECOMMENDED that PKCE is used and that the code_verifier is
    tied to the _Client App_ instance, as mitigation to authorization
