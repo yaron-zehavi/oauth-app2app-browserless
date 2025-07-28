@@ -151,11 +151,11 @@ The use of the web browser in App2App flows, degrades the user experience somewh
 
 This document specifies:
 
-* A **Browser-less App2App** profile *Authorization Servers* MUST follow to enable native App2App flows.
-* A new Authorization Server metadata property: native_authorization_endpoint, indicating to clients that an *Authorization Server* supports the **Browser-less App2App** profile.
+* A **Browser-less App2App** profile *Authorization Servers* SHOULD follow to support native App2App flows.
+* A new Authorization Server metadata property: **native_authorization_endpoint**, indicating an *Authorization Server* supports the **Browser-less App2App** profile.
 * A new {{RFC9396}} Authorization Details Type: **https://scheme.example.org/native_callback_uri**.
 * A new error code value: **native_app2app_unsupported**
-* A new error_description value for *invalid_request* error: **native_callback_uri_not_claimed**.
+* A new error_description value: **native_callback_uri_not_claimed**.
 
 ## App2App across trust domains requires a web browser
 
