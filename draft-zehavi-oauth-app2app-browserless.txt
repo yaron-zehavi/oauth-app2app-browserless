@@ -384,13 +384,15 @@ Table of Contents
 
    _Authorization servers_ supporting the _Native App2App profile_, but
    requiring end-user input to guide federated request routing, MAY
-   provide a _Routing Instructions Response_, for example:
+   provide a _Routing Instructions Response_.
+
+   Example prompting end-user for multiple-choice:
 
 HTTP/1.1 200 OK
 Content-Type: application/vnd.oauth.app2app.routing+json
 
 {
-    "id": "request-identifier",
+    "id": "request-identifier-1",
     "logo": "uri or base64-encoded logo of Authorization Server",
     "userPrompt": {
         "options": {
@@ -418,7 +420,23 @@ Content-Type: application/vnd.oauth.app2app.routing+json
                     "ic": "Institutional Clients"
                 }
             }
-        },
+        }
+    },
+    "response": {
+        "post": "url to POST to using application/x-www-form-urlencoded",
+        "get": "url to use for a GET with query params"
+    }
+}
+
+   Example prompting end-user for input entry:
+
+HTTP/1.1 200 OK
+Content-Type: application/vnd.oauth.app2app.routing+json
+
+{
+    "id": "request-identifier-2",
+    "logo": "uri or base64-encoded logo of Authorization Server",
+    "userPrompt": {
         "inputs": {
             "email": {
                 "hint": "Enter your email address",
@@ -432,6 +450,38 @@ Content-Type: application/vnd.oauth.app2app.routing+json
         "get": "url to use for a GET with query params"
     }
 }
+
+   _Client App_ identifies the response as _Routing Instructions
+   Response_ using the response's Content-Type, then renders a UI to
+   interact with end-user to request their input:  _logo_ is OPTIONAL
+      and used to brand the interaction and represent the Authorization
+      Server.
+
+      _userPrompt_ MUST specify either _options_ or _inputs_.
+
+      _options_ specifies 1..n multiple-choice prompts.
+
+      _inputs_ specifies free-form input.
+
+   _Client App_ then responds using _respose_ which specifies HTTP GET
+   or POST urls. _Client App_ includes "id" which identifies the
+   interaction to the Authorization Server.
+
+   Example _Client App_ response following end-user multiple-choice:
+
+   POST /native/routing HTTP/1.1
+   Content-Type: application/x-www-form-urlencoded
+   Host: example.as.com
+
+   id=request-identifier-1&bank=bankOfSomething&segment=retail
+
+   Example _Client App_ response following end-user input entry:
+
+   POST /native/routing HTTP/1.1
+   Content-Type: application/x-www-form-urlencoded
+   Host: example.as.com
+
+   id=request-identifier-2&email=end_user@example.as.com
 
 3.6.  Flow Diagram
 
