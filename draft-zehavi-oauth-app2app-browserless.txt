@@ -525,9 +525,9 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    _Authorization Server_ evaluates the native authorization request.
    It MAY return:
 
-   *  Error native_app2app_unsupported in case the intended _Downstream
-      Authorization Server_ does not support the _Native App2App
-      Profile_.
+   *  Error _native_app2app_unsupported_ in case the intended
+      _Downstream Authorization Server_ does not support the _Native
+      App2App Profile_.
 
    *  HTTP 200 with a _Routing Instructions Response_, in case it
       requires user input to guide choosing a _Downstream Authorization
