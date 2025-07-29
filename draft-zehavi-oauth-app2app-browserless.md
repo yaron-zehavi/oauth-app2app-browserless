@@ -364,13 +364,11 @@ It MAY return:
 
 If a *Routing Instructions Response* was obtained and is supported, *Client App* interacts with end-user and provides their response to *Authorization Server*.
 
-If a redirect HTTP 30x redirect response was obtained, *Client App* SHALL use OS mechanisms to locate an app installed on the device claiming the url in the Location header.
+If an HTTP 30x redirect response was obtained, *Client App* SHALL use OS SDK's to locate an app claiming the url in the Location header, and if found SHALL natively invoke it to process the *native authorization request*.
 
-If a claiming app is found, *Client App* SHALL natively invoke the app to process the authorization request. This achieves the desired native navigation across applications.
+If a suitable app is not found, *Client App* SHALL use HTTP to call the authorization request url and process the response as described herein.
 
-If a suitable app is not found, *Client App* SHALL use HTTP to call the authorization request url and process the response as described in this step.
-
-Client App repeats the action in this protocol step until a native app is reached, or an error occurs.
+Client App repeats these actions until a native app is reached, or an error occurs.
 
 As the *Client App* performs HTTP calls, it SHALL maintain a list of all the DNS domains it interacts with, serving as an Allowlist for later invocations as part of the response handling.
 
