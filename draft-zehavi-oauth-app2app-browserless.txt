@@ -98,14 +98,13 @@ Table of Contents
      4.2.  iOS
    5.  Security Considerations
      5.1.  Embedded User Agents
-     5.2.  Validation of native_callback_uri
+     5.2.  Open redirection by Authorization Server's User-Interacting
+           App
      5.3.  OAuth request forgery and manipulation
      5.4.  Secure Native application communication
      5.5.  Deep link hijacking
      5.6.  Open redirection by Client App
-     5.7.  Open redirection by User-Interacting Authorization Server's
-           App
-     5.8.  Authorization code theft and injection
+     5.7.  Authorization code theft and injection
    6.  IANA Considerations
    7.  References
      7.1.  Normative References
@@ -199,8 +198,6 @@ Table of Contents
       *https://scheme.example.org/native_callback_uri*.
 
    *  A new error code value: *native_app2app_unsupported*
-
-   *  A new error_description value: *native_callback_uri_not_claimed*.
 
 2.1.  App2App across trust domains requires a web browser
 
@@ -636,22 +633,20 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    The _User-Interacting Authorization Server's_ app handles the native
    authorization request:
 
+   *  Validates the native authorization request as an OAuth
+      authorization code request.
+
+   *  Establishes trust in _native_callback_uri_, otherwise terminates
+      the flow.
+
+   *  Validates that an app claiming *native_callback_uri* is on the
+      device, otherwise terminates the flow.
+
    *  Authenticates end-user and authorizes the request.
 
-   *  MUST use *native_callback_uri* to invoke _Client App_:
-
-      -  Validates that an app claiming *native_callback_uri* is on the
-         device and if so, natively invokes *native_callback_uri* with
-         the redirect url and its response parameters as the url-encoded
-         query parameter *redirect_uri*.
-
-      -  If the app is not on the device, the flow terminates and _User-
-         Interacting Authorization Server's app_ redirects to
-         redirect_uri with:
-
-         o  error=invalid_request.
-
-         o  error_description=*native_callback_uri_not_claimed*.
+   *  MUST use *native_callback_uri* to invoke _Client App_, providing
+      it the redirect url and its response parameters as the url-encoded
+      query parameter *redirect_uri*.
 
 3.7.5.  Client App traverses Authorization Servers in reverse order
 
@@ -715,14 +710,15 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    The mechanism for providing routing instructions MUST NOT be used to
    request end-user to provide any authentication credentials.
 
-5.2.  Validation of native_callback_uri
+5.2.  Open redirection by Authorization Server's User-Interacting App
 
-   Validation of *native_callback_uri* is RECOMMENDED, to mitigate open
-   redirection attacks.
+   To mitigate open redirection attacks, trust establishment in
+   _native_callback_uri_ is RECOMMENDED by _User-Interacting App_. Any
+   federating _Authorization Server_ MAY also wish to establish trust.
 
-   A validating Authorization Server MAY use various mechanisms outside
-   the scope of this document.  For example, validation using
-   [OpenID.Federation] is possible:
+   The sepcific trust establishment mechanisms are outside the scope of
+   this document.  For example purposes, one way to validate could
+   leverage [OpenID.Federation]:
 
    *  Strip url path from *native_callback_uri* (retaining the DNS
       domain).
@@ -771,13 +767,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    It is RECOMMENDED _Client App_ allows only one OAuth request
    processing at a time.
 
-5.7.  Open redirection by User-Interacting Authorization Server's App
-
-   It is RECOMMENDED that _User-Interacting Authorization Server's_ App
-   establishes trust in *native_callback_uri* to mitigate open
-   redirection attacks and reject untrusted urls.
-
-5.8.  Authorization code theft and injection
+5.7.  Authorization code theft and injection
 
    It is RECOMMENDED that PKCE is used and that the code_verifier is
    tied to the _Client App_ instance, as mitigation to authorization
@@ -891,7 +881,12 @@ Appendix B.  Document History
 
    [[ To be removed from the final specification ]]
 
-   -latest
+   -latest * removed error native_callback_uri_not_claimed * Added
+   Routing Options Response * Added native_authorization_endpoint and
+   matching AS profile * Added Authorization Details Type as container
+   for native_callback_uri
+
+   -04
 
    *  Phrased the challenge in Trust Domain terminology
 
@@ -904,9 +899,6 @@ Appendix B.  Document History
       30x force the use of a browser
 
    *  Discussed Embedded user agents security consideration
-
-   *  Starting to consider using a rich authorization details type as
-      simpler container for native_callback_uri
 
    -03
 
