@@ -488,9 +488,9 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
       _inputs_ specifies free-form input.
 
-   _Client App_ provides end-user's input using _respose_ which
+   _Client App_ provides end-user's input using _response_ which
    specifies HTTP GET or POST urls.  If provided, _Client App_ includes
-   "id" to identify the interaction to the Authorization Server.
+   "id" as interaction identifier.
 
    Example _Client App_ response following end-user multiple-choice:
 
@@ -529,12 +529,12 @@ Content-Type: application/vnd.oauth.app2app.routing+json
       Authorization Server_ does not support the _Native App2App
       Profile_.
 
-   *  HTTP 200 with a _Routing Instructions Response_, in case it needs
-      user input to guide choosing the _Downstream Authorization
+   *  HTTP 200 with a _Routing Instructions Response_, in case it
+      requires user input to guide choosing a _Downstream Authorization
       Server_.
 
    *  HTTP 30x in case the _Downstream Authorization Server_ is known
-      and eligible, including an authorization request url towards
+      and eligible, with a _native authorization request url_ towards
       _Downstream Authorization Server's_
       _native_authorization_endpoint_ in the Location header.
 
