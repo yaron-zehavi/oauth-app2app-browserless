@@ -535,8 +535,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
    *  HTTP 30x in case the _Downstream Authorization Server_ is known
       and eligible, with a _native authorization request url_ towards
-      _Downstream Authorization Server's_
-      _native_authorization_endpoint_ in the Location header.
+      _Downstream Authorization Server_ in the Location header.
 
 3.7.3.  Client App processes the response
 
