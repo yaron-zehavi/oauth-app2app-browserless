@@ -360,29 +360,34 @@ Table of Contents
       _Authorization Server's_ *native_authorization_endpoint*,
       including the _native_callback_uri_ _Authorization Details Type_.
 
-   *  (2) _Authorization Server_ returns an _authorization request url_
-      for Downstream Authorization Server, including the original
-      *native_callback_uri* Authorization Details.
+   *  (2) _Authorization Server_ returns either a _native authorization
+      request url_ for Downstream Authorization Server which includes
+      the original *native_callback_uri* Authorization Details, or a
+      *Routing Instructions Response*.
 
-   *  (3) _Client App_ seeks an app on the device claiming the obtained
-      _authorization request url_. If not found it loops through
+   *  (3) _Client App_ handles obtained _Routing Instructions Response_
+      by prompting end-user and providing their response to
+      _Authorization Server_, which then responds with _native
+      authorization request url_. _Client App_ handles obtained
+      _authorization request urls_ by seeking an app on the device
+      claiming the url.  If not found, _Client App_ loops through
       invocations of obtained _native authorization request urls_, until
       a claimed url is reached.
 
-   *  (4) _Client App_ natively invokes _User-Interacting App_.
+   *  (4) Once a claimed url is reached _Client App_ natively invokes
+      _User-Interacting App_.
 
-   *  (5) _User-Interacting App_ authenticates user and authorizes the
-      request.
+   *  (5) _User-Interacting App_ authenticates end-user and authorizes
+      the request.
 
-   *  (6) _User-Interacting App_ natively invokes *native_callback_uri*
-      (overriding the request's redirect_uri), providing as a parameter
-      the redirect_uri with its response parameters.
+   *  (6) _User-Interacting App_ natively invokes *native_callback_uri*,
+      providing as a parameter a url-encoded _redirect_uri_ with its
+      response parameters.
 
-   *  (7) _Client App_ loops through _Authorization Servers_, starting
-      from the redirect_uri it received from the _User-Interacting App_.
+   *  (7) _Client App_ invokes the obtained _redirect_uri_.
 
    *  (8) _Client App_ calls any subsequent uri obtained as 30x redirect
-      directive, until it reaches a location header indicating its own
+      directive, until it reaches a location header to its own
       redirect_uri.
 
    *  (9) _Client App_ exchanges code for tokens and the flow is
@@ -404,7 +409,7 @@ Table of Contents
    Profile_.
 
    *native_authorization_endpoint*:  URL of the authorization server's
-      native authorization endpoint
+      native authorization endpoint.
 
 3.4.  [RFC9396] Authorization Details Type _native_callback_uri_
 
@@ -421,6 +426,8 @@ Table of Contents
       ]
    }
 
+   *locations* array MUST include exactly one instance.
+
 3.5.  Native App2App Profile
 
    _Authorization servers_ providing a *native_authorization_endpoint*
@@ -433,22 +440,22 @@ Table of Contents
       Authorization Servers_.
 
    *  Ensure _Downstream Authorization Servers_ it federates to, support
-      the _Native App2App profile_, and otherwise respond to
-      redirect_uri with error=native_app2app_unsupported.
+      the _Native App2App profile_, otherwise return
+      error=native_app2app_unsupported.
 
-   *  Redirect using HTTP 30x (avoid using HTTP Form Post or embedded
-      Javascript in HTML pages).
+   *  Redirect using HTTP 30x (avoid redirecting using HTTP Form Post or
+      scripts embedded in HTML).
 
    *  Avoid challenging end-user with bot-detection such as CAPTCHAs
       when invoked without cookies.
 
-   *  MAY provide Routing Instructions Response.
+   *  MAY provide _Routing Instructions Response_.
 
 3.6.  Routing Instructions Response
 
-   _Authorization servers_ supporting the _Native App2App profile_, that
-   require end-user input to guide federated request routing, MAY
-   provide a _Routing Instructions Response_.
+   _Authorization servers_ supporting the _Native App2App profile_, but
+   requiring end-user input to guide request routing, MAY provide a
+   _Routing Instructions Response_.
 
    Example prompting end-user for multiple-choice:
 
@@ -516,19 +523,20 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 }
 
    _Client App_ supporting _Routing Instructions Response_ identifies
-   the response as such using its Content-Type, then interacts with
-   end-user to request their input:  _logo_ is OPTIONAL and used to
-      brand the interaction and represent the Authorization Server.
+   the response as such using its Content-Type, then prompts end-user
+   for their input:  _logo_ is OPTIONAL and used to brand the
+      interaction and represent the Authorization Server.
 
-      _userPrompt_ MUST specify either _options_ or _inputs_.
+      _userPrompt_ MUST specify at least _options_ or _inputs_ and MAY
+      specify both.
 
       _options_ specifies 1..n multiple-choice prompts.
 
       _inputs_ specifies free-form input.
 
-   _Client App_ then responds using _respose_ which specifies HTTP GET
-   or POST urls.  If provided, _Client App_ includes "id" to identify
-   the interaction to the Authorization Server.
+   _Client App_ provides end-user's input using _respose_ which
+   specifies HTTP GET or POST urls.  If provided, _Client App_ includes
+   "id" to identify the interaction to the Authorization Server.
 
    Example _Client App_ response following end-user multiple-choice:
 
