@@ -139,20 +139,20 @@ the following terms:
 
 # Introduction
 
-This document, *OAuth 2.0 App2App Browser-less Flow*, describes a protocol enabling native (**Browser-less**) app navigation of an {{App2App}} OAuth grant.
+This document, *OAuth 2.0 App2App Browser-less Flow*, describes a protocol enabling native (**Browser-less**) app navigation of an {{App2App}} OAuth grant across *different Trust Domains*.
 
-When Clients and Authorization Servers are located on *different Trust Domains*, authorization requests may traverse across trust domains using federation, involving Authorization Servers acting as clients of *Downstream Authorization Server*.
+When Clients and Authorization Servers are located on *different Trust Domains*, authorization requests are routedusing federation, involving Authorization Servers acting as clients of *Downstream Authorization Servers*.
 
-Such federation setups are used to create trust networks for example in Academia and in the business world across corporations.
+Such federation setups create trust networks, for example in Academia and in the business world across corporations.
 
-However in {{App2App}} scenarios these setups mandate using the web browser as user-agent, because federating Authorization Servers url's are not claimed by any native app.
+However in {{App2App}} scenarios the web browser must serve as user-agent, because federating Authorization Servers url's are not claimed by any native app.
 
-The use of the web browser in App2App flows, degrades the user experience somewhat.
+The use of web browsers in App2App flows, degrades the user experience somewhat.
 
 This document specifies:
 
-* A **Browser-less App2App** profile *Authorization Servers* SHOULD follow to support native App2App flows.
-* A new Authorization Server metadata property: **native_authorization_endpoint**, indicating an *Authorization Server* supports the **Browser-less App2App** profile.
+* A **Native App2App Profile** *Authorization Servers* SHOULD follow to support browser-less App2App flows.
+* A new Authorization Server metadata property: **native_authorization_endpoint**, indicating an *Authorization Server* supports the **Native App2App Profile**.
 * A new {{RFC9396}} Authorization Details Type: **https://scheme.example.org/native_callback_uri**.
 * A new error code value: **native_app2app_unsupported**
 * A new error_description value: **native_callback_uri_not_claimed**.
@@ -205,6 +205,22 @@ In such case the flow is as described in "OAuth 2.0 for Native Apps" {{RFC8252}}
 While this document also discusses a mechanism for *Authorization Servers* to guide *Client App* in obtaining user's input to guide routing the request across trust domains, the {{OAuth.First-Party}} required high degree of trust between the authorization server and the client is not fulfilled.
 
 # Protocol Overview
+
+## Flow Diagram
+~~~ aasvg
+{::include art/app2app-browserless.ascii-art}
+~~~
+{: #app2app-browserless-w-brokers title="Browser-less App2App across trust domains" }
+
+- (1) *Client App* presents an authorization request to *Authorization Server's* **native_authorization_endpoint**, including the *native_callback_uri* *Authorization Details Type*.
+- (2) *Authorization Server* returns an *authorization request url* for Downstream Authorization Server, including the original **native_callback_uri** Authorization Details.
+- (3) *Client App* seeks an app on the device claiming the obtained *authorization request url*. If not found it loops through invocations of obtained *native authorization request urls*, until a claimed url is reached.
+- (4) *Client App* natively invokes *User-Interacting App*.
+- (5) *User-Interacting App* authenticates user and authorizes the request.
+- (6) *User-Interacting App* natively invokes **native_callback_uri** (overriding the request's redirect_uri), providing as a parameter the redirect_uri with its response parameters.
+- (7) *Client App* loops through *Authorization Servers*, starting from the redirect_uri it received from the *User-Interacting App*.
+- (8) *Client App* calls any subsequent uri obtained as 30x redirect directive, until it reaches a location header indicating its own redirect_uri.
+- (9) *Client App* exchanges code for tokens and the flow is complete.
 
 ## Usage and Applicability
 
@@ -341,23 +357,7 @@ Example *Client App* response following end-user input entry:
     id=request-identifier-2
     &email=end_user@example.as.com
 
-## Flow Diagram
-~~~ aasvg
-{::include art/app2app-browserless.ascii-art}
-~~~
-{: #app2app-browserless-w-brokers title="Browser-less App2App across trust domains" }
-
-- (1) *Client App* presents an authorization request to *Authorization Server's* **native_authorization_endpoint**, including the *native_callback_uri* *Authorization Details Type*.
-- (2) *Authorization Server* returns an *authorization request url* for Downstream Authorization Server, including the original **native_callback_uri** Authorization Details.
-- (3) *Client App* seeks an app on the device claiming the obtained *authorization request url*. If not found it loops through invocations of obtained *native authorization request urls*, until a claimed url is reached.
-- (4) *Client App* natively invokes *User-Interacting App*.
-- (5) *User-Interacting App* authenticates user and authorizes the request.
-- (6) *User-Interacting App* natively invokes **native_callback_uri** (overriding the request's redirect_uri), providing as a parameter the redirect_uri with its response parameters.
-- (7) *Client App* loops through *Authorization Servers*, starting from the redirect_uri it received from the *User-Interacting App*.
-- (8) *Client App* calls any subsequent uri obtained as 30x redirect directive, until it reaches a location header indicating its own redirect_uri.
-- (9) *Client App* exchanges code for tokens and the flow is complete.
-
-## Protocol Flow {#protocol-flow}
+## Protocol Flow
 
 ### Client App calls Authorization Server
 
