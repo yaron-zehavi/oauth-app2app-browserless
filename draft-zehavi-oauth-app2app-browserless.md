@@ -155,7 +155,6 @@ This document specifies:
 * A new Authorization Server metadata property: **native_authorization_endpoint**, indicating an *Authorization Server* supports the **Native App2App Profile**.
 * A new {{RFC9396}} Authorization Details Type: **https://scheme.example.org/native_callback_uri**.
 * A new error code value: **native_app2app_unsupported**
-* A new error_description value: **native_callback_uri_not_claimed**.
 
 ## App2App across trust domains requires a web browser
 
@@ -402,14 +401,11 @@ As Authorization Servers MAY use Cookies to bind security elements (state, nonce
 
 The *User-Interacting Authorization Server's* app handles the native authorization request:
 
+* Validates the native authorization request as an OAuth authorization code request.
+* Establishes trust in *native_callback_uri*, otherwise terminates the flow.
+* Validates that an app claiming **native_callback_uri** is on the device, otherwise terminates the flow.
 * Authenticates end-user and authorizes the request.
-* MUST use **native_callback_uri** to invoke *Client App*:
-
-  * Validates that an app claiming **native_callback_uri** is on the device and if so, natively invokes **native_callback_uri** with the redirect url and its response parameters as the url-encoded query parameter **redirect_uri**.
-  * If the app is not on the device, the flow terminates and *User-Interacting Authorization Server's app* redirects to redirect_uri with:
-
-    * error=invalid_request.
-    * error_description=**native_callback_uri_not_claimed**.
+* MUST use **native_callback_uri** to invoke *Client App*, providing it the redirect url and its response parameters as the url-encoded query parameter **redirect_uri**.
 
 ### Client App traverses Authorization Servers in reverse order
 
@@ -452,12 +448,13 @@ This risk does not apply to this draft as *Client App* acts as User Agent only f
 
 The mechanism for providing routing instructions MUST NOT be used to request end-user to provide any authentication credentials.
 
-## Validation of native_callback_uri
+## Open redirection by Authorization Server's User-Interacting App
 
-Validation of **native_callback_uri** is RECOMMENDED, to mitigate open redirection attacks.
+To mitigate open redirection attacks, trust establishment in *native_callback_uri* is RECOMMENDED by *User-Interacting App*.
+Any federating *Authorization Server* MAY also wish to establish trust.
 
-A validating Authorization Server MAY use various mechanisms outside the scope of this document.
-For example, validation using {{OpenID.Federation}} is possible:
+The sepcific trust establishment mechanisms are outside the scope of this document.
+For example purposes, one way to validate could leverage {{OpenID.Federation}}:
 
 * Strip url path from **native_callback_uri** (retaining the DNS domain).
 * Add the url path /.well-known/openid-federation and perform trust chain resolution.
@@ -489,10 +486,6 @@ It is RECOMMENDED the Allowlist be managed as a single-use object, destructed af
 
 It is RECOMMENDED *Client App* allows only one OAuth request processing at a time.
 
-## Open redirection by User-Interacting Authorization Server's App
-
-It is RECOMMENDED that *User-Interacting Authorization Server's* App establishes trust in **native_callback_uri** to mitigate open redirection attacks and reject untrusted urls.
-
 ## Authorization code theft and injection
 
 It is RECOMMENDED that PKCE is used and that the code_verifier is tied to the *Client App* instance, as mitigation to authorization code theft and injection attacks.
@@ -513,13 +506,18 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
 \[\[ To be removed from the final specification ]]
 
 -latest
+* removed error native_callback_uri_not_claimed
+* Added Routing Options Response
+* Added native_authorization_endpoint and matching AS profile
+* Added Authorization Details Type as container for native_callback_uri
+
+-04
 
 * Phrased the challenge in Trust Domain terminology
 * Discussed interim Authorization Server interacting the end-user, which is not the User-Authenticating Authorization Server
 * Moved Cookies topic to Protocol Flow
 * Mentioned that Authorization Servers redirecting not through HTTP 30x force the use of a browser
 * Discussed Embedded user agents security consideration
-* Starting to consider using a rich authorization details type as simpler container for native_callback_uri
 
 -03
 
