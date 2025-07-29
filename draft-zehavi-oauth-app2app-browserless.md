@@ -213,13 +213,13 @@ While this document also discusses a mechanism for *Authorization Servers* to gu
 {: #app2app-browserless-w-brokers title="Browser-less App2App across trust domains" }
 
 - (1) *Client App* presents an authorization request to *Authorization Server's* **native_authorization_endpoint**, including the *native_callback_uri* *Authorization Details Type*.
-- (2) *Authorization Server* returns an *authorization request url* for Downstream Authorization Server, including the original **native_callback_uri** Authorization Details.
-- (3) *Client App* seeks an app on the device claiming the obtained *authorization request url*. If not found it loops through invocations of obtained *native authorization request urls*, until a claimed url is reached.
-- (4) *Client App* natively invokes *User-Interacting App*.
-- (5) *User-Interacting App* authenticates user and authorizes the request.
-- (6) *User-Interacting App* natively invokes **native_callback_uri** (overriding the request's redirect_uri), providing as a parameter the redirect_uri with its response parameters.
-- (7) *Client App* loops through *Authorization Servers*, starting from the redirect_uri it received from the *User-Interacting App*.
-- (8) *Client App* calls any subsequent uri obtained as 30x redirect directive, until it reaches a location header indicating its own redirect_uri.
+- (2) *Authorization Server* returns either a *native authorization request url* for Downstream Authorization Server which includes the original **native_callback_uri** Authorization Details, or a **Routing Instructions Response**.
+- (3) *Client App* handles obtained *Routing Instructions Response* by prompting end-user and providing their response to *Authorization Server*, which then responds with *native authorization request url*. *Client App* handles obtained *authorization request urls* by seeking an app on the device claiming the url. If not found, *Client App* loops through invocations of obtained *native authorization request urls*, until a claimed url is reached.
+- (4) Once a claimed url is reached *Client App* natively invokes *User-Interacting App*.
+- (5) *User-Interacting App* authenticates end-user and authorizes the request.
+- (6) *User-Interacting App* natively invokes **native_callback_uri**, providing as a parameter a url-encoded *redirect_uri* with its response parameters.
+- (7) *Client App* invokes the obtained *redirect_uri*.
+- (8) *Client App* calls any subsequent uri obtained as 30x redirect directive, until it reaches a location header to its own redirect_uri.
 - (9) *Client App* exchanges code for tokens and the flow is complete.
 
 ## Usage and Applicability
@@ -233,7 +233,7 @@ In such case *Client App* SHOULD natively invoke the authorization request url.
 This document introduces the following authorization server metadata {{RFC8414}} parameter to indicate it supports the *Native App2App Profile*.
 
 **native_authorization_endpoint**:
-: URL of the authorization server's native authorization endpoint
+: URL of the authorization server's native authorization endpoint.
 
 ## {{RFC9396}} Authorization Details Type *native_callback_uri*
 
@@ -248,20 +248,22 @@ To this end this document defines a new Authorization Details Type:
        ]
     }
 
+**locations** array MUST include exactly one instance.
+
 ## Native App2App Profile
 
 *Authorization servers* providing a **native_authorization_endpoint** MUST follow the **Native App2App Profile's** requirements:
 
 * Accept the {{RFC9396}} Authorization Details Type: **https://scheme.example.org/native_callback_uri**.
 * Forward the Authorization Details Type to *Downstream Authorization Servers*.
-* Ensure *Downstream Authorization Servers* it federates to, support the *Native App2App profile*, and otherwise respond to redirect_uri with error=native_app2app_unsupported.
-* Redirect using HTTP 30x (avoid using HTTP Form Post or embedded Javascript in HTML pages).
+* Ensure *Downstream Authorization Servers* it federates to, support the *Native App2App profile*, otherwise return error=native_app2app_unsupported.
+* Redirect using HTTP 30x (avoid redirecting using HTTP Form Post or scripts embedded in HTML).
 * Avoid challenging end-user with bot-detection such as CAPTCHAs when invoked without cookies.
-* MAY provide Routing Instructions Response.
+* MAY provide *Routing Instructions Response*.
 
 ## Routing Instructions Response
 
-*Authorization servers* supporting the *Native App2App profile*, that require end-user input to guide federated request routing, MAY provide a *Routing Instructions Response*.
+*Authorization servers* supporting the *Native App2App profile*, but requiring end-user input to guide request routing, MAY provide a *Routing Instructions Response*.
 
 Example prompting end-user for multiple-choice:
 
@@ -328,14 +330,14 @@ Example prompting end-user for input entry:
         }
     }
 
-*Client App* supporting *Routing Instructions Response* identifies the response as such using its Content-Type, then interacts with end-user to request their input:
+*Client App* supporting *Routing Instructions Response* identifies the response as such using its Content-Type, then prompts end-user for their input:
 
 : *logo* is OPTIONAL and used to brand the interaction and represent the Authorization Server.
-: *userPrompt* MUST specify either *options* or *inputs*.
+: *userPrompt* MUST specify at least *options* or *inputs* and MAY specify both.
 : *options* specifies 1..n multiple-choice prompts.
 : *inputs* specifies free-form input.
 
-*Client App* then responds using *respose* which specifies HTTP GET or POST urls.
+*Client App* provides end-user's input using *respose* which specifies HTTP GET or POST urls.
 If provided, *Client App* includes "id" to identify the interaction to the Authorization Server.
 
 Example *Client App* response following end-user multiple-choice:
