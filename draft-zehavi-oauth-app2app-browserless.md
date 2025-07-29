@@ -198,7 +198,7 @@ While this document also discusses a mechanism for *Authorization Servers* to gu
 
 - (1) *Client App* presents an authorization request to *Authorization Server's* **native_authorization_endpoint**, including the *native_callback_uri* *Authorization Details Type*.
 - (2) *Authorization Server* returns either a *native authorization request url* for Downstream Authorization Server which includes the original **native_callback_uri** Authorization Details, or a **Routing Instructions Response**.
-- (3) *Client App* handles obtained *Routing Instructions Response* by prompting end-user and providing their response to *Authorization Server*, which then responds with *native authorization request url*. *Client App* handles obtained *authorization request urls* by seeking an app on the device claiming the url. If not found, *Client App* loops through invocations of obtained *native authorization request urls*, until a claimed url is reached.
+- (3) *Client App* handles obtained *Routing Instructions Response* by prompting end-user and providing their response to *Authorization Server*, which then responds with a *native authorization request url*. *Client App* handles obtained *native authorization request urls* by seeking an app on the device claiming the url. If not found, *Client App* loops through invocations of obtained *native authorization request urls*, until a claimed url is reached.
 - (4) Once a claimed url is reached *Client App* natively invokes *User-Interacting App*.
 - (5) *User-Interacting App* authenticates end-user and authorizes the request.
 - (6) *User-Interacting App* natively invokes **native_callback_uri**, providing as a parameter a url-encoded *redirect_uri* with its response parameters.
