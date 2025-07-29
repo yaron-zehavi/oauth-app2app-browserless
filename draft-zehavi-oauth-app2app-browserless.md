@@ -321,8 +321,8 @@ Example prompting end-user for input entry:
 : *options* specifies 1..n multiple-choice prompts.
 : *inputs* specifies free-form input.
 
-*Client App* provides end-user's input using *respose* which specifies HTTP GET or POST urls.
-If provided, *Client App* includes "id" to identify the interaction to the Authorization Server.
+*Client App* provides end-user's input using *response* which specifies HTTP GET or POST urls.
+If provided, *Client App* includes "id" as interaction identifier.
 
 Example *Client App* response following end-user multiple-choice:
 
@@ -355,8 +355,8 @@ Client App uses HTTP to call *Initial Authorization Server's* *native_authorizat
 It MAY return:
 
 * Error native_app2app_unsupported in case the intended *Downstream Authorization Server* does not support the *Native App2App Profile*.
-* HTTP 200 with a *Routing Instructions Response*, in case it needs user input to guide choosing the *Downstream Authorization Server*.
-* HTTP 30x in case the *Downstream Authorization Server* is known and eligible, including an authorization request url towards *Downstream Authorization Server's* *native_authorization_endpoint* in the Location header.
+* HTTP 200 with a *Routing Instructions Response*, in case it requires user input to guide choosing a *Downstream Authorization Server*.
+* HTTP 30x in case the *Downstream Authorization Server* is known and eligible, with a *native authorization request url* towards *Downstream Authorization Server's* *native_authorization_endpoint* in the Location header.
 
 ### Client App processes the response
 
