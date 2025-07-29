@@ -362,7 +362,7 @@ It MAY return:
 
 *Client App* SHALL terminate the protocol flow if an error response is obtained, or an HTTP 2xx response other than a *Routing Instructions Response*, or if it does not support a *Routing Instructions Response* it has obtained.
 
-If a supported *Routing Instructions Response* was obtained, *Client App* interacts with end-user and provides their response to *Authorization Server*.
+If a *Routing Instructions Response* was obtained and is supported, *Client App* interacts with end-user and provides their response to *Authorization Server*.
 
 If a redirect HTTP 30x redirect response was obtained, *Client App* SHALL use OS mechanisms to locate an app installed on the device claiming the url in the Location header.
 
