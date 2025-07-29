@@ -1917,18 +1917,17 @@ It <span class="bcp14">MAY</span> return:<a href="#section-3.7.2-1" class="pilcr
           </h4>
 <p id="section-3.7.3-1"><em>Client App</em> <span class="bcp14">SHALL</span> terminate the protocol flow if an error response is obtained, or an HTTP 2xx response other than a <em>Routing Instructions Response</em>, or if it does not support a <em>Routing Instructions Response</em> it has obtained.<a href="#section-3.7.3-1" class="pilcrow">¶</a></p>
 <p id="section-3.7.3-2">If a <em>Routing Instructions Response</em> was obtained and is supported, <em>Client App</em> interacts with end-user and provides their response to <em>Authorization Server</em>.<a href="#section-3.7.3-2" class="pilcrow">¶</a></p>
-<p id="section-3.7.3-3">If a redirect HTTP 30x redirect response was obtained, <em>Client App</em> <span class="bcp14">SHALL</span> use OS mechanisms to locate an app installed on the device claiming the url in the Location header.<a href="#section-3.7.3-3" class="pilcrow">¶</a></p>
-<p id="section-3.7.3-4">If a claiming app is found, <em>Client App</em> <span class="bcp14">SHALL</span> natively invoke the app to process the authorization request. This achieves the desired native navigation across applications.<a href="#section-3.7.3-4" class="pilcrow">¶</a></p>
-<p id="section-3.7.3-5">If a suitable app is not found, <em>Client App</em> <span class="bcp14">SHALL</span> use HTTP to call the authorization request url and process the response as described in this step.<a href="#section-3.7.3-5" class="pilcrow">¶</a></p>
-<p id="section-3.7.3-6">Client App repeats the action in this protocol step until a native app is reached, or an error occurs.<a href="#section-3.7.3-6" class="pilcrow">¶</a></p>
-<p id="section-3.7.3-7">As the <em>Client App</em> performs HTTP calls, it <span class="bcp14">SHALL</span> maintain a list of all the DNS domains it interacts with, serving as an Allowlist for later invocations as part of the response handling.<a href="#section-3.7.3-7" class="pilcrow">¶</a></p>
-<p id="section-3.7.3-8">As Authorization Servers <span class="bcp14">MAY</span> use Cookies to bind security elements (state, nonce, PKCE) to the user agent, causing the flow to break if required cookies are missing from subsequent HTTP requests, <em>Client App</em> <span class="bcp14">MUST</span> handle cookies:<a href="#section-3.7.3-8" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-3">If an HTTP 30x redirect response was obtained, <em>Client App</em> <span class="bcp14">SHALL</span> use OS SDK's to locate an app claiming the url in the Location header, and if found <span class="bcp14">SHALL</span> natively invoke it to process the <em>native authorization request</em>.<a href="#section-3.7.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-4">If a suitable app is not found, <em>Client App</em> <span class="bcp14">SHALL</span> use HTTP to call the authorization request url and process the response as described herein.<a href="#section-3.7.3-4" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-5">Client App repeats these actions until a native app is reached, or an error occurs.<a href="#section-3.7.3-5" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-6">As the <em>Client App</em> performs HTTP calls, it <span class="bcp14">SHALL</span> maintain a list of all the DNS domains it interacts with, serving as an Allowlist for later invocations as part of the response handling.<a href="#section-3.7.3-6" class="pilcrow">¶</a></p>
+<p id="section-3.7.3-7">As Authorization Servers <span class="bcp14">MAY</span> use Cookies to bind security elements (state, nonce, PKCE) to the user agent, causing the flow to break if required cookies are missing from subsequent HTTP requests, <em>Client App</em> <span class="bcp14">MUST</span> handle cookies:<a href="#section-3.7.3-7" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.7.3-9.1">
-              <p id="section-3.7.3-9.1.1">Store Cookies it obtains in HTTP responses.<a href="#section-3.7.3-9.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.7.3-8.1">
+              <p id="section-3.7.3-8.1.1">Store Cookies it obtains in HTTP responses.<a href="#section-3.7.3-8.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.7.3-9.2">
-              <p id="section-3.7.3-9.2.1">Send Cookies in subsequent HTTP requests.<a href="#section-3.7.3-9.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3.7.3-8.2">
+              <p id="section-3.7.3-8.2.1">Send Cookies in subsequent HTTP requests.<a href="#section-3.7.3-8.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>

@@ -548,20 +548,17 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    _Client App_ interacts with end-user and provides their response to
    _Authorization Server_.
 
-   If a redirect HTTP 30x redirect response was obtained, _Client App_
-   SHALL use OS mechanisms to locate an app installed on the device
-   claiming the url in the Location header.
-
-   If a claiming app is found, _Client App_ SHALL natively invoke the
-   app to process the authorization request.  This achieves the desired
-   native navigation across applications.
+   If an HTTP 30x redirect response was obtained, _Client App_ SHALL use
+   OS SDK's to locate an app claiming the url in the Location header,
+   and if found SHALL natively invoke it to process the _native
+   authorization request_.
 
    If a suitable app is not found, _Client App_ SHALL use HTTP to call
    the authorization request url and process the response as described
-   in this step.
+   herein.
 
-   Client App repeats the action in this protocol step until a native
-   app is reached, or an error occurs.
+   Client App repeats these actions until a native app is reached, or an
+   error occurs.
 
    As the _Client App_ performs HTTP calls, it SHALL maintain a list of
    all the DNS domains it interacts with, serving as an Allowlist for
