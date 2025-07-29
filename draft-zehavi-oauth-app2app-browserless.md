@@ -356,7 +356,7 @@ It MAY return:
 
 * Error *native_app2app_unsupported* in case the intended *Downstream Authorization Server* does not support the *Native App2App Profile*.
 * HTTP 200 with a *Routing Instructions Response*, in case it requires user input to guide choosing a *Downstream Authorization Server*.
-* HTTP 30x in case the *Downstream Authorization Server* is known and eligible, with a *native authorization request url* towards *Downstream Authorization Server's* *native_authorization_endpoint* in the Location header.
+* HTTP 30x in case the *Downstream Authorization Server* is known and eligible, with a *native authorization request url* towards *Downstream Authorization Server* in the Location header.
 
 ### Client App processes the response
 
