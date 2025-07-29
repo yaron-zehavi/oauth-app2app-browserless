@@ -74,9 +74,8 @@ Table of Contents
    2.  Introduction
      2.1.  App2App across trust domains requires a web browser
      2.2.  Impact of using a web browser
-     2.3.  Note - App2Web across trust domains
-     2.4.  Relation to OpenID.Native-SSO
-     2.5.  Relation to OAuth.First-Party
+     2.3.  Relation to OpenID.Native-SSO
+     2.4.  Relation to OAuth.First-Party
    3.  Protocol Overview
      3.1.  Flow Diagram
      3.2.  Usage and Applicability
@@ -93,6 +92,7 @@ Table of Contents
        3.7.5.  Client App traverses Authorization Servers in reverse
                order
        3.7.6.  Client App obtains response
+       3.7.7.  Recovery from failed native App2App flows
    4.  Detecting Presence of Native Apps claiming Urls
      4.1.  Android
      4.2.  iOS
@@ -259,50 +259,7 @@ Table of Contents
       not directly impact the flow, but can be regarded as unnecessary
       "clutter".
 
-2.3.  Note - App2Web across trust domains
-
-+---------------------------------------------------------------------------------------------+
-| +-----------+                                                                               |
-| |  Client   |                                                                               |
-| |   App     |                                                                               |
-| +--------+--+                                                                               |
-|   ^      | 1. Launch Authorization                                                          |
-|   |      |    Request on Browser            Mobile Browser                                  |
-|   |      |    +---------------------------------------------------------------------------+ |
-|   |      |    |                2.Federate                                                 | |
-|   |      |    | +--------------+ Auth. +---------------+    Auth. +--------------------+  | |
-|   |      |    | |    Initial   | Req.  |   Downstream  +-+  Req.  |       User-        |  | |
-|   |      +----+>| Authorization+------>|  Authorization+ +------->|   Authenticating   |  | |
-|   |           | |    Server    |       |    Servers    | |        |   Authorization    |  | |
-|   +-----------+-+              |<------+               | |<-------+      Server        |  | |
-|5.Authorization| +--------------+ Auth. +-+-------------+ |4.Auth. |                    |  | |
-|    Response   |                Response  +---------------+Response+-+----------------+-+  | |
-|   (Deep Link) |                                                     |     Web UI     |    | |
-|               |                                                     +----------------+    | |
-|               |                                                     3. Authenticate       | |
-|               |                                                    & Authorize end-user   | |
-|               +---------------------------------------------------------------------------+ |
-+-------=-------------------------------------------------------------------------------------+
-                                    Mobile Device
-
-                Figure 2: App2Web across trust domains
-
-   When end-user's device has *no app* claiming _User-Interacting
-   Authorization Server's_ urls, the browser MUST be used to interact
-   with end-user for authentication and authorization.
-
-   This is the case when:
-
-   *  No native app is offered by _User-Interacting Authorization
-      Server_.
-
-   *  Or such an app is offered, but is not installed on the end-user's
-      device.
-
-   In such case the flow is as described in "OAuth 2.0 for Native Apps"
-   [RFC8252] and is therefore not discussed further in this document.
-
-2.4.  Relation to [OpenID.Native-SSO]
+2.3.  Relation to [OpenID.Native-SSO]
 
    [OpenID.Native-SSO] also offers a native SSO flow across apps.
    However, it is limited to apps:
@@ -312,7 +269,7 @@ Table of Contents
 
    *  Using the same Authorization Server.
 
-2.5.  Relation to [OAuth.First-Party]
+2.4.  Relation to [OAuth.First-Party]
 
    [OAuth.First-Party] also deals with native apps, but it MUST only be
    used by first-party applications, which is when the authorization
@@ -351,7 +308,7 @@ Table of Contents
    +--------------------------------------------------+
                      Mobile Device
 
-            Figure 3: Browser-less App2App across trust domains
+            Figure 2: Browser-less App2App across trust domains
 
    *  (1) _Client App_ presents an authorization request to
       _Authorization Server's_ *native_authorization_endpoint*,
@@ -586,15 +543,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    _Client App_ SHALL terminate the protocol flow if an error response
    is obtained, or an HTTP 2xx response other than a _Routing
    Instructions Response_, or if it does not support a _Routing
-   Instructions Response_ it has obtained. _Client App_ may recover in
-   such case by launching a new normal authorization request using the
-   browser.
-
-   Note - Failure because an HTTP 2xx response other than a _Routing
-   Instructions Response_ was obtained, suggests the _User-Interacting
-   App_ is not installed on end-user's device. _Client App_ MAY choose
-   to retry in future the _browser-less App2App_ to benefit if in the
-   meantime the missing app has been installed.
+   Instructions Response_ it has obtained.
 
    If a supported _Routing Instructions Response_ was obtained, _Client
    App_ interacts with end-user and provides their response to
@@ -670,10 +619,60 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 3.7.6.  Client App obtains response
 
    Once _Client App's_ own redirect_uri is reached, the traversal of
-   _Authorization Servers_ is complete.
+   _Authorization Servers_ is complete and _Client App_ proceeds to
+   process the response:
 
-   _Client App_ proceeds to exchange code for tokens, or handle error
-   responses.
+   *  Exchange code for tokens.
+
+   *  Or handle errors obtained.
+
+3.7.7.  Recovery from failed native App2App flows
+
++---------------------------------------------------------------------------------------------+
+| +-----------+                                                                               |
+| |  Client   |                                                                               |
+| |   App     |                                                                               |
+| +--------+--+                                                                               |
+|   ^      | 1. Launch Authorization                                                          |
+|   |      |    Request on Browser            Mobile Browser                                  |
+|   |      |    +---------------------------------------------------------------------------+ |
+|   |      |    |                2.Federate                                                 | |
+|   |      |    | +--------------+ Auth. +---------------+    Auth. +--------------------+  | |
+|   |      |    | |    Initial   | Req.  |   Downstream  +-+  Req.  |       User-        |  | |
+|   |      +----+>| Authorization+------>|  Authorization+ +------->|   Authenticating   |  | |
+|   |           | |    Server    |       |    Servers    | |        |   Authorization    |  | |
+|   +-----------+-+              |<------+               | |<-------+      Server        |  | |
+|5.Authorization| +--------------+ Auth. +-+-------------+ |4.Auth. |                    |  | |
+|    Response   |                Response  +---------------+Response+-+----------------+-+  | |
+|   (Deep Link) |                                                     |     Web UI     |    | |
+|               |                                                     +----------------+    | |
+|               |                                                     3. Authenticate       | |
+|               |                                                    & Authorize end-user   | |
+|               +---------------------------------------------------------------------------+ |
++-------=-------------------------------------------------------------------------------------+
+                                    Mobile Device
+
+                 Figure 3: App2Web using the browser
+
+   The _Native App2App flow_ described in this document MAY fail when:
+
+   *  An error response is obtained.
+
+   *  _Client App_ doesn't support an obtained _Routing Instructions
+      Response_.
+
+   *  An HTTP 2xx response other than a _Routing Instructions Response_
+      is obtained.
+
+   In case of such failures, _Client App_ MAY recover by launching a new
+   (non-native) authorization request on a web browser, in accordance
+   with "OAuth 2.0 for Native Apps" [RFC8252].
+
+   Note - Failure because an HTTP 2xx response, other than a _Routing
+   Instructions Response_ was obtained, suggests the _User-Interacting
+   App_ is not installed on end-user's device. _Client App_ MAY choose
+   in future to retry the _Native App2App_ flow, to benefit if in the
+   meantime the missing app has been installed.
 
 4.  Detecting Presence of Native Apps claiming Urls
 
@@ -882,9 +881,9 @@ Appendix B.  Document History
    [[ To be removed from the final specification ]]
 
    -latest * removed error native_callback_uri_not_claimed * Added
-   Routing Options Response * Added native_authorization_endpoint and
-   matching AS profile * Added Authorization Details Type as container
-   for native_callback_uri
+   Routing Instructions Response * Added native_authorization_endpoint
+   and matching AS profile * Added Authorization Details Type as
+   container for native_callback_uri
 
    -04
 
