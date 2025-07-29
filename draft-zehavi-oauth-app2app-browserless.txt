@@ -321,9 +321,9 @@ Table of Contents
 
    *  (3) _Client App_ handles obtained _Routing Instructions Response_
       by prompting end-user and providing their response to
-      _Authorization Server_, which then responds with _native
-      authorization request url_. _Client App_ handles obtained
-      _authorization request urls_ by seeking an app on the device
+      _Authorization Server_, which then responds with a _native
+      authorization request url_. _Client App_ handles obtained _native
+      authorization request urls_ by seeking an app on the device
       claiming the url.  If not found, _Client App_ loops through
       invocations of obtained _native authorization request urls_, until
       a claimed url is reached.
