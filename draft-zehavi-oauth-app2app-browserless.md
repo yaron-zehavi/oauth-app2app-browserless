@@ -175,21 +175,6 @@ Using a web browser may degrade the user experience in several ways:
 * Client app developers don't control which browser the *User-Interacting App* uses to provide its response to redirect_uri. Opinionated choices pose a risk that different browsers will use, making necessary cookies used to bind session identifiers to the user agent (nonce, state or PKCE verifier) unavailable, which may break the flow.
 * After flow completion, "orphan" browser tabs may remain. They do not directly impact the flow, but can be regarded as unnecessary "clutter".
 
-## Note - App2Web across trust domains
-~~~ aasvg
-{::include art/app2web-w-brokers-2.ascii-art}
-~~~
-{: #app2web-w-brokers title="App2Web across trust domains" }
-
-When end-user's device has **no app** claiming *User-Interacting Authorization Server's* urls, the browser MUST be used to interact with end-user for authentication and authorization.
-
-This is the case when:
-
-* No native app is offered by *User-Interacting Authorization Server*.
-* Or such an app is offered, but is not installed on the end-user's device.
-
-In such case the flow is as described in "OAuth 2.0 for Native Apps" {{RFC8252}} and is therefore not discussed further in this document.
-
 ## Relation to {{OpenID.Native-SSO}}
 
 {{OpenID.Native-SSO}} also offers a native SSO flow across apps. However, it is limited to apps:
@@ -375,10 +360,7 @@ It MAY return:
 
 ### Client App processes the response
 
-*Client App* SHALL terminate the protocol flow if an error response is obtained, or an HTTP 2xx response other than a *Routing Instructions Response*, or if it does not support a *Routing Instructions Response* it has obtained. *Client App* may recover in such case by launching a new normal authorization request using the browser.
-
-Note - Failure because an HTTP 2xx response other than a *Routing Instructions Response* was obtained, suggests the *User-Interacting App* is not installed on end-user's device.
-*Client App* MAY choose to retry in future the *browser-less App2App* to benefit if in the meantime the missing app has been installed.
+*Client App* SHALL terminate the protocol flow if an error response is obtained, or an HTTP 2xx response other than a *Routing Instructions Response*, or if it does not support a *Routing Instructions Response* it has obtained.
 
 If a supported *Routing Instructions Response* was obtained, *Client App* interacts with end-user and provides their response to *Authorization Server*.
 
@@ -420,9 +402,28 @@ The *User-Interacting Authorization Server's* app handles the native authorizati
 
 ### Client App obtains response
 
-Once *Client App's* own redirect_uri is reached, the traversal of *Authorization Servers* is complete.
+Once *Client App's* own redirect_uri is reached, the traversal of *Authorization Servers* is complete and *Client App* proceeds to process the response:
 
-*Client App* proceeds to exchange code for tokens, or handle error responses.
+* Exchange code for tokens.
+* Or handle errors obtained.
+
+### Recovery from failed native App2App flows
+
+~~~ aasvg
+{::include art/app2web-w-brokers-2.ascii-art}
+~~~
+{: #app2web-w-brokers title="App2Web using the browser" }
+
+The *Native App2App flow* described in this document MAY fail when:
+
+* An error response is obtained.
+* *Client App* doesn't support an obtained *Routing Instructions Response*.
+* An HTTP 2xx response other than a *Routing Instructions Response* is obtained.
+
+In case of such failures, *Client App* MAY recover by launching a new (non-native) authorization request on a web browser, in accordance with "OAuth 2.0 for Native Apps" {{RFC8252}}.
+
+Note - Failure because an HTTP 2xx response, other than a *Routing Instructions Response* was obtained, suggests the *User-Interacting App* is not installed on end-user's device.
+*Client App* MAY choose in future to retry the *Native App2App* flow, to benefit if in the meantime the missing app has been installed.
 
 # Detecting Presence of Native Apps claiming Urls
 
@@ -507,7 +508,7 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
 
 -latest
 * removed error native_callback_uri_not_claimed
-* Added Routing Options Response
+* Added Routing Instructions Response
 * Added native_authorization_endpoint and matching AS profile
 * Added Authorization Details Type as container for native_callback_uri
 
