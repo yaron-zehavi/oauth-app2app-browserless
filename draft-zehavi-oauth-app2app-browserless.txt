@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                             Raiffeisen Bank International
-Intended status: Standards Track                            29 July 2025
-Expires: 30 January 2026
+Intended status: Standards Track                            30 July 2025
+Expires: 31 January 2026
 
 
                   OAuth 2.0 App2App Browser-less Flow
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 January 2026.
+   This Internet-Draft will expire on 31 January 2026.
 
 Copyright Notice
 
@@ -539,10 +539,15 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
 3.7.3.  Client App processes the response
 
-   _Client App_ SHALL terminate the protocol flow if an error response
-   is obtained, or an HTTP 2xx response other than a _Routing
-   Instructions Response_, or if it does not support a _Routing
-   Instructions Response_ it has obtained.
+   _Client App_ SHALL terminate the protocol flow if it obtains:
+
+   *  An error response.
+
+   *  Or an HTTP 2xx response other than a _Routing Instructions
+      Response_.
+
+   *  A _Routing Instructions Response_, in case _Client App_ does not
+      support it.
 
    If a _Routing Instructions Response_ was obtained and is supported,
    _Client App_ interacts with end-user and provides their response to
