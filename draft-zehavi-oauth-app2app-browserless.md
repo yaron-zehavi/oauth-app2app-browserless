@@ -360,7 +360,11 @@ It MAY return:
 
 ### Client App processes the response
 
-*Client App* SHALL terminate the protocol flow if an error response is obtained, or an HTTP 2xx response other than a *Routing Instructions Response*, or if it does not support a *Routing Instructions Response* it has obtained.
+*Client App* SHALL terminate the protocol flow if it obtains:
+
+* An error response.
+* Or an HTTP 2xx response other than a *Routing Instructions Response*.
+* A *Routing Instructions Response*, in case *Client App*  does not support it.
 
 If a *Routing Instructions Response* was obtained and is supported, *Client App* interacts with end-user and provides their response to *Authorization Server*.
 
