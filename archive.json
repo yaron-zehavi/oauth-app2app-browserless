@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-29T01:55:03.184175+00:00",
+  "timestamp": "2025-07-31T01:44:47.939541+00:00",
   "repo": "yaron-zehavi/oauth-app2app-browserless",
   "labels": [
     {
@@ -128,6 +128,54 @@
       "createdAt": "2025-07-27T22:09:49Z",
       "updatedAt": "2025-07-28T21:31:41Z",
       "closedAt": "2025-07-28T21:31:41Z",
+      "comments": []
+    },
+    {
+      "number": 8,
+      "id": "I_kwDOOlAD9M7DJsF1",
+      "title": "Reword App2Web",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/8",
+      "state": "CLOSED",
+      "author": "yaron-zehavi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Will it happen directly or as fallback?",
+      "createdAt": "2025-07-29T15:36:29Z",
+      "updatedAt": "2025-07-29T21:35:17Z",
+      "closedAt": "2025-07-29T21:35:17Z",
+      "comments": []
+    },
+    {
+      "number": 9,
+      "id": "I_kwDOOlAD9M7DJuM_",
+      "title": "Routing app in the middle",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/9",
+      "state": "OPEN",
+      "author": "yaron-zehavi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "- Will be invoked\n- Can route forward, but Client App will reject the url as not in allowList\n- Solution is that native_authorization_endpoint shall return a JSON response indicating HTTP or native call\n\nIf AS offers an app which MAY be invoked for routing:\n- It needs to first offer a routing options response\n- Based on end-user's response decide if app should be invoked (as final AS), or skip to next hop",
+      "createdAt": "2025-07-29T15:39:17Z",
+      "updatedAt": "2025-07-29T15:39:17Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOOlAD9M7DJvv0",
+      "title": "Reword protocol flow to include routing options",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/10",
+      "state": "CLOSED",
+      "author": "yaron-zehavi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-07-29T15:41:26Z",
+      "updatedAt": "2025-07-29T19:26:13Z",
+      "closedAt": "2025-07-29T19:26:13Z",
       "comments": []
     }
   ],
