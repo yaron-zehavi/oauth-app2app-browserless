@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                             Raiffeisen Bank International
-Intended status: Standards Track                            30 July 2025
-Expires: 31 January 2026
+Intended status: Standards Track                           1 August 2025
+Expires: 2 February 2026
 
 
                   OAuth 2.0 App2App Browser-less Flow
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 January 2026.
+   This Internet-Draft will expire on 2 February 2026.
 
 Copyright Notice
 
@@ -100,11 +100,9 @@ Table of Contents
      5.1.  Embedded User Agents
      5.2.  Open redirection by Authorization Server's User-Interacting
            App
-     5.3.  OAuth request forgery and manipulation
-     5.4.  Secure Native application communication
-     5.5.  Deep link hijacking
-     5.6.  Open redirection by Client App
-     5.7.  Authorization code theft and injection
+     5.3.  Open redirection by Client App
+     5.4.  Deep link hijacking
+     5.5.  Authorization code theft and injection
    6.  IANA Considerations
    7.  References
      7.1.  Normative References
@@ -729,30 +727,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    *  Inspect Client's metadata for redirect_uri's and validate
       *native_callback_uri* is included.
 
-5.3.  OAuth request forgery and manipulation
-
-   It is RECOMMENDED that _Client App_ acts as a confidential OAuth
-   client.
-
-5.4.  Secure Native application communication
-
-   If _Client App_ uses a Backend it is RECOMMENDED to communicate with
-   it securely:
-
-   *  Use TLS in up to date versions and ciphers.
-
-   *  Use DNSSEC.
-
-   *  Perform certificate pinning.
-
-5.5.  Deep link hijacking
-
-   It is RECOMMENDED that all apps in this specification shall use
-   https-scheme deep links (Android App Links / iOS universal links).
-   Apps SHOULD implement the most specific package identifiers
-   mitigating deep link hijacking by malicious apps.
-
-5.6.  Open redirection by Client App
+5.3.  Open redirection by Client App
 
    Client App SHALL construct an Allowlist of DNS domains it traverses
    while processing the request, used to enforce all urls it later
@@ -767,7 +742,14 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    It is RECOMMENDED _Client App_ allows only one OAuth request
    processing at a time.
 
-5.7.  Authorization code theft and injection
+5.4.  Deep link hijacking
+
+   It is RECOMMENDED that all apps in this specification shall use
+   https-scheme deep links (Android App Links / iOS universal links).
+   Apps SHOULD implement the most specific package identifiers
+   mitigating deep link hijacking by malicious apps.
+
+5.5.  Authorization code theft and injection
 
    It is RECOMMENDED that PKCE is used and that the code_verifier is
    tied to the _Client App_ instance, as mitigation to authorization
