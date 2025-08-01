@@ -463,10 +463,6 @@ For example purposes, one way to validate could leverage {{OpenID.Federation}}:
 * Add the url path /.well-known/openid-federation and perform trust chain resolution.
 * Inspect Client's metadata for redirect_uri's and validate **native_callback_uri** is included.
 
-## Deep link hijacking
-
-It is RECOMMENDED that all apps in this specification shall use https-scheme deep links (Android App Links / iOS universal links). Apps SHOULD implement the most specific package identifiers mitigating deep link hijacking by malicious apps.
-
 ## Open redirection by Client App
 
 Client App SHALL construct an Allowlist of DNS domains it traverses while processing the request, used to enforce all urls it later traverses during response processing.
@@ -476,6 +472,10 @@ In addition *Client App* MUST ignore any invocation for response processing whic
 It is RECOMMENDED the Allowlist be managed as a single-use object, destructed after each protocol flow ends.
 
 It is RECOMMENDED *Client App* allows only one OAuth request processing at a time.
+
+## Deep link hijacking
+
+It is RECOMMENDED that all apps in this specification shall use https-scheme deep links (Android App Links / iOS universal links). Apps SHOULD implement the most specific package identifiers mitigating deep link hijacking by malicious apps.
 
 ## Authorization code theft and injection
 
