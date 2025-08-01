@@ -463,18 +463,6 @@ For example purposes, one way to validate could leverage {{OpenID.Federation}}:
 * Add the url path /.well-known/openid-federation and perform trust chain resolution.
 * Inspect Client's metadata for redirect_uri's and validate **native_callback_uri** is included.
 
-## OAuth request forgery and manipulation
-
-It is RECOMMENDED that *Client App* acts as a confidential OAuth client.
-
-## Secure Native application communication
-
-If *Client App* uses a Backend it is RECOMMENDED to communicate with it securely:
-
-* Use TLS in up to date versions and ciphers.
-* Use DNSSEC.
-* Perform certificate pinning.
-
 ## Deep link hijacking
 
 It is RECOMMENDED that all apps in this specification shall use https-scheme deep links (Android App Links / iOS universal links). Apps SHOULD implement the most specific package identifiers mitigating deep link hijacking by malicious apps.
