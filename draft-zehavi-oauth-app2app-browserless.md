@@ -202,7 +202,7 @@ An OAuth authorization endpoint, interoperable with all OAuth RFCs but with the 
 
 ### Native Authorization Request
 
-This is an OAuth authorization code flow request, interoperable with all OAuth RFCs. 
+This is an OAuth authorization code flow request, interoperable with all OAuth RFCs.
 In addition, it accepts the follwing parameter:
 
 **native_callback_uri**:
