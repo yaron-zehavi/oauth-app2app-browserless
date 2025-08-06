@@ -151,9 +151,6 @@ the following terms:
 "Deep Link":
 : A url claimed by a native application.
 
-"Native Callback uri":
-: *Client App's* redirect_uri, claimed as a deep link. This deep link is invoked by *User-Interacting App* to natively return to *Client App*.
-
 # Protocol Overview
 
 ## Protocol Flow
@@ -172,7 +169,29 @@ the following terms:
 - (8) *Client App* calls any subsequent uri obtained as 30x redirect directive, until it reaches a location header to its own redirect_uri.
 - (9) *Client App* exchanges code for tokens and the flow is complete.
 
-## Native App2App Profile
+## Authorization Server Metadata
+
+This document introduces the following authorization server metadata {{RFC8414}} parameter to indicate it supports the *Native App2App Profile*.
+
+**native_authorization_endpoint**:
+: URL of the authorization server's native authorization endpoint.
+
+## native_authorization_endpoint
+
+OAuth authorization_endpoint, interoperable with all OAuth RFCs but acting as a REST API:
+
+* Does not use cookies.
+* Returns Content-Type application/json and a JSON body.
+* Does not return HTTP 30x redirects.
+
+### Native Authorization Request
+
+This is an OAuth authorization code flow request, interoperable with all OAuth RFCs.
+In addition, it accepts the follwing parameter:
+**native_callback_uri**:
+: *Client App's* redirect_uri, claimed as a deep link and invoked by *User-Interacting App* to natively return to *Client App*.
+
+### Native App2App Profile
 
 *Authorization servers* providing a **native_authorization_endpoint** MUST follow the **Native App2App Profile's** requirements:
 
@@ -182,7 +201,32 @@ the following terms:
 * Avoid challenging end-user with bot-detection such as CAPTCHAs when invoked without cookies.
 * MAY provide *Routing Instructions Response*.
 
-## Routing Instructions Response
+### Native Authorization Response
+
+The response instructs *Client App* how to proceed:
+
+* Call the native_authorization_endpoint of a *Downstream Authorization Server*:
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "method": "HTTP",
+        "verb": "GET",
+        "url": "uri of native authorization request for *Downstream Authorization Server*",
+    }
+
+* Or natively invoke a *User-Interacting App* if present on the device:
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "method": "native",
+        "url": "uri of native authorization request handled by *User-Interacting App* if present on the device",
+    }
+
+### Native Authorization Routing Instructions Response
 
 *Authorization servers* supporting the *Native App2App profile*, but requiring end-user input to guide request routing, MAY provide a *Routing Instructions Response*.
 
@@ -353,13 +397,6 @@ Once *Client App's* own redirect_uri is reached, the traversal of *Authorization
 This specification MUST NOT be used when *Client App* detects *Initial Authorization Server's* url is claimed by an app on the device.
 
 In such case *Client App* SHOULD natively invoke the authorization request url.
-
-## Authorization Server Metadata
-
-This document introduces the following authorization server metadata {{RFC8414}} parameter to indicate it supports the *Native App2App Profile*.
-
-**native_authorization_endpoint**:
-: URL of the authorization server's native authorization endpoint.
 
 ## Detecting Presence of Native Apps claiming Urls
 
