@@ -120,8 +120,8 @@ This document specifies:
 ~~~
 {: #app2app-browserless-w-brokers title="Browser-less App2App across trust domains" }
 
-- (1) *Client App* presents an authorization request to *Authorization Server's* **native_authorization_endpoint**, including the *native_callback_uri* *Authorization Details Type*.
-- (2) *Authorization Server* returns either a *native authorization request url* for Downstream Authorization Server which includes the original **native_callback_uri** Authorization Details, or a **Routing Instructions Response**.
+- (1) *Client App* presents an authorization request to *Authorization Server's* **native_authorization_endpoint**, including a *native_callback_uri*.
+- (2) *Authorization Server* returns either a *native authorization request url* for Downstream Authorization Server which includes the original **native_callback_uri**, or a **Routing Instructions Response**.
 - (3) *Client App* handles obtained *Routing Instructions Response* by prompting end-user and providing their response to *Authorization Server*, which then responds with a *native authorization request url*. *Client App* handles obtained *native authorization request urls* by seeking an app on the device claiming the url. If not found, *Client App* loops through invocations of obtained *native authorization request urls*, until a claimed url is reached.
 - (4) Once a claimed url is reached *Client App* natively invokes *User-Interacting App*.
 - (5) *User-Interacting App* authenticates end-user and authorizes the request.
@@ -129,40 +129,6 @@ This document specifies:
 - (7) *Client App* invokes the obtained *redirect_uri*.
 - (8) *Client App* calls any subsequent uri obtained as 30x redirect directive, until it reaches a location header to its own redirect_uri.
 - (9) *Client App* exchanges code for tokens and the flow is complete.
-
-# Overview
-
-## App2App across trust domains requires a web browser
-
-~~~ aasvg
-{::include art/app2app-w-brokers-and-browser-2.ascii-art}
-~~~
-{: #app2app-w-brokers-and-browser title="App2App across trust domains using browser" }
-
-Since no native app claims the urls of redirecting Authorization Servers (*OAuth Brokers*), mobile Operating Systems default to using the system browser as the User Agent.
-
-## Impact of using a web browser
-
-Using a web browser may degrade the user experience in several ways:
-
-* Some browser's support for deep links is limited by design, or by the settings used.
-* Browsers may prompt end-user for consent before opening apps claiming deep links, introducing additional friction.
-* Browsers are noticeable by end-users, rendering the UX less smooth.
-* Client app developers don't control which browser the *User-Interacting App* uses to provide its response to redirect_uri. Opinionated choices pose a risk that different browsers will use, making necessary cookies used to bind session identifiers to the user agent (nonce, state or PKCE verifier) unavailable, which may break the flow.
-* After flow completion, "orphan" browser tabs may remain. They do not directly impact the flow, but can be regarded as unnecessary "clutter".
-
-## Relation to {{OpenID.Native-SSO}}
-
-{{OpenID.Native-SSO}} also offers a native SSO flow across apps. However, it is limited to apps:
-
-* Published by the same issuer, therefore can securely share information.
-* Using the same Authorization Server.
-
-## Relation to {{OAuth.First-Party}}
-
-{{OAuth.First-Party}} also deals with native apps, but it MUST only be used by first-party applications, which is when the authorization server and application are controlled by the same entity, which is not true in the case described in this document.
-
-While this document also discusses a mechanism for *Authorization Servers* to guide *Client App* in obtaining user's input to guide routing the request across trust domains, the {{OAuth.First-Party}} required high degree of trust between the authorization server and the client is not fulfilled.
 
 # Conventions and Definitions
 
@@ -210,8 +176,7 @@ the following terms:
 
 *Authorization servers* providing a **native_authorization_endpoint** MUST follow the **Native App2App Profile's** requirements:
 
-* Accept the {{RFC9396}} Authorization Details Type: **https://scheme.example.org/native_callback_uri**.
-* Forward the Authorization Details Type to *Downstream Authorization Servers*.
+* Accept the **native_callback_uri** parameter and forward it to *Downstream Authorization Servers*.
 * Ensure *Downstream Authorization Servers* it federates to, support the *Native App2App profile*, otherwise return error=native_app2app_unsupported.
 * Redirect using HTTP 30x (avoid redirecting using HTTP Form Post or scripts embedded in HTML).
 * Avoid challenging end-user with bot-detection such as CAPTCHAs when invoked without cookies.
@@ -465,6 +430,40 @@ It is RECOMMENDED that all apps in this specification shall use https-scheme dee
 ## Authorization code theft and injection
 
 It is RECOMMENDED that PKCE is used and that the code_verifier is tied to the *Client App* instance, as mitigation to authorization code theft and injection attacks.
+
+# Background and Overview
+
+## App2App across trust domains requires a web browser
+
+~~~ aasvg
+{::include art/app2app-w-brokers-and-browser-2.ascii-art}
+~~~
+{: #app2app-w-brokers-and-browser title="App2App across trust domains using browser" }
+
+Since no native app claims the urls of redirecting Authorization Servers (*OAuth Brokers*), mobile Operating Systems default to using the system browser as the User Agent.
+
+## Impact of using a web browser
+
+Using a web browser may degrade the user experience in several ways:
+
+* Some browser's support for deep links is limited by design, or by the settings used.
+* Browsers may prompt end-user for consent before opening apps claiming deep links, introducing additional friction.
+* Browsers are noticeable by end-users, rendering the UX less smooth.
+* Client app developers don't control which browser the *User-Interacting App* uses to provide its response to redirect_uri. Opinionated choices pose a risk that different browsers will use, making necessary cookies used to bind session identifiers to the user agent (nonce, state or PKCE verifier) unavailable, which may break the flow.
+* After flow completion, "orphan" browser tabs may remain. They do not directly impact the flow, but can be regarded as unnecessary "clutter".
+
+## Relation to {{OpenID.Native-SSO}}
+
+{{OpenID.Native-SSO}} also offers a native SSO flow across apps. However, it is limited to apps:
+
+* Published by the same issuer, therefore can securely share information.
+* Using the same Authorization Server.
+
+## Relation to {{OAuth.First-Party}}
+
+{{OAuth.First-Party}} also deals with native apps, but it MUST only be used by first-party applications, which is when the authorization server and application are controlled by the same entity, which is not true in the case described in this document.
+
+While this document also discusses a mechanism for *Authorization Servers* to guide *Client App* in obtaining user's input to guide routing the request across trust domains, the {{OAuth.First-Party}} required high degree of trust between the authorization server and the client is not fulfilled.
 
 # IANA Considerations
 
