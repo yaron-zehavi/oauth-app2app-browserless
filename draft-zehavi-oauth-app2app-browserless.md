@@ -206,19 +206,6 @@ the following terms:
 
 # Protocol Overview
 
-## Usage and Applicability
-
-This specification MUST NOT be used when *Client App* detects *Initial Authorization Server's* url is claimed by an app on the device.
-
-In such case *Client App* SHOULD natively invoke the authorization request url.
-
-## Authorization Server Metadata
-
-This document introduces the following authorization server metadata {{RFC8414}} parameter to indicate it supports the *Native App2App Profile*.
-
-**native_authorization_endpoint**:
-: URL of the authorization server's native authorization endpoint.
-
 ## Native App2App Profile
 
 *Authorization servers* providing a **native_authorization_endpoint** MUST follow the **Native App2App Profile's** requirements:
@@ -394,7 +381,36 @@ Once *Client App's* own redirect_uri is reached, the traversal of *Authorization
 * Exchange code for tokens.
 * Or handle errors obtained.
 
-### Recovery from failed native App2App flows
+# Implementation Considerations
+
+## Usage and Applicability
+
+This specification MUST NOT be used when *Client App* detects *Initial Authorization Server's* url is claimed by an app on the device.
+
+In such case *Client App* SHOULD natively invoke the authorization request url.
+
+## Authorization Server Metadata
+
+This document introduces the following authorization server metadata {{RFC8414}} parameter to indicate it supports the *Native App2App Profile*.
+
+**native_authorization_endpoint**:
+: URL of the authorization server's native authorization endpoint.
+
+## Detecting Presence of Native Apps claiming Urls
+
+Native Apps on iOS and Android MAY use OS SDK's to detect if an app owns a url.
+The general method is the same - App calls an SDK to open the url as deep link and handles an exception thrown if no matching app is found.
+
+### Android
+
+App SHALL invoke Android {{android.method.intent}} method with FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws ActivityNotFoundException if no matching app is found.
+
+### iOS
+
+App SHALL invoke iOS {{iOS.method.openUrl}} method with options {{iOS.option.universalLinksOnly}} which ensures URLs must be universal links and have an app configured to open them.
+Otherwise the method returns false in completion.success.
+
+## Recovery from failed native App2App flows
 
 ~~~ aasvg
 {::include art/app2web-w-brokers-2.ascii-art}
@@ -404,27 +420,11 @@ Once *Client App's* own redirect_uri is reached, the traversal of *Authorization
 The *Native App2App flow* described in this document MAY fail when:
 
 * An error response is obtained.
-* *Client App* doesn't support an obtained *Routing Instructions Response*.
-* An HTTP 2xx response other than a *Routing Instructions Response* is obtained.
+* Required *User-Interacting App* is not installed on end-user's device.
 
-In case of such failures, *Client App* MAY recover by launching a new (non-native) authorization request on a web browser, in accordance with "OAuth 2.0 for Native Apps" {{RFC8252}}.
+*Client App* MAY recover by launching a new (non-native) authorization request on a web browser, in accordance with "OAuth 2.0 for Native Apps" {{RFC8252}}.
 
-Note - Failure because an HTTP 2xx response, other than a *Routing Instructions Response* was obtained, suggests the *User-Interacting App* is not installed on end-user's device.
-*Client App* MAY choose in future to retry the *Native App2App* flow, to benefit if in the meantime the missing app has been installed.
-
-# Detecting Presence of Native Apps claiming Urls
-
-Native Apps on iOS and Android MAY use OS SDK's to detect if an app owns a url.
-The general method is the same - App calls an SDK to open the url as deep link and handles an exception thrown if no matching app is found.
-
-## Android
-
-App SHALL invoke Android {{android.method.intent}} method with FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws ActivityNotFoundException if no matching app is found.
-
-## iOS
-
-App SHALL invoke iOS {{iOS.method.openUrl}} method with options {{iOS.option.universalLinksOnly}} which ensures URLs must be universal links and have an app configured to open them.
-Otherwise the method returns false in completion.success.
+Note - Failure because *User-Interacting App* is not installed on end-user's device, might succeed in future, if the missing app has been installed. *Client App* MAY choose if and when to retry the *Native App2App flow* after such a failure.
 
 # Security Considerations
 
