@@ -74,8 +74,12 @@ Table of Contents
      2.1.  Terminology
    3.  Protocol Overview
      3.1.  Protocol Flow
-     3.2.  Native App2App Profile
-     3.3.  Routing Instructions Response
+     3.2.  Authorization Server Metadata
+     3.3.  native_authorization_endpoint
+       3.3.1.  Native Authorization Request
+       3.3.2.  Native App2App Profile
+       3.3.3.  Native Authorization Response
+       3.3.4.  Native Authorization Routing Instructions Response
      3.4.  Protocol Flow
        3.4.1.  Client App calls Authorization Server
        3.4.2.  Authorization Server
@@ -87,11 +91,10 @@ Table of Contents
        3.4.6.  Client App obtains response
    4.  Implementation Considerations
      4.1.  Usage and Applicability
-     4.2.  Authorization Server Metadata
-     4.3.  Detecting Presence of Native Apps claiming Urls
-       4.3.1.  Android
-       4.3.2.  iOS
-     4.4.  Recovery from failed native App2App flows
+     4.2.  Detecting Presence of Native Apps claiming Urls
+       4.2.1.  Android
+       4.2.2.  iOS
+     4.3.  Recovery from failed native App2App flows
    5.  Security Considerations
      5.1.  Embedded User Agents
      5.2.  Open redirection by Authorization Server's User-Interacting
@@ -190,10 +193,6 @@ Table of Contents
 
    "Deep Link":  A url claimed by a native application.
 
-   "Native Callback uri":  _Client App's_ redirect_uri, claimed as a
-      deep link.  This deep link is invoked by _User-Interacting App_ to
-      natively return to _Client App_.
-
 3.  Protocol Overview
 
 3.1.  Protocol Flow
@@ -259,7 +258,38 @@ Table of Contents
    *  (9) _Client App_ exchanges code for tokens and the flow is
       complete.
 
-3.2.  Native App2App Profile
+3.2.  Authorization Server Metadata
+
+   This document introduces the following authorization server metadata
+   [RFC8414] parameter to indicate it supports the _Native App2App
+   Profile_.
+
+   *native_authorization_endpoint*:  URL of the authorization server's
+      native authorization endpoint.
+
+3.3.  native_authorization_endpoint
+
+   OAuth authorization_endpoint, interoperable with all OAuth RFCs but
+   acting as a REST API:
+
+   *  Does not use cookies.
+
+   *  Returns Content-Type application/json and a JSON body.
+
+   *  Does not return HTTP 30x redirects.
+
+3.3.1.  Native Authorization Request
+
+   This is an OAuth authorization code flow request, interoperable
+   with all OAuth RFCs.
+
+   In addition, it accepts the follwing parameter:
+
+   *native_callback_uri*:  _Client App's_ redirect_uri, claimed as a
+      deep link and invoked by _User-Interacting App_ to natively return
+      to _Client App_.
+
+3.3.2.  Native App2App Profile
 
    _Authorization servers_ providing a *native_authorization_endpoint*
    MUST follow the *Native App2App Profile's* requirements:
@@ -279,7 +309,27 @@ Table of Contents
 
    *  MAY provide _Routing Instructions Response_.
 
-3.3.  Routing Instructions Response
+3.3.3.  Native Authorization Response
+
+   The response instructs _Client App_ how to proceed:
+
+   *  Call the native_authorization_endpoint of a _Downstream
+      Authorization Server_:
+
+      HTTP/1.1 200 OK Content-Type: application/json
+
+      { "method": "HTTP", "verb": "GET", "url": "uri of native
+      authorization request for _Downstream Authorization Server_", }
+
+   *  Or natively invoke a _User-Interacting App_ if present on the
+      device:
+
+      HTTP/1.1 200 OK Content-Type: application/json
+
+      { "method": "native", "url": "uri of native authorization request
+      handled by _User-Interacting App_ if present on the device", }
+
+3.3.4.  Native Authorization Routing Instructions Response
 
    _Authorization servers_ supporting the _Native App2App profile_, but
    requiring end-user input to guide request routing, MAY provide a
@@ -512,36 +562,27 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    In such case _Client App_ SHOULD natively invoke the authorization
    request url.
 
-4.2.  Authorization Server Metadata
-
-   This document introduces the following authorization server metadata
-   [RFC8414] parameter to indicate it supports the _Native App2App
-   Profile_.
-
-   *native_authorization_endpoint*:  URL of the authorization server's
-      native authorization endpoint.
-
-4.3.  Detecting Presence of Native Apps claiming Urls
+4.2.  Detecting Presence of Native Apps claiming Urls
 
    Native Apps on iOS and Android MAY use OS SDK's to detect if an app
    owns a url.  The general method is the same - App calls an SDK to
    open the url as deep link and handles an exception thrown if no
    matching app is found.
 
-4.3.1.  Android
+4.2.1.  Android
 
    App SHALL invoke Android [android.method.intent] method with
    FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws
    ActivityNotFoundException if no matching app is found.
 
-4.3.2.  iOS
+4.2.2.  iOS
 
    App SHALL invoke iOS [iOS.method.openUrl] method with options
    [iOS.option.universalLinksOnly] which ensures URLs must be universal
    links and have an app configured to open them.  Otherwise the method
    returns false in completion.success.
 
-4.4.  Recovery from failed native App2App flows
+4.3.  Recovery from failed native App2App flows
 
 +---------------------------------------------------------------------------------------------+
 | +-----------+                                                                               |
