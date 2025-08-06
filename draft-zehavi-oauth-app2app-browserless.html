@@ -1164,7 +1164,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-protocol-overview" class="internal xref">Protocol Overview</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-protocol-flow" class="internal xref">Protocol Flow</a></p>
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-general-flow" class="internal xref">General Flow</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-authorization-server-metada" class="internal xref">Authorization Server Metadata</a></p>
@@ -1173,10 +1173,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-native_authorization_endpoi" class="internal xref">native_authorization_endpoint</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.1">
-                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-native-authorization-reques" class="internal xref">Native Authorization Request</a></p>
+                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-native-app2app-profile" class="internal xref">Native App2App Profile</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.2">
-                    <p id="section-toc.1-1.3.2.3.2.2.1"><a href="#section-3.3.2" class="auto internal xref">3.3.2</a>.  <a href="#name-native-app2app-profile" class="internal xref">Native App2App Profile</a></p>
+                    <p id="section-toc.1-1.3.2.3.2.2.1"><a href="#section-3.3.2" class="auto internal xref">3.3.2</a>.  <a href="#name-native-authorization-reques" class="internal xref">Native Authorization Request</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.3">
                     <p id="section-toc.1-1.3.2.3.2.3.1"><a href="#section-3.3.3" class="auto internal xref">3.3.3</a>.  <a href="#name-native-authorization-respon" class="internal xref">Native Authorization Response</a></p>
@@ -1187,7 +1187,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-protocol-flow-2" class="internal xref">Protocol Flow</a></p>
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-protocol-flow" class="internal xref">Protocol Flow</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4.2.1">
                     <p id="section-toc.1-1.3.2.4.2.1.1"><a href="#section-3.4.1" class="auto internal xref">3.4.1</a>.  <a href="#name-client-app-calls-authorizat" class="internal xref">Client App calls Authorization Server</a></p>
@@ -1394,10 +1394,10 @@ to prevent various attacks on OAuth authorization codes.<a href="#section-2.1-2.
       <h2 id="name-protocol-overview">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-protocol-overview" class="section-name selfRef">Protocol Overview</a>
       </h2>
-<div id="protocol-flow">
+<div id="general-flow">
 <section id="section-3.1">
-        <h3 id="name-protocol-flow">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-protocol-flow" class="section-name selfRef">Protocol Flow</a>
+        <h3 id="name-general-flow">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-general-flow" class="section-name selfRef">General Flow</a>
         </h3>
 <span id="name-browser-less-app2app-across"></span><div id="app2app-browserless-w-brokers">
 <figure id="figure-1">
@@ -1481,10 +1481,32 @@ to prevent various attacks on OAuth authorization codes.<a href="#section-2.1-2.
             <p id="section-3.1-2.1.1">(1) <em>Client App</em> presents an authorization request to <em>Authorization Server's</em> <strong>native_authorization_endpoint</strong>, including a <em>native_callback_uri</em>.<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.2">
-            <p id="section-3.1-2.2.1">(2) <em>Authorization Server</em> returns either a <em>native authorization request url</em> for Downstream Authorization Server which includes the original <strong>native_callback_uri</strong>, or a <strong>Routing Instructions Response</strong>.<a href="#section-3.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.2.1">(2) <em>Authorization Server</em> returns either:<a href="#section-3.1-2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.1-2.2.2.1">
+                <p id="section-3.1-2.2.2.1.1">A <em>native authorization request url</em> for <em>Downstream Authorization Server</em>.<a href="#section-3.1-2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.1-2.2.2.2">
+                <p id="section-3.1-2.2.2.2.1">A <strong>Routing Instructions Response</strong>.<a href="#section-3.1-2.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.1-2.2.2.3">
+                <p id="section-3.1-2.2.2.3.1">A url to natively invoke using a <em>User-Interacting App</em>, if present.<a href="#section-3.1-2.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-3.1-2.3">
-            <p id="section-3.1-2.3.1">(3) <em>Client App</em> handles obtained <em>Routing Instructions Response</em> by prompting end-user and providing their response to <em>Authorization Server</em>, which then responds with a <em>native authorization request url</em>. <em>Client App</em> handles obtained <em>native authorization request urls</em> by seeking an app on the device claiming the url. If not found, <em>Client App</em> loops through invocations of obtained <em>native authorization request urls</em>, until a claimed url is reached.<a href="#section-3.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.3.1">(3) <em>Client App</em> handles:<a href="#section-3.1-2.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.1-2.3.2.1">
+                <p id="section-3.1-2.3.2.1.1">A <em>Routing Instructions Response</em> by prompting end-user and providing their input to <em>Authorization Server</em>.<a href="#section-3.1-2.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.1-2.3.2.2">
+                <p id="section-3.1-2.3.2.2.1">A <em>native authorization request url</em> for <em>Downstream Authorization Server</em> by calling it. As long as such responses are obtained, the urls provided are invoked in a loop, until reaching a url to natively invoke using a <em>User-Interacting App</em>.<a href="#section-3.1-2.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.1-2.3.2.3">
+                <p id="section-3.1-2.3.2.3.1">A url to natively invoke using a <em>User-Interacting App</em>, by seeking an app claiming the url and invoking it.<a href="#section-3.1-2.3.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-3.1-2.4">
             <p id="section-3.1-2.4.1">(4) Once a claimed url is reached <em>Client App</em> natively invokes <em>User-Interacting App</em>.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
@@ -1528,66 +1550,55 @@ to prevent various attacks on OAuth authorization codes.<a href="#section-2.1-2.
         <h3 id="name-native_authorization_endpoi">
 <a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-native_authorization_endpoi" class="section-name selfRef">native_authorization_endpoint</a>
         </h3>
-<p id="section-3.3-1">OAuth authorization_endpoint, interoperable with all OAuth RFCs but acting as a REST API:<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-1">An OAuth authorization endpoint, interoperable with all OAuth RFCs but with the following modifications, in alignment with common REST APIs:<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3-2.1">
-            <p id="section-3.3-2.1.1">Does not use cookies.<a href="#section-3.3-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.1.1"><span class="bcp14">SHALL NOT</span> use cookies.<a href="#section-3.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-2.2">
-            <p id="section-3.3-2.2.1">Returns Content-Type application/json and a JSON body.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.2.1"><span class="bcp14">SHALL</span> return Content-Type application/json header and a JSON body.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-2.3">
-            <p id="section-3.3-2.3.1">Does not return HTTP 30x redirects.<a href="#section-3.3-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.3.1"><span class="bcp14">SHALL NOT</span> return HTTP 30x redirects.<a href="#section-3.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.3-2.4">
+            <p id="section-3.3-2.4.1"><span class="bcp14">SHALL NOT</span> respond with bot-detection challenges such as CAPTCHAs.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<div id="native-authorization-request">
+<div id="native-app2app-profile">
 <section id="section-3.3.1">
-          <h4 id="name-native-authorization-reques">
-<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-native-authorization-reques" class="section-name selfRef">Native Authorization Request</a>
+          <h4 id="name-native-app2app-profile">
+<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-native-app2app-profile" class="section-name selfRef">Native App2App Profile</a>
           </h4>
-<span class="break"></span><dl class="dlParallel" id="section-3.3.1-1">
-            <dt id="section-3.3.1-1.1">This is an OAuth authorization code flow request, interoperable with all OAuth RFCs.</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-1.2">
-              <p id="section-3.3.1-1.2.1"></p><a href="#section-3.3.1-1.2" class="pilcrow">¶</a>
-</dd>
-            <dd class="break"></dd>
-<dt id="section-3.3.1-1.3">In addition, it accepts the follwing parameter:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-1.4">
-              <p id="section-3.3.1-1.4.1"></p><a href="#section-3.3.1-1.4" class="pilcrow">¶</a>
-</dd>
-            <dd class="break"></dd>
-<dt id="section-3.3.1-1.5">
+<p id="section-3.3.1-1"><em>Authorization servers</em> providing a <strong>native_authorization_endpoint</strong> <span class="bcp14">MUST</span> follow the <strong>Native App2App Profile's</strong> requirements:<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3.1-2.1">
+              <p id="section-3.3.1-2.1.1">Accept the <strong>native_callback_uri</strong> parameter and forward it to <em>Downstream Authorization Servers</em>.<a href="#section-3.3.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-3.3.1-2.2">
+              <p id="section-3.3.1-2.2.1">Ensure <em>Downstream Authorization Servers</em> it federates to, offer a <em>native_authorization_endpoint</em>, otherwise return error=native_app2app_unsupported.<a href="#section-3.3.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-3.3.1-2.3">
+              <p id="section-3.3.1-2.3.1"><span class="bcp14">MAY</span> provide <em>Routing Instructions Response</em>.<a href="#section-3.3.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="native-authorization-request">
+<section id="section-3.3.2">
+          <h4 id="name-native-authorization-reques">
+<a href="#section-3.3.2" class="section-number selfRef">3.3.2. </a><a href="#name-native-authorization-reques" class="section-name selfRef">Native Authorization Request</a>
+          </h4>
+<p id="section-3.3.2-1">This is an OAuth authorization code flow request, interoperable with all OAuth RFCs.
+In addition, it accepts the follwing parameter:<a href="#section-3.3.2-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-3.3.2-2">
+            <dt id="section-3.3.2-2.1">
 <strong>native_callback_uri</strong>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-1.6">
-              <p id="section-3.3.1-1.6.1"><em>Client App's</em> redirect_uri, claimed as a deep link and invoked by <em>User-Interacting App</em> to natively return to <em>Client App</em>.<a href="#section-3.3.1-1.6.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.3.2-2.2">
+              <p id="section-3.3.2-2.2.1"><em>Client App's</em> redirect_uri, claimed as a deep link and invoked by <em>User-Interacting App</em> to natively return to <em>Client App</em>.<a href="#section-3.3.2-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
-</section>
-</div>
-<div id="native-app2app-profile">
-<section id="section-3.3.2">
-          <h4 id="name-native-app2app-profile">
-<a href="#section-3.3.2" class="section-number selfRef">3.3.2. </a><a href="#name-native-app2app-profile" class="section-name selfRef">Native App2App Profile</a>
-          </h4>
-<p id="section-3.3.2-1"><em>Authorization servers</em> providing a <strong>native_authorization_endpoint</strong> <span class="bcp14">MUST</span> follow the <strong>Native App2App Profile's</strong> requirements:<a href="#section-3.3.2-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.3.2-2.1">
-              <p id="section-3.3.2-2.1.1">Accept the <strong>native_callback_uri</strong> parameter and forward it to <em>Downstream Authorization Servers</em>.<a href="#section-3.3.2-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.3.2-2.2">
-              <p id="section-3.3.2-2.2.1">Ensure <em>Downstream Authorization Servers</em> it federates to, support the <em>Native App2App profile</em>, otherwise return error=native_app2app_unsupported.<a href="#section-3.3.2-2.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.3.2-2.3">
-              <p id="section-3.3.2-2.3.1">Redirect using HTTP 30x (avoid redirecting using HTTP Form Post or scripts embedded in HTML).<a href="#section-3.3.2-2.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.3.2-2.4">
-              <p id="section-3.3.2-2.4.1">Avoid challenging end-user with bot-detection such as CAPTCHAs when invoked without cookies.<a href="#section-3.3.2-2.4.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.3.2-2.5">
-              <p id="section-3.3.2-2.5.1"><span class="bcp14">MAY</span> provide <em>Routing Instructions Response</em>.<a href="#section-3.3.2-2.5.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
 </section>
 </div>
 <div id="native-authorization-response">
@@ -1750,10 +1761,10 @@ id=request-identifier-2
 </div>
 </section>
 </div>
-<div id="protocol-flow-1">
+<div id="protocol-flow">
 <section id="section-3.4">
-        <h3 id="name-protocol-flow-2">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-protocol-flow-2" class="section-name selfRef">Protocol Flow</a>
+        <h3 id="name-protocol-flow">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-protocol-flow" class="section-name selfRef">Protocol Flow</a>
         </h3>
 <div id="client-app-calls-authorization-server">
 <section id="section-3.4.1">

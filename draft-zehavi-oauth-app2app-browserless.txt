@@ -73,11 +73,11 @@ Table of Contents
    2.  Conventions and Definitions
      2.1.  Terminology
    3.  Protocol Overview
-     3.1.  Protocol Flow
+     3.1.  General Flow
      3.2.  Authorization Server Metadata
      3.3.  native_authorization_endpoint
-       3.3.1.  Native Authorization Request
-       3.3.2.  Native App2App Profile
+       3.3.1.  Native App2App Profile
+       3.3.2.  Native Authorization Request
        3.3.3.  Native Authorization Response
        3.3.4.  Native Authorization Routing Instructions Response
      3.4.  Protocol Flow
@@ -195,7 +195,7 @@ Table of Contents
 
 3.  Protocol Overview
 
-3.1.  Protocol Flow
+3.1.  General Flow
 
    +--------------------------------------------------+
    | +-------------+                                  |
@@ -225,19 +225,29 @@ Table of Contents
       _Authorization Server's_ *native_authorization_endpoint*,
       including a _native_callback_uri_.
 
-   *  (2) _Authorization Server_ returns either a _native authorization
-      request url_ for Downstream Authorization Server which includes
-      the original *native_callback_uri*, or a *Routing Instructions
-      Response*.
+   *  (2) _Authorization Server_ returns either:
 
-   *  (3) _Client App_ handles obtained _Routing Instructions Response_
-      by prompting end-user and providing their response to
-      _Authorization Server_, which then responds with a _native
-      authorization request url_. _Client App_ handles obtained _native
-      authorization request urls_ by seeking an app on the device
-      claiming the url.  If not found, _Client App_ loops through
-      invocations of obtained _native authorization request urls_, until
-      a claimed url is reached.
+      -  A _native authorization request url_ for _Downstream
+         Authorization Server_.
+
+      -  A *Routing Instructions Response*.
+
+      -  A url to natively invoke using a _User-Interacting App_, if
+         present.
+
+   *  (3) _Client App_ handles:
+
+      -  A _Routing Instructions Response_ by prompting end-user and
+         providing their input to _Authorization Server_.
+
+      -  A _native authorization request url_ for _Downstream
+         Authorization Server_ by calling it.  As long as such responses
+         are obtained, the urls provided are invoked in a loop, until
+         reaching a url to natively invoke using a _User-Interacting
+         App_.
+
+      -  A url to natively invoke using a _User-Interacting App_, by
+         seeking an app claiming the url and invoking it.
 
    *  (4) Once a claimed url is reached _Client App_ natively invokes
       _User-Interacting App_.
@@ -269,27 +279,19 @@ Table of Contents
 
 3.3.  native_authorization_endpoint
 
-   OAuth authorization_endpoint, interoperable with all OAuth RFCs but
-   acting as a REST API:
+   An OAuth authorization endpoint, interoperable with all OAuth RFCs
+   but with the following modifications, in alignment with common REST
+   APIs:
 
-   *  Does not use cookies.
+   *  SHALL NOT use cookies.
 
-   *  Returns Content-Type application/json and a JSON body.
+   *  SHALL return Content-Type application/json header and a JSON body.
 
-   *  Does not return HTTP 30x redirects.
+   *  SHALL NOT return HTTP 30x redirects.
 
-3.3.1.  Native Authorization Request
+   *  SHALL NOT respond with bot-detection challenges such as CAPTCHAs.
 
-   This is an OAuth authorization code flow request, interoperable
-   with all OAuth RFCs.
-
-   In addition, it accepts the follwing parameter:
-
-   *native_callback_uri*:  _Client App's_ redirect_uri, claimed as a
-      deep link and invoked by _User-Interacting App_ to natively return
-      to _Client App_.
-
-3.3.2.  Native App2App Profile
+3.3.1.  Native App2App Profile
 
    _Authorization servers_ providing a *native_authorization_endpoint*
    MUST follow the *Native App2App Profile's* requirements:
@@ -297,17 +299,20 @@ Table of Contents
    *  Accept the *native_callback_uri* parameter and forward it to
       _Downstream Authorization Servers_.
 
-   *  Ensure _Downstream Authorization Servers_ it federates to, support
-      the _Native App2App profile_, otherwise return
+   *  Ensure _Downstream Authorization Servers_ it federates to, offer a
+      _native_authorization_endpoint_, otherwise return
       error=native_app2app_unsupported.
 
-   *  Redirect using HTTP 30x (avoid redirecting using HTTP Form Post or
-      scripts embedded in HTML).
-
-   *  Avoid challenging end-user with bot-detection such as CAPTCHAs
-      when invoked without cookies.
-
    *  MAY provide _Routing Instructions Response_.
+
+3.3.2.  Native Authorization Request
+
+   This is an OAuth authorization code flow request, interoperable with
+   all OAuth RFCs.  In addition, it accepts the follwing parameter:
+
+   *native_callback_uri*:  _Client App's_ redirect_uri, claimed as a
+      deep link and invoked by _User-Interacting App_ to natively return
+      to _Client App_.
 
 3.3.3.  Native Authorization Response
 
