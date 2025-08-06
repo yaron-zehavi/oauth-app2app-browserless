@@ -153,15 +153,21 @@ the following terms:
 
 # Protocol Overview
 
-## Protocol Flow
+## General Flow
 ~~~ aasvg
 {::include art/app2app-browserless.ascii-art}
 ~~~
 {: #app2app-browserless-w-brokers title="Browser-less App2App across trust domains" }
 
 - (1) *Client App* presents an authorization request to *Authorization Server's* **native_authorization_endpoint**, including a *native_callback_uri*.
-- (2) *Authorization Server* returns either a *native authorization request url* for Downstream Authorization Server which includes the original **native_callback_uri**, or a **Routing Instructions Response**.
-- (3) *Client App* handles obtained *Routing Instructions Response* by prompting end-user and providing their response to *Authorization Server*, which then responds with a *native authorization request url*. *Client App* handles obtained *native authorization request urls* by seeking an app on the device claiming the url. If not found, *Client App* loops through invocations of obtained *native authorization request urls*, until a claimed url is reached.
+- (2) *Authorization Server* returns either:
+  - A *native authorization request url* for *Downstream Authorization Server*.
+  - A **Routing Instructions Response**.
+  - A url to natively invoke using a *User-Interacting App*, if present.
+- (3) *Client App* handles:
+  - A *Routing Instructions Response* by prompting end-user and providing their input to *Authorization Server*.
+  - A *native authorization request url* for *Downstream Authorization Server* by calling it. As long as such responses are obtained, the urls provided are invoked in a loop, until reaching a url to natively invoke using a *User-Interacting App*.
+  - A url to natively invoke using a *User-Interacting App*, by seeking an app claiming the url and invoking it.
 - (4) Once a claimed url is reached *Client App* natively invokes *User-Interacting App*.
 - (5) *User-Interacting App* authenticates end-user and authorizes the request.
 - (6) *User-Interacting App* natively invokes **native_callback_uri**, providing as a parameter a url-encoded *redirect_uri* with its response parameters.
@@ -178,28 +184,29 @@ This document introduces the following authorization server metadata {{RFC8414}}
 
 ## native_authorization_endpoint
 
-OAuth authorization_endpoint, interoperable with all OAuth RFCs but acting as a REST API:
+An OAuth authorization endpoint, interoperable with all OAuth RFCs but with the following modifications, in alignment with common REST APIs:
 
-* Does not use cookies.
-* Returns Content-Type application/json and a JSON body.
-* Does not return HTTP 30x redirects.
-
-### Native Authorization Request
-
-This is an OAuth authorization code flow request, interoperable with all OAuth RFCs.
-In addition, it accepts the follwing parameter:
-**native_callback_uri**:
-: *Client App's* redirect_uri, claimed as a deep link and invoked by *User-Interacting App* to natively return to *Client App*.
+* SHALL NOT use cookies.
+* SHALL return Content-Type application/json header and a JSON body.
+* SHALL NOT return HTTP 30x redirects.
+* SHALL NOT respond with bot-detection challenges such as CAPTCHAs.
 
 ### Native App2App Profile
 
 *Authorization servers* providing a **native_authorization_endpoint** MUST follow the **Native App2App Profile's** requirements:
 
 * Accept the **native_callback_uri** parameter and forward it to *Downstream Authorization Servers*.
-* Ensure *Downstream Authorization Servers* it federates to, support the *Native App2App profile*, otherwise return error=native_app2app_unsupported.
-* Redirect using HTTP 30x (avoid redirecting using HTTP Form Post or scripts embedded in HTML).
-* Avoid challenging end-user with bot-detection such as CAPTCHAs when invoked without cookies.
+* Ensure *Downstream Authorization Servers* it federates to, offer a *native_authorization_endpoint*, otherwise return error=native_app2app_unsupported.
 * MAY provide *Routing Instructions Response*.
+
+
+### Native Authorization Request
+
+This is an OAuth authorization code flow request, interoperable with all OAuth RFCs. 
+In addition, it accepts the follwing parameter:
+
+**native_callback_uri**:
+: *Client App's* redirect_uri, claimed as a deep link and invoked by *User-Interacting App* to natively return to *Client App*.
 
 ### Native Authorization Response
 
