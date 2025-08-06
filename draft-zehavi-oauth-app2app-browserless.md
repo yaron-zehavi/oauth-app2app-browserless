@@ -114,22 +114,6 @@ This document specifies:
 * A new Authorization Server endpoint and corresponding metadata property: **native_authorization_endpoint**.
 * A new error code value: **native_app2app_unsupported**
 
-## Protocol Flow
-~~~ aasvg
-{::include art/app2app-browserless.ascii-art}
-~~~
-{: #app2app-browserless-w-brokers title="Browser-less App2App across trust domains" }
-
-- (1) *Client App* presents an authorization request to *Authorization Server's* **native_authorization_endpoint**, including a *native_callback_uri*.
-- (2) *Authorization Server* returns either a *native authorization request url* for Downstream Authorization Server which includes the original **native_callback_uri**, or a **Routing Instructions Response**.
-- (3) *Client App* handles obtained *Routing Instructions Response* by prompting end-user and providing their response to *Authorization Server*, which then responds with a *native authorization request url*. *Client App* handles obtained *native authorization request urls* by seeking an app on the device claiming the url. If not found, *Client App* loops through invocations of obtained *native authorization request urls*, until a claimed url is reached.
-- (4) Once a claimed url is reached *Client App* natively invokes *User-Interacting App*.
-- (5) *User-Interacting App* authenticates end-user and authorizes the request.
-- (6) *User-Interacting App* natively invokes **native_callback_uri**, providing as a parameter a url-encoded *redirect_uri* with its response parameters.
-- (7) *Client App* invokes the obtained *redirect_uri*.
-- (8) *Client App* calls any subsequent uri obtained as 30x redirect directive, until it reaches a location header to its own redirect_uri.
-- (9) *Client App* exchanges code for tokens and the flow is complete.
-
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
@@ -171,6 +155,22 @@ the following terms:
 : *Client App's* redirect_uri, claimed as a deep link. This deep link is invoked by *User-Interacting App* to natively return to *Client App*.
 
 # Protocol Overview
+
+## Protocol Flow
+~~~ aasvg
+{::include art/app2app-browserless.ascii-art}
+~~~
+{: #app2app-browserless-w-brokers title="Browser-less App2App across trust domains" }
+
+- (1) *Client App* presents an authorization request to *Authorization Server's* **native_authorization_endpoint**, including a *native_callback_uri*.
+- (2) *Authorization Server* returns either a *native authorization request url* for Downstream Authorization Server which includes the original **native_callback_uri**, or a **Routing Instructions Response**.
+- (3) *Client App* handles obtained *Routing Instructions Response* by prompting end-user and providing their response to *Authorization Server*, which then responds with a *native authorization request url*. *Client App* handles obtained *native authorization request urls* by seeking an app on the device claiming the url. If not found, *Client App* loops through invocations of obtained *native authorization request urls*, until a claimed url is reached.
+- (4) Once a claimed url is reached *Client App* natively invokes *User-Interacting App*.
+- (5) *User-Interacting App* authenticates end-user and authorizes the request.
+- (6) *User-Interacting App* natively invokes **native_callback_uri**, providing as a parameter a url-encoded *redirect_uri* with its response parameters.
+- (7) *Client App* invokes the obtained *redirect_uri*.
+- (8) *Client App* calls any subsequent uri obtained as 30x redirect directive, until it reaches a location header to its own redirect_uri.
+- (9) *Client App* exchanges code for tokens and the flow is complete.
 
 ## Native App2App Profile
 
@@ -431,7 +431,7 @@ It is RECOMMENDED that all apps in this specification shall use https-scheme dee
 
 It is RECOMMENDED that PKCE is used and that the code_verifier is tied to the *Client App* instance, as mitigation to authorization code theft and injection attacks.
 
-# Background and Overview
+# Relation to other standards
 
 ## App2App across trust domains requires a web browser
 
