@@ -79,23 +79,24 @@ Table of Contents
    3.  Conventions and Definitions
      3.1.  Terminology
    4.  Protocol Overview
-     4.1.  Usage and Applicability
-     4.2.  Authorization Server Metadata
-     4.3.  Native App2App Profile
-     4.4.  Routing Instructions Response
-     4.5.  Protocol Flow
-       4.5.1.  Client App calls Authorization Server
-       4.5.2.  Authorization Server
-       4.5.3.  Client App processes the response
-       4.5.4.  Processing by User-Interacting Authorization Server's
+     4.1.  Native App2App Profile
+     4.2.  Routing Instructions Response
+     4.3.  Protocol Flow
+       4.3.1.  Client App calls Authorization Server
+       4.3.2.  Authorization Server
+       4.3.3.  Client App processes the response
+       4.3.4.  Processing by User-Interacting Authorization Server's
                App:
-       4.5.5.  Client App traverses Authorization Servers in reverse
+       4.3.5.  Client App traverses Authorization Servers in reverse
                order
-       4.5.6.  Client App obtains response
-       4.5.7.  Recovery from failed native App2App flows
-   5.  Detecting Presence of Native Apps claiming Urls
-     5.1.  Android
-     5.2.  iOS
+       4.3.6.  Client App obtains response
+   5.  Implementation Considerations
+     5.1.  Usage and Applicability
+     5.2.  Authorization Server Metadata
+     5.3.  Detecting Presence of Native Apps claiming Urls
+       5.3.1.  Android
+       5.3.2.  iOS
+     5.4.  Recovery from failed native App2App flows
    6.  Security Considerations
      6.1.  Embedded User Agents
      6.2.  Open redirection by Authorization Server's User-Interacting
@@ -343,25 +344,7 @@ Table of Contents
 
 4.  Protocol Overview
 
-4.1.  Usage and Applicability
-
-   This specification MUST NOT be used when _Client App_ detects
-   _Initial Authorization Server's_ url is claimed by an app on the
-   device.
-
-   In such case _Client App_ SHOULD natively invoke the authorization
-   request url.
-
-4.2.  Authorization Server Metadata
-
-   This document introduces the following authorization server metadata
-   [RFC8414] parameter to indicate it supports the _Native App2App
-   Profile_.
-
-   *native_authorization_endpoint*:  URL of the authorization server's
-      native authorization endpoint.
-
-4.3.  Native App2App Profile
+4.1.  Native App2App Profile
 
    _Authorization servers_ providing a *native_authorization_endpoint*
    MUST follow the *Native App2App Profile's* requirements:
@@ -384,7 +367,7 @@ Table of Contents
 
    *  MAY provide _Routing Instructions Response_.
 
-4.4.  Routing Instructions Response
+4.2.  Routing Instructions Response
 
    _Authorization servers_ supporting the _Native App2App profile_, but
    requiring end-user input to guide request routing, MAY provide a
@@ -490,16 +473,16 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    id=request-identifier-2
    &email=end_user@example.as.com
 
-4.5.  Protocol Flow
+4.3.  Protocol Flow
 
-4.5.1.  Client App calls Authorization Server
+4.3.1.  Client App calls Authorization Server
 
    Client App uses HTTP to call _Initial Authorization Server's_
    _native_authorization_endpoint_ with an authorization request
    including the _native_callback_uri_ Authorization Details [RFC9396]
    RAR Type.
 
-4.5.2.  Authorization Server
+4.3.2.  Authorization Server
 
    _Authorization Server_ evaluates the native authorization request.
    It MAY return:
@@ -516,7 +499,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
       and eligible, with a _native authorization request url_ towards
       _Downstream Authorization Server_ in the Location header.
 
-4.5.3.  Client App processes the response
+4.3.3.  Client App processes the response
 
    _Client App_ SHALL terminate the protocol flow if it obtains:
 
@@ -557,7 +540,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
    *  Send Cookies in subsequent HTTP requests.
 
-4.5.4.  Processing by User-Interacting Authorization Server's App:
+4.3.4.  Processing by User-Interacting Authorization Server's App:
 
    The _User-Interacting Authorization Server's_ app handles the native
    authorization request:
@@ -577,7 +560,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
       it the redirect url and its response parameters as the url-encoded
       query parameter *redirect_uri*.
 
-4.5.5.  Client App traverses Authorization Servers in reverse order
+4.3.5.  Client App traverses Authorization Servers in reverse order
 
    _Client App_ is natively invoked by _User-Interacting Authorization
    Server App_, with the request's redirect_uri.
@@ -596,7 +579,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    *  SHALL handle any other HTTP code (2xx / 4xx / 5xx) as a failure
       and terminate the flow.
 
-4.5.6.  Client App obtains response
+4.3.6.  Client App obtains response
 
    Once _Client App's_ own redirect_uri is reached, the traversal of
    _Authorization Servers_ is complete and _Client App_ proceeds to
@@ -606,7 +589,47 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
    *  Or handle errors obtained.
 
-4.5.7.  Recovery from failed native App2App flows
+5.  Implementation Considerations
+
+5.1.  Usage and Applicability
+
+   This specification MUST NOT be used when _Client App_ detects
+   _Initial Authorization Server's_ url is claimed by an app on the
+   device.
+
+   In such case _Client App_ SHOULD natively invoke the authorization
+   request url.
+
+5.2.  Authorization Server Metadata
+
+   This document introduces the following authorization server metadata
+   [RFC8414] parameter to indicate it supports the _Native App2App
+   Profile_.
+
+   *native_authorization_endpoint*:  URL of the authorization server's
+      native authorization endpoint.
+
+5.3.  Detecting Presence of Native Apps claiming Urls
+
+   Native Apps on iOS and Android MAY use OS SDK's to detect if an app
+   owns a url.  The general method is the same - App calls an SDK to
+   open the url as deep link and handles an exception thrown if no
+   matching app is found.
+
+5.3.1.  Android
+
+   App SHALL invoke Android [android.method.intent] method with
+   FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws
+   ActivityNotFoundException if no matching app is found.
+
+5.3.2.  iOS
+
+   App SHALL invoke iOS [iOS.method.openUrl] method with options
+   [iOS.option.universalLinksOnly] which ensures URLs must be universal
+   links and have an app configured to open them.  Otherwise the method
+   returns false in completion.success.
+
+5.4.  Recovery from failed native App2App flows
 
 +---------------------------------------------------------------------------------------------+
 | +-----------+                                                                               |
@@ -638,41 +661,17 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
    *  An error response is obtained.
 
-   *  _Client App_ doesn't support an obtained _Routing Instructions
-      Response_.
+   *  Required _User-Interacting App_ is not installed on end-user's
+      device.
 
-   *  An HTTP 2xx response other than a _Routing Instructions Response_
-      is obtained.
+   _Client App_ MAY recover by launching a new (non-native)
+   authorization request on a web browser, in accordance with "OAuth 2.0
+   for Native Apps" [RFC8252].
 
-   In case of such failures, _Client App_ MAY recover by launching a new
-   (non-native) authorization request on a web browser, in accordance
-   with "OAuth 2.0 for Native Apps" [RFC8252].
-
-   Note - Failure because an HTTP 2xx response, other than a _Routing
-   Instructions Response_ was obtained, suggests the _User-Interacting
-   App_ is not installed on end-user's device. _Client App_ MAY choose
-   in future to retry the _Native App2App_ flow, to benefit if in the
-   meantime the missing app has been installed.
-
-5.  Detecting Presence of Native Apps claiming Urls
-
-   Native Apps on iOS and Android MAY use OS SDK's to detect if an app
-   owns a url.  The general method is the same - App calls an SDK to
-   open the url as deep link and handles an exception thrown if no
-   matching app is found.
-
-5.1.  Android
-
-   App SHALL invoke Android [android.method.intent] method with
-   FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws
-   ActivityNotFoundException if no matching app is found.
-
-5.2.  iOS
-
-   App SHALL invoke iOS [iOS.method.openUrl] method with options
-   [iOS.option.universalLinksOnly] which ensures URLs must be universal
-   links and have an app configured to open them.  Otherwise the method
-   returns false in completion.success.
+   Note - Failure because _User-Interacting App_ is not installed on
+   end-user's device, might succeed in future, if the missing app has
+   been installed. _Client App_ MAY choose if and when to retry the
+   _Native App2App flow_ after such a failure.
 
 6.  Security Considerations
 
