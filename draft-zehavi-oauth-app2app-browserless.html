@@ -1838,13 +1838,13 @@ Once <em>deep link</em> invocation is instructed, it uses OS SDK's to locate an 
             <p id="section-4.4-2.2.1">Establishes trust in <em>native_callback_uri</em>, otherwise terminates the flow.<a href="#section-4.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.4-2.3">
-            <p id="section-4.4-2.3.1">Validates that an app claiming <strong>native_callback_uri</strong> is on the device, otherwise terminates the flow.<a href="#section-4.4-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-4.4-2.3.1">Validates that an app claiming <em>native_callback_uri</em> is on the device, otherwise terminates the flow.<a href="#section-4.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.4-2.4">
             <p id="section-4.4-2.4.1">Authenticates end-user and authorizes the request.<a href="#section-4.4-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.4-2.5">
-            <p id="section-4.4-2.5.1"><span class="bcp14">MUST</span> use <strong>native_callback_uri</strong> to invoke <em>Client App</em>, providing it the redirect url and its response parameters as the url-encoded query parameter <strong>redirect_uri</strong>.<a href="#section-4.4-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-4.4-2.5.1"><span class="bcp14">MUST</span> use <em>native_callback_uri</em> to invoke <em>Client App</em>, providing it the redirect url and its response parameters as the url-encoded query parameter <strong>redirect_uri</strong>.<a href="#section-4.4-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -1855,15 +1855,15 @@ Once <em>deep link</em> invocation is instructed, it uses OS SDK's to locate an 
 <a href="#section-4.5" class="section-number selfRef">4.5. </a><a href="#name-client-app-response-handlin" class="section-name selfRef">Client App response handling</a>
         </h3>
 <p id="section-4.5-1"><em>Client App</em> is natively invoked by <em>User-Interacting Authorization Server App</em>, with the request's redirect_uri.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
-<p id="section-4.5-2"><em>Client App</em> <span class="bcp14">MUST</span> validate this url, and any url subsequently obtained, against the Allowlist it previously generated, and <span class="bcp14">MUST</span> fail if any url is not found in the Allowlist.<a href="#section-4.5-2" class="pilcrow">¶</a></p>
+<p id="section-4.5-2"><em>Client App</em> <span class="bcp14">MUST</span> validate this url, and any url subsequently obtained, against the Allowlist it previously generated, and <span class="bcp14">MUST</span> terminate the flow if any url is not found in the Allowlist.<a href="#section-4.5-2" class="pilcrow">¶</a></p>
 <p id="section-4.5-3"><em>Client App</em> <span class="bcp14">SHALL</span> invoke urls it received using HTTP GET.<a href="#section-4.5-3" class="pilcrow">¶</a></p>
-<p id="section-4.5-4"><em>Authorization Servers</em> processing <em>Native App2App</em> shall respond to calls to their redirect_uri:<a href="#section-4.5-4" class="pilcrow">¶</a></p>
+<p id="section-4.5-4"><strong>Authorization Servers</strong> processing <em>Native App2App</em> <span class="bcp14">MUST</span> respond to redirect_uri invocations:<a href="#section-4.5-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.5-5.1">
-            <p id="section-4.5-5.1.1">Using the same REST API guidelines as the native_app2app_unsupported.<a href="#section-4.5-5.1.1" class="pilcrow">¶</a></p>
+            <p id="section-4.5-5.1.1">According to the REST API guidelines specified for native_authorization_endpoint.<a href="#section-4.5-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.5-5.2">
-            <p id="section-4.5-5.2.1">Returning a JSON body which instructs on the next url to call:<a href="#section-4.5-5.2.1" class="pilcrow">¶</a></p>
+            <p id="section-4.5-5.2.1">Returning a JSON body instructing the next url to call:<a href="#section-4.5-5.2.1" class="pilcrow">¶</a></p>
 <p id="section-4.5-5.2.2">
 HTTP/1.1 200 OK
   Content-Type: application/json<a href="#section-4.5-5.2.2" class="pilcrow">¶</a></p>
@@ -1891,6 +1891,7 @@ HTTP/1.1 200 OK
             <p id="section-4.6-2.2.1">Or handles errors obtained.<a href="#section-4.6-2.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
+<p id="section-4.6-3">And the <em>Native App2App</em> flow is complete. Hurray!<a href="#section-4.6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

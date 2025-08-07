@@ -498,12 +498,12 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    *  Establishes trust in _native_callback_uri_, otherwise terminates
       the flow.
 
-   *  Validates that an app claiming *native_callback_uri* is on the
+   *  Validates that an app claiming _native_callback_uri_ is on the
       device, otherwise terminates the flow.
 
    *  Authenticates end-user and authorizes the request.
 
-   *  MUST use *native_callback_uri* to invoke _Client App_, providing
+   *  MUST use _native_callback_uri_ to invoke _Client App_, providing
       it the redirect url and its response parameters as the url-encoded
       query parameter *redirect_uri*.
 
@@ -514,17 +514,17 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
    _Client App_ MUST validate this url, and any url subsequently
    obtained, against the Allowlist it previously generated, and MUST
-   fail if any url is not found in the Allowlist.
+   terminate the flow if any url is not found in the Allowlist.
 
    _Client App_ SHALL invoke urls it received using HTTP GET.
 
-   _Authorization Servers_ processing _Native App2App_ shall respond to
-   calls to their redirect_uri:
+   *Authorization Servers* processing _Native App2App_ MUST respond to
+   redirect_uri invocations:
 
-   *  Using the same REST API guidelines as the
-      native_app2app_unsupported.
+   *  According to the REST API guidelines specified for
+      native_authorization_endpoint.
 
-   *  Returning a JSON body which instructs on the next url to call:
+   *  Returning a JSON body instructing the next url to call:
 
       HTTP/1.1 200 OK Content-Type: application/json
 
@@ -542,6 +542,8 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    *  Exchanges code for tokens.
 
    *  Or handles errors obtained.
+
+   And the _Native App2App_ flow is complete.  Hurray!
 
 5.  Implementation Considerations
 
