@@ -370,22 +370,22 @@ The *User-Interacting Authorization Server's* app handles the native authorizati
 
 * Validates the native authorization request as an OAuth authorization code request.
 * Establishes trust in *native_callback_uri*, otherwise terminates the flow.
-* Validates that an app claiming **native_callback_uri** is on the device, otherwise terminates the flow.
+* Validates that an app claiming *native_callback_uri* is on the device, otherwise terminates the flow.
 * Authenticates end-user and authorizes the request.
-* MUST use **native_callback_uri** to invoke *Client App*, providing it the redirect url and its response parameters as the url-encoded query parameter **redirect_uri**.
+* MUST use *native_callback_uri* to invoke *Client App*, providing it the redirect url and its response parameters as the url-encoded query parameter **redirect_uri**.
 
 ## Client App response handling
 
 *Client App* is natively invoked by *User-Interacting Authorization Server App*, with the request's redirect_uri.
 
-*Client App* MUST validate this url, and any url subsequently obtained, against the Allowlist it previously generated, and MUST fail if any url is not found in the Allowlist.
+*Client App* MUST validate this url, and any url subsequently obtained, against the Allowlist it previously generated, and MUST terminate the flow if any url is not found in the Allowlist.
 
 *Client App* SHALL invoke urls it received using HTTP GET.
 
-*Authorization Servers* processing *Native App2App* shall respond to calls to their redirect_uri:
+**Authorization Servers** processing *Native App2App* MUST respond to redirect_uri invocations:
 
-* Using the same REST API guidelines as the native_app2app_unsupported.
-* Returning a JSON body which instructs on the next url to call:
+* According to the REST API guidelines specified for native_authorization_endpoint.
+* Returning a JSON body instructing the next url to call:
 
     HTTP/1.1 200 OK
     Content-Type: application/json
@@ -403,6 +403,8 @@ Once *Client App's* own redirect_uri is obtained, *Client App* processes the res
 
 * Exchanges code for tokens.
 * Or handles errors obtained.
+
+And the *Native App2App* flow is complete. Hurray!
 
 # Implementation Considerations
 
