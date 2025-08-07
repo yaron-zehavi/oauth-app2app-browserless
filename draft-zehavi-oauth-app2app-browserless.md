@@ -190,8 +190,15 @@ This document introduces the following parameter as authorization server metadat
 * SHALL NOT return HTTP 30x redirects.
 * SHALL NOT respond with bot-detection challenges such as CAPTCHAs.
 
-*native_authorization_endpoint* accepts the **native_callback_uri** parameter:
+*native_authorization_endpoint* accepts the **native_callback_uri** parameter.
+
+**native_callback_uri**:
 : *Client App's* redirect_uri, claimed as a deep link and invoked by *User-Interacting App* to natively return to *Client App*.
+
+*native_callback_uri* accepts the redirect_uri parameter.
+
+**redirect_uri**:
+: url-encoded **redirect_uri** from *User-Interacting App* including its respective response parameters.
 
 ## Native Authorization Request
 
@@ -368,7 +375,7 @@ As the *Client App* performs HTTP calls, it SHALL maintain a list of all the DNS
 
 The *User-Interacting Authorization Server's* app handles the native authorization request:
 
-* Validates the native authorization request as an OAuth authorization code request.
+* Validates the native authorization request.
 * Establishes trust in *native_callback_uri*, otherwise terminates the flow.
 * Validates that an app claiming *native_callback_uri* is on the device, otherwise terminates the flow.
 * Authenticates end-user and authorizes the request.
