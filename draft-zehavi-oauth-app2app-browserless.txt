@@ -478,11 +478,10 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    *  Prompts end-user to guide request routing and provides their input
       to _Authorization Server_.
 
-   *  If opening a _deep link_ was instructed, uses OS SDK's to locate
-      an app claiming the url, and if found, natively invokes it.
-
-   Client App repeats these actions until a _deep link_ is obtained, or
-   an error occurs.
+   _Client App_ repeats these actions until a _deep link_ is obtained,
+   or an error occurs.  Once _deep link_ invocation is instructed, it
+   uses OS SDK's to locate an app claiming the url, and if found,
+   natively invokes it
 
    As the _Client App_ performs HTTP calls, it SHALL maintain a list of
    all the DNS domains it interacts with, serving as an Allowlist for

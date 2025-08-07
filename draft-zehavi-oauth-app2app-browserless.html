@@ -1818,11 +1818,9 @@ It's response contains one of the possible instructions on how to proceed:<a hre
           <li class="normal" id="section-4.3-2.2">
             <p id="section-4.3-2.2.1">Prompts end-user to guide request routing and provides their input to <em>Authorization Server</em>.<a href="#section-4.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-4.3-2.3">
-            <p id="section-4.3-2.3.1">If opening a <em>deep link</em> was instructed, uses OS SDK's to locate an app claiming the url, and if found, natively invokes it.<a href="#section-4.3-2.3.1" class="pilcrow">¶</a></p>
-</li>
         </ul>
-<p id="section-4.3-3">Client App repeats these actions until a <em>deep link</em> is obtained, or an error occurs.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.3-3"><em>Client App</em> repeats these actions until a <em>deep link</em> is obtained, or an error occurs.
+Once <em>deep link</em> invocation is instructed, it uses OS SDK's to locate an app claiming the url, and if found, natively invokes it<a href="#section-4.3-3" class="pilcrow">¶</a></p>
 <p id="section-4.3-4">As the <em>Client App</em> performs HTTP calls, it <span class="bcp14">SHALL</span> maintain a list of all the DNS domains it interacts with, serving as an Allowlist for later invocations as part of the response handling.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
