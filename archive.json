@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-31T01:44:47.939541+00:00",
+  "timestamp": "2025-08-07T01:46:18.622539+00:00",
   "repo": "yaron-zehavi/oauth-app2app-browserless",
   "labels": [
     {
@@ -156,9 +156,9 @@
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
-      "body": "- Will be invoked\n- Can route forward, but Client App will reject the url as not in allowList\n- Solution is that native_authorization_endpoint shall return a JSON response indicating HTTP or native call\n\nIf AS offers an app which MAY be invoked for routing:\n- It needs to first offer a routing options response\n- Based on end-user's response decide if app should be invoked (as final AS), or skip to next hop",
+      "body": "Which entails: \n- JSON response (either Routing Instructions Response [better name needed], next native_authorization_endpoint or deep_link to natively invoke)\n- No HTTP 3xx\n- No Cookies\n\nThis eliminates the app in the middle problem, which might have been invoked, then attempt to route forward, but Client App would have rejected as the url is not in allowList.\n\nAny AS offering an app which MAY be invoked for routing:\n- It needs to first offer a routing options response\n- Based on end-user's response decide if app should be invoked (as final AS), or skip to next hop",
       "createdAt": "2025-07-29T15:39:17Z",
-      "updatedAt": "2025-07-29T15:39:17Z",
+      "updatedAt": "2025-08-06T12:59:14Z",
       "closedAt": null,
       "comments": []
     },
