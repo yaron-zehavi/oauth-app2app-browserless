@@ -73,43 +73,41 @@ Table of Contents
    2.  Conventions and Definitions
      2.1.  Terminology
    3.  Protocol Overview
-     3.1.  General Flow
+     3.1.  Flow Overview
      3.2.  Authorization Server Metadata
      3.3.  native_authorization_endpoint
      3.4.  Native Authorization Request
      3.5.  Native Authorization Response
-       3.5.1.  Providing end-users input to guide request routing
-     3.6.  Protocol Flow
-       3.6.1.  Client App calls Authorization Server
-       3.6.2.  Authorization Server
-       3.6.3.  Client App processes the response
-       3.6.4.  Processing by User-Interacting Authorization Server's
-               App:
-       3.6.5.  Client App traverses Authorization Servers in reverse
-               order
-       3.6.6.  Client App obtains response
-   4.  Implementation Considerations
-     4.1.  Usage and Applicability
-     4.2.  Detecting Presence of Native Apps claiming Urls
-       4.2.1.  Android
-       4.2.2.  iOS
-     4.3.  Recovery from failed native App2App flows
-   5.  Security Considerations
-     5.1.  Embedded User Agents
-     5.2.  Open redirection by Authorization Server's User-Interacting
+       3.5.1.  Providing end-user's input to guide request routing
+   4.  Detailed Protocol Flow
+     4.1.  Client App calls Authorization Server
+     4.2.  Authorization Server
+     4.3.  Client App processes the response
+     4.4.  User-Interacting Authorization Server's App
+     4.5.  Client App response handling
+     4.6.  Flow completion
+   5.  Implementation Considerations
+     5.1.  Usage and Applicability
+     5.2.  Detecting Presence of Native Apps claiming Urls
+       5.2.1.  Android
+       5.2.2.  iOS
+     5.3.  Recovery from failed native App2App flows
+   6.  Security Considerations
+     6.1.  Embedded User Agents
+     6.2.  Open redirection by Authorization Server's User-Interacting
            App
-     5.3.  Open redirection by Client App
-     5.4.  Deep link hijacking
-     5.5.  Authorization code theft and injection
-   6.  Relation to other standards
-     6.1.  App2App across trust domains requires a web browser
-     6.2.  Impact of using a web browser
-     6.3.  Relation to OpenID.Native-SSO
-     6.4.  Relation to OAuth.First-Party
-   7.  IANA Considerations
-   8.  References
-     8.1.  Normative References
-     8.2.  Informative References
+     6.3.  Open redirection by Client App
+     6.4.  Deep link hijacking
+     6.5.  Authorization code theft and injection
+   7.  Background and relation to other standards
+     7.1.  App2App across trust domains requires a web browser
+     7.2.  Impact of using a web browser
+     7.3.  Relation to OpenID.Native-SSO
+     7.4.  Relation to OAuth.First-Party
+   8.  IANA Considerations
+   9.  References
+     9.1.  Normative References
+     9.2.  Informative References
    Appendix A.  Acknowledgments
    Appendix B.  Document History
    Author's Address
@@ -192,7 +190,7 @@ Table of Contents
 
 3.  Protocol Overview
 
-3.1.  General Flow
+3.1.  Flow Overview
 
    +--------------------------------------------------+
    | +-------------+                                  |
@@ -220,53 +218,51 @@ Table of Contents
 
    *  (1) _Client App_ presents an authorization request to
       _Authorization Server's_ *native_authorization_endpoint*,
-      including a _native_callback_uri_.
+      including a *native_callback_uri*.
 
    *  (2) _Authorization Server_ returns either:
 
       -  A _native authorization request url_ for _Downstream
          Authorization Server_.
 
-      -  A _Routing Instructions Response_, when end-user input is
-         required to guide request routing.
+      -  A request for end-user input to guide request routing.
 
       -  A _deep link_ url to _User-Interacting App_.
 
    *  (3) _Client App_:
 
-      -  Calls _native authorization request urls_ it obtains, in a
-         loop, as long as such responses are obtained, until obtaining a
-         _deep link_ url to _User-Interacting App_.
+      -  Calls _native authorization request urls_ it obtains, so long
+         as such responses are obtained, until a _deep link_ url to
+         _User-Interacting App_ is obtained.
 
-      -  Handles a _Routing Instructions Response_, by prompting end-
-         user and providing their input to _Authorization Server_.
+      -  Handles requests for end-user input by prompting end-user and
+         providing their input to _Authorization Server_.
 
-      -  Handles _deep link_ urls, by seeking an app claiming the url
-         and invoking it.
+      -  Handles _deep link_ urls, by invoking the app claiming the url,
+         if present on the device.
 
-   *  (4) Once a _deep link_ url that is claimed on the device is
-      reached, _Client App_ natively invokes _User-Interacting App_.
+   *  (4) Once a _deep link_ claimed on the device is obtained, _Client
+      App_ natively invokes _User-Interacting App_.
 
    *  (5) _User-Interacting App_ authenticates end-user and authorizes
       the request.
 
-   *  (6) _User-Interacting App_ return to _Client App_ by natively
-      invoking *native_callback_uri*. It provides as a parameter the
+   *  (6) _User-Interacting App_ returns to _Client App_ by natively
+      invoking *native_callback_uri* and provides as a parameter the
       url-encoded _redirect_uri_ with its response parameters.
 
-   *  (7) _Client App_ invokes the obtained _redirect_uri_.
+   *  (7) _Client App_ invokes the _redirect_uri_ it obtained.
 
-   *  (8) _Client App_ calls any subsequent uri obtained as 30x redirect
-      directive, until it reaches a location header to its own
-      redirect_uri.
+   *  (8) _Client App_ calls any subsequent uris obtained until its own
+      redirect_uri is obtained.
 
    *  (9) _Client App_ exchanges code for tokens and the flow is
       complete.
 
 3.2.  Authorization Server Metadata
 
-   This document introduces the following authorization server metadata
-   [RFC8414] parameter to indicate it supports _Native App2App_.
+   This document introduces the following parameter as authorization
+   server metadata [RFC8414] ,indicating support of _Native App2App_:
 
    *native_authorization_endpoint*:  URL of the authorization server's
       native authorization endpoint.
@@ -300,7 +296,7 @@ Table of Contents
    _Authorization servers_ processing a _native authorization request_
    MUST also:
 
-   *  Forward the *native_callback_uri* to _Downstream Authorization
+   *  Forward the _native_callback_uri_ to _Downstream Authorization
       Servers_.
 
    *  Ensure _Downstream Authorization Servers_ it federates to, offer a
@@ -309,15 +305,15 @@ Table of Contents
 
 3.5.  Native Authorization Response
 
-   The response instructs _Client App_ how to proceed:
+   Is a JSON response instructing _Client App_ how to proceed:
 
-   *  *Call using HTTP*:
+   *  *Call a url using HTTP* which is either:
 
       -  A native_authorization_endpoint of a _Downstream Authorization
          Server_.
 
       -  Or in case of an error, a redirect_uri of an _Upstream
-         Authorization Server_ with an error response.
+         Authorization Server_ with a relevant error response.
 
    Example:
 
@@ -339,7 +335,7 @@ Content-Type: application/json
 
 {
     "action": "deep_link",
-    "url": "uri of native authorization request handled by *User-Interacting App* if present on the device",
+    "url": "uri of native authorization request handled by *User-Interacting App*",
 }
 
    *  *Prompt end-user* for input to guide request routing.
@@ -411,21 +407,21 @@ Content-Type: application/vnd.oauth.app2app.routing+json
     }
 }
 
-3.5.1.  Providing end-users input to guide request routing
+3.5.1.  Providing end-user's input to guide request routing
 
-   _Client App_ prompts end-user for their input:  _logo_ is OPTIONAL
-      and used for branding purposes.
+   _Client App_ prompts end-user for their input:
 
-      _userPrompt_ MUST specify at least _options_ or _inputs_ and MAY
-      specify both.
+   : _logo_ is OPTIONAL and used for branding purposes.  _userPrompt_
+      MUST specify at least _options_ or _inputs_ and MAY specify both.
 
       _options_ specifies 1..n multiple-choice prompts.
 
       _inputs_ specifies free-form input.
 
    _Client App_ provides end-user's input using _response_, which
-   specifies HTTP GET or POST urls.  If provided, _Client App_ includes
-   "id" as interaction identifier.
+   specifies HTTP GET or POST urls.
+
+   If provided, _Client App_ includes "id" as interaction identifier.
 
    Example _Client App_ response following end-user multiple-choice:
 
@@ -446,73 +442,53 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    id=request-identifier-2
    &email=end_user@example.as.com
 
-3.6.  Protocol Flow
+4.  Detailed Protocol Flow
 
-3.6.1.  Client App calls Authorization Server
+4.1.  Client App calls Authorization Server
 
-   Client App uses HTTP to call _Initial Authorization Server's_
+   Client App uses calls _Initial Authorization Server's_
    _native_authorization_endpoint_ including the _native_callback_uri_
    parameter.
 
-3.6.2.  Authorization Server
+4.2.  Authorization Server
 
    _Authorization Server_ evaluates the native authorization request.
-   It MAY return:
+   It's response contains one of the possible instructions on how to
+   proceed:
 
-   *  Error _native_app2app_unsupported_ in case the _Downstream
-      Authorization Server_ does not provide a
-      native_authorization_endpoint.
+   *  *Call a url using HTTP*:
 
-   *  HTTP 200 with a _Routing Instructions Response_, in case it
-      requires user input to guide choosing a _Downstream Authorization
-      Server_.
+      -  A native_authorization_endpoint of a _Downstream Authorization
+         Server_.
 
-   *  HTTP 30x in case the _Downstream Authorization Server_ is known
-      and eligible, with a _native authorization request url_ towards
-      _Downstream Authorization Server_ in the Location header.
+      -  Or in case of an error, a redirect_uri of an _Upstream
+         Authorization Server_ with a relevant error response.
 
-3.6.3.  Client App processes the response
+   *  *Natively invoke* a _User-Interacting App_, if present on the
+      device.
 
-   _Client App_ SHALL terminate the protocol flow if it obtains:
+   *  *Prompt end-user* for input to guide request routing.
 
-   *  An error response.
+4.3.  Client App processes the response
 
-   *  Or an HTTP 2xx response other than a _Routing Instructions
-      Response_.
+   _Client App_ follows the instruction it obtained:
 
-   *  A _Routing Instructions Response_, in case _Client App_ does not
-      support it.
+   *  Calls urls using HTTP.
 
-   If a _Routing Instructions Response_ was obtained and is supported,
-   _Client App_ interacts with end-user and provides their response to
-   _Authorization Server_.
+   *  Prompts end-user to guide request routing and provides their input
+      to _Authorization Server_.
 
-   If an HTTP 30x redirect response was obtained, _Client App_ SHALL use
-   OS SDK's to locate an app claiming the url in the Location header,
-   and if found SHALL natively invoke it to process the _native
-   authorization request_.
+   *  If opening a _deep link_ was instructed, uses OS SDK's to locate
+      an app claiming the url, and if found, natively invokes it.
 
-   If a suitable app is not found, _Client App_ SHALL use HTTP to call
-   the authorization request url and process the response as described
-   herein.
-
-   Client App repeats these actions until a native app is reached, or an
-   error occurs.
+   Client App repeats these actions until a _deep link_ is obtained, or
+   an error occurs.
 
    As the _Client App_ performs HTTP calls, it SHALL maintain a list of
    all the DNS domains it interacts with, serving as an Allowlist for
    later invocations as part of the response handling.
 
-   As Authorization Servers MAY use Cookies to bind security elements
-   (state, nonce, PKCE) to the user agent, causing the flow to break if
-   required cookies are missing from subsequent HTTP requests, _Client
-   App_ MUST handle cookies:
-
-   *  Store Cookies it obtains in HTTP responses.
-
-   *  Send Cookies in subsequent HTTP requests.
-
-3.6.4.  Processing by User-Interacting Authorization Server's App:
+4.4.  User-Interacting Authorization Server's App
 
    The _User-Interacting Authorization Server's_ app handles the native
    authorization request:
@@ -532,38 +508,45 @@ Content-Type: application/vnd.oauth.app2app.routing+json
       it the redirect url and its response parameters as the url-encoded
       query parameter *redirect_uri*.
 
-3.6.5.  Client App traverses Authorization Servers in reverse order
+4.5.  Client App response handling
 
    _Client App_ is natively invoked by _User-Interacting Authorization
    Server App_, with the request's redirect_uri.
 
    _Client App_ MUST validate this url, and any url subsequently
-   obtained via a 30x redirect instruction, against the Allowlist it
-   previously generated, and MUST fail if any url is not included in the
-   Allowlist.
+   obtained, against the Allowlist it previously generated, and MUST
+   fail if any url is not found in the Allowlist.
 
-   _Client App_ SHALL invoke urls it received using HTTP GET:
+   _Client App_ SHALL invoke urls it received using HTTP GET.
 
-   *  If the response is a redirect instruction (HTTP Code 30x +
-      Location header), _Client App_ SHALL proceed to call obtained urls
-      until reaching its own redirect_uri.
+   _Authorization Servers_ processing _Native App2App_ shall respond to
+   calls to their redirect_uri:
 
-   *  SHALL handle any other HTTP code (2xx / 4xx / 5xx) as a failure
-      and terminate the flow.
+   *  Using the same REST API guidelines as the
+      native_app2app_unsupported.
 
-3.6.6.  Client App obtains response
+   *  Returning a JSON body which instructs on the next url to call:
 
-   Once _Client App's_ own redirect_uri is reached, the traversal of
-   _Authorization Servers_ is complete and _Client App_ proceeds to
-   process the response:
+      HTTP/1.1 200 OK Content-Type: application/json
 
-   *  Exchange code for tokens.
+      { "action": "call", "url": "redirect_uri of an _Upstream
+      Authorization Server_", }
 
-   *  Or handle errors obtained.
+   _Client App_ SHALL handle any other response (2xx with other content-
+   types / 3xx / 4xx / 5xx) as a failure and terminate the flow.
 
-4.  Implementation Considerations
+4.6.  Flow completion
 
-4.1.  Usage and Applicability
+   Once _Client App's_ own redirect_uri is obtained, _Client App_
+   processes the response:
+
+   *  Exchanges code for tokens.
+
+   *  Or handles errors obtained.
+
+5.  Implementation Considerations
+
+5.1.  Usage and Applicability
 
    This specification MUST NOT be used when _Client App_ detects
    _Initial Authorization Server's_ url is claimed by an app on the
@@ -572,27 +555,27 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    In such case _Client App_ SHOULD natively invoke the authorization
    request url.
 
-4.2.  Detecting Presence of Native Apps claiming Urls
+5.2.  Detecting Presence of Native Apps claiming Urls
 
    Native Apps on iOS and Android MAY use OS SDK's to detect if an app
    owns a url.  The general method is the same - App calls an SDK to
    open the url as deep link and handles an exception thrown if no
    matching app is found.
 
-4.2.1.  Android
+5.2.1.  Android
 
    App SHALL invoke Android [android.method.intent] method with
    FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws
    ActivityNotFoundException if no matching app is found.
 
-4.2.2.  iOS
+5.2.2.  iOS
 
    App SHALL invoke iOS [iOS.method.openUrl] method with options
    [iOS.option.universalLinksOnly] which ensures URLs must be universal
    links and have an app configured to open them.  Otherwise the method
    returns false in completion.success.
 
-4.3.  Recovery from failed native App2App flows
+5.3.  Recovery from failed native App2App flows
 
 +---------------------------------------------------------------------------------------------+
 | +-----------+                                                                               |
@@ -636,9 +619,9 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    been installed. _Client App_ MAY choose if and when to retry the
    _Native App2App flow_ after such a failure.
 
-5.  Security Considerations
+6.  Security Considerations
 
-5.1.  Embedded User Agents
+6.1.  Embedded User Agents
 
    [RFC8252] Security Considerations advises against using _embedded
    user agents_. The main concern is preventing theft through keystroke
@@ -651,15 +634,15 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    The mechanism for providing routing instructions MUST NOT be used to
    request end-user to provide any authentication credentials.
 
-5.2.  Open redirection by Authorization Server's User-Interacting App
+6.2.  Open redirection by Authorization Server's User-Interacting App
 
    To mitigate open redirection attacks, trust establishment in
    _native_callback_uri_ is RECOMMENDED by _User-Interacting App_. Any
    federating _Authorization Server_ MAY also wish to establish trust.
 
-   The sepcific trust establishment mechanisms are outside the scope of
-   this document.  For example purposes, one way to validate could
-   leverage [OpenID.Federation]:
+   The specific trust establishment mechanisms are outside the scope of
+   this document.  For example purposes only, one possible way to
+   establish trust is [OpenID.Federation]:
 
    *  Strip url path from *native_callback_uri* (retaining the DNS
       domain).
@@ -670,7 +653,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    *  Inspect Client's metadata for redirect_uri's and validate
       *native_callback_uri* is included.
 
-5.3.  Open redirection by Client App
+6.3.  Open redirection by Client App
 
    Client App SHALL construct an Allowlist of DNS domains it traverses
    while processing the request, used to enforce all urls it later
@@ -685,22 +668,22 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    It is RECOMMENDED _Client App_ allows only one OAuth request
    processing at a time.
 
-5.4.  Deep link hijacking
+6.4.  Deep link hijacking
 
    It is RECOMMENDED that all apps in this specification shall use
    https-scheme deep links (Android App Links / iOS universal links).
    Apps SHOULD implement the most specific package identifiers
    mitigating deep link hijacking by malicious apps.
 
-5.5.  Authorization code theft and injection
+6.5.  Authorization code theft and injection
 
    It is RECOMMENDED that PKCE is used and that the code_verifier is
    tied to the _Client App_ instance, as mitigation to authorization
    code theft and injection attacks.
 
-6.  Relation to other standards
+7.  Background and relation to other standards
 
-6.1.  App2App across trust domains requires a web browser
+7.1.  App2App across trust domains requires a web browser
 
 +---------------------------------------------------------------------------------------------+
 | +-----------+                                                                               |
@@ -736,7 +719,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    Servers (_OAuth Brokers_), mobile Operating Systems default to using
    the system browser as the User Agent.
 
-6.2.  Impact of using a web browser
+7.2.  Impact of using a web browser
 
    Using a web browser may degrade the user experience in several ways:
 
@@ -760,7 +743,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
       not directly impact the flow, but can be regarded as unnecessary
       "clutter".
 
-6.3.  Relation to [OpenID.Native-SSO]
+7.3.  Relation to [OpenID.Native-SSO]
 
    [OpenID.Native-SSO] also offers a native SSO flow across apps.
    However, it is limited to apps:
@@ -770,7 +753,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
    *  Using the same Authorization Server.
 
-6.4.  Relation to [OAuth.First-Party]
+7.4.  Relation to [OAuth.First-Party]
 
    [OAuth.First-Party] also deals with native apps, but it MUST only be
    used by first-party applications, which is when the authorization
@@ -783,13 +766,13 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    required high degree of trust between the authorization server and
    the client is not fulfilled.
 
-7.  IANA Considerations
+8.  IANA Considerations
 
    This document has no IANA actions.
 
-8.  References
+9.  References
 
-8.1.  Normative References
+9.1.  Normative References
 
    [OpenID]   Sakimura, N., Bradley, J., Jones, M. B., de Medeiros, B.,
               and C. Mortimore, "OpenID Connect Core 1.0", November
@@ -844,7 +827,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
               DOI 10.17487/RFC9396, May 2023,
               <https://www.rfc-editor.org/rfc/rfc9396>.
 
-8.2.  Informative References
+9.2.  Informative References
 
    [android.method.intent]
               "Android Intent Method", n.d.,
