@@ -1181,9 +1181,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.3">
                     <p id="section-toc.1-1.3.2.3.2.3.1"><a href="#section-3.3.3" class="auto internal xref">3.3.3</a>.  <a href="#name-native-authorization-respon" class="internal xref">Native Authorization Response</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.4">
-                    <p id="section-toc.1-1.3.2.3.2.4.1"><a href="#section-3.3.4" class="auto internal xref">3.3.4</a>.  <a href="#name-native-authorization-routin" class="internal xref">Native Authorization Routing Instructions Response</a></p>
-</li>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
@@ -1550,13 +1547,13 @@ to prevent various attacks on OAuth authorization codes.<a href="#section-2.1-2.
         <h3 id="name-native_authorization_endpoi">
 <a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-native_authorization_endpoi" class="section-name selfRef">native_authorization_endpoint</a>
         </h3>
-<p id="section-3.3-1">An OAuth authorization endpoint, interoperable with all OAuth RFCs but with the following modifications, in alignment with common REST APIs:<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-1">An OAuth authorization endpoint, interoperable with other OAuth RFCs, with the following modifications, adapting it from a web-redirecting endpoint to a REST API:<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3-2.1">
             <p id="section-3.3-2.1.1"><span class="bcp14">SHALL NOT</span> use cookies.<a href="#section-3.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-2.2">
-            <p id="section-3.3-2.2.1"><span class="bcp14">SHALL</span> return Content-Type application/json header and a JSON body.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.2.1"><span class="bcp14">SHALL</span> return Content-Type header with the value "application/json", and a JSON http body.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-2.3">
             <p id="section-3.3-2.3.1"><span class="bcp14">SHALL NOT</span> return HTTP 30x redirects.<a href="#section-3.3-2.3.1" class="pilcrow">¶</a></p>
@@ -1578,9 +1575,6 @@ to prevent various attacks on OAuth authorization codes.<a href="#section-2.1-2.
             <li class="normal" id="section-3.3.1-2.2">
               <p id="section-3.3.1-2.2.1">Ensure <em>Downstream Authorization Servers</em> it federates to, offer a <em>native_authorization_endpoint</em>, otherwise return error=native_app2app_unsupported.<a href="#section-3.3.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3.3.1-2.3">
-              <p id="section-3.3.1-2.3.1"><span class="bcp14">MAY</span> provide <em>Routing Instructions Response</em>.<a href="#section-3.3.1-2.3.1" class="pilcrow">¶</a></p>
-</li>
           </ul>
 </section>
 </div>
@@ -1589,8 +1583,7 @@ to prevent various attacks on OAuth authorization codes.<a href="#section-2.1-2.
           <h4 id="name-native-authorization-reques">
 <a href="#section-3.3.2" class="section-number selfRef">3.3.2. </a><a href="#name-native-authorization-reques" class="section-name selfRef">Native Authorization Request</a>
           </h4>
-<p id="section-3.3.2-1">This is an OAuth authorization code flow request, interoperable with all OAuth RFCs.
-In addition, it accepts the follwing parameter:<a href="#section-3.3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.2-1">This is an OAuth authorization request, interoperable with other OAuth RFCs, which also accepts the follwing parameter:<a href="#section-3.3.2-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-3.3.2-2">
             <dt id="section-3.3.2-2.1">
 <strong>native_callback_uri</strong>:</dt>
@@ -1606,45 +1599,62 @@ In addition, it accepts the follwing parameter:<a href="#section-3.3.2-1" class=
           <h4 id="name-native-authorization-respon">
 <a href="#section-3.3.3" class="section-number selfRef">3.3.3. </a><a href="#name-native-authorization-respon" class="section-name selfRef">Native Authorization Response</a>
           </h4>
-<span class="break"></span><dl class="dlParallel" id="section-3.3.3-1">
-            <dt id="section-3.3.3-1.1">The response instructs <em>Client App</em> how to proceed:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.3-1.2">
-              <p id="section-3.3.3-1.2.1">Call the native_authorization_endpoint of a <em>Downstream Authorization Server</em>:<a href="#section-3.3.3-1.2.1" class="pilcrow">¶</a></p>
-<p id="section-3.3.3-1.2.2">HTTP/1.1 200 OK
-  Content-Type: application/json<a href="#section-3.3.3-1.2.2" class="pilcrow">¶</a></p>
-<p id="section-3.3.3-1.2.3">{
-      "deep_link": false,
-      "url": "uri of native authorization request for <em>Downstream Authorization Server</em>",
-  }<a href="#section-3.3.3-1.2.3" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-<dt id="section-3.3.3-1.3"></dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.3-1.4">
-              <p id="section-3.3.3-1.4.1">Or natively invoke a <em>User-Interacting App</em> if present on the device:<a href="#section-3.3.3-1.4.1" class="pilcrow">¶</a></p>
-<p id="section-3.3.3-1.4.2">HTTP/1.1 200 OK
-  Content-Type: application/json<a href="#section-3.3.3-1.4.2" class="pilcrow">¶</a></p>
-<p id="section-3.3.3-1.4.3">{
-      "deep_link": true,
-      "url": "uri of native authorization request handled by <em>User-Interacting App</em> if present on the device",
-  }<a href="#section-3.3.3-1.4.3" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-</dl>
-</section>
-</div>
-<div id="native-authorization-routing-instructions-response">
-<section id="section-3.3.4">
-          <h4 id="name-native-authorization-routin">
-<a href="#section-3.3.4" class="section-number selfRef">3.3.4. </a><a href="#name-native-authorization-routin" class="section-name selfRef">Native Authorization Routing Instructions Response</a>
-          </h4>
-<p id="section-3.3.4-1"><em>Authorization servers</em> supporting the <em>Native App2App profile</em>, but requiring end-user input to guide request routing, <span class="bcp14">MAY</span> provide a <em>Routing Instructions Response</em>.<a href="#section-3.3.4-1" class="pilcrow">¶</a></p>
-<p id="section-3.3.4-2">Example prompting end-user for multiple-choice:<a href="#section-3.3.4-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.3.4-3">
+<p id="section-3.3.3-1">The response instructs <em>Client App</em> how to proceed:<a href="#section-3.3.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3.3-2.1">
+              <p id="section-3.3.3-2.1.1"><strong>Call using HTTP</strong> in order to:<a href="#section-3.3.3-2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3.3-2.1.2.1">
+                  <p id="section-3.3.3-2.1.2.1.1">Invoke a native_authorization_endpoint of a <em>Downstream Authorization Server</em>.<a href="#section-3.3.3-2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-3.3.3-2.1.2.2">
+                  <p id="section-3.3.3-2.1.2.2.1">Or in case of an error, invoke the redirect_uri of an <em>Upstream Authorization Server</em> with an error response.<a href="#section-3.3.3-2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              </ul>
+</li>
+          </ul>
+<p id="section-3.3.3-3">Example:<a href="#section-3.3.3-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.3.3-4">
 <pre>
 HTTP/1.1 200 OK
-Content-Type: application/vnd.oauth.app2app.routing+json
+Content-Type: application/json
 
 {
+    "action": "call",
+    "url": "uri of native authorization request for *Downstream Authorization Server*, or redirect_uri of an *Upstream Authorization Server* with an error response",
+}
+</pre><a href="#section-3.3.3-4" class="pilcrow">¶</a>
+</div>
+<ul class="normal">
+<li class="normal" id="section-3.3.3-5.1">
+              <p id="section-3.3.3-5.1.1">Natively invoke a <em>User-Interacting App</em>, if present on the device:<a href="#section-3.3.3-5.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-3.3.3-6">Example:<a href="#section-3.3.3-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.3.3-7">
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "action": "deep_link",
+    "url": "uri of native authorization request handled by *User-Interacting App* if present on the device",
+}
+</pre><a href="#section-3.3.3-7" class="pilcrow">¶</a>
+</div>
+<ul class="normal">
+<li class="normal" id="section-3.3.3-8.1">
+              <p id="section-3.3.3-8.1.1">Prompt end-user for input to guide request routing.<a href="#section-3.3.3-8.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-3.3.3-9">Example prompting end-user for multiple-choice:<a href="#section-3.3.3-9" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.3.3-10">
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "action": "prompt",
     "id": "request-identifier-1",
     "logo": "uri or base64-encoded logo of Authorization Server",
     "userPrompt": {
@@ -1680,15 +1690,16 @@ Content-Type: application/vnd.oauth.app2app.routing+json
         "get": "url to use for a GET with query params"
     }
 }
-</pre><a href="#section-3.3.4-3" class="pilcrow">¶</a>
+</pre><a href="#section-3.3.3-10" class="pilcrow">¶</a>
 </div>
-<p id="section-3.3.4-4">Example prompting end-user for input entry:<a href="#section-3.3.4-4" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.3.4-5">
+<p id="section-3.3.3-11">Example prompting end-user for input entry:<a href="#section-3.3.3-11" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.3.3-12">
 <pre>
 HTTP/1.1 200 OK
 Content-Type: application/vnd.oauth.app2app.routing+json
 
 {
+    "action": "prompt",
     "id": "request-identifier-2",
     "logo": "uri or base64-encoded logo of Authorization Server",
     "userPrompt": {
@@ -1705,35 +1716,35 @@ Content-Type: application/vnd.oauth.app2app.routing+json
         "get": "url to use for a GET with query params"
     }
 }
-</pre><a href="#section-3.3.4-5" class="pilcrow">¶</a>
+</pre><a href="#section-3.3.3-12" class="pilcrow">¶</a>
 </div>
-<span class="break"></span><dl class="dlParallel" id="section-3.3.4-6">
-            <dt id="section-3.3.4-6.1">
+<span class="break"></span><dl class="dlParallel" id="section-3.3.3-13">
+            <dt id="section-3.3.3-13.1">
 <em>Client App</em> supporting <em>Routing Instructions Response</em> identifies the response as such using its Content-Type, then prompts end-user for their input:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.4-6.2">
-              <p id="section-3.3.4-6.2.1"><em>logo</em> is <span class="bcp14">OPTIONAL</span> and used to brand the interaction and represent the Authorization Server.<a href="#section-3.3.4-6.2.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.3.3-13.2">
+              <p id="section-3.3.3-13.2.1"><em>logo</em> is <span class="bcp14">OPTIONAL</span> and used to brand the interaction and represent the Authorization Server.<a href="#section-3.3.3-13.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.4-6.3"></dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.4-6.4">
-              <p id="section-3.3.4-6.4.1"><em>userPrompt</em> <span class="bcp14">MUST</span> specify at least <em>options</em> or <em>inputs</em> and <span class="bcp14">MAY</span> specify both.<a href="#section-3.3.4-6.4.1" class="pilcrow">¶</a></p>
+<dt id="section-3.3.3-13.3"></dt>
+            <dd style="margin-left: 1.5em" id="section-3.3.3-13.4">
+              <p id="section-3.3.3-13.4.1"><em>userPrompt</em> <span class="bcp14">MUST</span> specify at least <em>options</em> or <em>inputs</em> and <span class="bcp14">MAY</span> specify both.<a href="#section-3.3.3-13.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.4-6.5"></dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.4-6.6">
-              <p id="section-3.3.4-6.6.1"><em>options</em> specifies 1..n multiple-choice prompts.<a href="#section-3.3.4-6.6.1" class="pilcrow">¶</a></p>
+<dt id="section-3.3.3-13.5"></dt>
+            <dd style="margin-left: 1.5em" id="section-3.3.3-13.6">
+              <p id="section-3.3.3-13.6.1"><em>options</em> specifies 1..n multiple-choice prompts.<a href="#section-3.3.3-13.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.4-6.7"></dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.4-6.8">
-              <p id="section-3.3.4-6.8.1"><em>inputs</em> specifies free-form input.<a href="#section-3.3.4-6.8.1" class="pilcrow">¶</a></p>
+<dt id="section-3.3.3-13.7"></dt>
+            <dd style="margin-left: 1.5em" id="section-3.3.3-13.8">
+              <p id="section-3.3.3-13.8.1"><em>inputs</em> specifies free-form input.<a href="#section-3.3.3-13.8.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
-<p id="section-3.3.4-7"><em>Client App</em> provides end-user's input using <em>response</em> which specifies HTTP GET or POST urls.
-If provided, <em>Client App</em> includes "id" as interaction identifier.<a href="#section-3.3.4-7" class="pilcrow">¶</a></p>
-<p id="section-3.3.4-8">Example <em>Client App</em> response following end-user multiple-choice:<a href="#section-3.3.4-8" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.3.4-9">
+<p id="section-3.3.3-14"><em>Client App</em> provides end-user's input using <em>response</em> which specifies HTTP GET or POST urls.
+If provided, <em>Client App</em> includes "id" as interaction identifier.<a href="#section-3.3.3-14" class="pilcrow">¶</a></p>
+<p id="section-3.3.3-15">Example <em>Client App</em> response following end-user multiple-choice:<a href="#section-3.3.3-15" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.3.3-16">
 <pre>
 POST /native/routing HTTP/1.1
 Host: example.as.com
@@ -1742,10 +1753,10 @@ Content-Type: application/x-www-form-urlencoded
 id=request-identifier-1
 &amp;bank=bankOfSomething
 &amp;segment=retail
-</pre><a href="#section-3.3.4-9" class="pilcrow">¶</a>
+</pre><a href="#section-3.3.3-16" class="pilcrow">¶</a>
 </div>
-<p id="section-3.3.4-10">Example <em>Client App</em> response following end-user input entry:<a href="#section-3.3.4-10" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.3.4-11">
+<p id="section-3.3.3-17">Example <em>Client App</em> response following end-user input entry:<a href="#section-3.3.3-17" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.3.3-18">
 <pre>
 POST /native/routing HTTP/1.1
 Host: example.as.com
@@ -1753,7 +1764,7 @@ Content-Type: application/x-www-form-urlencoded
 
 id=request-identifier-2
 &amp;email=end_user@example.as.com
-</pre><a href="#section-3.3.4-11" class="pilcrow">¶</a>
+</pre><a href="#section-3.3.3-18" class="pilcrow">¶</a>
 </div>
 </section>
 </div>

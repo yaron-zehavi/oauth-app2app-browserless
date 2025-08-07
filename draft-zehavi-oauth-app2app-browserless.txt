@@ -79,7 +79,6 @@ Table of Contents
        3.3.1.  Native App2App Profile
        3.3.2.  Native Authorization Request
        3.3.3.  Native Authorization Response
-       3.3.4.  Native Authorization Routing Instructions Response
      3.4.  Protocol Flow
        3.4.1.  Client App calls Authorization Server
        3.4.2.  Authorization Server
@@ -277,13 +276,14 @@ Table of Contents
 
 3.3.  native_authorization_endpoint
 
-   An OAuth authorization endpoint, interoperable with all OAuth RFCs
-   but with the following modifications, in alignment with common REST
-   APIs:
+   An OAuth authorization endpoint, interoperable with other OAuth RFCs,
+   with the following modifications, adapting it from a web-redirecting
+   endpoint to a REST API:
 
    *  SHALL NOT use cookies.
 
-   *  SHALL return Content-Type application/json header and a JSON body.
+   *  SHALL return Content-Type header with the value "application/
+      json", and a JSON http body.
 
    *  SHALL NOT return HTTP 30x redirects.
 
@@ -301,12 +301,10 @@ Table of Contents
       _native_authorization_endpoint_, otherwise return
       error=native_app2app_unsupported.
 
-   *  MAY provide _Routing Instructions Response_.
-
 3.3.2.  Native Authorization Request
 
-   This is an OAuth authorization code flow request, interoperable with
-   all OAuth RFCs.  In addition, it accepts the follwing parameter:
+   This is an OAuth authorization request, interoperable with other
+   OAuth RFCs, which also accepts the follwing parameter:
 
    *native_callback_uri*:  _Client App's_ redirect_uri, claimed as a
       deep link and invoked by _User-Interacting App_ to natively return
@@ -314,34 +312,48 @@ Table of Contents
 
 3.3.3.  Native Authorization Response
 
-   The response instructs _Client App_ how to proceed:  Call the native_
-      authorization_endpoint of a _Downstream Authorization Server_:
+   The response instructs _Client App_ how to proceed:
 
-      HTTP/1.1 200 OK Content-Type: application/json
+   *  *Call using HTTP* in order to:
 
-      { "deep_link": false, "url": "uri of native authorization request
-      for _Downstream Authorization Server_", }
+      -  Invoke a native_authorization_endpoint of a _Downstream
+         Authorization Server_.
 
-      Or natively invoke a _User-Interacting App_ if present on the
+      -  Or in case of an error, invoke the redirect_uri of an _Upstream
+         Authorization Server_ with an error response.
+
+   Example:
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "action": "call",
+    "url": "uri of native authorization request for *Downstream Authorization Server*, or redirect_uri of an *Upstream Authorization Server* with an error response",
+}
+
+   *  Natively invoke a _User-Interacting App_, if present on the
       device:
 
-      HTTP/1.1 200 OK Content-Type: application/json
+   Example:
 
-      { "deep_link": true, "url": "uri of native authorization request
-      handled by _User-Interacting App_ if present on the device", }
+HTTP/1.1 200 OK
+Content-Type: application/json
 
-3.3.4.  Native Authorization Routing Instructions Response
+{
+    "action": "deep_link",
+    "url": "uri of native authorization request handled by *User-Interacting App* if present on the device",
+}
 
-   _Authorization servers_ supporting the _Native App2App profile_, but
-   requiring end-user input to guide request routing, MAY provide a
-   _Routing Instructions Response_.
+   *  Prompt end-user for input to guide request routing.
 
    Example prompting end-user for multiple-choice:
 
 HTTP/1.1 200 OK
-Content-Type: application/vnd.oauth.app2app.routing+json
+Content-Type: application/json
 
 {
+    "action": "prompt",
     "id": "request-identifier-1",
     "logo": "uri or base64-encoded logo of Authorization Server",
     "userPrompt": {
@@ -384,6 +396,7 @@ HTTP/1.1 200 OK
 Content-Type: application/vnd.oauth.app2app.routing+json
 
 {
+    "action": "prompt",
     "id": "request-identifier-2",
     "logo": "uri or base64-encoded logo of Authorization Server",
     "userPrompt": {
