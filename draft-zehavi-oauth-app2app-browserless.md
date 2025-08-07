@@ -358,9 +358,9 @@ It's response contains one of the possible instructions on how to proceed:
 
 * Calls urls using HTTP.
 * Prompts end-user to guide request routing and provides their input to *Authorization Server*.
-* If opening a *deep link* was instructed, uses OS SDK's to locate an app claiming the url, and if found, natively invokes it.
 
-Client App repeats these actions until a *deep link* is obtained, or an error occurs.
+*Client App* repeats these actions until a *deep link* is obtained, or an error occurs.
+Once *deep link* invocation is instructed, it uses OS SDK's to locate an app claiming the url, and if found, natively invokes it
 
 As the *Client App* performs HTTP calls, it SHALL maintain a list of all the DNS domains it interacts with, serving as an Allowlist for later invocations as part of the response handling.
 
