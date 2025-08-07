@@ -75,19 +75,19 @@ Table of Contents
    3.  Protocol Overview
      3.1.  General Flow
      3.2.  Authorization Server Metadata
-     3.3.  native_authorization_endpoint
-       3.3.1.  Native App2App Profile
-       3.3.2.  Native Authorization Request
-       3.3.3.  Native Authorization Response
-     3.4.  Protocol Flow
-       3.4.1.  Client App calls Authorization Server
-       3.4.2.  Authorization Server
-       3.4.3.  Client App processes the response
-       3.4.4.  Processing by User-Interacting Authorization Server's
+     3.3.  native_authorization_endpoint and Native App2App Profile
+     3.4.  Native Authorization Request
+     3.5.  Native Authorization Response
+       3.5.1.  Prompting end-user and providing their response
+     3.6.  Protocol Flow
+       3.6.1.  Client App calls Authorization Server
+       3.6.2.  Authorization Server
+       3.6.3.  Client App processes the response
+       3.6.4.  Processing by User-Interacting Authorization Server's
                App:
-       3.4.5.  Client App traverses Authorization Servers in reverse
+       3.6.5.  Client App traverses Authorization Servers in reverse
                order
-       3.4.6.  Client App obtains response
+       3.6.6.  Client App obtains response
    4.  Implementation Considerations
      4.1.  Usage and Applicability
      4.2.  Detecting Presence of Native Apps claiming Urls
@@ -274,11 +274,12 @@ Table of Contents
    *native_authorization_endpoint*:  URL of the authorization server's
       native authorization endpoint.
 
-3.3.  native_authorization_endpoint
+3.3.  native_authorization_endpoint and Native App2App Profile
 
-   An OAuth authorization endpoint, interoperable with other OAuth RFCs,
-   with the following modifications, adapting it from a web-redirecting
-   endpoint to a REST API:
+   *native_authorization_endpoint* is an OAuth authorization endpoint,
+   interoperable with other OAuth RFCs, with the following
+   modifications, adapting it from a web-redirecting endpoint to a REST
+   API:
 
    *  SHALL NOT use cookies.
 
@@ -289,10 +290,9 @@ Table of Contents
 
    *  SHALL NOT respond with bot-detection challenges such as CAPTCHAs.
 
-3.3.1.  Native App2App Profile
-
-   _Authorization servers_ providing a *native_authorization_endpoint*
-   MUST follow the *Native App2App Profile's* requirements:
+   In addition, _Authorization servers_ providing a
+   _native_authorization_endpoint_ MUST also follow the *Native App2App
+   Profile's* requirements:
 
    *  Accept the *native_callback_uri* parameter and forward it to
       _Downstream Authorization Servers_.
@@ -301,7 +301,7 @@ Table of Contents
       _native_authorization_endpoint_, otherwise return
       error=native_app2app_unsupported.
 
-3.3.2.  Native Authorization Request
+3.4.  Native Authorization Request
 
    This is an OAuth authorization request, interoperable with other
    OAuth RFCs, which also accepts the follwing parameter:
@@ -310,16 +310,16 @@ Table of Contents
       deep link and invoked by _User-Interacting App_ to natively return
       to _Client App_.
 
-3.3.3.  Native Authorization Response
+3.5.  Native Authorization Response
 
    The response instructs _Client App_ how to proceed:
 
-   *  *Call using HTTP* in order to:
+   *  *Call using HTTP*:
 
-      -  Invoke a native_authorization_endpoint of a _Downstream
-         Authorization Server_.
+      -  A native_authorization_endpoint of a _Downstream Authorization
+         Server_.
 
-      -  Or in case of an error, invoke the redirect_uri of an _Upstream
+      -  Or in case of an error, a redirect_uri of an _Upstream
          Authorization Server_ with an error response.
 
    Example:
@@ -329,10 +329,10 @@ Content-Type: application/json
 
 {
     "action": "call",
-    "url": "uri of native authorization request for *Downstream Authorization Server*, or redirect_uri of an *Upstream Authorization Server* with an error response",
+    "url": "native authorization request for *Downstream Authorization Server*, or redirect_uri of an *Upstream Authorization Server* with an error response",
 }
 
-   *  Natively invoke a _User-Interacting App_, if present on the
+   *  *Natively invoke* a _User-Interacting App_, if present on the
       device:
 
    Example:
@@ -345,9 +345,9 @@ Content-Type: application/json
     "url": "uri of native authorization request handled by *User-Interacting App* if present on the device",
 }
 
-   *  Prompt end-user for input to guide request routing.
+   *  *Prompt end-user* for input to guide request routing.
 
-   Example prompting end-user for multiple-choice:
+   Example prompting end-user for 2 multiple-choice inputs:
 
 HTTP/1.1 200 OK
 Content-Type: application/json
@@ -390,7 +390,7 @@ Content-Type: application/json
     }
 }
 
-   Example prompting end-user for input entry:
+   Example prompting end-user for text input entry:
 
 HTTP/1.1 200 OK
 Content-Type: application/vnd.oauth.app2app.routing+json
@@ -414,10 +414,10 @@ Content-Type: application/vnd.oauth.app2app.routing+json
     }
 }
 
-   _Client App_ supporting _Routing Instructions Response_ identifies
-   the response as such using its Content-Type, then prompts end-user
-   for their input:  _logo_ is OPTIONAL and used to brand the
-      interaction and represent the Authorization Server.
+3.5.1.  Prompting end-user and providing their response
+
+   _Client App_ prompts end-user for their input:  _logo_ is OPTIONAL
+      and used for branding purposes.
 
       _userPrompt_ MUST specify at least _options_ or _inputs_ and MAY
       specify both.
@@ -426,7 +426,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
       _inputs_ specifies free-form input.
 
-   _Client App_ provides end-user's input using _response_ which
+   _Client App_ provides end-user's input using _response_, which
    specifies HTTP GET or POST urls.  If provided, _Client App_ includes
    "id" as interaction identifier.
 
@@ -449,16 +449,16 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    id=request-identifier-2
    &email=end_user@example.as.com
 
-3.4.  Protocol Flow
+3.6.  Protocol Flow
 
-3.4.1.  Client App calls Authorization Server
+3.6.1.  Client App calls Authorization Server
 
    Client App uses HTTP to call _Initial Authorization Server's_
    _native_authorization_endpoint_ with an authorization request
    including the _native_callback_uri_ Authorization Details [RFC9396]
    RAR Type.
 
-3.4.2.  Authorization Server
+3.6.2.  Authorization Server
 
    _Authorization Server_ evaluates the native authorization request.
    It MAY return:
@@ -475,7 +475,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
       and eligible, with a _native authorization request url_ towards
       _Downstream Authorization Server_ in the Location header.
 
-3.4.3.  Client App processes the response
+3.6.3.  Client App processes the response
 
    _Client App_ SHALL terminate the protocol flow if it obtains:
 
@@ -516,7 +516,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 
    *  Send Cookies in subsequent HTTP requests.
 
-3.4.4.  Processing by User-Interacting Authorization Server's App:
+3.6.4.  Processing by User-Interacting Authorization Server's App:
 
    The _User-Interacting Authorization Server's_ app handles the native
    authorization request:
@@ -536,7 +536,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
       it the redirect url and its response parameters as the url-encoded
       query parameter *redirect_uri*.
 
-3.4.5.  Client App traverses Authorization Servers in reverse order
+3.6.5.  Client App traverses Authorization Servers in reverse order
 
    _Client App_ is natively invoked by _User-Interacting Authorization
    Server App_, with the request's redirect_uri.
@@ -555,7 +555,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    *  SHALL handle any other HTTP code (2xx / 4xx / 5xx) as a failure
       and terminate the flow.
 
-3.4.6.  Client App obtains response
+3.6.6.  Client App obtains response
 
    Once _Client App's_ own redirect_uri is reached, the traversal of
    _Authorization Servers_ is complete and _Client App_ proceeds to
