@@ -182,37 +182,35 @@ This document introduces the following authorization server metadata {{RFC8414}}
 **native_authorization_endpoint**:
 : URL of the authorization server's native authorization endpoint.
 
-## native_authorization_endpoint
+## native_authorization_endpoint and Native App2App Profile
 
-An OAuth authorization endpoint, interoperable with other OAuth RFCs, with the following modifications, adapting it from a web-redirecting endpoint to a REST API:
+**native_authorization_endpoint** is an OAuth authorization endpoint, interoperable with other OAuth RFCs, with the following modifications, adapting it from a web-redirecting endpoint to a REST API:
 
 * SHALL NOT use cookies.
 * SHALL return Content-Type header with the value "application/json", and a JSON http body.
 * SHALL NOT return HTTP 30x redirects.
 * SHALL NOT respond with bot-detection challenges such as CAPTCHAs.
 
-### Native App2App Profile
-
-*Authorization servers* providing a **native_authorization_endpoint** MUST follow the **Native App2App Profile's** requirements:
+In addition, *Authorization servers* providing a *native_authorization_endpoint* MUST also follow the **Native App2App Profile's** requirements:
 
 * Accept the **native_callback_uri** parameter and forward it to *Downstream Authorization Servers*.
 * Ensure *Downstream Authorization Servers* it federates to, offer a *native_authorization_endpoint*, otherwise return error=native_app2app_unsupported.
 
-### Native Authorization Request
+## Native Authorization Request
 
 This is an OAuth authorization request, interoperable with other OAuth RFCs, which also accepts the follwing parameter:
 
 **native_callback_uri**:
 : *Client App's* redirect_uri, claimed as a deep link and invoked by *User-Interacting App* to natively return to *Client App*.
 
-### Native Authorization Response
+## Native Authorization Response
 
 The response instructs *Client App* how to proceed:
 
-* **Call using HTTP** in order to:
+* **Call using HTTP**:
 
-  * Invoke a native_authorization_endpoint of a *Downstream Authorization Server*.
-  * Or in case of an error, invoke the redirect_uri of an *Upstream Authorization Server* with an error response.
+  * A native_authorization_endpoint of a *Downstream Authorization Server*.
+  * Or in case of an error, a redirect_uri of an *Upstream Authorization Server* with an error response.
 
 Example:
 
@@ -221,10 +219,10 @@ Example:
 
     {
         "action": "call",
-        "url": "uri of native authorization request for *Downstream Authorization Server*, or redirect_uri of an *Upstream Authorization Server* with an error response",
+        "url": "native authorization request for *Downstream Authorization Server*, or redirect_uri of an *Upstream Authorization Server* with an error response",
     }
 
-* Natively invoke a *User-Interacting App*, if present on the device:
+* **Natively invoke** a *User-Interacting App*, if present on the device:
 
 Example:
 
@@ -236,9 +234,9 @@ Example:
         "url": "uri of native authorization request handled by *User-Interacting App* if present on the device",
     }
 
-* Prompt end-user for input to guide request routing.
+* **Prompt end-user** for input to guide request routing.
 
-Example prompting end-user for multiple-choice:
+Example prompting end-user for 2 multiple-choice inputs:
 
     HTTP/1.1 200 OK
     Content-Type: application/json
@@ -281,7 +279,7 @@ Example prompting end-user for multiple-choice:
         }
     }
 
-Example prompting end-user for input entry:
+Example prompting end-user for text input entry:
 
     HTTP/1.1 200 OK
     Content-Type: application/vnd.oauth.app2app.routing+json
@@ -305,14 +303,16 @@ Example prompting end-user for input entry:
         }
     }
 
-*Client App* supporting *Routing Instructions Response* identifies the response as such using its Content-Type, then prompts end-user for their input:
+### Prompting end-user and providing their response
 
-: *logo* is OPTIONAL and used to brand the interaction and represent the Authorization Server.
+*Client App* prompts end-user for their input:
+
+: *logo* is OPTIONAL and used for branding purposes.
 : *userPrompt* MUST specify at least *options* or *inputs* and MAY specify both.
 : *options* specifies 1..n multiple-choice prompts.
 : *inputs* specifies free-form input.
 
-*Client App* provides end-user's input using *response* which specifies HTTP GET or POST urls.
+*Client App* provides end-user's input using *response*, which specifies HTTP GET or POST urls.
 If provided, *Client App* includes "id" as interaction identifier.
 
 Example *Client App* response following end-user multiple-choice:
