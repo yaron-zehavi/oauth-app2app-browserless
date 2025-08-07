@@ -75,10 +75,10 @@ Table of Contents
    3.  Protocol Overview
      3.1.  General Flow
      3.2.  Authorization Server Metadata
-     3.3.  native_authorization_endpoint and Native App2App Profile
+     3.3.  native_authorization_endpoint
      3.4.  Native Authorization Request
      3.5.  Native Authorization Response
-       3.5.1.  Prompting end-user and providing their response
+       3.5.1.  Providing end-users input to guide request routing
      3.6.  Protocol Flow
        3.6.1.  Client App calls Authorization Server
        3.6.2.  Authorization Server
@@ -137,11 +137,9 @@ Table of Contents
 
    This document specifies:
 
-   *  A *Native App2App Profile* _Authorization Servers_ SHOULD follow
-      to support browser-less App2App flows.
-
    *  A new Authorization Server endpoint and corresponding metadata
-      property: *native_authorization_endpoint*.
+      property REQUIRED to support the browser-less App2App flow:
+      *native_authorization_endpoint*.
 
    *  A new error code value: *native_app2app_unsupported*
 
@@ -268,13 +266,12 @@ Table of Contents
 3.2.  Authorization Server Metadata
 
    This document introduces the following authorization server metadata
-   [RFC8414] parameter to indicate it supports the _Native App2App
-   Profile_.
+   [RFC8414] parameter to indicate it supports _Native App2App_.
 
    *native_authorization_endpoint*:  URL of the authorization server's
       native authorization endpoint.
 
-3.3.  native_authorization_endpoint and Native App2App Profile
+3.3.  native_authorization_endpoint
 
    *native_authorization_endpoint* is an OAuth authorization endpoint,
    interoperable with other OAuth RFCs, with the following
@@ -290,25 +287,25 @@ Table of Contents
 
    *  SHALL NOT respond with bot-detection challenges such as CAPTCHAs.
 
-   In addition, _Authorization servers_ providing a
-   _native_authorization_endpoint_ MUST also follow the *Native App2App
-   Profile's* requirements:
-
-   *  Accept the *native_callback_uri* parameter and forward it to
-      _Downstream Authorization Servers_.
-
-   *  Ensure _Downstream Authorization Servers_ it federates to, offer a
-      _native_authorization_endpoint_, otherwise return
-      error=native_app2app_unsupported.
+   _native_authorization_endpoint_ accepts the *native_callback_uri*
+   parameter:  _Client App's_ redirect_uri, claimed as a deep link and
+      invoked by _User-Interacting App_ to natively return to _Client
+      App_.
 
 3.4.  Native Authorization Request
 
    This is an OAuth authorization request, interoperable with other
-   OAuth RFCs, which also accepts the follwing parameter:
+   OAuth RFCs, which also accepts the _native_callback_uri_ parameter.
 
-   *native_callback_uri*:  _Client App's_ redirect_uri, claimed as a
-      deep link and invoked by _User-Interacting App_ to natively return
-      to _Client App_.
+   _Authorization servers_ processing a _native authorization request_
+   MUST also:
+
+   *  Forward the *native_callback_uri* to _Downstream Authorization
+      Servers_.
+
+   *  Ensure _Downstream Authorization Servers_ it federates to, offer a
+      _native_authorization_endpoint_, otherwise return
+      error=native_app2app_unsupported.
 
 3.5.  Native Authorization Response
 
@@ -414,7 +411,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
     }
 }
 
-3.5.1.  Prompting end-user and providing their response
+3.5.1.  Providing end-users input to guide request routing
 
    _Client App_ prompts end-user for their input:  _logo_ is OPTIONAL
       and used for branding purposes.
@@ -454,18 +451,17 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 3.6.1.  Client App calls Authorization Server
 
    Client App uses HTTP to call _Initial Authorization Server's_
-   _native_authorization_endpoint_ with an authorization request
-   including the _native_callback_uri_ Authorization Details [RFC9396]
-   RAR Type.
+   _native_authorization_endpoint_ including the _native_callback_uri_
+   parameter.
 
 3.6.2.  Authorization Server
 
    _Authorization Server_ evaluates the native authorization request.
    It MAY return:
 
-   *  Error _native_app2app_unsupported_ in case the intended
-      _Downstream Authorization Server_ does not support the _Native
-      App2App Profile_.
+   *  Error _native_app2app_unsupported_ in case the _Downstream
+      Authorization Server_ does not provide a
+      native_authorization_endpoint.
 
    *  HTTP 200 with a _Routing Instructions Response_, in case it
       requires user input to guide choosing a _Downstream Authorization
