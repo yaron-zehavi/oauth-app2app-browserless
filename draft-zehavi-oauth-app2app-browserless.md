@@ -198,7 +198,7 @@ This document introduces the following parameter as authorization server metadat
 *native_callback_uri* accepts the redirect_uri parameter.
 
 **redirect_uri**:
-: url-encoded **redirect_uri** from *User-Interacting App* including its respective response parameters.
+: url-encoded redirect_uri from *User-Interacting App* responding to its *Upstream Authorization Server*, including its respective response parameters.
 
 ## Native Authorization Request
 
@@ -366,7 +366,7 @@ It's response contains one of the possible instructions on how to proceed:
 * Calls urls using HTTP.
 * Prompts end-user to guide request routing and provides their input to *Authorization Server*.
 
-*Client App* repeats these actions until a *deep link* is obtained, or an error occurs.
+*Client App* repeats these actions until a **deep link** is obtained, or an error occurs.
 Once *deep link* invocation is instructed, it uses OS SDK's to locate an app claiming the url, and if found, natively invokes it
 
 As the *Client App* performs HTTP calls, it SHALL maintain a list of all the DNS domains it interacts with, serving as an Allowlist for later invocations as part of the response handling.
@@ -383,16 +383,18 @@ The *User-Interacting Authorization Server's* app handles the native authorizati
 
 ## Client App response handling
 
-*Client App* is natively invoked by *User-Interacting Authorization Server App*, with the request's redirect_uri.
+*Client App* is natively invoked by *User-Interacting Authorization Server App*, with a url-encoded **redirect_uri** as parameter.
 
-*Client App* MUST validate this url, and any url subsequently obtained, against the Allowlist it previously generated, and MUST terminate the flow if any url is not found in the Allowlist.
+*Client App* MUST validate *redirect_uri*, and any url subsequently obtained, using the Allowlist it previously generated, and MUST terminate the flow if any url is not found in the Allowlist.
 
-*Client App* SHALL invoke urls it received using HTTP GET.
+*Client App* SHALL invoke *redirect_uri*, and any subsequent urls received using HTTP GET.
 
 **Authorization Servers** processing *Native App2App* MUST respond to redirect_uri invocations:
 
 * According to the REST API guidelines specified for native_authorization_endpoint.
-* Returning a JSON body instructing the next url to call:
+* Returning a JSON body instructing the next url to call.
+
+Example:
 
     HTTP/1.1 200 OK
     Content-Type: application/json
@@ -402,7 +404,7 @@ The *User-Interacting Authorization Server's* app handles the native authorizati
         "url": "redirect_uri of an *Upstream Authorization Server*",
     }
 
-*Client App* SHALL handle any other response (2xx with other content-types / 3xx / 4xx / 5xx) as a failure and terminate the flow.
+*Client App* MUST handle any other response (2xx with other content-types / 3xx / 4xx / 5xx) as a failure and terminate the flow.
 
 ## Flow completion
 
