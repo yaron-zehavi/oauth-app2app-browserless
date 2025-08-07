@@ -284,9 +284,16 @@ Table of Contents
    *  SHALL NOT respond with bot-detection challenges such as CAPTCHAs.
 
    _native_authorization_endpoint_ accepts the *native_callback_uri*
-   parameter:  _Client App's_ redirect_uri, claimed as a deep link and
-      invoked by _User-Interacting App_ to natively return to _Client
-      App_.
+   parameter.
+
+   *native_callback_uri*:  _Client App's_ redirect_uri, claimed as a
+      deep link and invoked by _User-Interacting App_ to natively return
+      to _Client App_.
+
+   _native_callback_uri_ accepts the redirect_uri parameter.
+
+   *redirect_uri*:  url-encoded *redirect_uri* from _User-Interacting
+      App_ including its respective response parameters.
 
 3.4.  Native Authorization Request
 
@@ -492,8 +499,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    The _User-Interacting Authorization Server's_ app handles the native
    authorization request:
 
-   *  Validates the native authorization request as an OAuth
-      authorization code request.
+   *  Validates the native authorization request.
 
    *  Establishes trust in _native_callback_uri_, otherwise terminates
       the flow.
