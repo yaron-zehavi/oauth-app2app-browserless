@@ -110,8 +110,7 @@ The use of web browsers in App2App flows, degrades the user experience somewhat.
 
 This document specifies:
 
-* A **Native App2App Profile** *Authorization Servers* SHOULD follow to support browser-less App2App flows.
-* A new Authorization Server endpoint and corresponding metadata property: **native_authorization_endpoint**.
+* A new Authorization Server endpoint and corresponding metadata property REQUIRED to support the browser-less App2App flow: **native_authorization_endpoint**.
 * A new error code value: **native_app2app_unsupported**
 
 # Conventions and Definitions
@@ -177,12 +176,12 @@ the following terms:
 
 ## Authorization Server Metadata
 
-This document introduces the following authorization server metadata {{RFC8414}} parameter to indicate it supports the *Native App2App Profile*.
+This document introduces the following authorization server metadata {{RFC8414}} parameter to indicate it supports *Native App2App*.
 
 **native_authorization_endpoint**:
 : URL of the authorization server's native authorization endpoint.
 
-## native_authorization_endpoint and Native App2App Profile
+## native_authorization_endpoint
 
 **native_authorization_endpoint** is an OAuth authorization endpoint, interoperable with other OAuth RFCs, with the following modifications, adapting it from a web-redirecting endpoint to a REST API:
 
@@ -191,17 +190,17 @@ This document introduces the following authorization server metadata {{RFC8414}}
 * SHALL NOT return HTTP 30x redirects.
 * SHALL NOT respond with bot-detection challenges such as CAPTCHAs.
 
-In addition, *Authorization servers* providing a *native_authorization_endpoint* MUST also follow the **Native App2App Profile's** requirements:
-
-* Accept the **native_callback_uri** parameter and forward it to *Downstream Authorization Servers*.
-* Ensure *Downstream Authorization Servers* it federates to, offer a *native_authorization_endpoint*, otherwise return error=native_app2app_unsupported.
+*native_authorization_endpoint* accepts the **native_callback_uri** parameter:
+: *Client App's* redirect_uri, claimed as a deep link and invoked by *User-Interacting App* to natively return to *Client App*.
 
 ## Native Authorization Request
 
-This is an OAuth authorization request, interoperable with other OAuth RFCs, which also accepts the follwing parameter:
+This is an OAuth authorization request, interoperable with other OAuth RFCs, which also accepts the *native_callback_uri* parameter.
 
-**native_callback_uri**:
-: *Client App's* redirect_uri, claimed as a deep link and invoked by *User-Interacting App* to natively return to *Client App*.
+*Authorization servers* processing a *native authorization request* MUST also:
+
+* Forward the **native_callback_uri** to *Downstream Authorization Servers*.
+* Ensure *Downstream Authorization Servers* it federates to, offer a *native_authorization_endpoint*, otherwise return error=native_app2app_unsupported.
 
 ## Native Authorization Response
 
@@ -303,7 +302,7 @@ Example prompting end-user for text input entry:
         }
     }
 
-### Prompting end-user and providing their response
+### Providing end-users input to guide request routing
 
 *Client App* prompts end-user for their input:
 
@@ -338,14 +337,14 @@ Example *Client App* response following end-user input entry:
 
 ### Client App calls Authorization Server
 
-Client App uses HTTP to call *Initial Authorization Server's* *native_authorization_endpoint* with an authorization request including the *native_callback_uri* Authorization Details {{RFC9396}} RAR Type.
+Client App uses HTTP to call *Initial Authorization Server's* *native_authorization_endpoint* including the *native_callback_uri* parameter.
 
 ### Authorization Server
 
 *Authorization Server* evaluates the native authorization request.
 It MAY return:
 
-* Error *native_app2app_unsupported* in case the intended *Downstream Authorization Server* does not support the *Native App2App Profile*.
+* Error *native_app2app_unsupported* in case the *Downstream Authorization Server* does not provide a native_authorization_endpoint.
 * HTTP 200 with a *Routing Instructions Response*, in case it requires user input to guide choosing a *Downstream Authorization Server*.
 * HTTP 30x in case the *Downstream Authorization Server* is known and eligible, with a *native authorization request url* towards *Downstream Authorization Server* in the Location header.
 
