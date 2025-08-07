@@ -162,15 +162,15 @@ the following terms:
 - (1) *Client App* presents an authorization request to *Authorization Server's* **native_authorization_endpoint**, including a *native_callback_uri*.
 - (2) *Authorization Server* returns either:
   - A *native authorization request url* for *Downstream Authorization Server*.
-  - A **Routing Instructions Response**.
-  - A url to natively invoke using a *User-Interacting App*, if present.
-- (3) *Client App* handles:
-  - A *Routing Instructions Response* by prompting end-user and providing their input to *Authorization Server*.
-  - A *native authorization request url* for *Downstream Authorization Server* by calling it. As long as such responses are obtained, the urls provided are invoked in a loop, until reaching a url to natively invoke using a *User-Interacting App*.
-  - A url to natively invoke using a *User-Interacting App*, by seeking an app claiming the url and invoking it.
-- (4) Once a claimed url is reached *Client App* natively invokes *User-Interacting App*.
+  - A *Routing Instructions Response*, when end-user input is required to guide request routing.
+  - A *deep link* url to *User-Interacting App*.
+- (3) *Client App*:
+  - Calls *native authorization request urls* it obtains, in a loop, as long as such responses are obtained, until obtaining a *deep link* url to *User-Interacting App*.
+  - Handles a *Routing Instructions Response*, by prompting end-user and providing their input to *Authorization Server*.
+  - Handles *deep link* urls, by seeking an app claiming the url and invoking it.
+- (4) Once a *deep link* url that is claimed on the device is reached, *Client App* natively invokes *User-Interacting App*.
 - (5) *User-Interacting App* authenticates end-user and authorizes the request.
-- (6) *User-Interacting App* natively invokes **native_callback_uri**, providing as a parameter a url-encoded *redirect_uri* with its response parameters.
+- (6) *User-Interacting App* return to *Client App* by natively invoking **native_callback_uri**. It provides as a parameter the url-encoded *redirect_uri* with its response parameters.
 - (7) *Client App* invokes the obtained *redirect_uri*.
 - (8) *Client App* calls any subsequent uri obtained as 30x redirect directive, until it reaches a location header to its own redirect_uri.
 - (9) *Client App* exchanges code for tokens and the flow is complete.
@@ -199,7 +199,6 @@ An OAuth authorization endpoint, interoperable with all OAuth RFCs but with the 
 * Ensure *Downstream Authorization Servers* it federates to, offer a *native_authorization_endpoint*, otherwise return error=native_app2app_unsupported.
 * MAY provide *Routing Instructions Response*.
 
-
 ### Native Authorization Request
 
 This is an OAuth authorization code flow request, interoperable with all OAuth RFCs.
@@ -212,24 +211,23 @@ In addition, it accepts the follwing parameter:
 
 The response instructs *Client App* how to proceed:
 
-* Call the native_authorization_endpoint of a *Downstream Authorization Server*:
+: Call the native_authorization_endpoint of a *Downstream Authorization Server*:
 
     HTTP/1.1 200 OK
     Content-Type: application/json
 
     {
-        "method": "HTTP",
-        "verb": "GET",
+        "deep_link": false,
         "url": "uri of native authorization request for *Downstream Authorization Server*",
     }
 
-* Or natively invoke a *User-Interacting App* if present on the device:
+: Or natively invoke a *User-Interacting App* if present on the device:
 
     HTTP/1.1 200 OK
     Content-Type: application/json
 
     {
-        "method": "native",
+        "deep_link": true,
         "url": "uri of native authorization request handled by *User-Interacting App* if present on the device",
     }
 
