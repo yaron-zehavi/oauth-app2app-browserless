@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                             Raiffeisen Bank International
-Intended status: Standards Track                           6 August 2025
-Expires: 7 February 2026
+Intended status: Standards Track                           7 August 2025
+Expires: 8 February 2026
 
 
                   OAuth 2.0 App2App Browser-less Flow
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 February 2026.
+   This Internet-Draft will expire on 8 February 2026.
 
 Copyright Notice
 
@@ -230,34 +230,32 @@ Table of Contents
       -  A _native authorization request url_ for _Downstream
          Authorization Server_.
 
-      -  A *Routing Instructions Response*.
+      -  A _Routing Instructions Response_, when end-user input is
+         required to guide request routing.
 
-      -  A url to natively invoke using a _User-Interacting App_, if
-         present.
+      -  A _deep link_ url to _User-Interacting App_.
 
-   *  (3) _Client App_ handles:
+   *  (3) _Client App_:
 
-      -  A _Routing Instructions Response_ by prompting end-user and
-         providing their input to _Authorization Server_.
+      -  Calls _native authorization request urls_ it obtains, in a
+         loop, as long as such responses are obtained, until obtaining a
+         _deep link_ url to _User-Interacting App_.
 
-      -  A _native authorization request url_ for _Downstream
-         Authorization Server_ by calling it.  As long as such responses
-         are obtained, the urls provided are invoked in a loop, until
-         reaching a url to natively invoke using a _User-Interacting
-         App_.
+      -  Handles a _Routing Instructions Response_, by prompting end-
+         user and providing their input to _Authorization Server_.
 
-      -  A url to natively invoke using a _User-Interacting App_, by
-         seeking an app claiming the url and invoking it.
+      -  Handles _deep link_ urls, by seeking an app claiming the url
+         and invoking it.
 
-   *  (4) Once a claimed url is reached _Client App_ natively invokes
-      _User-Interacting App_.
+   *  (4) Once a _deep link_ url that is claimed on the device is
+      reached, _Client App_ natively invokes _User-Interacting App_.
 
    *  (5) _User-Interacting App_ authenticates end-user and authorizes
       the request.
 
-   *  (6) _User-Interacting App_ natively invokes *native_callback_uri*,
-      providing as a parameter a url-encoded _redirect_uri_ with its
-      response parameters.
+   *  (6) _User-Interacting App_ return to _Client App_ by natively
+      invoking *native_callback_uri*. It provides as a parameter the
+      url-encoded _redirect_uri_ with its response parameters.
 
    *  (7) _Client App_ invokes the obtained _redirect_uri_.
 
@@ -316,22 +314,20 @@ Table of Contents
 
 3.3.3.  Native Authorization Response
 
-   The response instructs _Client App_ how to proceed:
-
-   *  Call the native_authorization_endpoint of a _Downstream
-      Authorization Server_:
+   The response instructs _Client App_ how to proceed:  Call the native_
+      authorization_endpoint of a _Downstream Authorization Server_:
 
       HTTP/1.1 200 OK Content-Type: application/json
 
-      { "method": "HTTP", "verb": "GET", "url": "uri of native
-      authorization request for _Downstream Authorization Server_", }
+      { "deep_link": false, "url": "uri of native authorization request
+      for _Downstream Authorization Server_", }
 
-   *  Or natively invoke a _User-Interacting App_ if present on the
+      Or natively invoke a _User-Interacting App_ if present on the
       device:
 
       HTTP/1.1 200 OK Content-Type: application/json
 
-      { "method": "native", "url": "uri of native authorization request
+      { "deep_link": true, "url": "uri of native authorization request
       handled by _User-Interacting App_ if present on the device", }
 
 3.3.4.  Native Authorization Routing Instructions Response
