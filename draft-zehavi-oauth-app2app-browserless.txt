@@ -292,8 +292,9 @@ Table of Contents
 
    _native_callback_uri_ accepts the redirect_uri parameter.
 
-   *redirect_uri*:  url-encoded *redirect_uri* from _User-Interacting
-      App_ including its respective response parameters.
+   *redirect_uri*:  url-encoded redirect_uri from _User-Interacting App_
+      responding to its _Upstream Authorization Server_, including its
+      respective response parameters.
 
 3.4.  Native Authorization Request
 
@@ -485,7 +486,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    *  Prompts end-user to guide request routing and provides their input
       to _Authorization Server_.
 
-   _Client App_ repeats these actions until a _deep link_ is obtained,
+   _Client App_ repeats these actions until a *deep link* is obtained,
    or an error occurs.  Once _deep link_ invocation is instructed, it
    uses OS SDK's to locate an app claiming the url, and if found,
    natively invokes it
@@ -516,13 +517,14 @@ Content-Type: application/vnd.oauth.app2app.routing+json
 4.5.  Client App response handling
 
    _Client App_ is natively invoked by _User-Interacting Authorization
-   Server App_, with the request's redirect_uri.
+   Server App_, with a url-encoded *redirect_uri* as parameter.
 
-   _Client App_ MUST validate this url, and any url subsequently
-   obtained, against the Allowlist it previously generated, and MUST
+   _Client App_ MUST validate _redirect_uri_, and any url subsequently
+   obtained, using the Allowlist it previously generated, and MUST
    terminate the flow if any url is not found in the Allowlist.
 
-   _Client App_ SHALL invoke urls it received using HTTP GET.
+   _Client App_ SHALL invoke _redirect_uri_, and any subsequent urls
+   received using HTTP GET.
 
    *Authorization Servers* processing _Native App2App_ MUST respond to
    redirect_uri invocations:
@@ -530,14 +532,19 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    *  According to the REST API guidelines specified for
       native_authorization_endpoint.
 
-   *  Returning a JSON body instructing the next url to call:
+   *  Returning a JSON body instructing the next url to call.
 
-      HTTP/1.1 200 OK Content-Type: application/json
+   Example:
 
-      { "action": "call", "url": "redirect_uri of an _Upstream
-      Authorization Server_", }
+   HTTP/1.1 200 OK
+   Content-Type: application/json
 
-   _Client App_ SHALL handle any other response (2xx with other content-
+   {
+       "action": "call",
+       "url": "redirect_uri of an *Upstream Authorization Server*",
+   }
+
+   _Client App_ MUST handle any other response (2xx with other content-
    types / 3xx / 4xx / 5xx) as a failure and terminate the flow.
 
 4.6.  Flow completion

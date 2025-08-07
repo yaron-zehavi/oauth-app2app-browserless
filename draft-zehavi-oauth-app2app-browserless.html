@@ -1573,7 +1573,7 @@ to prevent various attacks on OAuth authorization codes.<a href="#section-2.1-2.
           <dt id="section-3.3-6.1">
 <strong>redirect_uri</strong>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.3-6.2">
-            <p id="section-3.3-6.2.1">url-encoded <strong>redirect_uri</strong> from <em>User-Interacting App</em> including its respective response parameters.<a href="#section-3.3-6.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-6.2.1">url-encoded redirect_uri from <em>User-Interacting App</em> responding to its <em>Upstream Authorization Server</em>, including its respective response parameters.<a href="#section-3.3-6.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -1829,7 +1829,7 @@ It's response contains one of the possible instructions on how to proceed:<a hre
             <p id="section-4.3-2.2.1">Prompts end-user to guide request routing and provides their input to <em>Authorization Server</em>.<a href="#section-4.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-4.3-3"><em>Client App</em> repeats these actions until a <em>deep link</em> is obtained, or an error occurs.
+<p id="section-4.3-3"><em>Client App</em> repeats these actions until a <strong>deep link</strong> is obtained, or an error occurs.
 Once <em>deep link</em> invocation is instructed, it uses OS SDK's to locate an app claiming the url, and if found, natively invokes it<a href="#section-4.3-3" class="pilcrow">¶</a></p>
 <p id="section-4.3-4">As the <em>Client App</em> performs HTTP calls, it <span class="bcp14">SHALL</span> maintain a list of all the DNS domains it interacts with, serving as an Allowlist for later invocations as part of the response handling.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
 </section>
@@ -1864,27 +1864,31 @@ Once <em>deep link</em> invocation is instructed, it uses OS SDK's to locate an 
         <h3 id="name-client-app-response-handlin">
 <a href="#section-4.5" class="section-number selfRef">4.5. </a><a href="#name-client-app-response-handlin" class="section-name selfRef">Client App response handling</a>
         </h3>
-<p id="section-4.5-1"><em>Client App</em> is natively invoked by <em>User-Interacting Authorization Server App</em>, with the request's redirect_uri.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
-<p id="section-4.5-2"><em>Client App</em> <span class="bcp14">MUST</span> validate this url, and any url subsequently obtained, against the Allowlist it previously generated, and <span class="bcp14">MUST</span> terminate the flow if any url is not found in the Allowlist.<a href="#section-4.5-2" class="pilcrow">¶</a></p>
-<p id="section-4.5-3"><em>Client App</em> <span class="bcp14">SHALL</span> invoke urls it received using HTTP GET.<a href="#section-4.5-3" class="pilcrow">¶</a></p>
+<p id="section-4.5-1"><em>Client App</em> is natively invoked by <em>User-Interacting Authorization Server App</em>, with a url-encoded <strong>redirect_uri</strong> as parameter.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
+<p id="section-4.5-2"><em>Client App</em> <span class="bcp14">MUST</span> validate <em>redirect_uri</em>, and any url subsequently obtained, using the Allowlist it previously generated, and <span class="bcp14">MUST</span> terminate the flow if any url is not found in the Allowlist.<a href="#section-4.5-2" class="pilcrow">¶</a></p>
+<p id="section-4.5-3"><em>Client App</em> <span class="bcp14">SHALL</span> invoke <em>redirect_uri</em>, and any subsequent urls received using HTTP GET.<a href="#section-4.5-3" class="pilcrow">¶</a></p>
 <p id="section-4.5-4"><strong>Authorization Servers</strong> processing <em>Native App2App</em> <span class="bcp14">MUST</span> respond to redirect_uri invocations:<a href="#section-4.5-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.5-5.1">
             <p id="section-4.5-5.1.1">According to the REST API guidelines specified for native_authorization_endpoint.<a href="#section-4.5-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.5-5.2">
-            <p id="section-4.5-5.2.1">Returning a JSON body instructing the next url to call:<a href="#section-4.5-5.2.1" class="pilcrow">¶</a></p>
-<p id="section-4.5-5.2.2">
-HTTP/1.1 200 OK
-  Content-Type: application/json<a href="#section-4.5-5.2.2" class="pilcrow">¶</a></p>
-<p id="section-4.5-5.2.3">
-{
-      "action": "call",
-      "url": "redirect_uri of an <em>Upstream Authorization Server</em>",
-  }<a href="#section-4.5-5.2.3" class="pilcrow">¶</a></p>
+            <p id="section-4.5-5.2.1">Returning a JSON body instructing the next url to call.<a href="#section-4.5-5.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-4.5-6"><em>Client App</em> <span class="bcp14">SHALL</span> handle any other response (2xx with other content-types / 3xx / 4xx / 5xx) as a failure and terminate the flow.<a href="#section-4.5-6" class="pilcrow">¶</a></p>
+<p id="section-4.5-6">Example:<a href="#section-4.5-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.5-7">
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "action": "call",
+    "url": "redirect_uri of an *Upstream Authorization Server*",
+}
+</pre><a href="#section-4.5-7" class="pilcrow">¶</a>
+</div>
+<p id="section-4.5-8"><em>Client App</em> <span class="bcp14">MUST</span> handle any other response (2xx with other content-types / 3xx / 4xx / 5xx) as a failure and terminate the flow.<a href="#section-4.5-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="flow-completion">
