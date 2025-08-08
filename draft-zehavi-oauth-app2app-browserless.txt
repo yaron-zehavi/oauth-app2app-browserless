@@ -605,8 +605,7 @@ Content-Type: application/json
    *Authorization Servers* processing _Native App2App_ MUST respond to
    redirect_uri invocations:
 
-   *  According to the REST API guidelines specified for
-      native_authorization_endpoint.
+   *  According to the REST API guidelines specified for Section 3.3.
 
    *  Returning a JSON body instructing the next url to call.
 
