@@ -187,7 +187,7 @@ This document introduces the following parameter as authorization server metadat
 **native_authorization_endpoint**:
 : URL of the authorization server's native authorization endpoint.
 
-## native_authorization_endpoint
+## native_authorization_endpoint {#native_authorization_endpoint}
 
 This is an OAuth authorization endpoint, interoperable with other OAuth RFCs.
 It supports the following additional request parameters:
@@ -456,7 +456,7 @@ If invoked with a url-encoded **redirect_uri** as parameter, the *Client App* MU
 
 **Authorization Servers** processing *Native App2App* MUST respond to redirect_uri invocations:
 
-* According to the REST API guidelines specified for native_authorization_endpoint.
+* According to the REST API guidelines specified for {{native_authorization_endpoint}}.
 * Returning a JSON body instructing the next url to call.
 
 Example:
