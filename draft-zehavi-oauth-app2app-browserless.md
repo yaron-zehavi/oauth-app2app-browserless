@@ -98,20 +98,26 @@ This document describes a protocol allowing a *Client App* to obtain an OAuth gr
 
 # Introduction
 
-This document, *OAuth 2.0 App2App Browser-less Flow*, describes a protocol enabling native (**Browser-less**) app navigation of an {{App2App}} OAuth grant across *different Trust Domains*.
+This document describes a protocol enabling native (**Browser-less**) app navigation of an {{App2App}} OAuth grant across *different Trust Domains*.
 
-When Clients and Authorization Servers are located on *different Trust Domains*, authorization requests are routedusing federation, involving Authorization Servers acting as clients of *Downstream Authorization Servers*.
+When Clients and Authorization Servers are located on *different Trust Domains*, authorization requests are routed using federation, involving Authorization Servers acting as clients of *Downstream Authorization Servers*.
 
 Such federation setups create trust networks, for example in Academia and in the business world across corporations.
 
 However in {{App2App}} scenarios the web browser must serve as user-agent, because federating Authorization Servers url's are not claimed by any native app.
 
-The use of web browsers in App2App flows, degrades the user experience somewhat.
+The use of web browsers in App2App flows degrades the user experience somewhat.
 
 This document specifies:
 
-* A new Authorization Server endpoint and corresponding metadata property REQUIRED to support the browser-less App2App flow: **native_authorization_endpoint**.
-* A new error code value: **native_app2app_unsupported**
+**native_authorization_endpoint**:
+: A new Authorization Server endpoint and corresponding metadata property REQUIRED to support the browser-less App2App flow.
+
+**native_app2app_unsupported**:
+: A new error code value.
+
+**native_callback_uri**:
+: A new native authorization request parameter, specifying the deep link of *Client App*.
 
 # Conventions and Definitions
 
@@ -122,35 +128,35 @@ This document specifies:
 In addition to the terms defined in referenced specifications, this document uses
 the following terms:
 
-"OAuth":
+**OAuth**:
 : In this document, "OAuth" refers to OAuth 2.0, {{RFC6749}} and {{RFC6750}} as well as {{OpenID}}, both in their **authorization code flow**.
 
-"PKCE":
+**PKCE**:
 : Proof Key for Code Exchange (PKCE) {{RFC7636}}, a mechanism
   to prevent various attacks on OAuth authorization codes.
 
-"OAuth Broker":
+**OAuth Broker**:
 : An Authorization Server federating to other trust domains by acting as an OAuth Client of  *Downstream Authorization Servers*.
 
-"Client App":
+**Client App**:
 : A Native app acting as client of *Initial Authorization Server*. In accordance with "OAuth 2.0 for Native Apps" {{RFC8252}}, Client's redirect_uri is claimed by the app.
 
-"Initial Authorization Server":
+**Initial Authorization Server**:
 : Authorization Server of *Client App*. As an *OAuth Broker* it is a client of *Downstream Authorization Servers*, to which it federates requests.
 
-"Downstream Authorization Server":
+**Downstream Authorization Server**:
 : An Authorization Server downstream of *Initial Authorization Server*. It may be an *OAuth Broker* or the *User-Interacting Authorization Server*.
 
-"User-Interacting Authorization Server":
+**User-Interacting Authorization Server**:
 : An Authorization Server which interacts with end-user. The interaction may be interim navigation (e.g: user input is required to guide where to redirect), or performs user authentication and request authorization.
 
-"User-Interacting App":
+**User-Interacting App**:
 : Native App of *User-Interacting Authorization Server*.
 
-"Deep Link":
+**Deep Link**:
 : A url claimed by a native application.
 
-# Protocol Overview
+# Protocol
 
 ## Flow Overview
 ~~~ aasvg
@@ -166,7 +172,7 @@ the following terms:
 - (3) *Client App*:
   - Calls *native authorization request urls* it obtains, so long as such responses are obtained, until a *deep link* url to *User-Interacting App* is obtained.
   - Handles requests for end-user input by prompting end-user and providing their input to *Authorization Server*.
-  - Handles *deep link* urls, by invoking the app claiming the url, if present on the device.
+  - Handles *deep links*, by invoking the app claiming the url, if present on the device.
 - (4) Once a *deep link* claimed on the device is obtained, *Client App* natively invokes *User-Interacting App*.
 - (5) *User-Interacting App* authenticates end-user and authorizes the request.
 - (6) *User-Interacting App* returns to *Client App* by natively invoking **native_callback_uri** and provides as a parameter the url-encoded *redirect_uri* with its response parameters.
@@ -176,47 +182,53 @@ the following terms:
 
 ## Authorization Server Metadata
 
-This document introduces the following parameter as authorization server metadata {{RFC8414}} ,indicating support of *Native App2App*:
+This document introduces the following parameter as authorization server metadata {{RFC8414}}, indicating support of *Native App2App*:
 
 **native_authorization_endpoint**:
 : URL of the authorization server's native authorization endpoint.
 
 ## native_authorization_endpoint
 
-**native_authorization_endpoint** is an OAuth authorization endpoint, interoperable with other OAuth RFCs, with the following modifications, adapting it from a web-redirecting endpoint to a REST API:
+This is an OAuth authorization endpoint, interoperable with other OAuth RFCs.
+It supports the following additional request parameters:
+
+**native_callback_uri**:
+: REQUIRED. *Client App's* redirect_uri, claimed as a deep link and invoked by *User-Interacting App* to natively return to *Client App*.
+
+*native_callback_uri* accepts the following parameter:
+
+**redirect_uri**:
+: REQUIRED. url-encoded redirect_uri from *User-Interacting App* responding to its *Upstream Authorization Server*, including its respective response parameters.
+
+The following additional requirements apply to native_authorization_endpoint, in line with common REST APIs:
 
 * SHALL NOT use cookies.
 * SHALL return Content-Type header with the value "application/json", and a JSON http body.
 * SHALL NOT return HTTP 30x redirects.
 * SHALL NOT respond with bot-detection challenges such as CAPTCHAs.
 
-*native_authorization_endpoint* accepts the **native_callback_uri** parameter.
+### Native Authorization Request
 
-**native_callback_uri**:
-: *Client App's* redirect_uri, claimed as a deep link and invoked by *User-Interacting App* to natively return to *Client App*.
-
-*native_callback_uri* accepts the redirect_uri parameter.
-
-**redirect_uri**:
-: url-encoded redirect_uri from *User-Interacting App* responding to its *Upstream Authorization Server*, including its respective response parameters.
-
-## Native Authorization Request
-
-This is an OAuth authorization request, interoperable with other OAuth RFCs, which also accepts the *native_callback_uri* parameter.
+An OAuth authorization request, interoperable with other OAuth RFCs, which also includes the *native_callback_uri* parameter.
 
 *Authorization servers* processing a *native authorization request* MUST also:
 
-* Forward the *native_callback_uri* to *Downstream Authorization Servers*.
-* Ensure *Downstream Authorization Servers* it federates to, offer a *native_authorization_endpoint*, otherwise return error=native_app2app_unsupported.
+* Forward the *native_callback_uri* in their requests to *Downstream Authorization Servers*.
+* Ensure that the *Downstream Authorization Servers* it federates to, offers a *native_authorization_endpoint*, otherwise return an error response with error code *native_app2app_unsupported*.
 
-## Native Authorization Response
+### Native Authorization Response
 
-Is a JSON response instructing *Client App* how to proceed:
+The authorization server responds with *application/json* and either 200 OK or 4xx/5xx.
 
-* **Call a url using HTTP** which is either:
+#### Federating response
 
-  * A native_authorization_endpoint of a *Downstream Authorization Server*.
-  * Or in case of an error, a redirect_uri of an *Upstream Authorization Server* with a relevant error response.
+If the *Authorization Server* decides to federate an Upstream or Downstream *Authorization Server*, it responds with 200 OK and the following JSON response body:
+
+action:
+: REQUIRED. A string with the value "call" to indicate that *url* is to be called with HTTP GET.
+
+url:
+: REQUIRED. A string holding a native authorization request for *Downstream Authorization Server*, or redirect_uri of an *Upstream Authorization Server* with a response.
 
 Example:
 
@@ -225,10 +237,22 @@ Example:
 
     {
         "action": "call",
-        "url": "native authorization request for *Downstream Authorization Server*, or redirect_uri of an *Upstream Authorization Server* with an error response",
+        "url": "https://next-as.com/auth/native",
     }
 
-* **Natively invoke** a *User-Interacting App*, if present on the device:
+*Client App* SHALL add all DNS domains of *urls* it encounters during each flow to an Allowlist, used to validate urls in the response handling phase, after being invoked by the *User-Interacting Authorization Server' App*.
+
+It then MUST make an HTTP GET request to the returned *url* and process the response as defined in this document.
+
+#### Deep Link Response
+
+If the *Authorization Server* wishes to authenticate the user and authorize the request, using its *User-Interacting App*, it responds with 200 OK and the following JSON response body:
+
+action:
+: REQUIRED. A string with the value "deep_link" to indicate that *url* is to be called with HTTP GET.
+
+url:
+: REQUIRED. A string holding the deep link url claimed by the *User-Interacting App*.
 
 Example:
 
@@ -240,9 +264,45 @@ Example:
         "url": "uri of native authorization request handled by *User-Interacting App*",
     }
 
-* **Prompt end-user** for input to guide request routing.
+*Client App* MUST use OS mechanisms to invoke the deep link received in *url* and open the *User-Interacting Authorization Server's App*. If no app claiming the deep link is be found, *Client App* MUST terminate the flow and MAY attempt a non-native flow. See {{fallback}}.
 
-Example prompting end-user for 2 multiple-choice inputs:
+#### Routing Response
+
+If the *Authorization Server* requires user input to determine where to federate, it responds with 200 OK and the following JSON body:
+
+id:
+: OPTIONAL. A string holding an interaction identifier used by *Authorization Server* to link the response to the request.
+
+action:
+: REQUIRED. A string with the value "prompt" to indicate that the client app must prompt the user for input before proceeding.
+
+logo:
+: OPTIONAL. URL or base64-encoded logo of *Authorization Server*, for branding purposes.
+
+userPrompt: 
+: REQUIRED. A JSON object containing the prompt definition. The following parameters MAY be used:
+
+ * options: OPTIONAL. A JSON object that defines a dropdown/select input with various options to choose from. Each key is the parameter name to be sent in the response and each value defines the option:
+ 
+  * title: OPTIONAL. A string holding the input's title.
+  * description: OPTIONAL. A string holding the input's description.
+  * values: REQUIRED. A JSON object where each key is the selection value and each value holds display data for that value:
+  
+   * name: REQUIRED. A string holding the display name of the selection value.
+   * logo: OPTIONAL. A string holding a URL or base64-encoded image for that selection value.
+ * inputs: OPTIONAL. A JSON object that defines an input field. Each key is the parameter name to be sent in the response and each value defines the input field:
+
+ * title: OPTIONAL. A string holding the input's title.
+ * hint: OPTIONAL. A string holding the input's hint that is displayed if the input is empty.
+ * description: OPTIONAL. A string holding the input's description.
+
+response:
+: REQUIRED. A JSON object that holds the URL to which the user input MUST be sent. It only supports two keys, which are mutually exclusive:
+
+* get: The corresponding value is the URL to use for a GET request with user input appended as query parameters.
+* post: The corresponding value is the URL to use for a POST request with user input sent in the request body, as application/x-www-form-urlencoded.
+
+Example of prompting end-user for 2 multiple-choice inputs:
 
     HTTP/1.1 200 OK
     Content-Type: application/json
@@ -285,7 +345,7 @@ Example prompting end-user for 2 multiple-choice inputs:
         }
     }
 
-Example prompting end-user for text input entry:
+Example of prompting end-user for text input entry:
 
     HTTP/1.1 200 OK
     Content-Type: application/vnd.oauth.app2app.routing+json
@@ -309,21 +369,10 @@ Example prompting end-user for text input entry:
         }
     }
 
-### Providing end-user's input to guide request routing
+*Client App* MUST prompt the user according to the response received.
+It then MUST send the user input to the response endpoint using the requested method including the interaction id, if provided.
 
-*Client App* prompts end-user for their input:
-
-
-: *logo* is OPTIONAL and used for branding purposes.
-: *userPrompt* MUST specify at least *options* or *inputs* and MAY specify both.
-: *options* specifies 1..n multiple-choice prompts.
-: *inputs* specifies free-form input.
-
-*Client App* provides end-user's input using *response*, which specifies HTTP GET or POST urls.
-
-If provided, *Client App* includes "id" as interaction identifier.
-
-Example *Client App* response following end-user multiple-choice:
+Example of *Client App* response following end-user multiple-choice:
 
     POST /native/routing HTTP/1.1
     Host: example.as.com
@@ -333,7 +382,7 @@ Example *Client App* response following end-user multiple-choice:
     &bank=bankOfSomething
     &segment=retail
 
-Example *Client App* response following end-user input entry:
+Example of *Client App* response following end-user input entry:
 
     POST /native/routing HTTP/1.1
     Host: example.as.com
@@ -342,34 +391,47 @@ Example *Client App* response following end-user input entry:
     id=request-identifier-2
     &email=end_user@example.as.com
 
-# Detailed Protocol Flow
+#### Error Response
 
-## Client App calls Authorization Server
+If *Authorization Server* encounters an error whose audience is its OAuth client, it returns 200 OK with the following JSON body:
 
-Client App uses calls *Initial Authorization Server's* *native_authorization_endpoint* including the *native_callback_uri* parameter.
+action:
+: REQUIRED. A string with the value "call" to indicate that *url* is to called with HTTP GET.
 
-## Authorization Server
+url:
+: REQUIRED. A string holding the redirect_uri of the *Upstream Authorization Server* including the OAuth error.
 
-*Authorization Server* evaluates the native authorization request.
-It's response contains one of the possible instructions on how to proceed:
+Example:
 
-* **Call a url using HTTP**:
-  * A native_authorization_endpoint of a *Downstream Authorization Server*.
-  * Or in case of an error, a redirect_uri of an *Upstream Authorization Server* with a relevant error response.
-* **Natively invoke** a *User-Interacting App*, if present on the device.
-* **Prompt end-user** for input to guide request routing.
+    HTTP/1.1 200 OK
+    Content-Type: application/json
 
-## Client App processes the response
+    {
+        "action": "call",
+        "url": "https://previous-as.com/auth/redirect?error=...&error_description=...&iss=...&state=..."
+    }
 
-*Client App* follows the instruction it obtained:
+*Client App* MUST make an HTTP GET request to the returned *url* and process the response as defined in this document.
 
-* Calls urls using HTTP.
-* Prompts end-user to guide request routing and provides their input to *Authorization Server*.
+If *Authorization Server* encounters an error, that it cannot/or must not send to its OAuth client, it responds with 4xx/5xx and the following JSON body:
 
-*Client App* repeats these actions until a **deep link** is obtained, or an error occurs.
-Once *deep link* invocation is instructed, it uses OS SDK's to locate an app claiming the url, and if found, natively invokes it
+error:
+: REQUIRED. The error code as defined in {{RFC6749}} and other OAuth RFCs.
 
-As the *Client App* performs HTTP calls, it SHALL maintain a list of all the DNS domains it interacts with, serving as an Allowlist for later invocations as part of the response handling.
+error_description:
+: OPTIONAL. The error description as defined in {{RFC6749}}.
+
+Example:
+
+    HTTP/1.1 500 OK
+    Content-Type: application/json
+
+    {
+        "error": "native_app2app_unsupported",
+    }
+
+*Client App* SHOULD display an appropriate error message to the user and terminate the flow.
+In case of *native_app2app_unsupported*, *Client App* MUST terminate the flow and MAY retry with a non-native flow. See {{fallback}}.
 
 ## User-Interacting Authorization Server's App
 
@@ -383,11 +445,14 @@ The *User-Interacting Authorization Server's* app handles the native authorizati
 
 ## Client App response handling
 
-*Client App* is natively invoked by *User-Interacting Authorization Server App*, with a url-encoded **redirect_uri** as parameter.
+*Client App* is natively invoked by *User-Interacting Authorization Server App*.
 
-*Client App* MUST validate *redirect_uri*, and any url subsequently obtained, using the Allowlist it previously generated, and MUST terminate the flow if any url is not found in the Allowlist.
+If it is invoked with an *error* (and optional *error_description*) parmeter, or no parameter at all, it MUST terminate the flow.
+It MUST ignore any unknown parameters.
 
-*Client App* SHALL invoke *redirect_uri*, and any subsequent urls received using HTTP GET.
+If invoked with a url-encoded **redirect_uri** as parameter, the *Client App* MUST validate *redirect_uri*, and any url subsequently obtained, using the Allowlist it previously generated, and MUST terminate the flow if any url is not found in the Allowlist.
+
+*Client App* SHALL invoke *redirect_uri*, and any validated subsequent urls received using HTTP GET.
 
 **Authorization Servers** processing *Native App2App* MUST respond to redirect_uri invocations:
 
@@ -413,7 +478,7 @@ Once *Client App's* own redirect_uri is obtained, *Client App* processes the res
 * Exchanges code for tokens.
 * Or handles errors obtained.
 
-And the *Native App2App* flow is complete. Hurray!
+And the *Native App2App* flow is complete.
 
 # Implementation Considerations
 
