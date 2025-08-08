@@ -274,9 +274,9 @@ Table of Contents
       invoked by _User-Interacting App_. When invoking
       _native_callback_uri_, it accepts the following parameter:
 
-   *redirect_uri*:  REQUIRED. url-encoded redirect_uri from _User-
-      Interacting App_ responding to its _Upstream Authorization
-      Server_, including its respective response parameters.
+      *redirect_uri*:  REQUIRED. url-encoded redirect_uri from _User-
+         Interacting App_ responding to its _Upstream Authorization
+         Server_, including its respective response parameters.
 
    The following additional requirements apply to
    native_authorization_endpoint, in line with common REST APIs:
