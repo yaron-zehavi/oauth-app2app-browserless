@@ -275,8 +275,8 @@ Table of Contents
       _native_callback_uri_, it accepts the following parameter:
 
       *redirect_uri*:  REQUIRED. url-encoded redirect_uri from _User-
-         Interacting App_ responding to its _Upstream Authorization
-         Server_, including its respective response parameters.
+         Interacting App_ responding to its OAuth client, including its
+         respective response parameters.
 
    The following additional requirements apply to
    native_authorization_endpoint, in line with common REST APIs:
@@ -312,16 +312,16 @@ Table of Contents
 
 3.3.2.1.  Federating response
 
-   If the _Authorization Server_ decides to federate an Upstream or
-   Downstream _Authorization Server_, it responds with 200 OK and the
-   following JSON response body:
+   If the _Authorization Server_ decides to federate to another party
+   such as _Downstream Authorization Server_ or its OAuth client, it
+   responds with 200 OK and the following JSON response body:
 
    action:  REQUIRED.  A string with the value "call" to indicate that
       _url_ is to be called with HTTP GET.
 
    url:  REQUIRED.  A string holding a native authorization request for
-      _Downstream Authorization Server_, or redirect_uri of an _Upstream
-      Authorization Server_ with a response.
+      _Downstream Authorization Server_, or redirect_uri of an OAuth
+      client with a response.
 
    Example:
 
@@ -527,8 +527,8 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    action:  REQUIRED.  A string with the value "call" to indicate that
       _url_ is to called with HTTP GET.
 
-   url:  REQUIRED.  A string holding the redirect_uri of the _Upstream
-      Authorization Server_ including the OAuth error.
+   url:  REQUIRED.  A string holding the redirect_uri of the OAuth
+      client, including the OAuth error.
 
    Example:
 
@@ -612,13 +612,13 @@ Content-Type: application/json
 
    Example:
 
-   HTTP/1.1 200 OK
-   Content-Type: application/json
+HTTP/1.1 200 OK
+Content-Type: application/json
 
-   {
-       "action": "call",
-       "url": "redirect_uri of an *Upstream Authorization Server*",
-   }
+{
+    "action": "call",
+    "url": "redirect_uri of an OAuth Client, including response parameters",
+}
 
    _Client App_ MUST handle any other response (2xx with other content-
    types / 3xx / 4xx / 5xx) as a failure and terminate the flow.

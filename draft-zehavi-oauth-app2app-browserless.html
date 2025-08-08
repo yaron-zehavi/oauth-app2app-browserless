@@ -1559,7 +1559,7 @@ It supports the following additional request parameters:<a href="#section-3.3-1"
               <dt id="section-3.3-2.2.2.1">
 <strong>redirect_uri</strong>:</dt>
               <dd style="margin-left: 1.5em" id="section-3.3-2.2.2.2">
-                <p id="section-3.3-2.2.2.2.1"><span class="bcp14">REQUIRED</span>. url-encoded redirect_uri from <em>User-Interacting App</em> responding to its <em>Upstream Authorization Server</em>, including its respective response parameters.<a href="#section-3.3-2.2.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-3.3-2.2.2.2.1"><span class="bcp14">REQUIRED</span>. url-encoded redirect_uri from <em>User-Interacting App</em> responding to its OAuth client, including its respective response parameters.<a href="#section-3.3-2.2.2.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
@@ -1609,7 +1609,7 @@ It supports the following additional request parameters:<a href="#section-3.3-1"
             <h5 id="name-federating-response">
 <a href="#section-3.3.2.1" class="section-number selfRef">3.3.2.1. </a><a href="#name-federating-response" class="section-name selfRef">Federating response</a>
             </h5>
-<p id="section-3.3.2.1-1">If the <em>Authorization Server</em> decides to federate an Upstream or Downstream <em>Authorization Server</em>, it responds with 200 OK and the following JSON response body:<a href="#section-3.3.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.2.1-1">If the <em>Authorization Server</em> decides to federate to another party such as <em>Downstream Authorization Server</em> or its OAuth client, it responds with 200 OK and the following JSON response body:<a href="#section-3.3.2.1-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-3.3.2.1-2">
               <dt id="section-3.3.2.1-2.1">action:</dt>
               <dd style="margin-left: 1.5em" id="section-3.3.2.1-2.2">
@@ -1618,7 +1618,7 @@ It supports the following additional request parameters:<a href="#section-3.3-1"
               <dd class="break"></dd>
 <dt id="section-3.3.2.1-2.3">url:</dt>
               <dd style="margin-left: 1.5em" id="section-3.3.2.1-2.4">
-                <p id="section-3.3.2.1-2.4.1"><span class="bcp14">REQUIRED</span>. A string holding a native authorization request for <em>Downstream Authorization Server</em>, or redirect_uri of an <em>Upstream Authorization Server</em> with a response.<a href="#section-3.3.2.1-2.4.1" class="pilcrow">¶</a></p>
+                <p id="section-3.3.2.1-2.4.1"><span class="bcp14">REQUIRED</span>. A string holding a native authorization request for <em>Downstream Authorization Server</em>, or redirect_uri of an OAuth client with a response.<a href="#section-3.3.2.1-2.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
@@ -1864,7 +1864,7 @@ id=request-identifier-2
               <dd class="break"></dd>
 <dt id="section-3.3.2.4-2.3">url:</dt>
               <dd style="margin-left: 1.5em" id="section-3.3.2.4-2.4">
-                <p id="section-3.3.2.4-2.4.1"><span class="bcp14">REQUIRED</span>. A string holding the redirect_uri of the <em>Upstream Authorization Server</em> including the OAuth error.<a href="#section-3.3.2.4-2.4.1" class="pilcrow">¶</a></p>
+                <p id="section-3.3.2.4-2.4.1"><span class="bcp14">REQUIRED</span>. A string holding the redirect_uri of the OAuth client, including the OAuth error.<a href="#section-3.3.2.4-2.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
@@ -1965,7 +1965,7 @@ Content-Type: application/json
 
 {
     "action": "call",
-    "url": "redirect_uri of an *Upstream Authorization Server*",
+    "url": "redirect_uri of an OAuth Client, including response parameters",
 }
 </pre><a href="#section-3.5-8" class="pilcrow">¶</a>
 </div>
