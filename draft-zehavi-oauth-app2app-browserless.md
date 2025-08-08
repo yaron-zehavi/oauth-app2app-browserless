@@ -195,8 +195,8 @@ It supports the following additional request parameters:
 **native_callback_uri**:
 : REQUIRED. *Client App's* deep link, to be invoked by *User-Interacting App*. When invoking *native_callback_uri*, it accepts the following parameter:
 
-**redirect_uri**:
-: REQUIRED. url-encoded redirect_uri from *User-Interacting App* responding to its *Upstream Authorization Server*, including its respective response parameters.
+  **redirect_uri**:
+  : REQUIRED. url-encoded redirect_uri from *User-Interacting App* responding to its *Upstream Authorization Server*, including its respective response parameters.
 
 The following additional requirements apply to native_authorization_endpoint, in line with common REST APIs:
 
