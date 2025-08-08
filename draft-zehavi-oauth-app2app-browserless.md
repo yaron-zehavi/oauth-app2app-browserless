@@ -193,9 +193,7 @@ This is an OAuth authorization endpoint, interoperable with other OAuth RFCs.
 It supports the following additional request parameters:
 
 **native_callback_uri**:
-: REQUIRED. *Client App's* redirect_uri, claimed as a deep link and invoked by *User-Interacting App* to natively return to *Client App*.
-
-*native_callback_uri* accepts the following parameter:
+: REQUIRED. *Client App's* deep link, to be invoked by *User-Interacting App*. When invoking *native_callback_uri*, it accepts the following parameter:
 
 **redirect_uri**:
 : REQUIRED. url-encoded redirect_uri from *User-Interacting App* responding to its *Upstream Authorization Server*, including its respective response parameters.
@@ -282,19 +280,19 @@ logo:
 userPrompt:
 : REQUIRED. A JSON object containing the prompt definition. The following parameters MAY be used:
 
- * options: OPTIONAL. A JSON object that defines a dropdown/select input with various options to choose from. Each key is the parameter name to be sent in the response and each value defines the option:
+- options: OPTIONAL. A JSON object that defines a dropdown/select input with various options to choose from. Each key is the parameter name to be sent in the response and each value defines the option:
 
-  * title: OPTIONAL. A string holding the input's title.
-  * description: OPTIONAL. A string holding the input's description.
-  * values: REQUIRED. A JSON object where each key is the selection value and each value holds display data for that value:
+  - title: OPTIONAL. A string holding the input's title.
+  - description: OPTIONAL. A string holding the input's description.
+  - values: REQUIRED. A JSON object where each key is the selection value and each value holds display data for that value:
 
-   * name: REQUIRED. A string holding the display name of the selection value.
-   * logo: OPTIONAL. A string holding a URL or base64-encoded image for that selection value.
- * inputs: OPTIONAL. A JSON object that defines an input field. Each key is the parameter name to be sent in the response and each value defines the input field:
+    - name: REQUIRED. A string holding the display name of the selection value.
+    - logo: OPTIONAL. A string holding a URL or base64-encoded image for that selection value.
+- inputs: OPTIONAL. A JSON object that defines an input field. Each key is the parameter name to be sent in the response and each value defines the input field:
 
- * title: OPTIONAL. A string holding the input's title.
- * hint: OPTIONAL. A string holding the input's hint that is displayed if the input is empty.
- * description: OPTIONAL. A string holding the input's description.
+  - title: OPTIONAL. A string holding the input's title.
+  - hint: OPTIONAL. A string holding the input's hint that is displayed if the input is empty.
+  - description: OPTIONAL. A string holding the input's description.
 
 response:
 : REQUIRED. A JSON object that holds the URL to which the user input MUST be sent. It only supports two keys, which are mutually exclusive:
@@ -456,7 +454,7 @@ If invoked with a url-encoded **redirect_uri** as parameter, the *Client App* MU
 
 **Authorization Servers** processing *Native App2App* MUST respond to redirect_uri invocations:
 
-* According to the REST API guidelines specified for {{native-authorization-endpoint}}.
+* According to the REST API guidelines specified in {{native-authorization-endpoint}}.
 * Returning a JSON body instructing the next url to call.
 
 Example:
