@@ -1554,32 +1554,29 @@ It supports the following additional request parameters:<a href="#section-3.3-1"
           <dt id="section-3.3-2.1">
 <strong>native_callback_uri</strong>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.3-2.2">
-            <p id="section-3.3-2.2.1"><span class="bcp14">REQUIRED</span>. <em>Client App's</em> redirect_uri, claimed as a deep link and invoked by <em>User-Interacting App</em> to natively return to <em>Client App</em>.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.2.1"><span class="bcp14">REQUIRED</span>. <em>Client App's</em> deep link, to be invoked by <em>User-Interacting App</em>. When invoking <em>native_callback_uri</em>, it accepts the following parameter:<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
 </dd>
-        <dd class="break"></dd>
-</dl>
-<p id="section-3.3-3"><em>native_callback_uri</em> accepts the following parameter:<a href="#section-3.3-3" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-3.3-4">
-          <dt id="section-3.3-4.1">
+          <dd class="break"></dd>
+<dt id="section-3.3-2.3">
 <strong>redirect_uri</strong>:</dt>
-          <dd style="margin-left: 1.5em" id="section-3.3-4.2">
-            <p id="section-3.3-4.2.1"><span class="bcp14">REQUIRED</span>. url-encoded redirect_uri from <em>User-Interacting App</em> responding to its <em>Upstream Authorization Server</em>, including its respective response parameters.<a href="#section-3.3-4.2.1" class="pilcrow">¶</a></p>
+          <dd style="margin-left: 1.5em" id="section-3.3-2.4">
+            <p id="section-3.3-2.4.1"><span class="bcp14">REQUIRED</span>. url-encoded redirect_uri from <em>User-Interacting App</em> responding to its <em>Upstream Authorization Server</em>, including its respective response parameters.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
-<p id="section-3.3-5">The following additional requirements apply to native_authorization_endpoint, in line with common REST APIs:<a href="#section-3.3-5" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">The following additional requirements apply to native_authorization_endpoint, in line with common REST APIs:<a href="#section-3.3-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.3-6.1">
-            <p id="section-3.3-6.1.1"><span class="bcp14">SHALL NOT</span> use cookies.<a href="#section-3.3-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3-4.1">
+            <p id="section-3.3-4.1.1"><span class="bcp14">SHALL NOT</span> use cookies.<a href="#section-3.3-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.3-6.2">
-            <p id="section-3.3-6.2.1"><span class="bcp14">SHALL</span> return Content-Type header with the value "application/json", and a JSON http body.<a href="#section-3.3-6.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.3-4.2">
+            <p id="section-3.3-4.2.1"><span class="bcp14">SHALL</span> return Content-Type header with the value "application/json", and a JSON http body.<a href="#section-3.3-4.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.3-6.3">
-            <p id="section-3.3-6.3.1"><span class="bcp14">SHALL NOT</span> return HTTP 30x redirects.<a href="#section-3.3-6.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.3-4.3">
+            <p id="section-3.3-4.3.1"><span class="bcp14">SHALL NOT</span> return HTTP 30x redirects.<a href="#section-3.3-4.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.3-6.4">
-            <p id="section-3.3-6.4.1"><span class="bcp14">SHALL NOT</span> respond with bot-detection challenges such as CAPTCHAs.<a href="#section-3.3-6.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.3-4.4">
+            <p id="section-3.3-4.4.1"><span class="bcp14">SHALL NOT</span> respond with bot-detection challenges such as CAPTCHAs.<a href="#section-3.3-4.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <div id="native-authorization-request">
@@ -1703,33 +1700,39 @@ Content-Type: application/json
 <ul class="normal">
 <li class="normal" id="section-3.3.2.3-3.1">
                 <p id="section-3.3.2.3-3.1.1">options: <span class="bcp14">OPTIONAL</span>. A JSON object that defines a dropdown/select input with various options to choose from. Each key is the parameter name to be sent in the response and each value defines the option:<a href="#section-3.3.2.3-3.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3.2.3-3.1.2.1">
+                    <p id="section-3.3.2.3-3.1.2.1.1">title: <span class="bcp14">OPTIONAL</span>. A string holding the input's title.<a href="#section-3.3.2.3-3.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-3.3.2.3-3.1.2.2">
+                    <p id="section-3.3.2.3-3.1.2.2.1">description: <span class="bcp14">OPTIONAL</span>. A string holding the input's description.<a href="#section-3.3.2.3-3.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-3.3.2.3-3.1.2.3">
+                    <p id="section-3.3.2.3-3.1.2.3.1">values: <span class="bcp14">REQUIRED</span>. A JSON object where each key is the selection value and each value holds display data for that value:<a href="#section-3.3.2.3-3.1.2.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3.2.3-3.1.2.3.2.1">
+                        <p id="section-3.3.2.3-3.1.2.3.2.1.1">name: <span class="bcp14">REQUIRED</span>. A string holding the display name of the selection value.<a href="#section-3.3.2.3-3.1.2.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                      <li class="normal" id="section-3.3.2.3-3.1.2.3.2.2">
+                        <p id="section-3.3.2.3-3.1.2.3.2.2.1">logo: <span class="bcp14">OPTIONAL</span>. A string holding a URL or base64-encoded image for that selection value.<a href="#section-3.3.2.3-3.1.2.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                    </ul>
+</li>
+                </ul>
 </li>
               <li class="normal" id="section-3.3.2.3-3.2">
-                <p id="section-3.3.2.3-3.2.1">title: <span class="bcp14">OPTIONAL</span>. A string holding the input's title.<a href="#section-3.3.2.3-3.2.1" class="pilcrow">¶</a></p>
+                <p id="section-3.3.2.3-3.2.1">inputs: <span class="bcp14">OPTIONAL</span>. A JSON object that defines an input field. Each key is the parameter name to be sent in the response and each value defines the input field:<a href="#section-3.3.2.3-3.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3.2.3-3.2.2.1">
+                    <p id="section-3.3.2.3-3.2.2.1.1">title: <span class="bcp14">OPTIONAL</span>. A string holding the input's title.<a href="#section-3.3.2.3-3.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-3.3.2.3-3.3">
-                <p id="section-3.3.2.3-3.3.1">description: <span class="bcp14">OPTIONAL</span>. A string holding the input's description.<a href="#section-3.3.2.3-3.3.1" class="pilcrow">¶</a></p>
+                  <li class="normal" id="section-3.3.2.3-3.2.2.2">
+                    <p id="section-3.3.2.3-3.2.2.2.1">hint: <span class="bcp14">OPTIONAL</span>. A string holding the input's hint that is displayed if the input is empty.<a href="#section-3.3.2.3-3.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-3.3.2.3-3.4">
-                <p id="section-3.3.2.3-3.4.1">values: <span class="bcp14">REQUIRED</span>. A JSON object where each key is the selection value and each value holds display data for that value:<a href="#section-3.3.2.3-3.4.1" class="pilcrow">¶</a></p>
+                  <li class="normal" id="section-3.3.2.3-3.2.2.3">
+                    <p id="section-3.3.2.3-3.2.2.3.1">description: <span class="bcp14">OPTIONAL</span>. A string holding the input's description.<a href="#section-3.3.2.3-3.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-3.3.2.3-3.5">
-                <p id="section-3.3.2.3-3.5.1">name: <span class="bcp14">REQUIRED</span>. A string holding the display name of the selection value.<a href="#section-3.3.2.3-3.5.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-3.3.2.3-3.6">
-                <p id="section-3.3.2.3-3.6.1">logo: <span class="bcp14">OPTIONAL</span>. A string holding a URL or base64-encoded image for that selection value.<a href="#section-3.3.2.3-3.6.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-3.3.2.3-3.7">
-                <p id="section-3.3.2.3-3.7.1">inputs: <span class="bcp14">OPTIONAL</span>. A JSON object that defines an input field. Each key is the parameter name to be sent in the response and each value defines the input field:<a href="#section-3.3.2.3-3.7.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-3.3.2.3-3.8">
-                <p id="section-3.3.2.3-3.8.1">title: <span class="bcp14">OPTIONAL</span>. A string holding the input's title.<a href="#section-3.3.2.3-3.8.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-3.3.2.3-3.9">
-                <p id="section-3.3.2.3-3.9.1">hint: <span class="bcp14">OPTIONAL</span>. A string holding the input's hint that is displayed if the input is empty.<a href="#section-3.3.2.3-3.9.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-3.3.2.3-3.10">
-                <p id="section-3.3.2.3-3.10.1">description: <span class="bcp14">OPTIONAL</span>. A string holding the input's description.<a href="#section-3.3.2.3-3.10.1" class="pilcrow">¶</a></p>
+                </ul>
 </li>
             </ul>
 <span class="break"></span><dl class="dlParallel" id="section-3.3.2.3-4">
@@ -1946,7 +1949,7 @@ It <span class="bcp14">MUST</span> ignore any unknown parameters.<a href="#secti
 <p id="section-3.5-5"><strong>Authorization Servers</strong> processing <em>Native App2App</em> <span class="bcp14">MUST</span> respond to redirect_uri invocations:<a href="#section-3.5-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.5-6.1">
-            <p id="section-3.5-6.1.1">According to the REST API guidelines specified for <a href="#native-authorization-endpoint" class="auto internal xref">Section 3.3</a>.<a href="#section-3.5-6.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.5-6.1.1">According to the REST API guidelines specified in <a href="#native-authorization-endpoint" class="auto internal xref">Section 3.3</a>.<a href="#section-3.5-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.5-6.2">
             <p id="section-3.5-6.2.1">Returning a JSON body instructing the next url to call.<a href="#section-3.5-6.2.1" class="pilcrow">¶</a></p>
