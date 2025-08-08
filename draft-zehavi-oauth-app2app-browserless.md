@@ -502,7 +502,7 @@ App SHALL invoke Android {{android.method.intent}} method with FLAG_ACTIVITY_REQ
 App SHALL invoke iOS {{iOS.method.openUrl}} method with options {{iOS.option.universalLinksOnly}} which ensures URLs must be universal links and have an app configured to open them.
 Otherwise the method returns false in completion.success.
 
-## Recovery from failed native App2App flows
+## Recovery from failed native App2App flows {#fallback}
 
 ~~~ aasvg
 {::include art/app2web-w-brokers-2.ascii-art}
