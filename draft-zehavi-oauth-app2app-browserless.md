@@ -283,11 +283,11 @@ userPrompt:
 : REQUIRED. A JSON object containing the prompt definition. The following parameters MAY be used:
 
  * options: OPTIONAL. A JSON object that defines a dropdown/select input with various options to choose from. Each key is the parameter name to be sent in the response and each value defines the option:
- 
+
   * title: OPTIONAL. A string holding the input's title.
   * description: OPTIONAL. A string holding the input's description.
   * values: REQUIRED. A JSON object where each key is the selection value and each value holds display data for that value:
-  
+
    * name: REQUIRED. A string holding the display name of the selection value.
    * logo: OPTIONAL. A string holding a URL or base64-encoded image for that selection value.
  * inputs: OPTIONAL. A JSON object that defines an input field. Each key is the parameter name to be sent in the response and each value defines the input field:
