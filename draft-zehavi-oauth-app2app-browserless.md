@@ -279,7 +279,7 @@ action:
 logo:
 : OPTIONAL. URL or base64-encoded logo of *Authorization Server*, for branding purposes.
 
-userPrompt: 
+userPrompt:
 : REQUIRED. A JSON object containing the prompt definition. The following parameters MAY be used:
 
  * options: OPTIONAL. A JSON object that defines a dropdown/select input with various options to choose from. Each key is the parameter name to be sent in the response and each value defines the option:
