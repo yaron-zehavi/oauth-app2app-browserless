@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                             Raiffeisen Bank International
-Intended status: Standards Track                           8 August 2025
-Expires: 9 February 2026
+Intended status: Standards Track                           9 August 2025
+Expires: 10 February 2026
 
 
                   OAuth 2.0 App2App Browser-less Flow
@@ -14,9 +14,10 @@ Expires: 9 February 2026
 Abstract
 
    This document describes a protocol allowing a _Client App_ to obtain
-   an OAuth grant from a _Native App_ using the [App2App] pattern,
-   providing *native* app navigation user-experience (no web browser
-   required), despite both apps residing on different trust domains.
+   an OAuth grant from an _Authorization Server's Native App_ using the
+   [App2App] pattern, providing *native* app navigation user-experience
+   (no web browser used), despite both apps belonging to different trust
+   domains.
 
 About This Document
 
@@ -51,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 February 2026.
+   This Internet-Draft will expire on 10 February 2026.
 
 Copyright Notice
 
@@ -82,11 +83,10 @@ Table of Contents
      3.5.  Client App response handling
      3.6.  Flow completion
    4.  Implementation Considerations
-     4.1.  Usage and Applicability
-     4.2.  Detecting Presence of Native Apps claiming Urls
-       4.2.1.  Android
-       4.2.2.  iOS
-     4.3.  Recovery from failed native App2App flows
+     4.1.  Detecting Presence of Native Apps claiming Urls
+       4.1.1.  Android
+       4.1.2.  iOS
+     4.2.  Recovery from failed native App2App flows
    5.  Security Considerations
      5.1.  Embedded User Agents
      5.2.  Open redirection by Authorization Server's User-Interacting
@@ -113,10 +113,10 @@ Table of Contents
    app navigation of an [App2App] OAuth grant across _different Trust
    Domains_.
 
-   When Clients and Authorization Servers are located on _different
-   Trust Domains_, authorization requests are routed using federation,
-   involving Authorization Servers acting as clients of _Downstream
-   Authorization Servers_.
+   When _Clients_ and _Authorization Servers_ are located on _different
+   Trust Domains_, authorization requests traverse across domains using
+   federation, involving _Authorization Servers_ acting as clients of
+   _Downstream Authorization Servers_.
 
    Such federation setups create trust networks, for example in Academia
    and in the business world across corporations.
@@ -134,10 +134,10 @@ Table of Contents
       and corresponding metadata property REQUIRED to support the
       browser-less App2App flow.
 
-   *native_app2app_unsupported*:  A new error code value.
+   *native_callback_uri*:  A new _native authorization request_
+      parameter, specifying the deep link of _Client App_.
 
-   *native_callback_uri*:  A new native authorization request parameter,
-      specifying the deep link of _Client App_.
+   *native_app2app_unsupported*:  A new error code value.
 
 2.  Conventions and Definitions
 
@@ -152,27 +152,19 @@ Table of Contents
    In addition to the terms defined in referenced specifications, this
    document uses the following terms:
 
-   *OAuth*:  In this document, "OAuth" refers to OAuth 2.0, [RFC6749]
-      and [RFC6750] as well as [OpenID], both in their *authorization
-      code flow*.
-
-   *PKCE*:  Proof Key for Code Exchange (PKCE) [RFC7636], a mechanism to
-      prevent various attacks on OAuth authorization codes.
+   *OAuth*:  In this document, "OAuth" refers to OAuth 2.0, [RFC6749] in
+      the *authorization code flow*.
 
    *OAuth Broker*:  An Authorization Server federating to other trust
       domains by acting as an OAuth Client of _Downstream Authorization
       Servers_.
 
-   *Client App*:  A Native app acting as client of _Initial
-      Authorization Server_. In accordance with "OAuth 2.0 for Native
-      Apps" [RFC8252], Client's redirect_uri is claimed by the app.
-
-   *Initial Authorization Server*:  Authorization Server of _Client
-      App_. As an _OAuth Broker_ it is a client of _Downstream
-      Authorization Servers_, to which it federates requests.
+   *Client App*:  A Native app OAuth client of _Authorization Server_.
+      In accordance with "OAuth 2.0 for Native Apps" [RFC8252], client's
+      redirect_uri is claimed by the app.
 
    *Downstream Authorization Server*:  An Authorization Server
-      downstream of _Initial Authorization Server_. It may be an _OAuth
+      downstream of another _Authorization Server_. It may be an _OAuth
       Broker_ or the _User-Interacting Authorization Server_.
 
    *User-Interacting Authorization Server*:  An Authorization Server
@@ -367,7 +359,7 @@ Content-Type: application/json
    in _url_ and open the _User-Interacting Authorization Server's App_.
    If no app claiming the deep link is be found, _Client App_ MUST
    terminate the flow and MAY attempt a non-native flow.  See
-   Section 4.3.
+   Section 4.2.
 
 3.3.2.3.  Routing Response
 
@@ -565,7 +557,7 @@ Content-Type: application/json
    _Client App_ SHOULD display an appropriate error message to the user
    and terminate the flow.  In case of _native_app2app_unsupported_,
    _Client App_ MUST terminate the flow and MAY retry with a non-native
-   flow.  See Section 4.3.
+   flow.  See Section 4.2.
 
 3.4.  User-Interacting Authorization Server's App
 
@@ -636,36 +628,27 @@ Content-Type: application/json
 
 4.  Implementation Considerations
 
-4.1.  Usage and Applicability
-
-   This specification MUST NOT be used when _Client App_ detects
-   _Initial Authorization Server's_ url is claimed by an app on the
-   device.
-
-   In such case _Client App_ SHOULD natively invoke the authorization
-   request url.
-
-4.2.  Detecting Presence of Native Apps claiming Urls
+4.1.  Detecting Presence of Native Apps claiming Urls
 
    Native Apps on iOS and Android MAY use OS SDK's to detect if an app
    owns a url.  The general method is the same - App calls an SDK to
    open the url as deep link and handles an exception thrown if no
    matching app is found.
 
-4.2.1.  Android
+4.1.1.  Android
 
    App SHALL invoke Android [android.method.intent] method with
    FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws
    ActivityNotFoundException if no matching app is found.
 
-4.2.2.  iOS
+4.1.2.  iOS
 
    App SHALL invoke iOS [iOS.method.openUrl] method with options
    [iOS.option.universalLinksOnly] which ensures URLs must be universal
    links and have an app configured to open them.  Otherwise the method
    returns false in completion.success.
 
-4.3.  Recovery from failed native App2App flows
+4.2.  Recovery from failed native App2App flows
 
 +---------------------------------------------------------------------------------------------+
 | +-----------+                                                                               |
@@ -864,11 +847,6 @@ Content-Type: application/json
 
 8.1.  Normative References
 
-   [OpenID]   Sakimura, N., Bradley, J., Jones, M. B., de Medeiros, B.,
-              and C. Mortimore, "OpenID Connect Core 1.0", November
-              2014,
-              <https://openid.net/specs/openid-connect-core-1_0.html>.
-
    [OpenID.Federation]
               Hedberg, Ed, R., Jones, M. B., Solberg, A. A., Bradley,
               J., De Marco, G., and V. Dzhuvinov, "OpenID Federation
@@ -883,16 +861,6 @@ Content-Type: application/json
    [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
               RFC 6749, DOI 10.17487/RFC6749, October 2012,
               <https://www.rfc-editor.org/rfc/rfc6749>.
-
-   [RFC6750]  Jones, M. and D. Hardt, "The OAuth 2.0 Authorization
-              Framework: Bearer Token Usage", RFC 6750,
-              DOI 10.17487/RFC6750, October 2012,
-              <https://www.rfc-editor.org/rfc/rfc6750>.
-
-   [RFC7636]  Sakimura, N., Ed., Bradley, J., and N. Agarwal, "Proof Key
-              for Code Exchange by OAuth Public Clients", RFC 7636,
-              DOI 10.17487/RFC7636, September 2015,
-              <https://www.rfc-editor.org/rfc/rfc7636>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
