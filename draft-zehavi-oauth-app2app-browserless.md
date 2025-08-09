@@ -33,22 +33,10 @@ author:
 
 normative:
   RFC6749:
-  RFC6750:
-  RFC7636:
   RFC8252:
   RFC8414:
   RFC9126:
   RFC9396:
-  OpenID:
-    title: OpenID Connect Core 1.0
-    target: https://openid.net/specs/openid-connect-core-1_0.html
-    date: November 8, 2014
-    author:
-      - ins: N. Sakimura
-      - ins: J. Bradley
-      - ins: M.B. Jones
-      - ins: B. de Medeiros
-      - ins: C. Mortimore
   OpenID.Federation:
     title: OpenID Federation 1.0
     target: https://openid.net/specs/openid-federation-1_0.html
@@ -92,7 +80,7 @@ informative:
     target: https://developer.android.com/reference/android/content/Intent
 --- abstract
 
-This document describes a protocol allowing a *Client App* to obtain an OAuth grant from a *Native App* using the {{App2App}} pattern, providing **native** app navigation user-experience (no web browser required), despite both apps residing on different trust domains.
+This document describes a protocol allowing a *Client App* to obtain an OAuth grant from an *Authorization Server's Native App* using the {{App2App}} pattern, providing **native** app navigation user-experience (no web browser used), despite both apps belonging to different trust domains.
 
 --- middle
 
@@ -100,7 +88,7 @@ This document describes a protocol allowing a *Client App* to obtain an OAuth gr
 
 This document describes a protocol enabling native (**Browser-less**) app navigation of an {{App2App}} OAuth grant across *different Trust Domains*.
 
-When Clients and Authorization Servers are located on *different Trust Domains*, authorization requests are routed using federation, involving Authorization Servers acting as clients of *Downstream Authorization Servers*.
+When *Clients* and *Authorization Servers* are located on *different Trust Domains*, authorization requests traverse across domains using federation, involving *Authorization Servers* acting as clients of *Downstream Authorization Servers*.
 
 Such federation setups create trust networks, for example in Academia and in the business world across corporations.
 
@@ -113,11 +101,11 @@ This document specifies:
 **native_authorization_endpoint**:
 : A new Authorization Server endpoint and corresponding metadata property REQUIRED to support the browser-less App2App flow.
 
+**native_callback_uri**:
+: A new *native authorization request* parameter, specifying the deep link of *Client App*.
+
 **native_app2app_unsupported**:
 : A new error code value.
-
-**native_callback_uri**:
-: A new native authorization request parameter, specifying the deep link of *Client App*.
 
 # Conventions and Definitions
 
@@ -129,23 +117,16 @@ In addition to the terms defined in referenced specifications, this document use
 the following terms:
 
 **OAuth**:
-: In this document, "OAuth" refers to OAuth 2.0, {{RFC6749}} and {{RFC6750}} as well as {{OpenID}}, both in their **authorization code flow**.
-
-**PKCE**:
-: Proof Key for Code Exchange (PKCE) {{RFC7636}}, a mechanism
-  to prevent various attacks on OAuth authorization codes.
+: In this document, "OAuth" refers to OAuth 2.0, {{RFC6749}} in the **authorization code flow**.
 
 **OAuth Broker**:
 : An Authorization Server federating to other trust domains by acting as an OAuth Client of  *Downstream Authorization Servers*.
 
 **Client App**:
-: A Native app acting as client of *Initial Authorization Server*. In accordance with "OAuth 2.0 for Native Apps" {{RFC8252}}, Client's redirect_uri is claimed by the app.
-
-**Initial Authorization Server**:
-: Authorization Server of *Client App*. As an *OAuth Broker* it is a client of *Downstream Authorization Servers*, to which it federates requests.
+: A Native app OAuth client of *Authorization Server*. In accordance with "OAuth 2.0 for Native Apps" {{RFC8252}}, client's redirect_uri is claimed by the app.
 
 **Downstream Authorization Server**:
-: An Authorization Server downstream of *Initial Authorization Server*. It may be an *OAuth Broker* or the *User-Interacting Authorization Server*.
+: An Authorization Server downstream of another *Authorization Server*. It may be an *OAuth Broker* or the *User-Interacting Authorization Server*.
 
 **User-Interacting Authorization Server**:
 : An Authorization Server which interacts with end-user. The interaction may be interim navigation (e.g: user input is required to guide where to redirect), or performs user authentication and request authorization.
@@ -479,12 +460,6 @@ Once *Client App's* own redirect_uri is obtained, *Client App* processes the res
 And the *Native App2App* flow is complete.
 
 # Implementation Considerations
-
-## Usage and Applicability
-
-This specification MUST NOT be used when *Client App* detects *Initial Authorization Server's* url is claimed by an app on the device.
-
-In such case *Client App* SHOULD natively invoke the authorization request url.
 
 ## Detecting Presence of Native Apps claiming Urls
 
