@@ -86,13 +86,13 @@ This document describes a protocol allowing a *Client App* to obtain an OAuth gr
 
 # Introduction
 
-This document describes a protocol enabling native (**Browser-less**) app navigation of an {{App2App}} OAuth grant across *different Trust Domains*.
+This document describes a protocol enabling native app navigation of an {{App2App}} OAuth grant across *different Trust Domains*.
 
 When *Clients* and *Authorization Servers* are located on *different Trust Domains*, authorization requests traverse across domains using federation, involving *Authorization Servers* acting as clients of *Downstream Authorization Servers*.
 
 Such federation setups create trust networks, for example in Academia and in the business world across corporations.
 
-However in {{App2App}} scenarios the web browser must serve as user-agent, because federating Authorization Servers url's are not claimed by any native app.
+In federated {{App2App}} scenarios the **web browser** serves as user-agent, as federated Authorization Servers url's are not claimed by any native app.
 
 The use of web browsers in App2App flows degrades the user experience somewhat.
 
