@@ -466,14 +466,7 @@ And the *Native App2App* flow is complete.
 Native Apps on iOS and Android MAY use OS SDK's to detect if an app owns a url.
 The general method is the same - App calls an SDK to open the url as deep link and handles an exception thrown if no matching app is found.
 
-### Android
-
-App SHALL invoke Android {{android.method.intent}} method with FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws ActivityNotFoundException if no matching app is found.
-
-### iOS
-
-App SHALL invoke iOS {{iOS.method.openUrl}} method with options {{iOS.option.universalLinksOnly}} which ensures URLs must be universal links and have an app configured to open them.
-Otherwise the method returns false in completion.success.
+See {{Appendix-A}} for more details.
 
 ## Recovery from failed native App2App flows {#fallback}
 
@@ -497,9 +490,7 @@ Note - Failure because *User-Interacting App* is not installed on end-user's dev
 
 {{RFC8252}} Security Considerations advises against using *embedded user agents*. The main concern is preventing theft through keystroke recording of end-user's credentials such as usernames and passwords.
 
-This risk does not apply to this draft as *Client App* acts as User Agent only for the purpose of flow redirection, and does not interact with end-user's credentials in any way.
-
-The mechanism for providing routing instructions MUST NOT be used to request end-user to provide any authentication credentials.
+*Client App* when interacting with end-user to provide routing guiding input MUST NOT be used to request authentication credentials or any other sensitive information.
 
 ## Open redirection by Authorization Server's User-Interacting App
 
@@ -570,6 +561,17 @@ While this document also discusses a mechanism for *Authorization Servers* to gu
 This document has no IANA actions.
 
 --- back
+
+# Appendix A - Detecting Presence of Native Apps claiming Urls on iOS and Android {#Appendix-A}
+
+## iOS
+
+App SHALL invoke iOS {{iOS.method.openUrl}} method with options {{iOS.option.universalLinksOnly}} which ensures URLs must be universal links and have an app configured to open them.
+Otherwise the method returns false in completion.success.
+
+## Android
+
+App SHALL invoke Android {{android.method.intent}} method with FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws ActivityNotFoundException if no matching app is found.
 
 # Acknowledgments
 
