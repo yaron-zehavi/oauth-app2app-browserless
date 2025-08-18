@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                             Raiffeisen Bank International
-Intended status: Standards Track                           9 August 2025
-Expires: 10 February 2026
+Intended status: Standards Track                          18 August 2025
+Expires: 19 February 2026
 
 
                   OAuth 2.0 App2App Browser-less Flow
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 February 2026.
+   This Internet-Draft will expire on 19 February 2026.
 
 Copyright Notice
 
@@ -84,8 +84,6 @@ Table of Contents
      3.6.  Flow completion
    4.  Implementation Considerations
      4.1.  Detecting Presence of Native Apps claiming Urls
-       4.1.1.  Android
-       4.1.2.  iOS
      4.2.  Recovery from failed native App2App flows
    5.  Security Considerations
      5.1.  Embedded User Agents
@@ -103,8 +101,12 @@ Table of Contents
    8.  References
      8.1.  Normative References
      8.2.  Informative References
-   Appendix A.  Acknowledgments
-   Appendix B.  Document History
+   Appendix A.  Appendix A - Detecting Presence of Native Apps
+           claiming Urls on iOS and Android
+     A.1.  iOS
+     A.2.  Android
+   Appendix B.  Acknowledgments
+   Appendix C.  Document History
    Author's Address
 
 1.  Introduction
@@ -187,7 +189,7 @@ Table of Contents
    | |    Client   |                                  |
    | |     App     |                                  |
    | +----+------+-+             +---------------+    |
-   |   ^  |  ^ ^ |     (1,3,7)   | Initial or    +-+  |
+   |   ^  |  ^ ^ |     (1,3,7)   | Initial and   +-+  |
    |   |  |  | | +-------------->| Downstream    | |  |
    |   |  |  | +-----------------+ Authorization | |  |
    |   |  |  |          (2,8)    | Servers       | |  |
@@ -635,18 +637,7 @@ Content-Type: application/json
    open the url as deep link and handles an exception thrown if no
    matching app is found.
 
-4.1.1.  Android
-
-   App SHALL invoke Android [android.method.intent] method with
-   FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws
-   ActivityNotFoundException if no matching app is found.
-
-4.1.2.  iOS
-
-   App SHALL invoke iOS [iOS.method.openUrl] method with options
-   [iOS.option.universalLinksOnly] which ensures URLs must be universal
-   links and have an app configured to open them.  Otherwise the method
-   returns false in completion.success.
+   See Appendix A for more details.
 
 4.2.  Recovery from failed native App2App flows
 
@@ -700,12 +691,9 @@ Content-Type: application/json
    user agents_. The main concern is preventing theft through keystroke
    recording of end-user's credentials such as usernames and passwords.
 
-   This risk does not apply to this draft as _Client App_ acts as User
-   Agent only for the purpose of flow redirection, and does not interact
-   with end-user's credentials in any way.
-
-   The mechanism for providing routing instructions MUST NOT be used to
-   request end-user to provide any authentication credentials.
+   _Client App_ when interacting with end-user to provide routing
+   guiding input MUST NOT be used to request authentication credentials
+   or any other sensitive information.
 
 5.2.  Open redirection by Authorization Server's User-Interacting App
 
@@ -919,7 +907,23 @@ Content-Type: application/json
               November 2022, <https://openid.net/specs/openid-connect-
               native-sso-1_0.html>.
 
-Appendix A.  Acknowledgments
+Appendix A.  Appendix A - Detecting Presence of Native Apps claiming
+             Urls on iOS and Android
+
+A.1.  iOS
+
+   App SHALL invoke iOS [iOS.method.openUrl] method with options
+   [iOS.option.universalLinksOnly] which ensures URLs must be universal
+   links and have an app configured to open them.  Otherwise the method
+   returns false in completion.success.
+
+A.2.  Android
+
+   App SHALL invoke Android [android.method.intent] method with
+   FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws
+   ActivityNotFoundException if no matching app is found.
+
+Appendix B.  Acknowledgments
 
    The authors would like to thank the following individuals who
    contributed ideas, feedback, and wording that shaped and formed the
@@ -928,7 +932,7 @@ Appendix A.  Acknowledgments
    Workshop 2025 session in which this topic was discussed for their
    ideas and feedback.
 
-Appendix B.  Document History
+Appendix C.  Document History
 
    [[ To be removed from the final specification ]]
 
