@@ -139,8 +139,8 @@ Table of Contents
       and corresponding metadata property REQUIRED to support the
       browser-less App2App flow.
 
-   *native_callback_uri*:  A new _native authorization request_
-      parameter, specifying the deep link of _Client App_.
+   *native_callback_uri*:  A new native authorization request parameter,
+      specifying the deep link of _Client App_.
 
    *native_app2app_unsupported*:  A new error code value.
 
@@ -175,7 +175,7 @@ Table of Contents
    *User-Interacting Authorization Server*:  An Authorization Server
       which interacts with end-user.  The interaction may be interim
       navigation (e.g: user input is required to guide where to
-      redirect), or performs user authentication and request
+      federate), or performs user authentication and request
       authorization.
 
    *User-Interacting App*:  Native App of _User-Interacting
@@ -217,12 +217,12 @@ Table of Contents
 
    *  (2) _Authorization Server_ returns either:
 
-      -  A _native authorization request url_ for _Downstream
+      -  A _native authorization request url_ for a _Downstream
          Authorization Server_.
 
       -  A request for end-user input to guide request routing.
 
-      -  A _deep link_ url to _User-Interacting App_.
+      -  A _deep link_ url to its _User-Interacting App_.
 
    *  (3) _Client App_:
 
@@ -230,21 +230,21 @@ Table of Contents
          as such responses are obtained, until a _deep link_ url to
          _User-Interacting App_ is obtained.
 
-      -  Handles requests for end-user input by prompting end-user and
-         providing their input to _Authorization Server_.
+      -  Prompts end-user and provides their input to _Authorization
+         Server_ to guide request routing.
 
       -  Handles _deep links_, by invoking the app claiming the url, if
          present on the device.
 
-   *  (4) Once a _deep link_ claimed on the device is obtained, _Client
-      App_ natively invokes _User-Interacting App_.
+   *  (4) _Client App_ natively invokes _User-Interacting App_ claiming
+      a _deep link_ it has obtained.
 
    *  (5) _User-Interacting App_ authenticates end-user and authorizes
       the request.
 
    *  (6) _User-Interacting App_ returns to _Client App_ by natively
-      invoking *native_callback_uri* and provides as a parameter the
-      url-encoded _redirect_uri_ with its response parameters.
+      invoking *native_callback_uri* and provides the url-encoded
+      _redirect_uri_ with its response parameters.
 
    *  (7) _Client App_ invokes the _redirect_uri_ it obtained.
 
