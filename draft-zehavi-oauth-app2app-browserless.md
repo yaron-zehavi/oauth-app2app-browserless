@@ -460,7 +460,7 @@ And the *Native App2App* flow is complete.
 
 ## Detecting Presence of Native Apps claiming Urls
 
-Native Apps on iOS and Android MAY use OS SDK's to detect if an app owns a url.
+Native Apps on iOS and Android MAY use OS SDK's to detect if an app claims a url.
 The general method is the same - App calls an SDK to open the url as deep link and handles an exception thrown if no matching app is found.
 
 See {{Appendix-A}} for more details.
