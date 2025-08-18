@@ -940,14 +940,23 @@ Appendix C.  Document History
 
    [[ To be removed from the final specification ]]
 
-   -latest * Replaced Authorization Details Type with new parameter *
-   native_authorization_endpoint as REST API - no cookies or HTTP 30x
-   responses
+   -latest
 
-   -05 * removed error native_callback_uri_not_claimed * Added Routing
-   Instructions Response * Added native_authorization_endpoint and
-   matching AS profile * Added Authorization Details Type as container
-   for native_callback_uri
+   *  Replaced Authorization Details Type with new parameter
+
+   *  native_authorization_endpoint as REST API - no cookies or HTTP 30x
+      responses
+
+   -05
+
+   *  removed error native_callback_uri_not_claimed
+
+   *  Added Routing Instructions Response
+
+   *  Added native_authorization_endpoint and matching AS profile
+
+   *  Added Authorization Details Type as container for
+      native_callback_uri
 
    -04
 
