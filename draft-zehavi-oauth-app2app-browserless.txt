@@ -600,7 +600,7 @@ Content-Type: application/json
    subsequent obtained urls, using HTTP GET.
 
    *Authorization Servers* processing _Native App2App_ MUST respond to
-   redirect_uri invocations:
+   their redirect_uri invocations:
 
    *  According to the REST API guidelines specified in Section 3.3.
 
