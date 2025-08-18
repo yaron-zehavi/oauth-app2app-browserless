@@ -562,7 +562,7 @@ This document has no IANA actions.
 
 --- back
 
-# Appendix A - Detecting Presence of Native Apps claiming Urls on iOS and Android {#Appendix-A}
+# Detecting Presence of Native Apps claiming Urls on iOS and Android {#Appendix-A}
 
 ## iOS
 
