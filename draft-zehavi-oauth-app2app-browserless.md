@@ -171,13 +171,6 @@ This document introduces the following parameter as authorization server metadat
 ## native_authorization_endpoint {#native-authorization-endpoint}
 
 This is an OAuth authorization endpoint, interoperable with other OAuth RFCs.
-It supports the following additional request parameters:
-
-**native_callback_uri**:
-: REQUIRED. *Client App's* deep link, to be invoked by *User-Interacting App*. When invoking *native_callback_uri*, it accepts the following parameter:
-
-  **redirect_uri**:
-  : REQUIRED. url-encoded redirect_uri from *User-Interacting App* responding to its OAuth client, including its respective response parameters.
 
 The following additional requirements apply to native_authorization_endpoint, in line with common REST APIs:
 
@@ -186,20 +179,26 @@ The following additional requirements apply to native_authorization_endpoint, in
 * SHALL NOT return HTTP 30x redirects.
 * SHALL NOT respond with bot-detection challenges such as CAPTCHAs.
 
-### Native Authorization Request
+## Native Authorization Request
 
-An OAuth authorization request, interoperable with other OAuth RFCs, which also includes the *native_callback_uri* parameter.
+An OAuth authorization request, interoperable with other OAuth RFCs, which also includes the *native_callback_uri* parameter:
+
+**native_callback_uri**:
+: REQUIRED. *Client App's* deep link, to be invoked by *User-Interacting App*. When invoking *native_callback_uri*, it accepts the following parameter:
+
+  **redirect_uri**:
+  : REQUIRED. url-encoded redirect_uri from *User-Interacting App* responding to its OAuth client, including its respective response parameters.
 
 *Authorization servers* processing a *native authorization request* MUST also:
 
 * Forward the *native_callback_uri* in their requests to *Downstream Authorization Servers*.
 * Ensure that the *Downstream Authorization Servers* it federates to, offers a *native_authorization_endpoint*, otherwise return an error response with error code *native_app2app_unsupported*.
 
-### Native Authorization Response
+## Native Authorization Response
 
 The authorization server responds with *application/json* and either 200 OK or 4xx/5xx.
 
-#### Federating response
+### Federating response
 
 If the *Authorization Server* decides to federate to another party such as *Downstream Authorization Server* or its OAuth client, it responds with 200 OK and the following JSON response body:
 
@@ -223,7 +222,7 @@ Example:
 
 It then MUST make an HTTP GET request to the returned *url* and process the response as defined in this document.
 
-#### Deep Link Response
+### Deep Link Response
 
 If the *Authorization Server* wishes to authenticate the user and authorize the request, using its *User-Interacting App*, it responds with 200 OK and the following JSON response body:
 
@@ -245,7 +244,7 @@ Example:
 
 *Client App* MUST use OS mechanisms to invoke the deep link received in *url* and open the *User-Interacting Authorization Server's App*. If no app claiming the deep link is be found, *Client App* MUST terminate the flow and MAY attempt a non-native flow. See {{fallback}}.
 
-#### Routing Response
+### Routing Response
 
 If the *Authorization Server* requires user input to determine where to federate, it responds with 200 OK and the following JSON body:
 
@@ -338,7 +337,7 @@ Example of prompting end-user for text input entry:
                 "email": {
                     "hint": "Enter your email address",
                     "title": "E-Mail",
-                    "description": "Lore Ipsum"
+                    "description": "Lorem Ipsum"
                 }
             }
         },
@@ -370,7 +369,7 @@ Example of *Client App* response following end-user input entry:
     id=request-identifier-2
     &email=end_user@example.as.com
 
-#### Error Response
+### Error Response
 
 If *Authorization Server* encounters an error whose audience is its OAuth client, it returns 200 OK with the following JSON body:
 
