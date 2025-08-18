@@ -461,7 +461,6 @@ And the *Native App2App* flow is complete.
 ## Detecting Presence of Native Apps claiming Urls
 
 Native Apps on iOS and Android MAY use OS SDK's to detect if an app claims a url.
-The general method is the same - App calls an SDK to open the url as deep link and handles an exception thrown if no matching app is found.
 
 See {{Appendix-A}} for more details.
 
@@ -477,7 +476,7 @@ The *Native App2App flow* described in this document MAY fail when:
 * An error response is obtained.
 * Required *User-Interacting App* is not installed on end-user's device.
 
-*Client App* MAY recover by launching a new (non-native) authorization request on a web browser, in accordance with "OAuth 2.0 for Native Apps" {{RFC8252}}.
+*Client App* MAY recover by launching a new, non-native authorization request on a web browser, in accordance with "OAuth 2.0 for Native Apps" {{RFC8252}}.
 
 Note - Failure because *User-Interacting App* is not installed on end-user's device, might succeed in future, if the missing app has been installed. *Client App* MAY choose if and when to retry the *Native App2App flow* after such a failure.
 
