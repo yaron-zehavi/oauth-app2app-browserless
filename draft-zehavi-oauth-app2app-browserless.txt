@@ -101,8 +101,8 @@ Table of Contents
    8.  References
      8.1.  Normative References
      8.2.  Informative References
-   Appendix A.  Appendix A - Detecting Presence of Native Apps
-           claiming Urls on iOS and Android
+   Appendix A.  Detecting Presence of Native Apps claiming Urls on iOS
+           and Android
      A.1.  iOS
      A.2.  Android
    Appendix B.  Acknowledgments
@@ -907,8 +907,8 @@ Content-Type: application/json
               November 2022, <https://openid.net/specs/openid-connect-
               native-sso-1_0.html>.
 
-Appendix A.  Appendix A - Detecting Presence of Native Apps claiming
-             Urls on iOS and Android
+Appendix A.  Detecting Presence of Native Apps claiming Urls on iOS and
+             Android
 
 A.1.  iOS
 
