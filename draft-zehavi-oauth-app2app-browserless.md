@@ -582,10 +582,12 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
 \[\[ To be removed from the final specification ]]
 
 -latest
+
 * Replaced Authorization Details Type with new parameter
 * native_authorization_endpoint as REST API - no cookies or HTTP 30x responses
 
 -05
+
 * removed error native_callback_uri_not_claimed
 * Added Routing Instructions Response
 * Added native_authorization_endpoint and matching AS profile
