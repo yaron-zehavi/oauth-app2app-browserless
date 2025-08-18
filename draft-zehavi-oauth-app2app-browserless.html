@@ -1498,7 +1498,7 @@ the following terms:<a href="#section-2.1-1" class="pilcrow">¶</a></p>
                 <p id="section-3.1-2.3.2.1.1">Calls <em>native authorization request urls</em> it obtains, so long as such responses are obtained, until a <em>deep link</em> url to <em>User-Interacting App</em> is obtained.<a href="#section-3.1-2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-3.1-2.3.2.2">
-                <p id="section-3.1-2.3.2.2.1">Prompts end-user and provides their input to <em>Authorization Server</em> to guide request routing.<a href="#section-3.1-2.3.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-3.1-2.3.2.2.1">Prompts end-user, then provides their input to <em>Authorization Server</em> to guide request routing.<a href="#section-3.1-2.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-3.1-2.3.2.3">
                 <p id="section-3.1-2.3.2.3.1">Handles <em>deep links</em>, by invoking the app claiming the url, if present on the device.<a href="#section-3.1-2.3.2.3.1" class="pilcrow">¶</a></p>
@@ -1922,16 +1922,13 @@ In case of <em>native_app2app_unsupported</em>, <em>Client App</em> <span class=
             <p id="section-3.6-2.1.1">Validates the native authorization request.<a href="#section-3.6-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.6-2.2">
-            <p id="section-3.6-2.2.1">Establishes trust in <em>native_callback_uri</em>, otherwise terminates the flow.<a href="#section-3.6-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.6-2.2.1">Establishes trust in <em>native_callback_uri</em> and validates that an app claiming <em>native_callback_uri</em> is on the device. Otherwise terminates the flow.<a href="#section-3.6-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.6-2.3">
-            <p id="section-3.6-2.3.1">Validates that an app claiming <em>native_callback_uri</em> is on the device, otherwise terminates the flow.<a href="#section-3.6-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.6-2.3.1">Authenticates end-user and authorizes the request.<a href="#section-3.6-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.6-2.4">
-            <p id="section-3.6-2.4.1">Authenticates end-user and authorizes the request.<a href="#section-3.6-2.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-3.6-2.5">
-            <p id="section-3.6-2.5.1"><span class="bcp14">MUST</span> use <em>native_callback_uri</em> to invoke <em>Client App</em>, providing it the redirect url and its response parameters as the url-encoded query parameter <strong>redirect_uri</strong>.<a href="#section-3.6-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-3.6-2.4.1"><span class="bcp14">MUST</span> use <em>native_callback_uri</em> to invoke <em>Client App</em>, providing it the redirect url and its response parameters as the url-encoded query parameter <strong>redirect_uri</strong>.<a href="#section-3.6-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

@@ -230,7 +230,7 @@ Table of Contents
          as such responses are obtained, until a _deep link_ url to
          _User-Interacting App_ is obtained.
 
-      -  Prompts end-user and provides their input to _Authorization
+      -  Prompts end-user, then provides their input to _Authorization
          Server_ to guide request routing.
 
       -  Handles _deep links_, by invoking the app claiming the url, if
@@ -571,11 +571,9 @@ Content-Type: application/json
 
    *  Validates the native authorization request.
 
-   *  Establishes trust in _native_callback_uri_, otherwise terminates
-      the flow.
-
-   *  Validates that an app claiming _native_callback_uri_ is on the
-      device, otherwise terminates the flow.
+   *  Establishes trust in _native_callback_uri_ and validates that an
+      app claiming _native_callback_uri_ is on the device.  Otherwise
+      terminates the flow.
 
    *  Authenticates end-user and authorizes the request.
 
