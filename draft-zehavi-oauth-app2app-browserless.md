@@ -424,12 +424,12 @@ The *User-Interacting Authorization Server's* app handles the native authorizati
 
 *Client App* is natively invoked by *User-Interacting Authorization Server App*.
 
-If it is invoked with an *error* (and optional *error_description*) parmeter, or no parameter at all, it MUST terminate the flow.
+If it is invoked with an *error* parameter, or without parameters at all, it MUST terminate the flow.
 It MUST ignore any unknown parameters.
 
-If invoked with a url-encoded **redirect_uri** as parameter, the *Client App* MUST validate *redirect_uri*, and any url subsequently obtained, using the Allowlist it previously generated, and MUST terminate the flow if any url is not found in the Allowlist.
+If invoked with a url-encoded **redirect_uri** as parameter, *Client App* MUST validate *redirect_uri*, and any url subsequently obtained, using the Allowlist it previously generated, and MUST terminate the flow if any url is not found in the Allowlist.
 
-*Client App* SHALL invoke *redirect_uri*, and any validated subsequent urls received using HTTP GET.
+*Client App* SHALL invoke *redirect_uri*, and any validated subsequent obtained urls, using HTTP GET.
 
 **Authorization Servers** processing *Native App2App* MUST respond to redirect_uri invocations:
 
@@ -446,7 +446,7 @@ Example:
         "url": "redirect_uri of an OAuth Client, including response parameters",
     }
 
-*Client App* MUST handle any other response (2xx with other content-types / 3xx / 4xx / 5xx) as a failure and terminate the flow.
+*Client App* MUST handle any other response (2xx with unexpected content-types / 3xx / 4xx / 5xx) as a failure and terminate the flow.
 
 ## Flow completion
 
