@@ -96,21 +96,21 @@ Table of Contents
      5.3.  Open redirection by Client App
      5.4.  Deep link hijacking
      5.5.  Authorization code theft and injection
-   6.  Background and relation to other standards
-     6.1.  App2App across trust domains requires a web browser
-     6.2.  Impact of using a web browser
-     6.3.  Relation to OpenID.Native-SSO
-     6.4.  Relation to OAuth.First-Party
-   7.  IANA Considerations
-   8.  References
-     8.1.  Normative References
-     8.2.  Informative References
+   6.  IANA Considerations
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
    Appendix A.  Detecting Presence of Native Apps claiming Urls on iOS
            and Android
      A.1.  iOS
      A.2.  Android
-   Appendix B.  Acknowledgments
-   Appendix C.  Document History
+   Appendix B.  Background and relation to other standards
+     B.1.  App2App across trust domains requires a web browser
+     B.2.  Impact of using a web browser
+     B.3.  Relation to OpenID.Native-SSO
+     B.4.  Relation to OAuth.First-Party
+   Appendix C.  Acknowledgments
+   Appendix D.  Document History
    Author's Address
 
 1.  Introduction
@@ -584,16 +584,17 @@ Content-Type: application/json
 3.7.  Client App response handling
 
    _Client App_ is natively invoked by _User-Interacting Authorization
-   Server App_.
+   Server App_:
 
-   If it is invoked with an _error_ parameter, or without parameters at
-   all, it MUST terminate the flow.  It MUST ignore any unknown
-   parameters.
+   *  If invoked with an _error_ parameter, without parameters at all,
+      it MUST terminate the flow.
 
-   If invoked with a url-encoded *redirect_uri* as parameter, _Client
-   App_ MUST validate _redirect_uri_, and any url subsequently obtained,
-   using the Allowlist it previously generated, and MUST terminate the
-   flow if any url is not found in the Allowlist.
+   *  It MUST ignore any unknown parameters.
+
+   *  If invoked with a url-encoded *redirect_uri* as parameter, _Client
+      App_ MUST validate _redirect_uri_, and any url subsequently
+      obtained, using the Allowlist it previously generated, and MUST
+      terminate the flow if any url is not found in the Allowlist.
 
    _Client App_ SHALL invoke _redirect_uri_, and any validated
    subsequent obtained urls, using HTTP GET.
@@ -615,8 +616,8 @@ Content-Type: application/json
     "url": "redirect_uri of an OAuth Client, including response parameters",
 }
 
-   _Client App_ MUST handle any other response (2xx with unexpected
-   content-types / 3xx / 4xx / 5xx) as a failure and terminate the flow.
+   _Client App_ MUST handle any other response (2xx with an unexpected
+   Content-Type / 3xx / 4xx / 5xx) as a failure and terminate the flow.
 
 3.8.  Flow completion
 
@@ -743,98 +744,13 @@ Content-Type: application/json
    tied to the _Client App_ instance, as mitigation to authorization
    code theft and injection attacks.
 
-6.  Background and relation to other standards
-
-6.1.  App2App across trust domains requires a web browser
-
-+---------------------------------------------------------------------------------------------+
-| +-----------+                                                                               |
-| |   Client  |                                                                               |
-| |    App    |                                                                               |
-| +--------+--+                                                                               |
-|   ^      | 1. Launch Authorization                                                          |
-|   |      |    Request on Browser            Mobile Browser                                  |
-|   |      |    +---------------------------------------------------------------------------+ |
-|   |      |    |                2.Federate                                                 | |
-|   |      |    | +--------------+ Auth. +---------------+    Auth. +--------------------+  | |
-|   |      |    | |    Initial   | Req.  |   Downstream  +-+  Req.  |       User-        |  | |
-|   |      +----+>| Authorization+------>|  Authorization+ +------->|   Authenticating   |  | |
-|   |           | |    Server    |       |    Servers    | |        |   Authorization    |  | |
-|   +-----------+-+              |<------+               | |<-------+      Server        |  | |
-|6.Authorization| +--------------+ Auth. +-+-------------+ |5.Auth. |                    |  | |
-|   Response    |                Response  +---------------+Response+-----+------------+-+  | |
-|  (Deep Link)  |                                                         |      ^          | |
-|               +---------------------------------------------------------+------+----------+ |
-|                                                                         |      |            |
-| +--------------+    3. Authenticate & Authorize end-user (Deep Link)    |      |            |
-| |    User-     |<-------------------------------------------------------+      |            |
-| | Interacting  |                                                               |            |
-| |     App      +---------------------------------------------------------------+            |
-| +--------------+    4. Authentication & Authorization Response                              |
-|                                                                                             |
-+---------------------------------------------------------------------------------------------+
-                                    Mobile Device
-
-         Figure 3: App2App across trust domains using browser
-
-   Since no native app claims the urls of redirecting Authorization
-   Servers (_OAuth Brokers_), mobile Operating Systems default to using
-   the system browser as the User Agent.
-
-6.2.  Impact of using a web browser
-
-   Using a web browser may degrade the user experience in several ways:
-
-   *  Some browser's support for deep links is limited by design, or by
-      the settings used.
-
-   *  Browsers may prompt end-user for consent before opening apps
-      claiming deep links, introducing additional friction.
-
-   *  Browsers are noticeable by end-users, rendering the UX less
-      smooth.
-
-   *  Client app developers don't control which browser the _User-
-      Interacting App_ uses to provide its response to redirect_uri.
-      Opinionated choices pose a risk that different browsers will use,
-      making necessary cookies used to bind session identifiers to the
-      user agent (nonce, state or PKCE verifier) unavailable, which may
-      break the flow.
-
-   *  After flow completion, "orphan" browser tabs may remain.  They do
-      not directly impact the flow, but can be regarded as unnecessary
-      "clutter".
-
-6.3.  Relation to [OpenID.Native-SSO]
-
-   [OpenID.Native-SSO] also offers a native SSO flow across apps.
-   However, it is limited to apps:
-
-   *  Published by the same issuer, therefore can securely share
-      information.
-
-   *  Using the same Authorization Server.
-
-6.4.  Relation to [OAuth.First-Party]
-
-   [OAuth.First-Party] also deals with native apps, but it MUST only be
-   used by first-party applications, which is when the authorization
-   server and application are controlled by the same entity, which is
-   not true in the case described in this document.
-
-   While this document also discusses a mechanism for _Authorization
-   Servers_ to guide _Client App_ in obtaining user's input to guide
-   routing the request across trust domains, the [OAuth.First-Party]
-   required high degree of trust between the authorization server and
-   the client is not fulfilled.
-
-7.  IANA Considerations
+6.  IANA Considerations
 
    This document has no IANA actions.
 
-8.  References
+7.  References
 
-8.1.  Normative References
+7.1.  Normative References
 
    [OpenID.Federation]
               Hedberg, Ed, R., Jones, M. B., Solberg, A. A., Bradley,
@@ -874,7 +790,7 @@ Content-Type: application/json
               DOI 10.17487/RFC9396, May 2023,
               <https://www.rfc-editor.org/rfc/rfc9396>.
 
-8.2.  Informative References
+7.2.  Informative References
 
    [android.method.intent]
               "Android Intent Method", n.d.,
@@ -924,7 +840,92 @@ A.2.  Android
    FLAG_ACTIVITY_REQUIRE_NON_BROWSER, which throws
    ActivityNotFoundException if no matching app is found.
 
-Appendix B.  Acknowledgments
+Appendix B.  Background and relation to other standards
+
+B.1.  App2App across trust domains requires a web browser
+
++---------------------------------------------------------------------------------------------+
+| +-----------+                                                                               |
+| |   Client  |                                                                               |
+| |    App    |                                                                               |
+| +--------+--+                                                                               |
+|   ^      | 1. Launch Authorization                                                          |
+|   |      |    Request on Browser            Mobile Browser                                  |
+|   |      |    +---------------------------------------------------------------------------+ |
+|   |      |    |                2.Federate                                                 | |
+|   |      |    | +--------------+ Auth. +---------------+    Auth. +--------------------+  | |
+|   |      |    | |    Initial   | Req.  |   Downstream  +-+  Req.  |       User-        |  | |
+|   |      +----+>| Authorization+------>|  Authorization+ +------->|   Authenticating   |  | |
+|   |           | |    Server    |       |    Servers    | |        |   Authorization    |  | |
+|   +-----------+-+              |<------+               | |<-------+      Server        |  | |
+|6.Authorization| +--------------+ Auth. +-+-------------+ |5.Auth. |                    |  | |
+|   Response    |                Response  +---------------+Response+-----+------------+-+  | |
+|  (Deep Link)  |                                                         |      ^          | |
+|               +---------------------------------------------------------+------+----------+ |
+|                                                                         |      |            |
+| +--------------+    3. Authenticate & Authorize end-user (Deep Link)    |      |            |
+| |    User-     |<-------------------------------------------------------+      |            |
+| | Interacting  |                                                               |            |
+| |     App      +---------------------------------------------------------------+            |
+| +--------------+    4. Authentication & Authorization Response                              |
+|                                                                                             |
++---------------------------------------------------------------------------------------------+
+                                    Mobile Device
+
+         Figure 3: App2App across trust domains using browser
+
+   Since no native app claims the urls of redirecting Authorization
+   Servers (_OAuth Brokers_), mobile Operating Systems default to using
+   the system browser as the User Agent.
+
+B.2.  Impact of using a web browser
+
+   Using a web browser may degrade the user experience in several ways:
+
+   *  Some browser's support for deep links is limited by design, or by
+      the settings used.
+
+   *  Browsers may prompt end-user for consent before opening apps
+      claiming deep links, introducing additional friction.
+
+   *  Browsers are noticeable by end-users, rendering the UX less
+      smooth.
+
+   *  Client app developers don't control which browser the _User-
+      Interacting App_ uses to provide its response to redirect_uri.
+      Opinionated choices pose a risk that different browsers will use,
+      making necessary cookies used to bind session identifiers to the
+      user agent (nonce, state or PKCE verifier) unavailable, which may
+      break the flow.
+
+   *  After flow completion, "orphan" browser tabs may remain.  They do
+      not directly impact the flow, but can be regarded as unnecessary
+      "clutter".
+
+B.3.  Relation to [OpenID.Native-SSO]
+
+   [OpenID.Native-SSO] also offers a native SSO flow across apps.
+   However, it is limited to apps:
+
+   *  Published by the same issuer, therefore can securely share
+      information.
+
+   *  Using the same Authorization Server.
+
+B.4.  Relation to [OAuth.First-Party]
+
+   [OAuth.First-Party] also deals with native apps, but it MUST only be
+   used by first-party applications, which is when the authorization
+   server and application are controlled by the same entity, which is
+   not true in the case described in this document.
+
+   While this document also discusses a mechanism for _Authorization
+   Servers_ to guide _Client App_ in obtaining user's input to guide
+   routing the request across trust domains, the [OAuth.First-Party]
+   required high degree of trust between the authorization server and
+   the client is not fulfilled.
+
+Appendix C.  Acknowledgments
 
    The authors would like to thank the following individuals who
    contributed ideas, feedback, and wording that shaped and formed the
@@ -933,7 +934,7 @@ Appendix B.  Acknowledgments
    Workshop 2025 session in which this topic was discussed for their
    ideas and feedback.
 
-Appendix C.  Document History
+Appendix D.  Document History
 
    [[ To be removed from the final specification ]]
 
