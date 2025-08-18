@@ -102,7 +102,7 @@ This document specifies:
 : A new Authorization Server endpoint and corresponding metadata property REQUIRED to support the browser-less App2App flow.
 
 **native_callback_uri**:
-: A new *native authorization request* parameter, specifying the deep link of *Client App*.
+: A new native authorization request parameter, specifying the deep link of *Client App*.
 
 **native_app2app_unsupported**:
 : A new error code value.
@@ -129,7 +129,7 @@ the following terms:
 : An Authorization Server downstream of another *Authorization Server*. It may be an *OAuth Broker* or the *User-Interacting Authorization Server*.
 
 **User-Interacting Authorization Server**:
-: An Authorization Server which interacts with end-user. The interaction may be interim navigation (e.g: user input is required to guide where to redirect), or performs user authentication and request authorization.
+: An Authorization Server which interacts with end-user. The interaction may be interim navigation (e.g: user input is required to guide where to federate), or performs user authentication and request authorization.
 
 **User-Interacting App**:
 : Native App of *User-Interacting Authorization Server*.
@@ -147,16 +147,16 @@ the following terms:
 
 - (1) *Client App* presents an authorization request to *Authorization Server's* **native_authorization_endpoint**, including a **native_callback_uri**.
 - (2) *Authorization Server* returns either:
-  - A *native authorization request url* for *Downstream Authorization Server*.
+  - A *native authorization request url* for a *Downstream Authorization Server*.
   - A request for end-user input to guide request routing.
-  - A *deep link* url to *User-Interacting App*.
+  - A *deep link* url to its *User-Interacting App*.
 - (3) *Client App*:
   - Calls *native authorization request urls* it obtains, so long as such responses are obtained, until a *deep link* url to *User-Interacting App* is obtained.
-  - Handles requests for end-user input by prompting end-user and providing their input to *Authorization Server*.
+  - Prompts end-user and provides their input to *Authorization Server* to guide request routing.
   - Handles *deep links*, by invoking the app claiming the url, if present on the device.
-- (4) Once a *deep link* claimed on the device is obtained, *Client App* natively invokes *User-Interacting App*.
+- (4) *Client App* natively invokes *User-Interacting App* claiming a *deep link* it has obtained.
 - (5) *User-Interacting App* authenticates end-user and authorizes the request.
-- (6) *User-Interacting App* returns to *Client App* by natively invoking **native_callback_uri** and provides as a parameter the url-encoded *redirect_uri* with its response parameters.
+- (6) *User-Interacting App* returns to *Client App* by natively invoking **native_callback_uri** and provides the url-encoded *redirect_uri* with its response parameters.
 - (7) *Client App* invokes the *redirect_uri* it obtained.
 - (8) *Client App* calls any subsequent uris obtained until its own redirect_uri is obtained.
 - (9) *Client App* exchanges code for tokens and the flow is complete.
