@@ -583,7 +583,7 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
 
 -latest
 
-* Replaced Authorization Details Type with new parameter
+* Replaced Authorization Details Type with a new parameter
 * native_authorization_endpoint as REST API - no cookies or HTTP 30x responses
 
 -05
