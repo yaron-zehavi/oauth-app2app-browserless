@@ -430,7 +430,7 @@ The *User-Interacting Authorization Server's* app handles the native authorizati
 
 *Client App* SHALL invoke *redirect_uri*, and any validated subsequent obtained urls, using HTTP GET.
 
-**Authorization Servers** processing *Native App2App* MUST respond to redirect_uri invocations:
+**Authorization Servers** processing *Native App2App* MUST respond to their redirect_uri invocations:
 
 * According to the REST API guidelines specified in {{native-authorization-endpoint}}.
 * Returning a JSON body instructing the next url to call.
