@@ -152,7 +152,7 @@ the following terms:
   - A *deep link* url to its *User-Interacting App*.
 - (3) *Client App*:
   - Calls *native authorization request urls* it obtains, so long as such responses are obtained, until a *deep link* url to *User-Interacting App* is obtained.
-  - Prompts end-user and provides their input to *Authorization Server* to guide request routing.
+  - Prompts end-user, then provides their input to *Authorization Server* to guide request routing.
   - Handles *deep links*, by invoking the app claiming the url, if present on the device.
 - (4) *Client App* natively invokes *User-Interacting App* claiming a *deep link* it has obtained.
 - (5) *User-Interacting App* authenticates end-user and authorizes the request.
@@ -416,8 +416,7 @@ In case of *native_app2app_unsupported*, *Client App* MUST terminate the flow an
 The *User-Interacting Authorization Server's* app handles the native authorization request:
 
 * Validates the native authorization request.
-* Establishes trust in *native_callback_uri*, otherwise terminates the flow.
-* Validates that an app claiming *native_callback_uri* is on the device, otherwise terminates the flow.
+* Establishes trust in *native_callback_uri* and validates that an app claiming *native_callback_uri* is on the device. Otherwise terminates the flow.
 * Authenticates end-user and authorizes the request.
 * MUST use *native_callback_uri* to invoke *Client App*, providing it the redirect url and its response parameters as the url-encoded query parameter **redirect_uri**.
 
