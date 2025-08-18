@@ -942,7 +942,7 @@ Appendix C.  Document History
 
    -latest
 
-   *  Replaced Authorization Details Type with new parameter
+   *  Replaced Authorization Details Type with a new parameter
 
    *  native_authorization_endpoint as REST API - no cookies or HTTP 30x
       responses
