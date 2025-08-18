@@ -586,17 +586,17 @@ Content-Type: application/json
    _Client App_ is natively invoked by _User-Interacting Authorization
    Server App_.
 
-   If it is invoked with an _error_ (and optional _error_description_)
-   parmeter, or no parameter at all, it MUST terminate the flow.  It
-   MUST ignore any unknown parameters.
+   If it is invoked with an _error_ parameter, or without parameters at
+   all, it MUST terminate the flow.  It MUST ignore any unknown
+   parameters.
 
-   If invoked with a url-encoded *redirect_uri* as parameter, the
-   _Client App_ MUST validate _redirect_uri_, and any url subsequently
-   obtained, using the Allowlist it previously generated, and MUST
-   terminate the flow if any url is not found in the Allowlist.
+   If invoked with a url-encoded *redirect_uri* as parameter, _Client
+   App_ MUST validate _redirect_uri_, and any url subsequently obtained,
+   using the Allowlist it previously generated, and MUST terminate the
+   flow if any url is not found in the Allowlist.
 
    _Client App_ SHALL invoke _redirect_uri_, and any validated
-   subsequent urls received using HTTP GET.
+   subsequent obtained urls, using HTTP GET.
 
    *Authorization Servers* processing _Native App2App_ MUST respond to
    redirect_uri invocations:
@@ -615,8 +615,8 @@ Content-Type: application/json
     "url": "redirect_uri of an OAuth Client, including response parameters",
 }
 
-   _Client App_ MUST handle any other response (2xx with other content-
-   types / 3xx / 4xx / 5xx) as a failure and terminate the flow.
+   _Client App_ MUST handle any other response (2xx with unexpected
+   content-types / 3xx / 4xx / 5xx) as a failure and terminate the flow.
 
 3.8.  Flow completion
 

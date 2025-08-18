@@ -1939,10 +1939,10 @@ In case of <em>native_app2app_unsupported</em>, <em>Client App</em> <span class=
 <a href="#section-3.7" class="section-number selfRef">3.7. </a><a href="#name-client-app-response-handlin" class="section-name selfRef">Client App response handling</a>
         </h3>
 <p id="section-3.7-1"><em>Client App</em> is natively invoked by <em>User-Interacting Authorization Server App</em>.<a href="#section-3.7-1" class="pilcrow">¶</a></p>
-<p id="section-3.7-2">If it is invoked with an <em>error</em> (and optional <em>error_description</em>) parmeter, or no parameter at all, it <span class="bcp14">MUST</span> terminate the flow.
+<p id="section-3.7-2">If it is invoked with an <em>error</em> parameter, or without parameters at all, it <span class="bcp14">MUST</span> terminate the flow.
 It <span class="bcp14">MUST</span> ignore any unknown parameters.<a href="#section-3.7-2" class="pilcrow">¶</a></p>
-<p id="section-3.7-3">If invoked with a url-encoded <strong>redirect_uri</strong> as parameter, the <em>Client App</em> <span class="bcp14">MUST</span> validate <em>redirect_uri</em>, and any url subsequently obtained, using the Allowlist it previously generated, and <span class="bcp14">MUST</span> terminate the flow if any url is not found in the Allowlist.<a href="#section-3.7-3" class="pilcrow">¶</a></p>
-<p id="section-3.7-4"><em>Client App</em> <span class="bcp14">SHALL</span> invoke <em>redirect_uri</em>, and any validated subsequent urls received using HTTP GET.<a href="#section-3.7-4" class="pilcrow">¶</a></p>
+<p id="section-3.7-3">If invoked with a url-encoded <strong>redirect_uri</strong> as parameter, <em>Client App</em> <span class="bcp14">MUST</span> validate <em>redirect_uri</em>, and any url subsequently obtained, using the Allowlist it previously generated, and <span class="bcp14">MUST</span> terminate the flow if any url is not found in the Allowlist.<a href="#section-3.7-3" class="pilcrow">¶</a></p>
+<p id="section-3.7-4"><em>Client App</em> <span class="bcp14">SHALL</span> invoke <em>redirect_uri</em>, and any validated subsequent obtained urls, using HTTP GET.<a href="#section-3.7-4" class="pilcrow">¶</a></p>
 <p id="section-3.7-5"><strong>Authorization Servers</strong> processing <em>Native App2App</em> <span class="bcp14">MUST</span> respond to redirect_uri invocations:<a href="#section-3.7-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.7-6.1">
@@ -1964,7 +1964,7 @@ Content-Type: application/json
 }
 </pre><a href="#section-3.7-8" class="pilcrow">¶</a>
 </div>
-<p id="section-3.7-9"><em>Client App</em> <span class="bcp14">MUST</span> handle any other response (2xx with other content-types / 3xx / 4xx / 5xx) as a failure and terminate the flow.<a href="#section-3.7-9" class="pilcrow">¶</a></p>
+<p id="section-3.7-9"><em>Client App</em> <span class="bcp14">MUST</span> handle any other response (2xx with unexpected content-types / 3xx / 4xx / 5xx) as a failure and terminate the flow.<a href="#section-3.7-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="flow-completion">
