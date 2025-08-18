@@ -635,9 +635,7 @@ Content-Type: application/json
 4.1.  Detecting Presence of Native Apps claiming Urls
 
    Native Apps on iOS and Android MAY use OS SDK's to detect if an app
-   claims a url.  The general method is the same - App calls an SDK to
-   open the url as deep link and handles an exception thrown if no
-   matching app is found.
+   claims a url.
 
    See Appendix A for more details.
 
@@ -676,9 +674,9 @@ Content-Type: application/json
    *  Required _User-Interacting App_ is not installed on end-user's
       device.
 
-   _Client App_ MAY recover by launching a new (non-native)
-   authorization request on a web browser, in accordance with "OAuth 2.0
-   for Native Apps" [RFC8252].
+   _Client App_ MAY recover by launching a new, non-native authorization
+   request on a web browser, in accordance with "OAuth 2.0 for Native
+   Apps" [RFC8252].
 
    Note - Failure because _User-Interacting App_ is not installed on
    end-user's device, might succeed in future, if the missing app has
