@@ -77,11 +77,15 @@ Table of Contents
      3.1.  Flow Overview
      3.2.  Authorization Server Metadata
      3.3.  native_authorization_endpoint
-       3.3.1.  Native Authorization Request
-       3.3.2.  Native Authorization Response
-     3.4.  User-Interacting Authorization Server's App
-     3.5.  Client App response handling
-     3.6.  Flow completion
+     3.4.  Native Authorization Request
+     3.5.  Native Authorization Response
+       3.5.1.  Federating response
+       3.5.2.  Deep Link Response
+       3.5.3.  Routing Response
+       3.5.4.  Error Response
+     3.6.  User-Interacting Authorization Server's App
+     3.7.  Client App response handling
+     3.8.  Flow completion
    4.  Implementation Considerations
      4.1.  Detecting Presence of Native Apps claiming Urls
      4.2.  Recovery from failed native App2App flows
@@ -262,15 +266,7 @@ Table of Contents
 3.3.  native_authorization_endpoint
 
    This is an OAuth authorization endpoint, interoperable with other
-   OAuth RFCs.  It supports the following additional request parameters:
-
-   *native_callback_uri*:  REQUIRED. _Client App's_ deep link, to be
-      invoked by _User-Interacting App_. When invoking
-      _native_callback_uri_, it accepts the following parameter:
-
-      *redirect_uri*:  REQUIRED. url-encoded redirect_uri from _User-
-         Interacting App_ responding to its OAuth client, including its
-         respective response parameters.
+   OAuth RFCs.
 
    The following additional requirements apply to
    native_authorization_endpoint, in line with common REST APIs:
@@ -284,10 +280,18 @@ Table of Contents
 
    *  SHALL NOT respond with bot-detection challenges such as CAPTCHAs.
 
-3.3.1.  Native Authorization Request
+3.4.  Native Authorization Request
 
    An OAuth authorization request, interoperable with other OAuth RFCs,
-   which also includes the _native_callback_uri_ parameter.
+   which also includes the _native_callback_uri_ parameter:
+
+   *native_callback_uri*:  REQUIRED. _Client App's_ deep link, to be
+      invoked by _User-Interacting App_. When invoking
+      _native_callback_uri_, it accepts the following parameter:
+
+      *redirect_uri*:  REQUIRED. url-encoded redirect_uri from _User-
+         Interacting App_ responding to its OAuth client, including its
+         respective response parameters.
 
    _Authorization servers_ processing a _native authorization request_
    MUST also:
@@ -299,12 +303,12 @@ Table of Contents
       to, offers a _native_authorization_endpoint_, otherwise return an
       error response with error code _native_app2app_unsupported_.
 
-3.3.2.  Native Authorization Response
+3.5.  Native Authorization Response
 
    The authorization server responds with _application/json_ and either
    200 OK or 4xx/5xx.
 
-3.3.2.1.  Federating response
+3.5.1.  Federating response
 
    If the _Authorization Server_ decides to federate to another party
    such as _Downstream Authorization Server_ or its OAuth client, it
@@ -335,7 +339,7 @@ Table of Contents
    It then MUST make an HTTP GET request to the returned _url_ and
    process the response as defined in this document.
 
-3.3.2.2.  Deep Link Response
+3.5.2.  Deep Link Response
 
    If the _Authorization Server_ wishes to authenticate the user and
    authorize the request, using its _User-Interacting App_, it responds
@@ -363,7 +367,7 @@ Content-Type: application/json
    terminate the flow and MAY attempt a non-native flow.  See
    Section 4.2.
 
-3.3.2.3.  Routing Response
+3.5.3.  Routing Response
 
    If the _Authorization Server_ requires user input to determine where
    to federate, it responds with 200 OK and the following JSON body:
@@ -480,7 +484,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
             "email": {
                 "hint": "Enter your email address",
                 "title": "E-Mail",
-                "description": "Lore Ipsum"
+                "description": "Lorem Ipsum"
             }
         }
     },
@@ -513,7 +517,7 @@ Content-Type: application/vnd.oauth.app2app.routing+json
    id=request-identifier-2
    &email=end_user@example.as.com
 
-3.3.2.4.  Error Response
+3.5.4.  Error Response
 
    If _Authorization Server_ encounters an error whose audience is its
    OAuth client, it returns 200 OK with the following JSON body:
@@ -561,7 +565,7 @@ Content-Type: application/json
    _Client App_ MUST terminate the flow and MAY retry with a non-native
    flow.  See Section 4.2.
 
-3.4.  User-Interacting Authorization Server's App
+3.6.  User-Interacting Authorization Server's App
 
    The _User-Interacting Authorization Server's_ app handles the native
    authorization request:
@@ -580,7 +584,7 @@ Content-Type: application/json
       it the redirect url and its response parameters as the url-encoded
       query parameter *redirect_uri*.
 
-3.5.  Client App response handling
+3.7.  Client App response handling
 
    _Client App_ is natively invoked by _User-Interacting Authorization
    Server App_.
@@ -617,7 +621,7 @@ Content-Type: application/json
    _Client App_ MUST handle any other response (2xx with other content-
    types / 3xx / 4xx / 5xx) as a failure and terminate the flow.
 
-3.6.  Flow completion
+3.8.  Flow completion
 
    Once _Client App's_ own redirect_uri is obtained, _Client App_
    processes the response:
