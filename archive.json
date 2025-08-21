@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-10T01:49:23.713348+00:00",
+  "timestamp": "2025-08-21T01:22:52.524139+00:00",
   "repo": "yaron-zehavi/oauth-app2app-browserless",
   "labels": [
     {
@@ -177,6 +177,209 @@
       "updatedAt": "2025-07-29T19:26:13Z",
       "closedAt": "2025-07-29T19:26:13Z",
       "comments": []
+    },
+    {
+      "number": 12,
+      "id": "I_kwDOOlAD9M7HB_LB",
+      "title": "Add more introductory context",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/12",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": ">In federated [[App2App](https://yaron-zehavi.github.io/oauth-app2app-browserless/draft-zehavi-oauth-app2app-browserless-06/draft-zehavi-oauth-app2app-browserless.html#App2App)] scenarios the web browser serves as user-agent, as federated Authorization Servers url's are not claimed by any native app.\n\nI feel like this assumes a lot of the reader to really understand the context of what is being solved with this specification. Maybe something like...\n\nIn federated app2app scenarios the web browser services as a user-agent allowing the user to cross trust domain boundaries via web based redirects. Even if a given authorization server in the chain has a native app it won't be used as the flow in constrained to the web browser.",
+      "createdAt": "2025-08-20T18:49:23Z",
+      "updatedAt": "2025-08-20T21:46:32Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "yaron-zehavi",
+          "authorAssociation": "OWNER",
+          "body": "Thanks!\nThe introduction says: \"In federated App2App scenarios the **web browser** serves as user-agent, as federated Authorization Servers url's are not claimed by any native app.\"\n\nI disagree with your 2nd sentence: \"Even if a given authorization server in the chain has a native app it won't be used as the flow in constrained to the web browser\". If a browser encounters a url claimed on the device, it may prompt the user to open the app.",
+          "createdAt": "2025-08-20T20:18:42Z",
+          "updatedAt": "2025-08-20T20:18:42Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "That is true, however, I suspect that the redirect URLs used for browser flows would not map to the deep links bound to native mobile apps. Maybe there is a better way to communicate the concept. I think the main point you are trying to make is that today, flows in the browser stay in the browser. I found the second half of the sentence \"as federated Authorization Server url's are not claimed by any native app.\" to be confusing to the point I thought was being made.\n\nI think the web browser is serving as the user-agent because it is a simple, consistent mechanisms to cross the trust domain boundaries and support these multi-level deep federations. I don't think claimed deep link urls are relevant to that concept other than if the AS didn't deep link one of its redirect urls it would break the flow and confuse the user.",
+          "createdAt": "2025-08-20T21:46:32Z",
+          "updatedAt": "2025-08-20T21:46:32Z"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "id": "I_kwDOOlAD9M7HB_k2",
+      "title": "Guide request routing?",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/13",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": ">Prompts end-user, then provides their input to Authorization Server to guide request routing.\n\nStep 3 of the overview flow\n\nI'm not sure what `guide request routing` means",
+      "createdAt": "2025-08-20T18:50:07Z",
+      "updatedAt": "2025-08-20T21:51:40Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "yaron-zehavi",
+          "authorAssociation": "OWNER",
+          "body": "It means provide input for AS to decide where to federate next.\nFor example the AS is a router across banks ==> user needs to choose bank.\nOr a router across organizations ==> user needs to enter email which guides which IDP to redirect to.\n\nTake a look at the [examples](https://www.ietf.org/archive/id/draft-zehavi-oauth-app2app-browserless-06.html#name-routing-response) and tell me please if this is still unclear",
+          "createdAt": "2025-08-20T20:21:09Z",
+          "updatedAt": "2025-08-20T20:21:09Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "A couple of thoughts...\n1. Is the email something that could have been provided at the original AS? i.e. are there ways to provide information to the original AS that can passed down to each subsequent as (there are of course potential privacy concerns in this regard)\n2. The concept makes sense, but for someone reading the doc without any context, the phrasing won't make sense until they've finished reading the spec. Options would be to describe the concept in the terminology section so that the reader is exposed to the concept before seeing it in section 3.1?",
+          "createdAt": "2025-08-20T21:51:40Z",
+          "updatedAt": "2025-08-20T21:51:40Z"
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "id": "I_kwDOOlAD9M7HCJht",
+      "title": "native authorization endpoint and/or authorization challenge endpoint",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/14",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "> [3.3. ](https://yaron-zehavi.github.io/oauth-app2app-browserless/draft-zehavi-oauth-app2app-browserless-06/draft-zehavi-oauth-app2app-browserless.html#section-3.3)[native_authorization_endpoint](https://yaron-zehavi.github.io/oauth-app2app-browserless/draft-zehavi-oauth-app2app-browserless-06/draft-zehavi-oauth-app2app-browserless.html#name-native_authorization_endpoi)\nThis is an OAuth authorization endpoint, interoperable with other OAuth RFCs.\n\nJust wondering what the differences are between the `native authorization endpoint` and the `authorization challenge endpoint` in the OAuth for First Party Apps draft. It feels like these two endpoints are doing very similar things. There are differences... I'm just wondering if we are creating a lot of new endpoints that Authorization Servers have to support to be compliant with the new flows. Note that FedCM defines new endpoints for Authorization Servers as well.",
+      "createdAt": "2025-08-20T19:05:50Z",
+      "updatedAt": "2025-08-20T21:54:24Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "yaron-zehavi",
+          "authorAssociation": "OWNER",
+          "body": "`native authorization endpoint` is OAuth as REST API, to support native apps natively consuming other apps to serve as authorization server.\n`authorization challenge endpoint` serves the first party app of a User-Interacting Authorization Server.\nBoth standards could be used at the same time:\n\n- Client app uses `native authorization endpoint` to traverse authorization servers and reach `User-Interacting Authorization Server app`\n- `User-Interacting Authorization Server app` uses `authorization challenge endpoint` to query its AS how to properly authenticate the user\n\nI'm with you on the some variation of Moore's law seems to apply to OAuth ecosystem bloating.\nBut I guess that comes with maturity. Otherwise we'd conflate endpoints, overload functionality and confuse.\nThe dedicated `native authorization endpoint` was a proposal by Joseph Heenan, \"Godfather\" of app2app :-)\n",
+          "createdAt": "2025-08-20T20:26:37Z",
+          "updatedAt": "2025-08-20T20:26:37Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree that the semantics are slightly different. However, they are both endpoints to be used by native apps, they both return JSON, they both handle the full suite of OAuth specs and extensions for authorization. I'm not sure there is a better solution, I just know there was a decent amount of questions around why the authorization_challenge_endpoint didn't just use the PAR endpoint :) ",
+          "createdAt": "2025-08-20T21:54:23Z",
+          "updatedAt": "2025-08-20T21:54:23Z"
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "id": "I_kwDOOlAD9M7HCPdv",
+      "title": "Examples show both GET and POST options",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/15",
+      "state": "CLOSED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "> REQUIRED. A JSON object that holds the URL to which the user input MUST be sent. It only supports two keys, which are mutually exclusive:\n\nThe text says the options are mutually exclusive but the examples show both being present. ",
+      "createdAt": "2025-08-20T19:14:09Z",
+      "updatedAt": "2025-08-20T20:27:47Z",
+      "closedAt": "2025-08-20T20:27:47Z",
+      "comments": [
+        {
+          "author": "yaron-zehavi",
+          "authorAssociation": "OWNER",
+          "body": "Fixed!",
+          "createdAt": "2025-08-20T20:27:47Z",
+          "updatedAt": "2025-08-20T20:27:47Z"
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "id": "I_kwDOOlAD9M7HCVM7",
+      "title": "Are all Authorization Servers in the chain required to support the app2app model and the native authorization endpoint?",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/16",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I realize the _Client App_ is acting a bit like the browser for these cross domain flows. However, with a web browser, it is common for the AS (acting as an OAuth client) to ensure that the user-agent used to invoke the authorization request is the same user-agent via which the redirect URL comes. This is handled with the state parameter and a cookie or a particular implementation of PKCE. I'm wondering how this security provision is preserved with the _Client App_ simulating the web-browser.",
+      "createdAt": "2025-08-20T19:21:54Z",
+      "updatedAt": "2025-08-20T21:58:27Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "yaron-zehavi",
+          "authorAssociation": "OWNER",
+          "body": "We had similar thoughts when moving to OAuth as REST API with native_authorization_endpoint, and removing cookies as a mechanism of AS binding stuff to the user agent.\nOur conclusions were:\n- OAuth specifies no requirement or mechanism based on cookies to bind state to the user agent.\n- The only provision I found is in the later [BCP rfc 9700](https://www.rfc-editor.org/rfc/rfc9700.html#section-4.2.4): \"Bind the authorization code to a confidential client or PKCE challenge\".\n- PKCE implementation and binding is not the AS' concern rather the client's (which might be a federating AS).",
+          "createdAt": "2025-08-20T20:40:54Z",
+          "updatedAt": "2025-08-20T20:40:54Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "My understanding is that [section 10.2 of RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749#section-10.12) was specifically added to identify this binding... here is an excerpt...\n\n>   The client MUST implement CSRF protection for its redirection URI.\n   This is typically accomplished by requiring any request sent to the\n   redirection URI endpoint to include a value that binds the request to\n   the user-agent's authenticated state (e.g., a hash of the session\n   cookie used to authenticate the user-agent).  The client SHOULD\n   utilize the \"state\" request parameter to deliver this value to the\n   authorization server when making an authorization request.",
+          "createdAt": "2025-08-20T21:58:27Z",
+          "updatedAt": "2025-08-20T21:58:27Z"
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "id": "I_kwDOOlAD9M7HCZMw",
+      "title": "Section 5.1 sentence a little confusing",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/17",
+      "state": "CLOSED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "> Client App when interacting with end-user to provide routing guiding input MUST NOT be used to request authentication credentials or any other sensitive information.\n\nMay be something like?\n\nThe ability to use the _Client App_ to ask the user for input by a Downstream Authorization Server MUST NOT be used to request authentication credentials from the user. The _Client App_ SHOULD terminate the flow if such a request is detected.",
+      "createdAt": "2025-08-20T19:28:10Z",
+      "updatedAt": "2025-08-20T20:45:30Z",
+      "closedAt": "2025-08-20T20:45:30Z",
+      "comments": [
+        {
+          "author": "yaron-zehavi",
+          "authorAssociation": "OWNER",
+          "body": "Fixed, used your proposal.",
+          "createdAt": "2025-08-20T20:45:29Z",
+          "updatedAt": "2025-08-20T20:45:29Z"
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "id": "I_kwDOOlAD9M7HCdkl",
+      "title": "PKCE and cookies",
+      "url": "https://github.com/yaron-zehavi/oauth-app2app-browserless/issues/18",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "> [5.5. ](https://yaron-zehavi.github.io/oauth-app2app-browserless/draft-zehavi-oauth-app2app-browserless-06/draft-zehavi-oauth-app2app-browserless.html#section-5.5)[Authorization code theft and injection](https://yaron-zehavi.github.io/oauth-app2app-browserless/draft-zehavi-oauth-app2app-browserless-06/draft-zehavi-oauth-app2app-browserless.html#name-authorization-code-theft-an)\nIt is RECOMMENDED that PKCE is used and that the code_verifier is tied to the Client App instance, as mitigation to authorization code theft and injection attacks.\n\nHowever, a common way to implement PKCE when used in a web-browser is for the Relying Party to write a cookie into the browser with key context information regarding the PKCE request. Then when the redirect happens, the Relying Party obtains the value of the cookie and validates that it matches the PKCE data used with the request. If it does not, the redirect/authorization request fails.\n\nOne implementation is PKCE_COOKIE = Encrypt_and_Sign(pkce_verifier). When the redirect to the relying party occurs, the relying party obtains the cookie value, validates the bits have not been modified, extracts the pkce_verifier value and uses that value with the Authorization Server. That way, only requests coming through the correct browser will succeed.\n\nHow does such an implementation work with the _Client App_ ?",
+      "createdAt": "2025-08-20T19:35:32Z",
+      "updatedAt": "2025-08-20T22:00:20Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "yaron-zehavi",
+          "authorAssociation": "OWNER",
+          "body": "Well, I think such binding is not achievable unless we reintroduce support for cookies.\n\nPKCE code verifier storage is achievable by federating AS using server-side persistence, for example using state value as a handle. So AS would be called on its https://www.idp-3.com/redirect?code=code&state=state, and would then using state locate the code_verifier to use when exchanging code for token.\n\nBut this does not achieve binding, anyone with the url containing state would be able to call the chain. Except the final call to the client app's redirect_uri would fail because that code_verifier is in the rightful app instance and not server side.\n\nDo you think we need to bring back cookies?",
+          "createdAt": "2025-08-20T20:43:29Z",
+          "updatedAt": "2025-08-20T20:43:29Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think we need to call out in the security considerations that this binding is not possible with this solution. It means that there isn't a way to detect if a different client takes over the flow which seems like a concern.",
+          "createdAt": "2025-08-20T22:00:20Z",
+          "updatedAt": "2025-08-20T22:00:20Z"
+        }
+      ]
     }
   ],
   "pulls": [
