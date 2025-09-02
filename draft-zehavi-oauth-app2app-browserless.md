@@ -90,7 +90,7 @@ This document describes a protocol enabling native app navigation of an {{App2Ap
 
 When *Clients* and *Authorization Servers* are located on *different Trust Domains*, authorization requests traverse across domains using **federation**, involving *Authorization Servers* acting as clients of *Downstream Authorization Servers*.
 
-Such federation setups create trust networks, for example in Academia and in the business world across corporations. 
+Such federation setups create trust networks, for example in Academia and in the business world across corporations.
 
 When *App2App* is performed in federation scenarios as described here, a purely native user-experience is not achieved, because a web browser must act as user-agent, because federated *Authorization Server's* urls are not claimed by any native app.
 
