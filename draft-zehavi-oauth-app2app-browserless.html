@@ -1048,11 +1048,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Native OAuth App2App</td>
-<td class="right">August 2025</td>
+<td class="right">September 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Zehavi</td>
-<td class="center">Expires 19 February 2026</td>
+<td class="center">Expires 6 March 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1065,12 +1065,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-zehavi-oauth-app2app-browserless-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-08-18" class="published">18 August 2025</time>
+<time datetime="2025-09-02" class="published">2 September 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-02-19">19 February 2026</time></dd>
+<dd class="expires"><time datetime="2026-03-06">6 March 2026</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1120,7 +1120,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 February 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1295,10 +1295,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-1-1">This document describes a protocol enabling native app navigation of an <span>[<a href="#App2App" class="cite xref">App2App</a>]</span> OAuth grant across <em>different Trust Domains</em>.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">When <em>Clients</em> and <em>Authorization Servers</em> are located on <em>different Trust Domains</em>, authorization requests traverse across domains using federation, involving <em>Authorization Servers</em> acting as clients of <em>Downstream Authorization Servers</em>.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-2">When <em>Clients</em> and <em>Authorization Servers</em> are located on <em>different Trust Domains</em>, authorization requests traverse across domains using <strong>federation</strong>, involving <em>Authorization Servers</em> acting as clients of <em>Downstream Authorization Servers</em>.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">Such federation setups create trust networks, for example in Academia and in the business world across corporations.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">In federated <span>[<a href="#App2App" class="cite xref">App2App</a>]</span> scenarios the <strong>web browser</strong> serves as user-agent, as federated Authorization Servers url's are not claimed by any native app.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">The use of web browsers in App2App flows degrades the user experience somewhat.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-4">When <em>App2App</em> is performed in federation scenarios as described here, a purely native user-experience is not achieved, because a web browser must act as user-agent, because federated <em>Authorization Server's</em> urls are not claimed by any native app.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">Using web browsers in <em>App2App</em> flows degrades the user experience somewhat.<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">This document specifies:<a href="#section-1-6" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-1-7">
         <dt id="section-1-7.1">
@@ -1551,16 +1551,13 @@ the following terms:<a href="#section-2.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.3-2">The following additional requirements apply to native_authorization_endpoint, in line with common REST APIs:<a href="#section-3.3-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3-3.1">
-            <p id="section-3.3-3.1.1"><span class="bcp14">SHALL NOT</span> use cookies.<a href="#section-3.3-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-3.1.1"><span class="bcp14">SHALL</span> return Content-Type header with the value "application/json", and a JSON http body.<a href="#section-3.3-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-3.2">
-            <p id="section-3.3-3.2.1"><span class="bcp14">SHALL</span> return Content-Type header with the value "application/json", and a JSON http body.<a href="#section-3.3-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-3.2.1"><span class="bcp14">SHALL NOT</span> return HTTP 30x redirects.<a href="#section-3.3-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-3.3">
-            <p id="section-3.3-3.3.1"><span class="bcp14">SHALL NOT</span> return HTTP 30x redirects.<a href="#section-3.3-3.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-3.3-3.4">
-            <p id="section-3.3-3.4.1"><span class="bcp14">SHALL NOT</span> respond with bot-detection challenges such as CAPTCHAs.<a href="#section-3.3-3.4.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-3.3.1"><span class="bcp14">SHALL NOT</span> respond with bot-detection challenges such as CAPTCHAs.<a href="#section-3.3-3.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -1791,8 +1788,7 @@ Content-Type: application/json
         }
     },
     "response": {
-        "post": "url to POST to using application/x-www-form-urlencoded",
-        "get": "url to use for a GET with query params"
+        "post": "url to POST to using application/x-www-form-urlencoded"
     }
 }
 </pre><a href="#section-3.5.3-7" class="pilcrow">¶</a>
@@ -1817,7 +1813,6 @@ Content-Type: application/vnd.oauth.app2app.routing+json
         }
     },
     "response": {
-        "post": "url to POST to using application/x-www-form-urlencoded",
         "get": "url to use for a GET with query params"
     }
 }
@@ -1973,6 +1968,15 @@ Content-Type: application/json
 </pre><a href="#section-3.7-7" class="pilcrow">¶</a>
 </div>
 <p id="section-3.7-8"><em>Client App</em> <span class="bcp14">MUST</span> handle any other response (2xx with an unexpected Content-Type / 3xx / 4xx / 5xx) as a failure and terminate the flow.<a href="#section-3.7-8" class="pilcrow">¶</a></p>
+<p id="section-3.7-9">Note - As <em>Authorization Servers</em> <span class="bcp14">MAY</span> use Cookies to bind security elements (state, PKCE) to the user agent, flows <span class="bcp14">MAY</span> break if necessary cookies are missing from subsequent HTTP requests, <em>Client App</em> <span class="bcp14">MUST</span> support cookies:<a href="#section-3.7-9" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.7-10.1">
+            <p id="section-3.7-10.1.1">Store Cookies it has obtained in any HTTP response.<a href="#section-3.7-10.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.7-10.2">
+            <p id="section-3.7-10.2.1">Send Cookies in subsequent HTTP requests.<a href="#section-3.7-10.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 <div id="flow-completion">
@@ -2140,7 +2144,7 @@ Content-Type: application/json
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-embedded-user-agents" class="section-name selfRef">Embedded User Agents</a>
         </h3>
 <p id="section-5.1-1"><span>[<a href="#RFC8252" class="cite xref">RFC8252</a>]</span> Security Considerations advises against using <em>embedded user agents</em>. The main concern is preventing theft through keystroke recording of end-user's credentials such as usernames and passwords.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.1-2"><em>Client App</em> when interacting with end-user to provide routing guiding input <span class="bcp14">MUST NOT</span> be used to request authentication credentials or any other sensitive information.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">The ability to use the Client App to ask the user for input by a <em>Downstream Authorization Server</em> <span class="bcp14">MUST NOT</span> be used to request authentication credentials from the user. The Client App <span class="bcp14">SHOULD</span> terminate the flow if such a request is detected.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="open-redirection-by-authorization-servers-user-interacting-app">
@@ -2507,76 +2511,82 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
 <p id="appendix-D-2">-latest<a href="#appendix-D-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-D-3.1">
-          <p id="appendix-D-3.1.1">Replaced Authorization Details Type with a new parameter<a href="#appendix-D-3.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-D-3.2">
-          <p id="appendix-D-3.2.1">native_authorization_endpoint as REST API - no cookies or HTTP 30x responses<a href="#appendix-D-3.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-3.1.1">Re-added required support for cookies<a href="#appendix-D-3.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-D-4">-05<a href="#appendix-D-4" class="pilcrow">¶</a></p>
+<p id="appendix-D-4">-06<a href="#appendix-D-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-D-5.1">
-          <p id="appendix-D-5.1.1">removed error native_callback_uri_not_claimed<a href="#appendix-D-5.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-5.1.1">Replaced Authorization Details Type with a new parameter<a href="#appendix-D-5.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-D-5.2">
-          <p id="appendix-D-5.2.1">Added Routing Instructions Response<a href="#appendix-D-5.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-D-5.3">
-          <p id="appendix-D-5.3.1">Added native_authorization_endpoint and matching AS profile<a href="#appendix-D-5.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-D-5.4">
-          <p id="appendix-D-5.4.1">Added Authorization Details Type as container for native_callback_uri<a href="#appendix-D-5.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-5.2.1">native_authorization_endpoint as REST API - no cookies or HTTP 30x responses<a href="#appendix-D-5.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-D-6">-04<a href="#appendix-D-6" class="pilcrow">¶</a></p>
+<p id="appendix-D-6">-05<a href="#appendix-D-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-D-7.1">
-          <p id="appendix-D-7.1.1">Phrased the challenge in Trust Domain terminology<a href="#appendix-D-7.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-7.1.1">removed error native_callback_uri_not_claimed<a href="#appendix-D-7.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-D-7.2">
-          <p id="appendix-D-7.2.1">Discussed interim Authorization Server interacting the end-user, which is not the User-Authenticating Authorization Server<a href="#appendix-D-7.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-7.2.1">Added Routing Instructions Response<a href="#appendix-D-7.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-D-7.3">
-          <p id="appendix-D-7.3.1">Moved Cookies topic to Protocol Flow<a href="#appendix-D-7.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-7.3.1">Added native_authorization_endpoint and matching AS profile<a href="#appendix-D-7.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-D-7.4">
-          <p id="appendix-D-7.4.1">Mentioned that Authorization Servers redirecting not through HTTP 30x force the use of a browser<a href="#appendix-D-7.4.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-D-7.5">
-          <p id="appendix-D-7.5.1">Discussed Embedded user agents security consideration<a href="#appendix-D-7.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-7.4.1">Added Authorization Details Type as container for native_callback_uri<a href="#appendix-D-7.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-D-8">-03<a href="#appendix-D-8" class="pilcrow">¶</a></p>
+<p id="appendix-D-8">-04<a href="#appendix-D-8" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-D-9.1">
-          <p id="appendix-D-9.1.1">Defined parameters and values<a href="#appendix-D-9.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-9.1.1">Phrased the challenge in Trust Domain terminology<a href="#appendix-D-9.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-D-9.2">
-          <p id="appendix-D-9.2.1">Added error native_callback_uri_not_claimed<a href="#appendix-D-9.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-9.2.1">Discussed interim Authorization Server interacting the end-user, which is not the User-Authenticating Authorization Server<a href="#appendix-D-9.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-D-9.3">
+          <p id="appendix-D-9.3.1">Moved Cookies topic to Protocol Flow<a href="#appendix-D-9.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-D-9.4">
+          <p id="appendix-D-9.4.1">Mentioned that Authorization Servers redirecting not through HTTP 30x force the use of a browser<a href="#appendix-D-9.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-D-9.5">
+          <p id="appendix-D-9.5.1">Discussed Embedded user agents security consideration<a href="#appendix-D-9.5.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-D-10">-02<a href="#appendix-D-10" class="pilcrow">¶</a></p>
+<p id="appendix-D-10">-03<a href="#appendix-D-10" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-D-11.1">
-          <p id="appendix-D-11.1.1">Clarified wording<a href="#appendix-D-11.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-11.1.1">Defined parameters and values<a href="#appendix-D-11.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-D-11.2">
-          <p id="appendix-D-11.2.1">Improved figures<a href="#appendix-D-11.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-11.2.1">Added error native_callback_uri_not_claimed<a href="#appendix-D-11.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-D-12">-01<a href="#appendix-D-12" class="pilcrow">¶</a></p>
+<p id="appendix-D-12">-02<a href="#appendix-D-12" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-D-13.1">
-          <p id="appendix-D-13.1.1">Better defined terms<a href="#appendix-D-13.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-13.1.1">Clarified wording<a href="#appendix-D-13.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-D-13.2">
-          <p id="appendix-D-13.2.1">Explained deep link claiming detection on iOS and android<a href="#appendix-D-13.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-13.2.1">Improved figures<a href="#appendix-D-13.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-D-14">-00<a href="#appendix-D-14" class="pilcrow">¶</a></p>
+<p id="appendix-D-14">-01<a href="#appendix-D-14" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-D-15.1">
-          <p id="appendix-D-15.1.1">initial working group version (previously draft-zehavi-oauth-app2app-browserless)<a href="#appendix-D-15.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-D-15.1.1">Better defined terms<a href="#appendix-D-15.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-D-15.2">
+          <p id="appendix-D-15.2.1">Explained deep link claiming detection on iOS and android<a href="#appendix-D-15.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-D-16">-00<a href="#appendix-D-16" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D-17.1">
+          <p id="appendix-D-17.1.1">initial working group version (previously draft-zehavi-oauth-app2app-browserless)<a href="#appendix-D-17.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
