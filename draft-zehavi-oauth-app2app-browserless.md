@@ -92,7 +92,7 @@ When *Clients* and *Authorization Servers* are located on *different Trust Domai
 
 Such federation setups create trust networks, for example in Academia and in the business world across corporations.
 
-When *App2App* is performed in federation scenarios as described here, a purely native user-experience is not achieved, because a web browser must act as user-agent, because federated *Authorization Server's* urls are not claimed by any native app.
+When *App2App* is performed in federation scenarios, a purely native user-experience is not achieved, because a web browser must act as user-agent, as federated *Authorization Server's* urls are not claimed by any native app.
 
 Using web browsers in *App2App* flows degrades the user experience somewhat.
 
