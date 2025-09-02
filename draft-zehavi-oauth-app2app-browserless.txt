@@ -126,10 +126,10 @@ Table of Contents
    Such federation setups create trust networks, for example in Academia
    and in the business world across corporations.
 
-   When _App2App_ is performed in federation scenarios as described
-   here, a purely native user-experience is not achieved, because a web
-   browser must act as user-agent, because federated _Authorization
-   Server's_ urls are not claimed by any native app.
+   When _App2App_ is performed in federation scenarios, a purely native
+   user-experience is not achieved, because a web browser must act as
+   user-agent, as federated _Authorization Server's_ urls are not
+   claimed by any native app.
 
    Using web browsers in _App2App_ flows degrades the user experience
    somewhat.
