@@ -88,13 +88,13 @@ This document describes a protocol allowing a *Client App* to obtain an OAuth gr
 
 This document describes a protocol enabling native app navigation of an {{App2App}} OAuth grant across *different Trust Domains*.
 
-When *Clients* and *Authorization Servers* are located on *different Trust Domains*, authorization requests traverse across domains using federation, involving *Authorization Servers* acting as clients of *Downstream Authorization Servers*.
+When *Clients* and *Authorization Servers* are located on *different Trust Domains*, authorization requests traverse across domains using **federation**, involving *Authorization Servers* acting as clients of *Downstream Authorization Servers*.
 
-Such federation setups create trust networks, for example in Academia and in the business world across corporations.
+Such federation setups create trust networks, for example in Academia and in the business world across corporations. 
 
-In federated {{App2App}} scenarios the **web browser** serves as user-agent, as federated Authorization Servers url's are not claimed by any native app.
+When {{App2App}} is performed in federation scenarios as described here, a purely native user-experience is not achieved, because a web browser must act as user-agent, because federated *Authorization Server's* urls are not claimed by any native app.
 
-The use of web browsers in App2App flows degrades the user experience somewhat.
+Using web browsers in *App2App* flows degrades the user experience somewhat.
 
 This document specifies:
 
@@ -174,7 +174,6 @@ This is an OAuth authorization endpoint, interoperable with other OAuth RFCs.
 
 The following additional requirements apply to native_authorization_endpoint, in line with common REST APIs:
 
-* SHALL NOT use cookies.
 * SHALL return Content-Type header with the value "application/json", and a JSON http body.
 * SHALL NOT return HTTP 30x redirects.
 * SHALL NOT respond with bot-detection challenges such as CAPTCHAs.
@@ -318,8 +317,7 @@ Example of prompting end-user for 2 multiple-choice inputs:
             }
         },
         "response": {
-            "post": "url to POST to using application/x-www-form-urlencoded",
-            "get": "url to use for a GET with query params"
+            "post": "url to POST to using application/x-www-form-urlencoded"
         }
     }
 
@@ -342,7 +340,6 @@ Example of prompting end-user for text input entry:
             }
         },
         "response": {
-            "post": "url to POST to using application/x-www-form-urlencoded",
             "get": "url to use for a GET with query params"
         }
     }
@@ -447,6 +444,11 @@ Example:
 
 *Client App* MUST handle any other response (2xx with an unexpected Content-Type / 3xx / 4xx / 5xx) as a failure and terminate the flow.
 
+Note - As *Authorization Servers* MAY use Cookies to bind security elements (state, PKCE) to the user agent, flows MAY break if necessary cookies are missing from subsequent HTTP requests, *Client App* MUST support cookies:
+
+* Store Cookies it has obtained in any HTTP response.
+* Send Cookies in subsequent HTTP requests.
+
 ## Flow completion
 
 Once *Client App's* own redirect_uri is obtained, *Client App* processes the response:
@@ -486,7 +488,7 @@ Note - Failure because *User-Interacting App* is not installed on end-user's dev
 
 {{RFC8252}} Security Considerations advises against using *embedded user agents*. The main concern is preventing theft through keystroke recording of end-user's credentials such as usernames and passwords.
 
-*Client App* when interacting with end-user to provide routing guiding input MUST NOT be used to request authentication credentials or any other sensitive information.
+The ability to use the Client App to ask the user for input by a *Downstream Authorization Server* MUST NOT be used to request authentication credentials from the user. The Client App SHOULD terminate the flow if such a request is detected.
 
 ## Open redirection by Authorization Server's User-Interacting App
 
@@ -579,6 +581,10 @@ As well as the attendees of the OAuth Security Workshop 2025 session in which th
 \[\[ To be removed from the final specification ]]
 
 -latest
+
+* Re-added required support for cookies
+
+-06
 
 * Replaced Authorization Details Type with a new parameter
 * native_authorization_endpoint as REST API - no cookies or HTTP 30x responses
