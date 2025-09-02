@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-21T01:22:52.524139+00:00",
+  "timestamp": "2025-09-02T01:22:31.665036+00:00",
   "repo": "yaron-zehavi/oauth-app2app-browserless",
   "labels": [
     {
@@ -190,7 +190,7 @@
       "labels": [],
       "body": ">In federated [[App2App](https://yaron-zehavi.github.io/oauth-app2app-browserless/draft-zehavi-oauth-app2app-browserless-06/draft-zehavi-oauth-app2app-browserless.html#App2App)] scenarios the web browser serves as user-agent, as federated Authorization Servers url's are not claimed by any native app.\n\nI feel like this assumes a lot of the reader to really understand the context of what is being solved with this specification. Maybe something like...\n\nIn federated app2app scenarios the web browser services as a user-agent allowing the user to cross trust domain boundaries via web based redirects. Even if a given authorization server in the chain has a native app it won't be used as the flow in constrained to the web browser.",
       "createdAt": "2025-08-20T18:49:23Z",
-      "updatedAt": "2025-08-20T21:46:32Z",
+      "updatedAt": "2025-09-01T20:55:41Z",
       "closedAt": null,
       "comments": [
         {
@@ -206,6 +206,13 @@
           "body": "That is true, however, I suspect that the redirect URLs used for browser flows would not map to the deep links bound to native mobile apps. Maybe there is a better way to communicate the concept. I think the main point you are trying to make is that today, flows in the browser stay in the browser. I found the second half of the sentence \"as federated Authorization Server url's are not claimed by any native app.\" to be confusing to the point I thought was being made.\n\nI think the web browser is serving as the user-agent because it is a simple, consistent mechanisms to cross the trust domain boundaries and support these multi-level deep federations. I don't think claimed deep link urls are relevant to that concept other than if the AS didn't deep link one of its redirect urls it would break the flow and confuse the user.",
           "createdAt": "2025-08-20T21:46:32Z",
           "updatedAt": "2025-08-20T21:46:32Z"
+        },
+        {
+          "author": "WZHYAZE",
+          "authorAssociation": "NONE",
+          "body": "The intention of the sentence:\n\"In federated _App2App_ scenarios the web browser serves as user-agent, as federated Authorization Servers url's are not claimed by any native app\"\n\n... Is to explain why usage of the browser is currently unavoidable.\nIt's not yet to explain the proposed protocol flow. So maybe a less-confusing rephrase could be:\n\"When _App2App_ is performed in federation scenarios described here, the experience is not purely native mobile because usage of the browser as user-agent is required, as federated Authorization Servers url's are not claimed by any native app\"",
+          "createdAt": "2025-09-01T20:55:41Z",
+          "updatedAt": "2025-09-01T20:55:41Z"
         }
       ]
     },
@@ -221,7 +228,7 @@
       "labels": [],
       "body": ">Prompts end-user, then provides their input to Authorization Server to guide request routing.\n\nStep 3 of the overview flow\n\nI'm not sure what `guide request routing` means",
       "createdAt": "2025-08-20T18:50:07Z",
-      "updatedAt": "2025-08-20T21:51:40Z",
+      "updatedAt": "2025-09-01T20:56:53Z",
       "closedAt": null,
       "comments": [
         {
@@ -237,6 +244,13 @@
           "body": "A couple of thoughts...\n1. Is the email something that could have been provided at the original AS? i.e. are there ways to provide information to the original AS that can passed down to each subsequent as (there are of course potential privacy concerns in this regard)\n2. The concept makes sense, but for someone reading the doc without any context, the phrasing won't make sense until they've finished reading the spec. Options would be to describe the concept in the terminology section so that the reader is exposed to the concept before seeing it in section 3.1?",
           "createdAt": "2025-08-20T21:51:40Z",
           "updatedAt": "2025-08-20T21:51:40Z"
+        },
+        {
+          "author": "WZHYAZE",
+          "authorAssociation": "NONE",
+          "body": "I propose closing this issue for now, and see if others find it clear or confusing",
+          "createdAt": "2025-09-01T20:56:52Z",
+          "updatedAt": "2025-09-01T20:56:52Z"
         }
       ]
     },
