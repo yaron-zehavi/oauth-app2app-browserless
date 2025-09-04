@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-02T01:22:31.665036+00:00",
+  "timestamp": "2025-09-04T01:17:35.329447+00:00",
   "repo": "yaron-zehavi/oauth-app2app-browserless",
   "labels": [
     {
@@ -190,7 +190,7 @@
       "labels": [],
       "body": ">In federated [[App2App](https://yaron-zehavi.github.io/oauth-app2app-browserless/draft-zehavi-oauth-app2app-browserless-06/draft-zehavi-oauth-app2app-browserless.html#App2App)] scenarios the web browser serves as user-agent, as federated Authorization Servers url's are not claimed by any native app.\n\nI feel like this assumes a lot of the reader to really understand the context of what is being solved with this specification. Maybe something like...\n\nIn federated app2app scenarios the web browser services as a user-agent allowing the user to cross trust domain boundaries via web based redirects. Even if a given authorization server in the chain has a native app it won't be used as the flow in constrained to the web browser.",
       "createdAt": "2025-08-20T18:49:23Z",
-      "updatedAt": "2025-09-01T20:55:41Z",
+      "updatedAt": "2025-09-02T21:01:15Z",
       "closedAt": null,
       "comments": [
         {
@@ -210,9 +210,9 @@
         {
           "author": "WZHYAZE",
           "authorAssociation": "NONE",
-          "body": "The intention of the sentence:\n\"In federated _App2App_ scenarios the web browser serves as user-agent, as federated Authorization Servers url's are not claimed by any native app\"\n\n... Is to explain why usage of the browser is currently unavoidable.\nIt's not yet to explain the proposed protocol flow. So maybe a less-confusing rephrase could be:\n\"When _App2App_ is performed in federation scenarios described here, the experience is not purely native mobile because usage of the browser as user-agent is required, as federated Authorization Servers url's are not claimed by any native app\"",
+          "body": "The intention of the sentence:\n\"In federated _App2App_ scenarios the web browser serves as user-agent, as federated Authorization Servers url's are not claimed by any native app\"\n\n... Is to explain why usage of the browser is currently unavoidable.\nIt's not yet to explain the proposed protocol flow. So maybe a less-confusing rephrase could be:\n\"When _App2App_ is performed in federation scenarios as described here, a purely native user-experience is not achieved, because a web browser must act as user-agent, because federated *Authorization Server's* urls are not claimed by any native app\"",
           "createdAt": "2025-09-01T20:55:41Z",
-          "updatedAt": "2025-09-01T20:55:41Z"
+          "updatedAt": "2025-09-02T21:01:15Z"
         }
       ]
     },
@@ -321,7 +321,7 @@
       "labels": [],
       "body": "I realize the _Client App_ is acting a bit like the browser for these cross domain flows. However, with a web browser, it is common for the AS (acting as an OAuth client) to ensure that the user-agent used to invoke the authorization request is the same user-agent via which the redirect URL comes. This is handled with the state parameter and a cookie or a particular implementation of PKCE. I'm wondering how this security provision is preserved with the _Client App_ simulating the web-browser.",
       "createdAt": "2025-08-20T19:21:54Z",
-      "updatedAt": "2025-08-20T21:58:27Z",
+      "updatedAt": "2025-09-02T20:50:55Z",
       "closedAt": null,
       "comments": [
         {
@@ -337,6 +337,13 @@
           "body": "My understanding is that [section 10.2 of RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749#section-10.12) was specifically added to identify this binding... here is an excerpt...\n\n>   The client MUST implement CSRF protection for its redirection URI.\n   This is typically accomplished by requiring any request sent to the\n   redirection URI endpoint to include a value that binds the request to\n   the user-agent's authenticated state (e.g., a hash of the session\n   cookie used to authenticate the user-agent).  The client SHOULD\n   utilize the \"state\" request parameter to deliver this value to the\n   authorization server when making an authorization request.",
           "createdAt": "2025-08-20T21:58:27Z",
           "updatedAt": "2025-08-20T21:58:27Z"
+        },
+        {
+          "author": "WZHYAZE",
+          "authorAssociation": "NONE",
+          "body": "My conclusion from both this and the PKCE #18 issue, is that support for cookies **must** be reinstated into the draft.\nI'll use an interim to discuss the issue and the conclusions",
+          "createdAt": "2025-09-02T20:50:55Z",
+          "updatedAt": "2025-09-02T20:50:55Z"
         }
       ]
     },
