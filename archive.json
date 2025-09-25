@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-04T01:17:35.329447+00:00",
+  "timestamp": "2025-09-25T01:20:07.447986+00:00",
   "repo": "yaron-zehavi/oauth-app2app-browserless",
   "labels": [
     {
@@ -321,7 +321,7 @@
       "labels": [],
       "body": "I realize the _Client App_ is acting a bit like the browser for these cross domain flows. However, with a web browser, it is common for the AS (acting as an OAuth client) to ensure that the user-agent used to invoke the authorization request is the same user-agent via which the redirect URL comes. This is handled with the state parameter and a cookie or a particular implementation of PKCE. I'm wondering how this security provision is preserved with the _Client App_ simulating the web-browser.",
       "createdAt": "2025-08-20T19:21:54Z",
-      "updatedAt": "2025-09-02T20:50:55Z",
+      "updatedAt": "2025-09-23T13:01:05Z",
       "closedAt": null,
       "comments": [
         {
@@ -344,6 +344,13 @@
           "body": "My conclusion from both this and the PKCE #18 issue, is that support for cookies **must** be reinstated into the draft.\nI'll use an interim to discuss the issue and the conclusions",
           "createdAt": "2025-09-02T20:50:55Z",
           "updatedAt": "2025-09-02T20:50:55Z"
+        },
+        {
+          "author": "WZHYAZE",
+          "authorAssociation": "NONE",
+          "body": "@gffletch I think the issue can be closed, in IETF 124 I'll present the re-established need for cookies",
+          "createdAt": "2025-09-23T13:01:05Z",
+          "updatedAt": "2025-09-23T13:01:05Z"
         }
       ]
     },
@@ -383,7 +390,7 @@
       "labels": [],
       "body": "> [5.5. ](https://yaron-zehavi.github.io/oauth-app2app-browserless/draft-zehavi-oauth-app2app-browserless-06/draft-zehavi-oauth-app2app-browserless.html#section-5.5)[Authorization code theft and injection](https://yaron-zehavi.github.io/oauth-app2app-browserless/draft-zehavi-oauth-app2app-browserless-06/draft-zehavi-oauth-app2app-browserless.html#name-authorization-code-theft-an)\nIt is RECOMMENDED that PKCE is used and that the code_verifier is tied to the Client App instance, as mitigation to authorization code theft and injection attacks.\n\nHowever, a common way to implement PKCE when used in a web-browser is for the Relying Party to write a cookie into the browser with key context information regarding the PKCE request. Then when the redirect happens, the Relying Party obtains the value of the cookie and validates that it matches the PKCE data used with the request. If it does not, the redirect/authorization request fails.\n\nOne implementation is PKCE_COOKIE = Encrypt_and_Sign(pkce_verifier). When the redirect to the relying party occurs, the relying party obtains the cookie value, validates the bits have not been modified, extracts the pkce_verifier value and uses that value with the Authorization Server. That way, only requests coming through the correct browser will succeed.\n\nHow does such an implementation work with the _Client App_ ?",
       "createdAt": "2025-08-20T19:35:32Z",
-      "updatedAt": "2025-08-20T22:00:20Z",
+      "updatedAt": "2025-09-23T13:00:06Z",
       "closedAt": null,
       "comments": [
         {
@@ -399,6 +406,13 @@
           "body": "I think we need to call out in the security considerations that this binding is not possible with this solution. It means that there isn't a way to detect if a different client takes over the flow which seems like a concern.",
           "createdAt": "2025-08-20T22:00:20Z",
           "updatedAt": "2025-08-20T22:00:20Z"
+        },
+        {
+          "author": "WZHYAZE",
+          "authorAssociation": "NONE",
+          "body": "Dear @gffletch I've re-added cookie to support the necessary device binding.\nCould you please close the issue?",
+          "createdAt": "2025-09-23T13:00:06Z",
+          "updatedAt": "2025-09-23T13:00:06Z"
         }
       ]
     }
