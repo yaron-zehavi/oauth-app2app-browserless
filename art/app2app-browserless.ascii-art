@@ -14,7 +14,7 @@
 | +----------------+          +---------------+    |
 | |                |          |     User-     |    |
 | |      User-     |<-------->| Authenticating|    |
-| | Authenticating |  (5)     | Authorization |    |
+| |   Interacting  |  (5)     | Authorization |    |
 | |       App      |          |    Server     |    |
 | +----------------+          +---------------+    |
 +--------------------------------------------------+

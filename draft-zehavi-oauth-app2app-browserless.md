@@ -183,7 +183,7 @@ The following additional requirements apply to native_authorization_endpoint, in
 An OAuth authorization request, interoperable with other OAuth RFCs, which also includes the *native_callback_uri* parameter:
 
 **native_callback_uri**:
-: REQUIRED. *Client App's* deep link, to be invoked by *User-Interacting App*. When invoking *native_callback_uri*, it accepts the following parameter:
+: REQUIRED. *Client App's* redirect_uri, claimed as deep link. *native_callback_uri* shall be invoked by *User-Interacting App* to receive its response. When invoked, *native_callback_uri* accepts the following parameter:
 
   **redirect_uri**:
   : REQUIRED. url-encoded redirect_uri from *User-Interacting App* responding to its OAuth client, including its respective response parameters.
@@ -488,7 +488,7 @@ Note - Failure because *User-Interacting App* is not installed on end-user's dev
 
 {{RFC8252}} Security Considerations advises against using *embedded user agents*. The main concern is preventing theft through keystroke recording of end-user's credentials such as usernames and passwords.
 
-The ability to use the Client App to ask the user for input by a *Downstream Authorization Server* MUST NOT be used to request authentication credentials from the user. The Client App SHOULD terminate the flow if such a request is detected.
+Tasking the *Client App* to ask for user input for a *Downstream Authorization Server* MUST NOT be used to request user to provide sensitive information such as authentication credentials. *Client App* SHOULD terminate the flow if such a request is detected.
 
 ## Open redirection by Authorization Server's User-Interacting App
 
