@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                             Raiffeisen Bank International
-Intended status: Standards Track                        2 September 2025
-Expires: 6 March 2026
+Intended status: Standards Track                         21 October 2025
+Expires: 24 April 2026
 
 
                   OAuth 2.0 App2App Browser-less Flow
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 March 2026.
+   This Internet-Draft will expire on 24 April 2026.
 
 Copyright Notice
 
@@ -204,7 +204,7 @@ Table of Contents
    | +----------------+          +---------------+    |
    | |                |          |     User-     |    |
    | |      User-     |<-------->| Authenticating|    |
-   | | Authenticating |  (5)     | Authorization |    |
+   | |   Interacting  |  (5)     | Authorization |    |
    | |       App      |          |    Server     |    |
    | +----------------+          +---------------+    |
    +--------------------------------------------------+
@@ -283,9 +283,10 @@ Table of Contents
    An OAuth authorization request, interoperable with other OAuth RFCs,
    which also includes the _native_callback_uri_ parameter:
 
-   *native_callback_uri*:  REQUIRED. _Client App's_ deep link, to be
-      invoked by _User-Interacting App_. When invoking
-      _native_callback_uri_, it accepts the following parameter:
+   *native_callback_uri*:  REQUIRED. _Client App's_ redirect_uri,
+      claimed as deep link. _native_callback_uri_ shall be invoked by
+      _User-Interacting App_ to receive its response.  When invoked,
+      _native_callback_uri_ accepts the following parameter:
 
       *redirect_uri*:  REQUIRED. url-encoded redirect_uri from _User-
          Interacting App_ responding to its OAuth client, including its
@@ -697,10 +698,10 @@ Content-Type: application/json
    user agents_. The main concern is preventing theft through keystroke
    recording of end-user's credentials such as usernames and passwords.
 
-   The ability to use the Client App to ask the user for input by a
-   _Downstream Authorization Server_ MUST NOT be used to request
-   authentication credentials from the user.  The Client App SHOULD
-   terminate the flow if such a request is detected.
+   Tasking the _Client App_ to ask for user input for a _Downstream
+   Authorization Server_ MUST NOT be used to request user to provide
+   sensitive information such as authentication credentials. _Client
+   App_ SHOULD terminate the flow if such a request is detected.
 
 5.2.  Open redirection by Authorization Server's User-Interacting App
 
