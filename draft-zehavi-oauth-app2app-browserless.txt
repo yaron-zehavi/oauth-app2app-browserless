@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     Y. Zehavi
 Internet-Draft                             Raiffeisen Bank International
-Intended status: Standards Track                         21 October 2025
-Expires: 24 April 2026
+Intended status: Standards Track                         31 October 2025
+Expires: 4 May 2026
 
 
                   OAuth 2.0 App2App Browser-less Flow
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 April 2026.
+   This Internet-Draft will expire on 4 May 2026.
 
 Copyright Notice
 
@@ -618,9 +618,9 @@ Content-Type: application/json
    Content-Type / 3xx / 4xx / 5xx) as a failure and terminate the flow.
 
    Note - As _Authorization Servers_ MAY use Cookies to bind security
-   elements (state, PKCE) to the user agent, flows MAY break if
-   necessary cookies are missing from subsequent HTTP requests, _Client
-   App_ MUST support cookies:
+   elements (state, PKCE [RFC7636]) to the user agent, flows MAY break
+   if necessary cookies are missing from subsequent HTTP requests,
+   _Client App_ MUST support cookies:
 
    *  Store Cookies it has obtained in any HTTP response.
 
@@ -746,9 +746,8 @@ Content-Type: application/json
 
 5.5.  Authorization code theft and injection
 
-   It is RECOMMENDED that PKCE is used and that the code_verifier is
-   tied to the _Client App_ instance, as mitigation to authorization
-   code theft and injection attacks.
+   Usage of PKCE [RFC7636] is REQUIRED to mitigate authorization code
+   theft and injection attacks.
 
 6.  IANA Considerations
 
@@ -772,6 +771,11 @@ Content-Type: application/json
    [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
               RFC 6749, DOI 10.17487/RFC6749, October 2012,
               <https://www.rfc-editor.org/rfc/rfc6749>.
+
+   [RFC7636]  Sakimura, N., Ed., Bradley, J., and N. Agarwal, "Proof Key
+              for Code Exchange by OAuth Public Clients", RFC 7636,
+              DOI 10.17487/RFC7636, September 2015,
+              <https://www.rfc-editor.org/rfc/rfc7636>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
