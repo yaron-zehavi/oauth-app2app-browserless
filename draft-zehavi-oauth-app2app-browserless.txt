@@ -526,8 +526,7 @@ Content-Type: application/json
    &email=end_user@example.as.com
 
    _Authorization Server's_ routing response endpoint MUST process the
-   routing response and respond according to {#native-authorization-
-   response}.
+   routing response and respond according to Section 3.5.
 
 3.5.4.  Error Response
 
