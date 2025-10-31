@@ -96,6 +96,7 @@ Table of Contents
      5.3.  Open redirection by Client App
      5.4.  Deep link hijacking
      5.5.  Authorization code theft and injection
+     5.6.  Request leakage and manipulation
    6.  IANA Considerations
    7.  References
      7.1.  Normative References
@@ -310,8 +311,8 @@ Table of Contents
 3.5.1.  Federating response
 
    If the _Authorization Server_ decides to federate to another party
-   such as _Downstream Authorization Server_ or its OAuth client, it
-   responds with 200 OK and the following JSON response body:
+   such as _Downstream Authorization Server_ or an upstream OAuth
+   client, it responds with 200 OK and the following JSON response body:
 
    action:  REQUIRED.  A string with the value "call" to indicate that
       _url_ is to be called with HTTP GET.
@@ -320,15 +321,25 @@ Table of Contents
       _Downstream Authorization Server_, or redirect_uri of an OAuth
       client with a response.
 
-   Example:
+   Example instruction: call _Downstream Authorization Server_:
 
-   HTTP/1.1 200 OK
-   Content-Type: application/json
+HTTP/1.1 200 OK
+Content-Type: application/json
 
-   {
-       "action": "call",
-       "url": "https://next-as.com/auth/native",
-   }
+{
+    "action": "call",
+    "url": "https://next-as.com/authorization/native?client_id=s6BhdRkqt3&request_uri=urn%3Aietf%3Aparams%3Aoauth%3Arequest_uri%3AR3p_hzwsR7outNQSKfoX"
+}
+
+   Example instruction: call OAuth client with a response:
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "action": "call",
+    "url": "https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz"
+}
 
    _Client App_ SHALL add all DNS domains of _urls_ it encounters during
    each flow to an Allowlist, used to validate urls in the response
@@ -749,6 +760,13 @@ Content-Type: application/json
    Usage of PKCE [RFC7636] is REQUIRED to mitigate authorization code
    theft and injection attacks.
 
+5.6.  Request leakage and manipulation
+
+   Usage of JAR [RFC9101] is RECOMMENDED to mitigate request
+   manipulation by _Client App_. Usage of PAR [RFC9126] IS RECOMMENDED
+   to mitigate request content leakage, as well as request manipulation
+   which it also mitigates.
+
 6.  IANA Considerations
 
    This document has no IANA actions.
@@ -789,6 +807,11 @@ Content-Type: application/json
               Authorization Server Metadata", RFC 8414,
               DOI 10.17487/RFC8414, June 2018,
               <https://www.rfc-editor.org/rfc/rfc8414>.
+
+   [RFC9101]  Sakimura, N., Bradley, J., and M. Jones, "The OAuth 2.0
+              Authorization Framework: JWT-Secured Authorization Request
+              (JAR)", RFC 9101, DOI 10.17487/RFC9101, August 2021,
+              <https://www.rfc-editor.org/rfc/rfc9101>.
 
    [RFC9126]  Lodderstedt, T., Campbell, B., Sakimura, N., Tonge, D.,
               and F. Skokan, "OAuth 2.0 Pushed Authorization Requests",
