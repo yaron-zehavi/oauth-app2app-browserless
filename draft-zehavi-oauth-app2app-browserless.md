@@ -195,7 +195,7 @@ An OAuth authorization request, interoperable with other OAuth RFCs, which also 
 * Forward the *native_callback_uri* in their requests to *Downstream Authorization Servers*.
 * Ensure that the *Downstream Authorization Servers* it federates to, offers a *native_authorization_endpoint*, otherwise return an error response with error code *native_app2app_unsupported*.
 
-## Native Authorization Response
+## Native Authorization Response {#native-authorization-response}
 
 The authorization server responds with *application/json* and either 200 OK or 4xx/5xx.
 
@@ -377,6 +377,8 @@ Example of *Client App* response following end-user input entry:
 
     id=request-identifier-2
     &email=end_user@example.as.com
+
+*Authorization Server's* routing response endpoint MUST process the routing response and respond according to {#native-authorization-response}.
 
 ### Error Response
 
