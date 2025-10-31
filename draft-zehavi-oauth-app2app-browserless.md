@@ -36,6 +36,7 @@ normative:
   RFC7636:
   RFC8252:
   RFC8414:
+  RFC9101:
   RFC9126:
   RFC9396:
   OpenID.Federation:
@@ -200,7 +201,7 @@ The authorization server responds with *application/json* and either 200 OK or 4
 
 ### Federating response
 
-If the *Authorization Server* decides to federate to another party such as *Downstream Authorization Server* or its OAuth client, it responds with 200 OK and the following JSON response body:
+If the *Authorization Server* decides to federate to another party such as *Downstream Authorization Server* or an upstream OAuth client, it responds with 200 OK and the following JSON response body:
 
 action:
 : REQUIRED. A string with the value "call" to indicate that *url* is to be called with HTTP GET.
@@ -208,14 +209,24 @@ action:
 url:
 : REQUIRED. A string holding a native authorization request for *Downstream Authorization Server*, or redirect_uri of an OAuth client with a response.
 
-Example:
+Example instruction: call *Downstream Authorization Server*:
 
     HTTP/1.1 200 OK
     Content-Type: application/json
 
     {
         "action": "call",
-        "url": "https://next-as.com/auth/native",
+        "url": "https://next-as.com/authorization/native?client_id=s6BhdRkqt3&request_uri=urn%3Aietf%3Aparams%3Aoauth%3Arequest_uri%3AR3p_hzwsR7outNQSKfoX"
+    }
+	
+Example instruction: call OAuth client with a response:
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "action": "call",
+        "url": "https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz"
     }
 
 *Client App* SHALL add all DNS domains of *urls* it encounters during each flow to an Allowlist, used to validate urls in the response handling phase, after being invoked by the *User-Interacting Authorization Server' App*.
@@ -520,6 +531,11 @@ It is RECOMMENDED that all apps in this specification shall use https-scheme dee
 ## Authorization code theft and injection
 
 Usage of PKCE {{RFC7636}} is REQUIRED to mitigate authorization code theft and injection attacks.
+
+## Request leakage and manipulation
+
+Usage of JAR {{RFC9101}} is RECOMMENDED to mitigate request manipulation by *Client App*.
+Usage of PAR {{RFC9126}} IS RECOMMENDED to mitigate request content leakage, as well as request manipulation which it also mitigates.
 
 # IANA Considerations
 
