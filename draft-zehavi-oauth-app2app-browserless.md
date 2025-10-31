@@ -33,6 +33,7 @@ author:
 
 normative:
   RFC6749:
+  RFC7636:
   RFC8252:
   RFC8414:
   RFC9126:
@@ -444,7 +445,7 @@ Example:
 
 *Client App* MUST handle any other response (2xx with an unexpected Content-Type / 3xx / 4xx / 5xx) as a failure and terminate the flow.
 
-Note - As *Authorization Servers* MAY use Cookies to bind security elements (state, PKCE) to the user agent, flows MAY break if necessary cookies are missing from subsequent HTTP requests, *Client App* MUST support cookies:
+Note - As *Authorization Servers* MAY use Cookies to bind security elements (state, PKCE {{7636}}) to the user agent, flows MAY break if necessary cookies are missing from subsequent HTTP requests, *Client App* MUST support cookies:
 
 * Store Cookies it has obtained in any HTTP response.
 * Send Cookies in subsequent HTTP requests.
@@ -518,7 +519,7 @@ It is RECOMMENDED that all apps in this specification shall use https-scheme dee
 
 ## Authorization code theft and injection
 
-It is RECOMMENDED that PKCE is used and that the code_verifier is tied to the *Client App* instance, as mitigation to authorization code theft and injection attacks.
+Usage of PKCE {{7636}} is REQUIRED to mitigate authorization code theft and injection attacks.
 
 # IANA Considerations
 
