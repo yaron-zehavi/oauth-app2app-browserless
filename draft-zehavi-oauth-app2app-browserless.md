@@ -378,7 +378,7 @@ Example of *Client App* response following end-user input entry:
     id=request-identifier-2
     &email=end_user@example.as.com
 
-*Authorization Server's* routing response endpoint MUST process the routing response and respond according to {{#native-authorization-response}}.
+*Authorization Server's* routing response endpoint MUST process the routing response and respond according to {{native-authorization-response}}.
 
 ### Error Response
 
