@@ -525,6 +525,10 @@ Content-Type: application/json
    id=request-identifier-2
    &email=end_user@example.as.com
 
+   _Authorization Server's_ routing response endpoint MUST process the
+   routing response and respond according to {#native-authorization-
+   response}.
+
 3.5.4.  Error Response
 
    If _Authorization Server_ encounters an error whose audience is its
